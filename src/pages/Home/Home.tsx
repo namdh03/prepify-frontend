@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
 import { getFoods } from "~/apis/food.api";
-import Loading from "~/components/Loading";
+import Loading from "~/components/common/Loading";
 import { Button } from "~/components/ui/button";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 
