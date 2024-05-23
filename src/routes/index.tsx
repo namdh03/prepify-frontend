@@ -4,6 +4,7 @@ import routes from "~/configs/routes";
 import MainLayout from "~/layouts/MainLayout";
 import About from "~/pages/About";
 import Home from "~/pages/Home";
+import Login from "~/pages/Login";
 
 const router = createBrowserRouter([
   {
@@ -17,6 +18,14 @@ const router = createBrowserRouter([
       {
         path: routes.about,
         element: <About />,
+      },
+      {
+        path: routes.login,
+        element: <Login />,
+      },
+      {
+        path: routes.register,
+        element: <Login />,
       },
     ],
   },

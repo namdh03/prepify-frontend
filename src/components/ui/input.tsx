@@ -1,10 +1,13 @@
 import * as React from "react";
 
+import { ObserveInput } from "~/hooks/useTeddyAnimation";
 import { cn } from "~/lib/utils";
 
-export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {}
+export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  observeInput?: ObserveInput;
+}
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, ...props }, ref) => {
+const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type, observeInput, ...props }, ref) => {
   return (
     <input
       type={type}
@@ -14,6 +17,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type,
       )}
       ref={ref}
       {...props}
+      onChange={(e) => {
+        observeInput?.onChange?.(e);
+        props.onChange?.(e);
+      }}
+      onFocus={(e) => {
+        observeInput?.onFocus?.();
+        props.onFocus?.(e);
+      }}
+      onBlur={(e) => {
+        observeInput?.onBlur?.();
+        props.onBlur?.(e);
+      }}
     />
   );
 });
