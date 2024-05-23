@@ -1,5 +1,6 @@
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   darkMode: ["class"],
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
@@ -66,6 +67,9 @@ module.exports = {
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+      },
+      backgroundImage: {
+        auth: "linear-gradient(0deg,rgba(34, 34, 34, 0.15) 0%,rgba(34, 34, 34, 0.15) 100%), url('/src/assets/imgs/auth-background.png')",
       },
     },
   },
