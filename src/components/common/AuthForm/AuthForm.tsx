@@ -17,6 +17,10 @@ interface AuthFormProps {
   title: string;
 }
 
+// Constants for transition button group login/register
+const SLIDE_LEFT = { x: 0 };
+const SLIDE_RIGHT = { x: 112 };
+
 const AuthForm = ({ children, Animation, title }: AuthFormProps) => {
   const { pathname } = useLocation();
 
@@ -25,24 +29,8 @@ const AuthForm = ({ children, Animation, title }: AuthFormProps) => {
       <div className="fixed top-11 right-24 inline-block h-[50px] bg-white rounded-full transition-colors hover:bg-accent hover:text-accent-foreground">
         <motion.div
           className="absolute top-0 min-w-28 h-full bg-primary rounded-full shadow"
-          initial={
-            pathname === routes.register
-              ? {
-                  x: 0,
-                }
-              : {
-                  x: 112,
-                }
-          }
-          animate={
-            pathname === routes.register
-              ? {
-                  x: 112,
-                }
-              : {
-                  x: 0,
-                }
-          }
+          initial={pathname === routes.register ? SLIDE_LEFT : SLIDE_RIGHT}
+          animate={pathname === routes.register ? SLIDE_RIGHT : SLIDE_LEFT}
         />
 
         <ButtonLink to={routes.login}>Đăng nhập</ButtonLink>

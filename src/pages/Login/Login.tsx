@@ -10,6 +10,7 @@ import { loginSchema } from "~/components/common/AuthForm/AuthForm.schema";
 import { Button } from "~/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useTeddyAnimation from "~/hooks/useTeddyAnimation";
 
 type LoginFieldType = "phone" | "password";
@@ -29,6 +30,7 @@ type LoginObjectType = {
 };
 
 const Login = () => {
+  useDocumentTitle("Prepify | Đăng Nhập");
   const { RiveComponent, observeInputText, observeInputPassword, teddySuccess, teddyFail } = useTeddyAnimation();
   const form = useForm<z.infer<typeof loginSchema>>({
     mode: "all",

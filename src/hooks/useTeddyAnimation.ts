@@ -31,6 +31,8 @@ const useTeddyAnimation = () => {
       isChecking && (isChecking.value = true);
       isHandsUp && (isHandsUp.value = false);
 
+      // Formula to calculate teddy's eye ratio when observing input box
+      // This formula is relatively based on layout
       const ratio = nbChars / 40;
       const nbLook = ratio * 100 - 25;
 
