@@ -9,6 +9,7 @@ export type ObserveInput = {
 };
 
 const STATE_MACHINE_NAME = "Teddy State Machine";
+const DEFAULT_VALUE_LOOK_REGISTER_PAGE = 28;
 
 const useTeddyAnimation = () => {
   const { rive, RiveComponent } = useRive({
@@ -66,6 +67,21 @@ const useTeddyAnimation = () => {
     }),
     [isHandsUp],
   );
+  const observeInputEmail: ObserveInput = useMemo(
+    () => ({
+      onFocus: () => {
+        isChecking && (isChecking.value = true);
+        teddyLook(DEFAULT_VALUE_LOOK_REGISTER_PAGE);
+      },
+      onBlur: () => {
+        isChecking && (isChecking.value = false);
+      },
+      onChange: (e) => {
+        teddyLook(e.target.value.length + DEFAULT_VALUE_LOOK_REGISTER_PAGE);
+      },
+    }),
+    [isChecking, teddyLook],
+  );
 
   const teddySuccess = useCallback(() => {
     isHandsUp && (isHandsUp.value = false);
@@ -81,6 +97,7 @@ const useTeddyAnimation = () => {
     RiveComponent,
     observeInputText,
     observeInputPassword,
+    observeInputEmail,
     teddySuccess,
     teddyFail,
   };

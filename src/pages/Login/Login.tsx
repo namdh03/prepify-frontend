@@ -7,9 +7,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import AuthForm from "~/components/common/AuthForm";
 import { loginSchema } from "~/components/common/AuthForm/AuthForm.schema";
-import { Button } from "~/components/ui/button";
+import ButtonActionForm from "~/components/common/AuthForm/components/ButtonActionForm";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import routes from "~/configs/routes";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useTeddyAnimation from "~/hooks/useTeddyAnimation";
 
@@ -100,7 +101,7 @@ const Login = () => {
   return (
     <AuthForm Animation={RiveComponent} title="Welcome back">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="relative w-96 pb-6 space-y-7">
+        <form onSubmit={form.handleSubmit(onSubmit)} className="relative pb-6 space-y-7">
           {loginFields.map(({ name, label, component }) => (
             <FormField
               control={form.control}
@@ -116,15 +117,7 @@ const Login = () => {
             />
           ))}
 
-          <div className="relative top-6 flex justify-between">
-            <Button type="submit" size={"lg"} className="w-48 text-base">
-              Đăng nhập
-            </Button>
-
-            <Button type="button" variant={"link"} size={"lg"} className="text-zinc-500 text-base">
-              Quên mật khẩu?
-            </Button>
-          </div>
+          <ButtonActionForm mainTitle="Đăng nhập" subTitle="Quên mật khẩu?" to={routes.register} />
         </form>
       </Form>
     </AuthForm>
