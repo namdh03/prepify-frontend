@@ -72,7 +72,7 @@ const AuthForm = ({ children, Animation, title }: AuthFormProps) => {
           <Button variant={"outline"} size={"lg"} className="w-96 mt-7">
             <div className="flex justify-center items-center gap-3">
               <FcGoogle size={20} />
-              <span className="text-zinc-500 text-base">Login with Google</span>
+              <span className="text-zinc-500 text-base">Tiếp tục với Google</span>
             </div>
           </Button>
         </div>
