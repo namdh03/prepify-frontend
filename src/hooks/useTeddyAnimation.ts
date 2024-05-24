@@ -1,14 +1,15 @@
-import { ChangeEvent, useCallback, useMemo } from "react";
+import { ChangeEvent, FocusEvent, useCallback, useMemo } from "react";
 
 import { Alignment, Fit, Layout, useRive, useStateMachineInput } from "@rive-app/react-canvas";
 
 export type ObserveInput = {
   onBlur?: () => void;
-  onFocus?: () => void;
+  onFocus?: (e: FocusEvent<HTMLInputElement, Element>) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
 const STATE_MACHINE_NAME = "Teddy State Machine";
+const DEFAULT_VALUE_LOOK_REGISTER_PAGE = 28;
 
 const useTeddyAnimation = () => {
   const { rive, RiveComponent } = useRive({
@@ -43,8 +44,9 @@ const useTeddyAnimation = () => {
 
   const observeInputText: ObserveInput = useMemo(
     () => ({
-      onFocus: () => {
+      onFocus: (e) => {
         isChecking && (isChecking.value = true);
+        teddyLook(e.target.value.length);
       },
       onBlur: () => {
         isChecking && (isChecking.value = false);
@@ -66,6 +68,21 @@ const useTeddyAnimation = () => {
     }),
     [isHandsUp],
   );
+  const observeInputEmail: ObserveInput = useMemo(
+    () => ({
+      onFocus: () => {
+        isChecking && (isChecking.value = true);
+        teddyLook(DEFAULT_VALUE_LOOK_REGISTER_PAGE);
+      },
+      onBlur: () => {
+        isChecking && (isChecking.value = false);
+      },
+      onChange: (e) => {
+        teddyLook(e.target.value.length + DEFAULT_VALUE_LOOK_REGISTER_PAGE);
+      },
+    }),
+    [isChecking, teddyLook],
+  );
 
   const teddySuccess = useCallback(() => {
     isHandsUp && (isHandsUp.value = false);
@@ -81,6 +98,7 @@ const useTeddyAnimation = () => {
     RiveComponent,
     observeInputText,
     observeInputPassword,
+    observeInputEmail,
     teddySuccess,
     teddyFail,
   };

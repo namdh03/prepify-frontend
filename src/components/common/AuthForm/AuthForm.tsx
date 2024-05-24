@@ -7,8 +7,6 @@ import icons from "~/assets/icons";
 import { Button } from "~/components/ui/button";
 import routes from "~/configs/routes";
 
-import AnimatedText from "../AnimatedText";
-
 import ButtonLink from "./components/ButtonLink";
 
 interface AuthFormProps {
@@ -21,12 +19,15 @@ interface AuthFormProps {
 const SLIDE_LEFT = { x: 0 };
 const SLIDE_RIGHT = { x: 112 };
 
+const LOGIN_SCREEN_WIDTH = "496px";
+const REGISTER_SCREEN_WIDTH = "896px";
+
 const AuthForm = ({ children, Animation, title }: AuthFormProps) => {
   const { pathname } = useLocation();
 
   return (
     <div className="relative w-screen h-screen bg-auth">
-      <div className="fixed top-11 right-24 inline-block h-[50px] bg-white rounded-full transition-colors hover:bg-accent hover:text-accent-foreground">
+      <div className="fixed top-9 right-24 inline-block h-[50px] bg-white rounded-full transition-colors hover:bg-accent hover:text-accent-foreground">
         <motion.div
           className="absolute top-0 min-w-28 h-full bg-primary rounded-full shadow"
           initial={pathname === routes.register ? SLIDE_LEFT : SLIDE_RIGHT}
@@ -37,21 +38,45 @@ const AuthForm = ({ children, Animation, title }: AuthFormProps) => {
         <ButtonLink to={routes.register}>Đăng ký</ButtonLink>
       </div>
 
-      <div className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 pt-32 px-20 pb-10 bg-neutral-200 rounded-[20px] [box-shadow:0px_7.249px_22.411px_0px_rgba(0,_0,_0,_0.21),_0px_3.016px_9.326px_0px_rgba(0,_0,_0,_0.29)]">
-        <Animation className="absolute left-1/2 -translate-x-1/2 -top-[174px] w-[300px] h-[300px]" />
-        <AnimatedText
-          el="h1"
-          text={title}
-          className="mb-3 text-zinc-800 text-center text-3xl font-extrabold leading-[1.2]"
-        />
+      <motion.div
+        className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 max-h-[544px] pt-32 px-14 pb-14 bg-neutral-200 rounded-[20px] [box-shadow:0px_7.249px_22.411px_0px_rgba(0,_0,_0,_0.21),_0px_3.016px_9.326px_0px_rgba(0,_0,_0,_0.29)]"
+        initial={{
+          width: pathname === routes.register ? LOGIN_SCREEN_WIDTH : REGISTER_SCREEN_WIDTH,
+        }}
+        animate={{
+          width: pathname === routes.register ? REGISTER_SCREEN_WIDTH : LOGIN_SCREEN_WIDTH,
+        }}
+      >
+        <motion.div
+          className="absolute -top-[172px]"
+          initial={{
+            left: "50%",
+            x: "-50%",
+            y: "100%",
+            zIndex: -1,
+            scale: 0,
+            opacity: 0,
+          }}
+          animate={{
+            y: 0,
+            zIndex: 0,
+            scale: 1,
+            opacity: 1,
+          }}
+        >
+          <Animation className="w-[300px] h-[300px]" />
+        </motion.div>
+        <h1 className="mb-2 text-zinc-800 text-center text-3xl font-extrabold leading-[1.2]">{title}</h1>
         <div>{children}</div>
-        <Button variant={"outline"} size={"lg"} className="w-full mt-6">
-          <div className="flex justify-center items-center gap-3">
-            <FcGoogle size={20} />
-            <span className="text-zinc-500 text-base">Login with Google</span>
-          </div>
-        </Button>
-      </div>
+        <div className="flex justify-center w-full">
+          <Button variant={"outline"} size={"lg"} className="w-96 mt-7">
+            <div className="flex justify-center items-center gap-3">
+              <FcGoogle size={20} />
+              <span className="text-zinc-500 text-base">Tiếp tục với Google</span>
+            </div>
+          </Button>
+        </div>
+      </motion.div>
 
       <motion.div>
         <motion.img
@@ -59,10 +84,10 @@ const AuthForm = ({ children, Animation, title }: AuthFormProps) => {
           alt=""
           className="fixed left-0 bottom-0 w-full select-none"
           initial={{
-            transform: pathname === routes.register ? "translateX(0)" : "translateX(-50%)",
+            transform: pathname === routes.register ? "translateX(0)" : "translateX(-70%)",
           }}
           animate={{
-            transform: pathname === routes.register ? "translateX(-50%)" : "translateX(0)",
+            transform: pathname === routes.register ? "translateX(-70%)" : "translateX(0)",
           }}
         />
         <motion.img
@@ -70,10 +95,10 @@ const AuthForm = ({ children, Animation, title }: AuthFormProps) => {
           alt=""
           className="fixed left-0 bottom-0 w-full select-none"
           initial={{
-            transform: pathname === routes.register ? "translateX(97%)" : "translateX(47%)",
+            transform: pathname === routes.register ? "translateX(97%)" : "translateX(27%)",
           }}
           animate={{
-            transform: pathname === routes.register ? "translateX(47%)" : "translateX(97%)",
+            transform: pathname === routes.register ? "translateX(27%)" : "translateX(97%)",
           }}
         />
       </motion.div>

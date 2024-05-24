@@ -22,7 +22,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(({ className, type,
         props.onChange?.(e);
       }}
       onFocus={(e) => {
-        observeInput?.onFocus?.();
+        observeInput?.onFocus?.(e);
         props.onFocus?.(e);
       }}
       onBlur={(e) => {
