@@ -1,10 +1,10 @@
-import { ChangeEvent, useCallback, useMemo } from "react";
+import { ChangeEvent, FocusEvent, useCallback, useMemo } from "react";
 
 import { Alignment, Fit, Layout, useRive, useStateMachineInput } from "@rive-app/react-canvas";
 
 export type ObserveInput = {
   onBlur?: () => void;
-  onFocus?: () => void;
+  onFocus?: (e: FocusEvent<HTMLInputElement, Element>) => void;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -44,8 +44,9 @@ const useTeddyAnimation = () => {
 
   const observeInputText: ObserveInput = useMemo(
     () => ({
-      onFocus: () => {
+      onFocus: (e) => {
         isChecking && (isChecking.value = true);
+        teddyLook(e.target.value.length);
       },
       onBlur: () => {
         isChecking && (isChecking.value = false);
