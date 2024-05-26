@@ -39,7 +39,9 @@ export const registerSchema = z.object({
     .string({
       message: EMAIL_MESSAGE,
     })
-    .email("EMAIL_MESSAGE"),
+    .email({
+      message: EMAIL_MESSAGE,
+    }),
   phone: phoneSchema,
   password: passwordSchema,
 });

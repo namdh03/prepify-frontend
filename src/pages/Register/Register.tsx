@@ -1,173 +1,76 @@
-import { useMemo, useState } from "react";
-import { motion } from "framer-motion";
-import { ControllerRenderProps, useForm } from "react-hook-form";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
+import { useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 
+import { register } from "~/apis/users.api";
 import AuthForm from "~/components/common/AuthForm";
 import { registerSchema } from "~/components/common/AuthForm/AuthForm.schema";
 import ButtonActionForm from "~/components/common/AuthForm/components/ButtonActionForm";
-import FormLabel from "~/components/common/AuthForm/components/FormLabel";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
+import { Form } from "~/components/ui/form";
 import routes from "~/configs/routes";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useTeddyAnimation from "~/hooks/useTeddyAnimation";
+import { Error } from "~/types/error.type";
+import { AUTH_MESSAGES } from "~/utils/constants";
+import isAxiosError from "~/utils/isAxiosError";
 
-type RegisterFieldType = "fullname" | "email" | "phone" | "password";
+import FormItems from "./components/FormItems";
 
-type RegisterObjectType = {
-  name: RegisterFieldType;
-  label: string;
-  component: (
-    field: ControllerRenderProps<
-      {
-        fullname: string;
-        email: string;
-        phone: string;
-        password: string;
-      },
-      RegisterFieldType
-    >,
-  ) => JSX.Element;
+export type RegisterFormType = z.infer<typeof registerSchema>;
+
+const registerFormDefaultValues: RegisterFormType = {
+  fullname: "",
+  email: "",
+  phone: "",
+  password: "",
 };
 
 const Register = () => {
   useDocumentTitle("Prepify | Đăng Ký");
-  const { RiveComponent, observeInputText, observeInputPassword, observeInputEmail, teddySuccess, teddyFail } =
-    useTeddyAnimation();
-  const form = useForm<z.infer<typeof registerSchema>>({
+  const { RiveComponent, observeInputText, observeInputPassword, observeInputEmail } = useTeddyAnimation();
+  const form = useForm<RegisterFormType>({
     mode: "all",
     resolver: zodResolver(registerSchema),
-    defaultValues: {
-      phone: "",
-      password: "",
-    },
+    defaultValues: registerFormDefaultValues,
   });
-  const [showPassword, setShowPassword] = useState(false);
-  const registerFields: RegisterObjectType[] = useMemo(
-    () => [
-      {
-        name: "fullname",
-        label: "Họ và tên",
-        component: (field) => (
-          <Input
-            type="text"
-            placeholder="Nguyen Van A"
-            className="h-10 bg-white"
-            observeInput={observeInputText}
-            {...field}
-          />
-        ),
-      },
-      {
-        name: "email",
-        label: "Email",
-        component: (field) => (
-          <motion.div
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-          >
-            <Input
-              type="email"
-              placeholder="customer@example.com"
-              className="h-10 bg-white"
-              observeInput={observeInputEmail}
-              {...field}
-            />
-          </motion.div>
-        ),
-      },
-      {
-        name: "phone",
-        label: "Tài khoản",
-        component: (field) => (
-          <Input
-            type="tel"
-            placeholder="Số điện thoại"
-            className="h-10 bg-white"
-            observeInput={observeInputText}
-            {...field}
-          />
-        ),
-      },
-      {
-        name: "password",
-        label: "Mật khẩu",
-        component: (field) => (
-          <motion.div
-            className="relative"
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-          >
-            <Input
-              type={showPassword ? "text" : "password"}
-              placeholder="Mật khẩu"
-              className="h-10 bg-white"
-              observeInput={observeInputPassword}
-              {...field}
-            />
-            {showPassword ? (
-              <FaRegEye
-                size={18}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 cursor-pointer"
-                onClick={handleTogglePassword}
-              />
-            ) : (
-              <FaRegEyeSlash
-                size={18}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 cursor-pointer"
-                onClick={handleTogglePassword}
-              />
-            )}
-          </motion.div>
-        ),
-      },
-    ],
-    [observeInputEmail, observeInputPassword, observeInputText, showPassword],
-  );
+  const { mutate, isPending } = useMutation({
+    mutationFn: (body: RegisterFormType) => register(body),
+  });
 
-  const handleTogglePassword = () => setShowPassword((prev) => !prev);
-
-  function onSubmit(values: z.infer<typeof registerSchema>) {
-    setTimeout(() => {
-      console.log(values);
-      values.password === "Password123@" ? teddySuccess() : teddyFail();
-    }, 2000);
-  }
+  const onSubmit = (data: RegisterFormType) => {
+    if (isPending) return;
+    mutate(data, {
+      onSuccess: () => {
+        form.reset();
+        toast.success(AUTH_MESSAGES.REGISTER_TITLE_SUCCESS);
+      },
+      onError: (error) => {
+        if (isAxiosError<Error>(error)) {
+          toast.error(error.response?.data.message || AUTH_MESSAGES.REGISTER_TITLE_FAILED);
+        } else {
+          toast.error(AUTH_MESSAGES.SOMETHING_WENT_WRONG);
+        }
+      },
+    });
+  };
 
   return (
     <AuthForm Animation={RiveComponent} title="Đăng ký">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="relative pb-6 space-y-7">
           <div className="grid grid-cols-[repeat(2,_1fr)] gap-x-4 gap-y-7">
-            {registerFields.map(({ name, label, component }) => (
-              <FormField
-                control={form.control}
-                key={name}
-                name={name}
-                render={({ field }) => (
-                  <FormItem className="w-96">
-                    <FormLabel>{label}</FormLabel>
-                    <FormControl>{component(field)}</FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            ))}
+            <FormItems
+              form={form}
+              observeInputText={observeInputText}
+              observeInputEmail={observeInputEmail}
+              observeInputPassword={observeInputPassword}
+            />
           </div>
 
-          <ButtonActionForm mainTitle="Đăng ký" subTitle="Đã có tài khoản?" to={routes.login} />
+          <ButtonActionForm mainTitle="Đăng ký" subTitle="Đã có tài khoản?" to={routes.login} loading={isPending} />
         </form>
       </Form>
     </AuthForm>
