@@ -8,12 +8,12 @@ const PHONE_MESSAGE = "Vui lòng nhập số điện thoại hợp lệ";
 const PASSWORD_MESSAGE =
   "Mật khẩu phải từ 8 đến 16 ký tự, bao gồm một số, một chữ cái viết hoa và một chữ cái viết thường";
 
-const phoneSchema = z
+const emailSchema = z
   .string({
-    message: PHONE_MESSAGE,
+    message: EMAIL_MESSAGE,
   })
-  .refine((value) => PHONE_REGEX.test(value), {
-    message: PHONE_MESSAGE,
+  .email({
+    message: EMAIL_MESSAGE,
   });
 
 const passwordSchema = z
@@ -25,7 +25,7 @@ const passwordSchema = z
   });
 
 export const loginSchema = z.object({
-  phone: phoneSchema,
+  email: emailSchema,
   password: passwordSchema,
 });
 
@@ -34,14 +34,16 @@ export const registerSchema = z.object({
     .string({
       message: FULLNAME_MESSAGE,
     })
-    .min(1),
-  email: z
-    .string({
-      message: EMAIL_MESSAGE,
-    })
-    .email({
-      message: EMAIL_MESSAGE,
+    .min(1, {
+      message: FULLNAME_MESSAGE,
     }),
-  phone: phoneSchema,
+  email: emailSchema,
+  phone: z
+    .string({
+      message: PHONE_MESSAGE,
+    })
+    .refine((value) => PHONE_REGEX.test(value), {
+      message: PHONE_MESSAGE,
+    }),
   password: passwordSchema,
 });
