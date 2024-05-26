@@ -1,5 +1,4 @@
-import { memo, useMemo, useState } from "react";
-import { motion } from "framer-motion";
+import { useMemo, useState } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
@@ -7,70 +6,34 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/comp
 import { Input } from "~/components/ui/input";
 import { ObserveInput } from "~/hooks/useTeddyAnimation";
 
-import { RegisterFormType } from "../../Register";
+import { LoginFormType } from "../../Login";
 
 interface FormItemsProps {
-  form: UseFormReturn<RegisterFormType>;
-  observeInputText: ObserveInput;
+  form: UseFormReturn<LoginFormType>;
   observeInputEmail: ObserveInput;
   observeInputPassword: ObserveInput;
 }
 
-type RegisterObjectType = {
-  name: keyof RegisterFormType;
+type LoginObjectType = {
+  name: keyof LoginFormType;
   label: string;
-  component: (field: ControllerRenderProps<RegisterFormType, keyof RegisterFormType>) => JSX.Element;
+  component: (field: ControllerRenderProps<LoginFormType, keyof LoginFormType>) => JSX.Element;
 };
 
-const FormItems = memo(({ form, observeInputText, observeInputEmail, observeInputPassword }: FormItemsProps) => {
+const FormItems = ({ form, observeInputEmail, observeInputPassword }: FormItemsProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
-  const registerFields: RegisterObjectType[] = useMemo(
+  const loginFields: LoginObjectType[] = useMemo(
     () => [
-      {
-        name: "fullname",
-        label: "Họ và tên",
-        component: (field) => (
-          <Input
-            type="text"
-            placeholder="Nguyen Van A"
-            className="h-10 bg-white"
-            observeInput={observeInputText}
-            {...field}
-          />
-        ),
-      },
       {
         name: "email",
         label: "Tài khoản",
         component: (field) => (
-          <motion.div
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-          >
-            <Input
-              type="email"
-              placeholder="customer@example.com"
-              className="h-10 bg-white"
-              observeInput={observeInputEmail}
-              {...field}
-            />
-          </motion.div>
-        ),
-      },
-      {
-        name: "phone",
-        label: "Số điện thoại",
-        component: (field) => (
           <Input
-            type="tel"
-            placeholder="Số điện thoại"
+            type="email"
+            placeholder="customer@example.com"
             className="h-10 bg-white"
-            observeInput={observeInputText}
+            observeInput={observeInputEmail}
             {...field}
           />
         ),
@@ -79,15 +42,7 @@ const FormItems = memo(({ form, observeInputText, observeInputEmail, observeInpu
         name: "password",
         label: "Mật khẩu",
         component: (field) => (
-          <motion.div
-            className="relative"
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-          >
+          <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
               placeholder="Mật khẩu"
@@ -108,16 +63,16 @@ const FormItems = memo(({ form, observeInputText, observeInputEmail, observeInpu
                 onClick={handleTogglePassword}
               />
             )}
-          </motion.div>
+          </div>
         ),
       },
     ],
-    [observeInputEmail, observeInputPassword, observeInputText, showPassword],
+    [observeInputEmail, observeInputPassword, showPassword],
   );
 
   const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
-  return registerFields.map(({ name, label, component }) => (
+  return loginFields.map(({ name, label, component }) => (
     <FormField
       control={form.control}
       key={name}
@@ -131,6 +86,6 @@ const FormItems = memo(({ form, observeInputText, observeInputEmail, observeInpu
       )}
     />
   ));
-});
+};
 
 export default FormItems;

@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,7 +31,9 @@ const registerFormDefaultValues: RegisterFormType = {
 
 const Register = () => {
   useDocumentTitle("Prepify | Đăng Ký");
-  const { RiveComponent, observeInputText, observeInputPassword, observeInputEmail } = useTeddyAnimation();
+  const navigate = useNavigate();
+  const { RiveComponent, observeInputText, observeInputPassword, observeInputEmail, teddySuccess, teddyFail } =
+    useTeddyAnimation();
   const form = useForm<RegisterFormType>({
     mode: "all",
     resolver: zodResolver(registerSchema),
@@ -46,6 +49,9 @@ const Register = () => {
       onSuccess: () => {
         form.reset();
         toast.success(AUTH_MESSAGES.REGISTER_TITLE_SUCCESS);
+        teddySuccess();
+
+        setTimeout(() => navigate(routes.home), 2000);
       },
       onError: (error) => {
         if (isAxiosError<Error>(error)) {
@@ -53,6 +59,8 @@ const Register = () => {
         } else {
           toast.error(AUTH_MESSAGES.SOMETHING_WENT_WRONG);
         }
+
+        teddyFail();
       },
     });
   };
