@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
-import routes from "~/configs/routes";
+import configs from "~/configs";
+import GuestGuard from "~/guards/GuestGuard";
 import MainLayout from "~/layouts/MainLayout";
 import About from "~/pages/About";
 import Home from "~/pages/Home";
@@ -9,24 +10,32 @@ import Register from "~/pages/Register";
 
 const router = createBrowserRouter([
   {
-    path: routes.home,
+    path: configs.routes.home,
     element: <MainLayout />,
     children: [
       {
-        path: routes.home,
+        path: configs.routes.home,
         element: <Home />,
       },
       {
-        path: routes.about,
+        path: configs.routes.about,
         element: <About />,
       },
       {
-        path: routes.login,
-        element: <Login />,
+        path: configs.routes.login,
+        element: (
+          <GuestGuard>
+            <Login />
+          </GuestGuard>
+        ),
       },
       {
-        path: routes.register,
-        element: <Register />,
+        path: configs.routes.register,
+        element: (
+          <GuestGuard>
+            <Register />
+          </GuestGuard>
+        ),
       },
     ],
   },
