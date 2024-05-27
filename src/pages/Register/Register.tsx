@@ -1,21 +1,23 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { register } from "~/apis/users.api";
+import { getMe, getMeQueryKey, register } from "~/apis/users.api";
 import AuthForm from "~/components/common/AuthForm";
 import { registerSchema } from "~/components/common/AuthForm/AuthForm.schema";
 import ButtonActionForm from "~/components/common/AuthForm/components/ButtonActionForm";
 import { Form } from "~/components/ui/form";
-import routes from "~/configs/routes";
+import configs from "~/configs";
+import { signIn } from "~/contexts/auth/auth.reducer";
+import useAuth from "~/hooks/useAuth";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useTeddyAnimation from "~/hooks/useTeddyAnimation";
-import { Error } from "~/types/error.type";
 import { AUTH_MESSAGES } from "~/utils/constants";
+import { getToken, setToken } from "~/utils/cookies";
 import isAxiosError from "~/utils/isAxiosError";
 
 import FormItems from "./components/FormItems";
@@ -31,7 +33,6 @@ const registerFormDefaultValues: RegisterFormType = {
 
 const Register = () => {
   useDocumentTitle("Prepify | Đăng Ký");
-  const navigate = useNavigate();
   const { RiveComponent, observeInputText, observeInputPassword, observeInputEmail, teddySuccess, teddyFail } =
     useTeddyAnimation();
   const form = useForm<RegisterFormType>({
@@ -39,19 +40,40 @@ const Register = () => {
     resolver: zodResolver(registerSchema),
     defaultValues: registerFormDefaultValues,
   });
-  const { mutate, isPending } = useMutation({
+  const registerAccount = useMutation({
     mutationFn: (body: RegisterFormType) => register(body),
   });
+  const { data } = useQuery({
+    queryKey: [getMeQueryKey],
+    queryFn: () => getMe(),
+    enabled: Boolean(getToken()),
+  });
+  const { dispatch } = useAuth();
 
-  const onSubmit = (data: RegisterFormType) => {
-    if (isPending) return;
-    mutate(data, {
-      onSuccess: () => {
+  useEffect(() => {
+    if (data) {
+      setTimeout(() => {
+        const user = data.data.data.user;
+        dispatch(
+          signIn({
+            isAuthenticated: true,
+            user,
+          }),
+        );
+      }, 2000);
+    }
+  }, [dispatch, data]);
+
+  const onSubmit = (values: RegisterFormType) => {
+    if (registerAccount.isPending) return;
+    registerAccount.mutate(values, {
+      onSuccess: ({ data }) => {
+        const accessToken = data.data.access_token;
+        setToken(accessToken);
+
         form.reset();
-        toast.success(AUTH_MESSAGES.REGISTER_TITLE_SUCCESS);
         teddySuccess();
-
-        setTimeout(() => navigate(routes.home), 2000);
+        toast.success(AUTH_MESSAGES.REGISTER_TITLE_SUCCESS);
       },
       onError: (error) => {
         if (isAxiosError<Error>(error)) {
@@ -78,7 +100,12 @@ const Register = () => {
             />
           </div>
 
-          <ButtonActionForm mainTitle="Đăng ký" subTitle="Đã có tài khoản?" to={routes.login} loading={isPending} />
+          <ButtonActionForm
+            mainTitle="Đăng ký"
+            subTitle="Đã có tài khoản?"
+            to={configs.routes.login}
+            loading={registerAccount.isPending}
+          />
         </form>
       </Form>
     </AuthForm>

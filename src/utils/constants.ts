@@ -5,3 +5,7 @@ export const AUTH_MESSAGES = {
   LOGIN_TITLE_SUCCESS: "Đăng nhập thành công",
   LOGIN_TITLE_FAILED: "Đăng nhập thất bại",
 } as const;
+
+export const HTTP_STATUS = {
+  UNAUTHORIZED: 401,
+} as const;
