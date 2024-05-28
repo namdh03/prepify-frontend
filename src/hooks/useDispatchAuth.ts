@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
@@ -11,6 +11,7 @@ import useAuth from "./useAuth";
 const WAIT_TEDDY_TIME = 2000;
 
 const useDispatchAuth = () => {
+  const idTimeOutRef = useRef<NodeJS.Timeout | null>(null);
   const { dispatch } = useAuth();
 
   // Get current user info
@@ -22,11 +23,17 @@ const useDispatchAuth = () => {
 
   useEffect(() => {
     if (userData) {
-      setTimeout(() => {
+      idTimeOutRef.current = setTimeout(() => {
         const user = userData.data.data.user;
         dispatch(signIn({ isAuthenticated: true, user }));
       }, WAIT_TEDDY_TIME);
     }
+
+    return () => {
+      if (idTimeOutRef.current) {
+        clearTimeout(idTimeOutRef.current);
+      }
+    };
   }, [dispatch, userData]);
 };
 

@@ -47,3 +47,7 @@ export const registerSchema = z.object({
     }),
   password: passwordSchema,
 });
+
+export const forgotPasswordSchema = z.object({
+  email: emailSchema,
+});
