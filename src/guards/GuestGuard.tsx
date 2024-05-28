@@ -1,5 +1,5 @@
 import { FC, PropsWithChildren } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
 import Loading from "~/components/common/Loading";
 import configs from "~/configs";
@@ -13,7 +13,7 @@ const GuestGuard: FC<PropsWithChildren> = ({ children }) => {
   if (!isInitialized) return <Loading />;
   if (isAuthenticated) return <Navigate to={configs.routes.home} replace />;
 
-  return <>{children}</>;
+  return children || <Outlet />;
 };
 
 export default GuestGuard;

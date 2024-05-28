@@ -1,5 +1,4 @@
 import { memo, useMemo, useState } from "react";
-import { motion } from "framer-motion";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
@@ -44,22 +43,13 @@ const FormItems = memo(({ form, observeInputText, observeInputEmail, observeInpu
         name: "email",
         label: "Tài khoản",
         component: (field) => (
-          <motion.div
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-          >
-            <Input
-              type="email"
-              placeholder="customer@example.com"
-              className="h-10 bg-white"
-              observeInput={observeInputEmail}
-              {...field}
-            />
-          </motion.div>
+          <Input
+            type="email"
+            placeholder="customer@example.com"
+            className="h-10 bg-white"
+            observeInput={observeInputEmail}
+            {...field}
+          />
         ),
       },
       {
@@ -79,15 +69,7 @@ const FormItems = memo(({ form, observeInputText, observeInputEmail, observeInpu
         name: "password",
         label: "Mật khẩu",
         component: (field) => (
-          <motion.div
-            className="relative"
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-          >
+          <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
               placeholder="Mật khẩu"
@@ -108,7 +90,7 @@ const FormItems = memo(({ form, observeInputText, observeInputEmail, observeInpu
                 onClick={handleTogglePassword}
               />
             )}
-          </motion.div>
+          </div>
         ),
       },
     ],

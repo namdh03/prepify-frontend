@@ -63,7 +63,7 @@ const Login = () => {
   };
 
   return (
-    <AuthForm Animation={RiveComponent} title="Welcome back">
+    <AuthForm animation={RiveComponent} title="Welcome back">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="relative pb-6 space-y-7">
           <FormItems form={form} observeInputEmail={observeInputText} observeInputPassword={observeInputPassword} />
@@ -71,7 +71,7 @@ const Login = () => {
           <ButtonActionForm
             mainTitle="Đăng nhập"
             subTitle="Quên mật khẩu?"
-            to={configs.routes.register}
+            to={configs.routes.forgotPassword}
             loading={isLoginPending}
           />
         </form>

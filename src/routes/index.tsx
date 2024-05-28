@@ -4,6 +4,7 @@ import configs from "~/configs";
 import GuestGuard from "~/guards/GuestGuard";
 import MainLayout from "~/layouts/MainLayout";
 import About from "~/pages/About";
+import ForgotPassword from "~/pages/ForgotPassword";
 import Home from "~/pages/Home";
 import Login from "~/pages/Login";
 import Register from "~/pages/Register";
@@ -21,6 +22,11 @@ const router = createBrowserRouter([
         path: configs.routes.about,
         element: <About />,
       },
+    ],
+  },
+  {
+    element: <GuestGuard />,
+    children: [
       {
         path: configs.routes.login,
         element: (
@@ -34,6 +40,14 @@ const router = createBrowserRouter([
         element: (
           <GuestGuard>
             <Register />
+          </GuestGuard>
+        ),
+      },
+      {
+        path: configs.routes.forgotPassword,
+        element: (
+          <GuestGuard>
+            <ForgotPassword />
           </GuestGuard>
         ),
       },

@@ -1,4 +1,5 @@
 import { FC, ReactNode } from "react";
+import { Outlet } from "react-router-dom";
 
 import useAuth from "~/hooks/useAuth";
 import NotFound from "~/pages/NotFound";
@@ -17,7 +18,7 @@ const RoleBasedGuard: FC<RoleBasedGuardProps> = ({ children, accessibleRoles }) 
 
   if (!accessibleRoles.includes(user!.role)) return <NotFound />;
 
-  return <>{children}</>;
+  return children || <Outlet />;
 };
 
 export default RoleBasedGuard;
