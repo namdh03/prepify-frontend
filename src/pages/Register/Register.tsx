@@ -1,23 +1,20 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
-import { getMe, getMeQueryKey, register } from "~/apis/users.api";
+import { register } from "~/apis/users.api";
 import AuthForm from "~/components/common/AuthForm";
 import { registerSchema } from "~/components/common/AuthForm/AuthForm.schema";
 import ButtonActionForm from "~/components/common/AuthForm/components/ButtonActionForm";
 import { Form } from "~/components/ui/form";
 import configs from "~/configs";
-import { signIn } from "~/contexts/auth/auth.reducer";
-import useAuth from "~/hooks/useAuth";
+import useDispatchAuth from "~/hooks/useDispatchAuth";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useTeddyAnimation from "~/hooks/useTeddyAnimation";
-import { AUTH_MESSAGES } from "~/utils/constants";
-import { getToken, setToken } from "~/utils/cookies";
+import { AUTH_MESSAGES, SYSTEM_MESSAGES } from "~/utils/constants";
 import isAxiosError from "~/utils/isAxiosError";
 
 import FormItems from "./components/FormItems";
@@ -33,44 +30,26 @@ const registerFormDefaultValues: RegisterFormType = {
 
 const Register = () => {
   useDocumentTitle("Prepify | Đăng Ký");
+  useDispatchAuth();
+
   const { RiveComponent, observeInputText, observeInputPassword, observeInputEmail, teddySuccess, teddyFail } =
     useTeddyAnimation();
+
   const form = useForm<RegisterFormType>({
     mode: "all",
     resolver: zodResolver(registerSchema),
     defaultValues: registerFormDefaultValues,
   });
-  const registerAccount = useMutation({
+
+  // Register with system account
+  const { mutate: registerMutate, isPending: isRegisterPending } = useMutation({
     mutationFn: (body: RegisterFormType) => register(body),
   });
-  const { data } = useQuery({
-    queryKey: [getMeQueryKey],
-    queryFn: () => getMe(),
-    enabled: Boolean(getToken()),
-  });
-  const { dispatch } = useAuth();
-
-  useEffect(() => {
-    if (data) {
-      setTimeout(() => {
-        const user = data.data.data.user;
-        dispatch(
-          signIn({
-            isAuthenticated: true,
-            user,
-          }),
-        );
-      }, 2000);
-    }
-  }, [dispatch, data]);
 
   const onSubmit = (values: RegisterFormType) => {
-    if (registerAccount.isPending) return;
-    registerAccount.mutate(values, {
-      onSuccess: ({ data }) => {
-        const accessToken = data.data.access_token;
-        setToken(accessToken);
-
+    if (isRegisterPending) return;
+    registerMutate(values, {
+      onSuccess: () => {
         form.reset();
         teddySuccess();
         toast.success(AUTH_MESSAGES.REGISTER_TITLE_SUCCESS);
@@ -79,7 +58,7 @@ const Register = () => {
         if (isAxiosError<Error>(error)) {
           toast.error(error.response?.data.message || AUTH_MESSAGES.REGISTER_TITLE_FAILED);
         } else {
-          toast.error(AUTH_MESSAGES.SOMETHING_WENT_WRONG);
+          toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
         }
 
         teddyFail();
@@ -104,7 +83,7 @@ const Register = () => {
             mainTitle="Đăng ký"
             subTitle="Đã có tài khoản?"
             to={configs.routes.login}
-            loading={registerAccount.isPending}
+            loading={isRegisterPending}
           />
         </form>
       </Form>

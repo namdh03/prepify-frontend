@@ -2,6 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 import { useQueryClient } from "@tanstack/react-query";
 
+import { getMeQueryKey } from "~/apis/users.api";
 import { Button } from "~/components/ui/button";
 import configs from "~/configs";
 import { signOut } from "~/contexts/auth/auth.reducer";
@@ -17,7 +18,7 @@ const Home = () => {
   const handleLogout = () => {
     dispatch(signOut());
     queryClient.removeQueries({
-      queryKey: ["me"],
+      queryKey: [getMeQueryKey],
     });
     navigate(configs.routes.login);
   };

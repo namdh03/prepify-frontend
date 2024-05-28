@@ -1,11 +1,20 @@
-import { ComponentProps, ReactNode } from "react";
+import { ComponentProps, ReactNode, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { FcGoogle } from "react-icons/fc";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+import { getGoogleAuthUrl, getGoogleUrlQueryKey, getMe, getMeQueryKey, loginWithGoogle } from "~/apis/users.api";
 import icons from "~/assets/icons";
 import { Button } from "~/components/ui/button";
 import configs from "~/configs";
+import { signIn } from "~/contexts/auth/auth.reducer";
+import useAuth from "~/hooks/useAuth";
+import { SYSTEM_MESSAGES } from "~/utils/constants";
+
+import Loading from "../Loading";
 
 import ButtonLink from "./components/ButtonLink";
 
@@ -22,10 +31,65 @@ const SLIDE_RIGHT = { x: 112 };
 const LOGIN_SCREEN_WIDTH = "496px";
 const REGISTER_SCREEN_WIDTH = "896px";
 
+const STALE_TIME_GOOGLE_AUTH_URL = 1000 * 60 * 60; // 1 hour
+
 const AuthForm = ({ children, Animation, title }: AuthFormProps) => {
   const { pathname } = useLocation();
+  const { dispatch } = useAuth();
 
-  return (
+  // Get code from query params
+  const [params] = useSearchParams();
+  const code = useMemo(() => params.get("code"), [params]);
+
+  // Get google auth url
+  const { data: googleUrl } = useQuery({
+    queryKey: [getGoogleUrlQueryKey],
+    queryFn: () => getGoogleAuthUrl(),
+    staleTime: STALE_TIME_GOOGLE_AUTH_URL,
+    refetchOnWindowFocus: false,
+  });
+  const url = useMemo(() => (googleUrl && googleUrl.data.data.url) || "", [googleUrl]);
+
+  // Mutation for login with google
+  const { mutate: googleMutate } = useMutation({
+    mutationFn: ({ code, signal }: { code: string; signal?: AbortSignal }) => loginWithGoogle(code, signal),
+  });
+
+  // Query for get user info
+  const { refetch: userRefetch } = useQuery({
+    queryKey: [getMeQueryKey],
+    queryFn: () => getMe(),
+    enabled: false,
+  });
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    code &&
+      googleMutate(
+        { code, signal: controller.signal },
+        {
+          onSuccess: async () => {
+            const { data } = await userRefetch();
+            if (data) {
+              const user = data.data.data.user;
+              dispatch(signIn({ isAuthenticated: true, user }));
+            }
+          },
+          onError: () => {
+            toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+          },
+        },
+      );
+
+    return () => {
+      controller.abort();
+    };
+  }, [code, dispatch, googleMutate, userRefetch]);
+
+  return code ? (
+    <Loading />
+  ) : (
     <div className="relative w-screen h-screen bg-auth">
       <div className="fixed top-9 right-24 inline-block h-[50px] bg-white rounded-full transition-colors hover:bg-accent hover:text-accent-foreground">
         <motion.div
@@ -69,11 +133,13 @@ const AuthForm = ({ children, Animation, title }: AuthFormProps) => {
         <h1 className="mb-2 text-zinc-800 text-center text-3xl font-extrabold leading-[1.2]">{title}</h1>
         <div>{children}</div>
         <div className="flex justify-center w-full">
-          <Button variant={"outline"} size={"lg"} className="w-96 mt-7">
-            <div className="flex justify-center items-center gap-3">
-              <FcGoogle size={20} />
-              <span className="text-zinc-500 text-base">Tiếp tục với Google</span>
-            </div>
+          <Button variant={"outline"} size={"lg"} className="w-96 mt-7 p-0">
+            <Link to={url} className="w-full py-2">
+              <div className="flex justify-center items-center gap-3">
+                <FcGoogle size={20} />
+                <span className="text-zinc-500 text-base">Tiếp tục với Google</span>
+              </div>
+            </Link>
           </Button>
         </div>
       </motion.div>

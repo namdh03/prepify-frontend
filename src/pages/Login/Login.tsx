@@ -1,23 +1,20 @@
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
-import { getMe, getMeQueryKey, login } from "~/apis/users.api";
+import { login } from "~/apis/users.api";
 import AuthForm from "~/components/common/AuthForm";
 import { loginSchema } from "~/components/common/AuthForm/AuthForm.schema";
 import ButtonActionForm from "~/components/common/AuthForm/components/ButtonActionForm";
 import { Form } from "~/components/ui/form";
 import configs from "~/configs";
-import { signIn } from "~/contexts/auth/auth.reducer";
-import useAuth from "~/hooks/useAuth";
+import useDispatchAuth from "~/hooks/useDispatchAuth";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useTeddyAnimation from "~/hooks/useTeddyAnimation";
-import { AUTH_MESSAGES } from "~/utils/constants";
-import { getToken, setToken } from "~/utils/cookies";
+import { AUTH_MESSAGES, SYSTEM_MESSAGES } from "~/utils/constants";
 import isAxiosError from "~/utils/isAxiosError";
 
 import FormItems from "./components/FormItems";
@@ -31,43 +28,24 @@ const loginFormDefaultValues: LoginFormType = {
 
 const Login = () => {
   useDocumentTitle("Prepify | Đăng Nhập");
-  const { RiveComponent, observeInputEmail, observeInputPassword, teddySuccess, teddyFail } = useTeddyAnimation();
+  useDispatchAuth();
+
+  const { RiveComponent, observeInputText, observeInputPassword, teddySuccess, teddyFail } = useTeddyAnimation();
   const form = useForm<LoginFormType>({
     mode: "all",
     resolver: zodResolver(loginSchema),
     defaultValues: loginFormDefaultValues,
   });
-  const loginAccount = useMutation({
+
+  // Login with system account
+  const { mutate: loginMutate, isPending: isLoginPending } = useMutation({
     mutationFn: (body: LoginFormType) => login(body),
   });
-  const { dispatch } = useAuth();
-  const { data } = useQuery({
-    queryKey: [getMeQueryKey],
-    queryFn: () => getMe(),
-    enabled: Boolean(getToken()),
-  });
-
-  useEffect(() => {
-    if (data) {
-      setTimeout(() => {
-        const user = data.data.data.user;
-        dispatch(
-          signIn({
-            isAuthenticated: true,
-            user,
-          }),
-        );
-      }, 2000);
-    }
-  }, [dispatch, data]);
 
   const onSubmit = (data: LoginFormType) => {
-    if (loginAccount.isPending) return;
-    loginAccount.mutate(data, {
-      onSuccess: ({ data }) => {
-        const accessToken = data.data.access_token;
-        setToken(accessToken);
-
+    if (isLoginPending) return;
+    loginMutate(data, {
+      onSuccess: () => {
         form.reset();
         toast.success(AUTH_MESSAGES.LOGIN_TITLE_SUCCESS);
         teddySuccess();
@@ -76,7 +54,7 @@ const Login = () => {
         if (isAxiosError<Error>(error)) {
           toast.error(error.response?.data.message || AUTH_MESSAGES.LOGIN_TITLE_FAILED);
         } else {
-          toast.error(AUTH_MESSAGES.SOMETHING_WENT_WRONG);
+          toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
         }
 
         teddyFail();
@@ -88,13 +66,13 @@ const Login = () => {
     <AuthForm Animation={RiveComponent} title="Welcome back">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="relative pb-6 space-y-7">
-          <FormItems form={form} observeInputEmail={observeInputEmail} observeInputPassword={observeInputPassword} />
+          <FormItems form={form} observeInputEmail={observeInputText} observeInputPassword={observeInputPassword} />
 
           <ButtonActionForm
             mainTitle="Đăng nhập"
             subTitle="Quên mật khẩu?"
             to={configs.routes.register}
-            loading={loginAccount.isPending}
+            loading={isLoginPending}
           />
         </form>
       </Form>

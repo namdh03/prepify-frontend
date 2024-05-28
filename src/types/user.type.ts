@@ -10,7 +10,7 @@ export interface User {
   id: string;
   email: string;
   dateOfBirth: string | null;
-  phone: string;
+  phone: string | null;
   fullname: string;
   address: string | null;
   role: Role;
@@ -20,4 +20,8 @@ export interface User {
 
 export type UserResponse = SuccessResponse<{
   user: User;
+}>;
+
+export type GoogleUrlResponse = SuccessResponse<{
+  url: string;
 }>;

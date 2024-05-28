@@ -4,7 +4,7 @@ import configs from "~/configs";
 import { AuthResponse } from "~/types/auth.type";
 
 import { HTTP_STATUS } from "./constants";
-import { getToken, removeToken } from "./cookies";
+import { getToken, removeToken, setToken } from "./cookies";
 
 class Http {
   private accessToken: string;
@@ -33,9 +33,13 @@ class Http {
     );
     this.instance.interceptors.response.use(
       (response) => {
-        const { url } = response.config;
-        if (url === configs.routes.login || url === configs.routes.register) {
+        const { url, method } = response.config;
+        if (
+          method === "post" &&
+          (url === configs.routes.login || url === configs.routes.register || url === configs.routes.loginGoogle)
+        ) {
           this.accessToken = (response.data as AuthResponse).data.access_token;
+          setToken(this.accessToken);
         } else if (url === configs.routes.logout) {
           this.accessToken = "";
           removeToken();
