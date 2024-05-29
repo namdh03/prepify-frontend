@@ -8,6 +8,7 @@ import ForgotPassword from "~/pages/ForgotPassword";
 import Home from "~/pages/Home";
 import Login from "~/pages/Login";
 import Register from "~/pages/Register";
+import ResetPassword from "~/pages/ResetPassword";
 
 const router = createBrowserRouter([
   {
@@ -29,27 +30,19 @@ const router = createBrowserRouter([
     children: [
       {
         path: configs.routes.login,
-        element: (
-          <GuestGuard>
-            <Login />
-          </GuestGuard>
-        ),
+        element: <Login />,
       },
       {
         path: configs.routes.register,
-        element: (
-          <GuestGuard>
-            <Register />
-          </GuestGuard>
-        ),
+        element: <Register />,
       },
       {
         path: configs.routes.forgotPassword,
-        element: (
-          <GuestGuard>
-            <ForgotPassword />
-          </GuestGuard>
-        ),
+        element: <ForgotPassword />,
+      },
+      {
+        path: configs.routes.resetPassword,
+        element: <ResetPassword />,
       },
     ],
   },

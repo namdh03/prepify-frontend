@@ -6,6 +6,7 @@ const routes = {
   register: "/register",
   logout: "/logout",
   forgotPassword: "/forgot-password",
+  resetPassword: "/reset-password",
   about: "/about",
 };
 

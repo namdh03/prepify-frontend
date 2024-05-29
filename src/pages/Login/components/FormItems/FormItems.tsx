@@ -1,7 +1,7 @@
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
+import InputPassword from "~/components/common/AuthForm/components/InputPassword";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { ObserveInput } from "~/hooks/useTeddyAnimation";
@@ -21,8 +21,6 @@ type LoginObjectType = {
 };
 
 const FormItems = ({ form, observeInputEmail, observeInputPassword }: FormItemsProps) => {
-  const [showPassword, setShowPassword] = useState(false);
-
   const loginFields: LoginObjectType[] = useMemo(
     () => [
       {
@@ -42,35 +40,12 @@ const FormItems = ({ form, observeInputEmail, observeInputPassword }: FormItemsP
         name: "password",
         label: "Mật khẩu",
         component: (field) => (
-          <div className="relative">
-            <Input
-              type={showPassword ? "text" : "password"}
-              placeholder="Mật khẩu"
-              className="h-10 bg-white"
-              observeInput={observeInputPassword}
-              {...field}
-            />
-            {showPassword ? (
-              <FaRegEye
-                size={18}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 cursor-pointer"
-                onClick={handleTogglePassword}
-              />
-            ) : (
-              <FaRegEyeSlash
-                size={18}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 cursor-pointer"
-                onClick={handleTogglePassword}
-              />
-            )}
-          </div>
+          <InputPassword placeholder="Mật khẩu" observeInput={observeInputPassword} field={{ ...field }} />
         ),
       },
     ],
-    [observeInputEmail, observeInputPassword, showPassword],
+    [observeInputEmail, observeInputPassword],
   );
-
-  const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
   return loginFields.map(({ name, label, component }) => (
     <FormField
