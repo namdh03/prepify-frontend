@@ -1,7 +1,7 @@
-import { memo, useMemo, useState } from "react";
+import { memo, useMemo } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
-import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
+import InputPassword from "~/components/common/AuthForm/components/InputPassword";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
 import { ObserveInput } from "~/hooks/useTeddyAnimation";
@@ -22,8 +22,6 @@ type RegisterObjectType = {
 };
 
 const FormItems = memo(({ form, observeInputText, observeInputEmail, observeInputPassword }: FormItemsProps) => {
-  const [showPassword, setShowPassword] = useState(false);
-
   const registerFields: RegisterObjectType[] = useMemo(
     () => [
       {
@@ -69,35 +67,12 @@ const FormItems = memo(({ form, observeInputText, observeInputEmail, observeInpu
         name: "password",
         label: "Mật khẩu",
         component: (field) => (
-          <div className="relative">
-            <Input
-              type={showPassword ? "text" : "password"}
-              placeholder="Mật khẩu"
-              className="h-10 bg-white"
-              observeInput={observeInputPassword}
-              {...field}
-            />
-            {showPassword ? (
-              <FaRegEye
-                size={18}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 cursor-pointer"
-                onClick={handleTogglePassword}
-              />
-            ) : (
-              <FaRegEyeSlash
-                size={18}
-                className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-400 cursor-pointer"
-                onClick={handleTogglePassword}
-              />
-            )}
-          </div>
+          <InputPassword placeholder="Mật khẩu" observeInput={observeInputPassword} field={{ ...field }} />
         ),
       },
     ],
-    [observeInputEmail, observeInputPassword, observeInputText, showPassword],
+    [observeInputEmail, observeInputPassword, observeInputText],
   );
-
-  const handleTogglePassword = () => setShowPassword((prev) => !prev);
 
   return registerFields.map(({ name, label, component }) => (
     <FormField

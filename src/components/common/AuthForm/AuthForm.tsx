@@ -106,7 +106,7 @@ const AuthForm = ({ children, animation: Animation, title }: AuthFormProps) => {
         </div>
       )}
 
-      <div className="absolute top-1/2 left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 max-h-[544px] pt-32 px-16 pb-14 bg-neutral-200 rounded-[20px] [box-shadow:0px_7.249px_22.411px_0px_rgba(0,_0,_0,_0.21),_0px_3.016px_9.326px_0px_rgba(0,_0,_0,_0.29)]">
+      <div className="absolute top-[calc(50%+20px)] left-1/2 z-10 -translate-x-1/2 -translate-y-1/2 pt-32 px-16 pb-10 bg-neutral-200 rounded-[20px] [box-shadow:0px_7.249px_22.411px_0px_rgba(0,_0,_0,_0.21),_0px_3.016px_9.326px_0px_rgba(0,_0,_0,_0.29)]">
         <motion.div
           className="absolute -top-[172px]"
           initial={{
