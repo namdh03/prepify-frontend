@@ -13,7 +13,7 @@ const DEFAULT_VALUE_LOOK_REGISTER_PAGE = 28;
 
 const useTeddyAnimation = () => {
   const { rive, RiveComponent } = useRive({
-    src: "teddy_authentication.riv",
+    src: "/rive/teddy_authentication.riv",
     stateMachines: STATE_MACHINE_NAME,
     autoplay: true,
     layout: new Layout({
