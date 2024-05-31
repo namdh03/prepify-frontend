@@ -67,7 +67,7 @@ const Register = () => {
   };
 
   return (
-    <AuthForm animation={RiveComponent} title="Đăng ký">
+    <AuthForm animation={RiveComponent} title="Đăng ký" loading={isRegisterPending}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="relative pb-6 space-y-7">
           <div className="grid grid-cols-[repeat(2,_1fr)] gap-x-4 gap-y-7">

@@ -6,6 +6,10 @@ module.exports = {
   content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}", "./app/**/*.{ts,tsx}", "./src/**/*.{ts,tsx}"],
   prefix: "",
   theme: {
+    fontFamily: {
+      roboto: ["Roboto", "sans-serif"],
+      inter: ["Inter", "sans-serif"],
+    },
     container: {
       center: true,
       padding: "2rem",

@@ -7,6 +7,9 @@ const routes = {
   logout: "/logout",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
+  shop: "/shop",
+  cart: "/cart",
+  orders: "/orders",
   about: "/about",
 };
 

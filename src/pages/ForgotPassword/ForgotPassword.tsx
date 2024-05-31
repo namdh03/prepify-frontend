@@ -9,6 +9,7 @@ import ButtonActionForm from "~/components/common/AuthForm/components/ButtonActi
 import { Form } from "~/components/ui/form";
 import configs from "~/configs";
 import useCountdown from "~/hooks/useCountdown";
+import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useTeddyAnimation from "~/hooks/useTeddyAnimation";
 
 import FormItems from "./components/FormItems";
@@ -20,6 +21,7 @@ const forgotPasswordFormDefaultValues: ForgotPasswordFormType = {
 };
 
 const ForgotPassword = () => {
+  useDocumentTitle("Prepify | Quên mật khẩu");
   const [count, { startCountdown }] = useCountdown({ countStart: 60 });
 
   const { RiveComponent, observeInputText } = useTeddyAnimation();
