@@ -11,6 +11,7 @@ const routes = {
   cart: "/cart",
   orders: "/orders",
   about: "/about",
+  error: "*",
 };
 
 export default routes;
