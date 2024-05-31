@@ -63,7 +63,7 @@ const Login = () => {
   };
 
   return (
-    <AuthForm animation={RiveComponent} title="Welcome back">
+    <AuthForm animation={RiveComponent} title="Welcome back" loading={isLoginPending}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="relative pb-6 space-y-7">
           <FormItems form={form} observeInputEmail={observeInputText} observeInputPassword={observeInputPassword} />

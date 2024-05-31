@@ -8,6 +8,7 @@ import { resetPasswordSchema } from "~/components/common/AuthForm/AuthForm.schem
 import ButtonActionForm from "~/components/common/AuthForm/components/ButtonActionForm";
 import { Form } from "~/components/ui/form";
 import configs from "~/configs";
+import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useTeddyAnimation from "~/hooks/useTeddyAnimation";
 import { cn } from "~/lib/utils";
 
@@ -21,6 +22,7 @@ const ResetPasswordFormDefaultValues: ResetPasswordFormType = {
 };
 
 const ResetPassword = () => {
+  useDocumentTitle("Prepify | Đặt lại mật khẩu");
   const { RiveComponent, observeInputPassword } = useTeddyAnimation();
   const form = useForm<ResetPasswordFormType>({
     mode: "all",
