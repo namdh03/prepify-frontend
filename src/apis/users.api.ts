@@ -23,3 +23,5 @@ export const forgotPassword = (email: string) => http.post("/forgot-password", {
 
 export const verifyTokenForgotPassword = (token: string | null, signal?: AbortSignal) =>
   http.post("/verify-token-forgot-password", { token }, { signal });
+
+export const resetPassword = (token: string, password: string) => http.post("/reset-password", { token, password });

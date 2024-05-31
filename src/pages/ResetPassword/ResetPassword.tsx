@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
 
+import { resetPassword } from "~/apis/users.api";
 import AuthForm from "~/components/common/AuthForm";
 import { resetPasswordSchema } from "~/components/common/AuthForm/AuthForm.schema";
 import ButtonActionForm from "~/components/common/AuthForm/components/ButtonActionForm";
@@ -11,6 +14,8 @@ import configs from "~/configs";
 import useDocumentTitle from "~/hooks/useDocumentTitle";
 import useTeddyAnimation from "~/hooks/useTeddyAnimation";
 import { cn } from "~/lib/utils";
+import { SYSTEM_MESSAGES, USER_MESSAGES } from "~/utils/constants";
+import isAxiosError from "~/utils/isAxiosError";
 
 import FormItems from "./components/FormItems";
 
@@ -26,22 +31,44 @@ const ResetPasswordFormDefaultValues: ResetPasswordFormType = {
 };
 
 const ResetPassword = ({ token }: ResetPasswordProps) => {
-  console.log(token);
   useDocumentTitle("Prepify | Đặt lại mật khẩu");
 
-  const { RiveComponent, observeInputPassword } = useTeddyAnimation();
+  const { RiveComponent, observeInputPassword, teddySuccess, teddyFail } = useTeddyAnimation();
   const form = useForm<ResetPasswordFormType>({
     mode: "all",
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: ResetPasswordFormDefaultValues,
   });
 
-  const onSubmit = (data: ResetPasswordFormType) => {
-    console.log(data);
+  // Mutation reset password
+  const { mutate: resetPasswordMutate, isPending: isResetPasswordPending } = useMutation({
+    mutationFn: ({ token, password }: { token: string; password: string }) => resetPassword(token, password),
+  });
+
+  const onSubmit = (values: ResetPasswordFormType) => {
+    if (isResetPasswordPending) return;
+    resetPasswordMutate(
+      { token: token as string, password: values.password },
+      {
+        onSuccess: () => {
+          form.reset();
+          toast.success(USER_MESSAGES.RESET_PASSWORD_SUCCESS);
+          teddySuccess();
+        },
+        onError: (error) => {
+          if (isAxiosError<Error>(error)) {
+            toast.error(error.response?.data.message || USER_MESSAGES.RESET_PASSWORD_FAILED);
+          } else {
+            toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+          }
+          teddyFail();
+        },
+      },
+    );
   };
 
   return (
-    <AuthForm animation={RiveComponent} title="Đặt lại mật khẩu">
+    <AuthForm animation={RiveComponent} title="Đặt lại mật khẩu" loading={isResetPasswordPending}>
       <div className="w-96 mb-4 font-normal leading-[26px]">
         <p
           className={cn("text-slate-500", {
@@ -61,7 +88,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
               mainTitle="Đặt lại mật khẩu"
               subTitle="Đã có tài khoản?"
               to={configs.routes.login}
-              loading={false}
+              loading={isResetPasswordPending}
             />
           </div>
         </form>

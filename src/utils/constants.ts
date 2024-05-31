@@ -16,4 +16,6 @@ export const AUTH_MESSAGES = {
 export const USER_MESSAGES = {
   FORGOT_PASSWORD_SUCCESS: "Vui lòng kiểm tra email của bạn",
   FORGOT_PASSWORD_FAILED: "Không thể gửi email đặt lại mật khẩu",
+  RESET_PASSWORD_SUCCESS: "Đặt lại mật khẩu thành công",
+  RESET_PASSWORD_FAILED: "Không thể đặt lại mật khẩu",
 } as const;
