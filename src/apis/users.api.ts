@@ -20,3 +20,6 @@ export const loginWithGoogle = (code: string | null, signal?: AbortSignal) =>
   http.post<AuthResponse>("/login/google", { code }, { signal });
 
 export const forgotPassword = (email: string) => http.post("/forgot-password", { email });
+
+export const verifyTokenForgotPassword = (token: string | null, signal?: AbortSignal) =>
+  http.post("/verify-token-forgot-password", { token }, { signal });

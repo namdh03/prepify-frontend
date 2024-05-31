@@ -2,7 +2,7 @@ import { ComponentProps, ReactNode, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
 import { BiLoaderAlt } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -33,6 +33,7 @@ const SLIDE_RIGHT = { x: 112 };
 const STALE_TIME_GOOGLE_AUTH_URL = 1000 * 60 * 60; // 1 hour
 
 const AuthForm = ({ children, animation: Animation, title, loading }: AuthFormProps) => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const { dispatch } = useAuth();
 
@@ -81,7 +82,11 @@ const AuthForm = ({ children, animation: Animation, title, loading }: AuthFormPr
             }
           },
           onError: () => {
-            toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+            toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG, {
+              onClose: () => {
+                navigate(-1);
+              },
+            });
           },
         },
       );
@@ -89,7 +94,7 @@ const AuthForm = ({ children, animation: Animation, title, loading }: AuthFormPr
     return () => {
       controller.abort();
     };
-  }, [code, dispatch, googleMutate, userRefetch]);
+  }, [code, dispatch, googleMutate, navigate, userRefetch]);
 
   return code ? (
     <Loading />

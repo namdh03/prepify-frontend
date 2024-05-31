@@ -25,3 +25,7 @@ export type UserResponse = SuccessResponse<{
 export type GoogleUrlResponse = SuccessResponse<{
   url: string;
 }>;
+
+export type VerifyTokenForgotPasswordResponse = SuccessResponse<{
+  success: boolean;
+}>;
