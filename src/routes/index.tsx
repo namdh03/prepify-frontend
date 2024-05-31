@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import configs from "~/configs";
 import GuestGuard from "~/guards/GuestGuard";
+import ResetPasswordGuard from "~/guards/ResetPasswordGuard";
 import AdminLayout from "~/layouts/AdminLayout";
 import MainLayout from "~/layouts/MainLayout";
 import About from "~/pages/About";
@@ -30,7 +31,11 @@ const router = createBrowserRouter([
       },
       {
         path: configs.routes.resetPassword,
-        element: <ResetPassword />,
+        element: (
+          <ResetPasswordGuard>
+            <ResetPassword />
+          </ResetPasswordGuard>
+        ),
       },
     ],
   },

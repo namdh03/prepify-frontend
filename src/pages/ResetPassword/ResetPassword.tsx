@@ -14,6 +14,10 @@ import { cn } from "~/lib/utils";
 
 import FormItems from "./components/FormItems";
 
+export interface ResetPasswordProps {
+  token?: string | null;
+}
+
 export type ResetPasswordFormType = z.infer<typeof resetPasswordSchema>;
 
 const ResetPasswordFormDefaultValues: ResetPasswordFormType = {
@@ -21,8 +25,10 @@ const ResetPasswordFormDefaultValues: ResetPasswordFormType = {
   confirmPassword: "",
 };
 
-const ResetPassword = () => {
+const ResetPassword = ({ token }: ResetPasswordProps) => {
+  console.log(token);
   useDocumentTitle("Prepify | Đặt lại mật khẩu");
+
   const { RiveComponent, observeInputPassword } = useTeddyAnimation();
   const form = useForm<ResetPasswordFormType>({
     mode: "all",
