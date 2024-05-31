@@ -18,3 +18,5 @@ export const getGoogleAuthUrl = () => http.get<GoogleUrlResponse>("/login/google
 
 export const loginWithGoogle = (code: string | null, signal?: AbortSignal) =>
   http.post<AuthResponse>("/login/google", { code }, { signal });
+
+export const forgotPassword = (email: string) => http.post("/forgot-password", { email });

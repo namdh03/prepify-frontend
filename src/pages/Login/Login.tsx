@@ -42,9 +42,9 @@ const Login = () => {
     mutationFn: (body: LoginFormType) => login(body),
   });
 
-  const onSubmit = (data: LoginFormType) => {
+  const onSubmit = (values: LoginFormType) => {
     if (isLoginPending) return;
-    loginMutate(data, {
+    loginMutate(values, {
       onSuccess: () => {
         form.reset();
         toast.success(AUTH_MESSAGES.LOGIN_TITLE_SUCCESS);
