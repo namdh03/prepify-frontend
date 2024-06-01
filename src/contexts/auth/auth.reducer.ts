@@ -1,4 +1,4 @@
-import { removeToken } from "~/utils/cookies";
+import { removeToken } from "~utils/cookies";
 
 import { AuthActionType, AuthState, PayloadAction, ReducerHandler } from "./auth.type";
 

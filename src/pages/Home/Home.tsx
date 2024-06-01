@@ -1,4 +1,4 @@
-import useDocumentTitle from "~/hooks/useDocumentTitle";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 
 import Action from "./components/Action";
 import Banner from "./components/Banner";

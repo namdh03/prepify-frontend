@@ -1,8 +1,8 @@
-import { LoginFormType } from "~/pages/Login/Login";
-import { RegisterFormType } from "~/pages/Register/Register";
-import { AuthResponse } from "~/types/auth.type";
-import { GoogleUrlResponse, UserResponse } from "~/types/user.type";
-import http from "~/utils/http";
+import { LoginFormType } from "~pages/Login/Login";
+import { RegisterFormType } from "~pages/Register/Register";
+import { AuthResponse } from "~types/auth.type";
+import { GoogleUrlResponse, UserResponse } from "~types/user.type";
+import http from "~utils/http";
 
 export const getMeQueryKey = "me";
 

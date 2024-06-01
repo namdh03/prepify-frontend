@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import useIsCollapsed from "~/hooks/useIsCollapsed";
+import useIsCollapsed from "~hooks/useIsCollapsed";
 
 import Sidebar from "./components/Sidebar";
 

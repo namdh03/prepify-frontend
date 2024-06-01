@@ -1,5 +1,5 @@
-import images from "~/assets/imgs";
-import Container from "~/layouts/MainLayout/components/Container";
+import images from "~assets/imgs";
+import Container from "~layouts/MainLayout/components/Container";
 
 const missionList = [
   {

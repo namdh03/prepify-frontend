@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { HiOutlineChevronDoubleLeft } from "react-icons/hi";
 import { TbMenu, TbX } from "react-icons/tb";
 
-import icons from "~/assets/icons";
-import { cn } from "~/lib/utils";
+import icons from "~assets/icons";
+import { sideLinks } from "~layouts/AdminLayout/data/sideLinks";
+import { cn } from "~lib/utils";
 
-import { sideLinks } from "../../data/sideLinks";
 import Button from "../Button";
 import { Layout, LayoutHeader } from "../Layout";
 import Nav from "../Nav";

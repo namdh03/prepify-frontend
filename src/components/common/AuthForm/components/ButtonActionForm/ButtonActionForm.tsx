@@ -2,7 +2,7 @@ import { memo } from "react";
 import { BiLoaderAlt } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
-import { Button } from "~/components/ui/button";
+import { Button } from "~components/ui/button";
 
 interface ButtonActionFormProps {
   mainTitle: string;

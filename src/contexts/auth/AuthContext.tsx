@@ -3,10 +3,10 @@ import { toast } from "react-toastify";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getMe, getMeQueryKey } from "~/apis/users.api";
-import Loading from "~/components/common/Loading";
-import { SYSTEM_MESSAGES } from "~/utils/constants";
-import { getToken } from "~/utils/cookies";
+import { getMe, getMeQueryKey } from "~apis/users.api";
+import Loading from "~components/common/Loading";
+import { SYSTEM_MESSAGES } from "~utils/constants";
+import { getToken } from "~utils/cookies";
 
 import { initialize, reducer } from "./auth.reducer";
 import { AuthContextType, AuthState } from "./auth.type";

@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-import { Button } from "~/components/ui/button";
-import configs from "~/configs";
-import Container from "~/layouts/MainLayout/components/Container";
+import { Button } from "~components/ui/button";
+import configs from "~configs";
+import Container from "~layouts/MainLayout/components/Container";
 
 const Action = () => {
   return (

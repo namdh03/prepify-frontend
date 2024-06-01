@@ -2,8 +2,8 @@ import { useState } from "react";
 import { ControllerRenderProps, FieldPath, FieldValues } from "react-hook-form";
 import { FaRegEye, FaRegEyeSlash } from "react-icons/fa6";
 
-import { Input } from "~/components/ui/input";
-import { ObserveInput } from "~/hooks/useTeddyAnimation";
+import { Input } from "~components/ui/input";
+import { ObserveInput } from "~hooks/useTeddyAnimation";
 
 interface InputPasswordProps<
   TFieldValues extends FieldValues = FieldValues,

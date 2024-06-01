@@ -3,16 +3,16 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import { useQueryClient } from "@tanstack/react-query";
 
-import { getMeQueryKey } from "~/apis/users.api";
-import Logo from "~/components/common/Logo";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Button } from "~/components/ui/button";
-import configs from "~/configs";
-import { signOut } from "~/contexts/auth/auth.reducer";
-import useAuth from "~/hooks/useAuth";
-import { cn } from "~/lib/utils";
+import { getMeQueryKey } from "~apis/users.api";
+import Logo from "~components/common/Logo";
+import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
+import { Button } from "~components/ui/button";
+import configs from "~configs";
+import { signOut } from "~contexts/auth/auth.reducer";
+import useAuth from "~hooks/useAuth";
+import navLinks from "~layouts/MainLayout/data/navLinks";
+import { cn } from "~lib/utils";
 
-import navLinks from "../../data/navLinks";
 import Container from "../Container";
 
 const Header = () => {

@@ -1,12 +1,11 @@
 import { memo, useMemo } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 
-import InputPassword from "~/components/common/AuthForm/components/InputPassword";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { ObserveInput } from "~/hooks/useTeddyAnimation";
-
-import { RegisterFormType } from "../../Register";
+import InputPassword from "~components/common/AuthForm/components/InputPassword";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
+import { Input } from "~components/ui/input";
+import { ObserveInput } from "~hooks/useTeddyAnimation";
+import { RegisterFormType } from "~pages/Register/Register";
 
 interface FormItemsProps {
   form: UseFormReturn<RegisterFormType>;

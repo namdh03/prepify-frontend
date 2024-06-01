@@ -1,6 +1,6 @@
 import { Dispatch } from "react";
 
-import { User } from "~/types/user.type";
+import { User } from "~types/user.type";
 
 export enum AuthActionType {
   INITIALIZE = "INITIALIZE",

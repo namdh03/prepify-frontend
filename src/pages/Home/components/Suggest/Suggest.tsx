@@ -2,13 +2,13 @@ import Autoplay from "embla-carousel-autoplay";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 
-import icons from "~/assets/icons";
-import images from "~/assets/imgs";
-import { Button } from "~/components/ui/button";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
-import configs from "~/configs";
-import Container from "~/layouts/MainLayout/components/Container";
-import Product from "~/layouts/MainLayout/components/Product";
+import icons from "~assets/icons";
+import images from "~assets/imgs";
+import { Button } from "~components/ui/button";
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~components/ui/carousel";
+import configs from "~configs";
+import Container from "~layouts/MainLayout/components/Container";
+import Product from "~layouts/MainLayout/components/Product";
 
 const suggestList = [
   {
