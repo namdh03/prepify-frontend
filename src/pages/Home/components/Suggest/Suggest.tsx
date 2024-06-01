@@ -1,11 +1,12 @@
+import Autoplay from "embla-carousel-autoplay";
 import { IoIosArrowForward } from "react-icons/io";
 import { Link } from "react-router-dom";
 
 import icons from "~/assets/icons";
 import images from "~/assets/imgs";
+import { Button } from "~/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "~/components/ui/carousel";
 import configs from "~/configs";
-import Button from "~/layouts/MainLayout/components/Button";
 import Container from "~/layouts/MainLayout/components/Container";
 import Product from "~/layouts/MainLayout/components/Product";
 
@@ -14,7 +15,8 @@ const suggestList = [
     id: "1",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -25,7 +27,8 @@ const suggestList = [
     id: "2",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -36,7 +39,8 @@ const suggestList = [
     id: "3",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -47,7 +51,8 @@ const suggestList = [
     id: "4",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -58,7 +63,8 @@ const suggestList = [
     id: "5",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -69,7 +75,8 @@ const suggestList = [
     id: "6",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -80,7 +87,8 @@ const suggestList = [
     id: "7",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -91,7 +99,8 @@ const suggestList = [
     id: "8",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -102,7 +111,8 @@ const suggestList = [
     id: "9",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -113,7 +123,8 @@ const suggestList = [
     id: "10",
     title: "Canh bí đỏ",
     category: "Món Ăn Việt",
-    image: images.suggest,
+    mainImage: images.suggest1st,
+    subImage: images.suggest2nd,
     level: "Dễ nấu",
     time: "30 phút",
     price: 15000,
@@ -121,6 +132,8 @@ const suggestList = [
     sold: 1200,
   },
 ];
+
+const AUTO_PLAY_INTERVAL = 2000;
 
 const Suggest = () => {
   return (
@@ -141,14 +154,22 @@ const Suggest = () => {
             </div>
 
             <Link to={configs.routes.shop}>
-              <Button>
-                Xem các sản phẩm <IoIosArrowForward size={24} className="ml-[10px]" />
+              <Button className="px-11 h-[74px] leading-[74px] text-2xl font-semibold rounded-full">
+                <span className="leading-4">Xem các sản phẩm </span>
+                <IoIosArrowForward size={24} className="ml-[10px] mt-1" />
               </Button>
             </Link>
           </section>
 
           <div className="relative mt-32">
-            <Carousel className="relative -top-[90px] w-full">
+            <Carousel
+              plugins={[
+                Autoplay({
+                  delay: AUTO_PLAY_INTERVAL,
+                }),
+              ]}
+              className="relative -top-[90px] w-full"
+            >
               <CarouselContent className="-ml-16 mb-[90px]">
                 {suggestList.map((suggest) => (
                   <CarouselItem key={suggest.id} className="pl-16 basis-1/4">

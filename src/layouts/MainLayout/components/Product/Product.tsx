@@ -1,4 +1,5 @@
 import { memo } from "react";
+import { motion } from "framer-motion";
 import { FiBarChart } from "react-icons/fi";
 import { LuClock2 } from "react-icons/lu";
 import { Link } from "react-router-dom";
@@ -10,7 +11,8 @@ import nFormatter from "~/utils/nFormatter";
 export interface ProductProps {
   title: string;
   category: string;
-  image: string;
+  mainImage: string;
+  subImage: string;
   level: string;
   time: string;
   price: number;
@@ -22,7 +24,12 @@ const Product = memo((props: ProductProps) => {
   return (
     <article className="relative pt-24 px-9 pb-5 bg-white rounded-[34px] text-center [box-shadow:0px_9px_27px_0px_rgba(0,_0,_0,_0.07)]">
       <Link to={configs.routes.shop}>
-        <img src={props.image} alt="" className="absolute -top-[90px] left-1/2 -translate-x-1/2 w-[179px] h-[179px]" />
+        <div className="absolute -top-[90px] left-1/2 -translate-x-1/2 w-[179px] h-[179px] rounded-full overflow-hidden">
+          <motion.div className="flex" whileHover={{ x: "-100%" }}>
+            <img src={props.mainImage} alt="" />
+            <img src={props.subImage} alt="" />
+          </motion.div>
+        </div>
 
         <h3 className="mb-1 font-inter text-xl font-semibold text-slate-800 truncate">{props.title}</h3>
         <span className="text-xs text-slate-800 truncate">{props.category}</span>
