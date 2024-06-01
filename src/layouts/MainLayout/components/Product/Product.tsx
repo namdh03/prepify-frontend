@@ -4,9 +4,9 @@ import { FiBarChart } from "react-icons/fi";
 import { LuClock2 } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
-import Ratings from "~/components/common/Ratings";
-import configs from "~/configs";
-import nFormatter from "~/utils/nFormatter";
+import Ratings from "~components/common/Ratings";
+import configs from "~configs";
+import nFormatter from "~utils/nFormatter";
 
 export interface ProductProps {
   title: string;

@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 
 import { useMutation } from "@tanstack/react-query";
 
-import { verifyTokenForgotPassword } from "~/apis/users.api";
-import Loading from "~/components/common/Loading";
-import NotFound from "~/pages/NotFound";
-import { ResetPasswordProps } from "~/pages/ResetPassword/ResetPassword";
+import { verifyTokenForgotPassword } from "~apis/users.api";
+import Loading from "~components/common/Loading";
+import NotFound from "~pages/NotFound";
+import { ResetPasswordProps } from "~pages/ResetPassword/ResetPassword";
 
 // ResetPasswordGuard is a component that will be used to protect routes /reset-password
 // that should only be accessed with valid token from email.

@@ -1,6 +1,6 @@
 import Cookies from "universal-cookie";
 
-import configs from "~/configs";
+import configs from "~configs";
 
 const cookies = new Cookies(null, { path: "/" });
 

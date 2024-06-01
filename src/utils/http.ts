@@ -1,7 +1,7 @@
 import axios, { AxiosError, AxiosInstance } from "axios";
 
-import configs from "~/configs";
-import { AuthResponse } from "~/types/auth.type";
+import configs from "~configs";
+import { AuthResponse } from "~types/auth.type";
 
 import { HTTP_STATUS } from "./constants";
 import { getToken, removeToken, setToken } from "./cookies";

@@ -1,11 +1,10 @@
 import { useMemo } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
-import { Input } from "~/components/ui/input";
-import { ObserveInput } from "~/hooks/useTeddyAnimation";
-
-import { ForgotPasswordFormType } from "../../ForgotPassword";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
+import { Input } from "~components/ui/input";
+import { ObserveInput } from "~hooks/useTeddyAnimation";
+import { ForgotPasswordFormType } from "~pages/ForgotPassword/ForgotPassword";
 
 interface FormItemsProps {
   form: UseFormReturn<ForgotPasswordFormType>;

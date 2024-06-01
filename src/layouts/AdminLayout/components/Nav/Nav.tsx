@@ -1,7 +1,7 @@
 import { HiChevronDown } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~/components/ui/collapsible";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "~components/ui/collapsible";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,12 +9,12 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "~/components/ui/dropdown-menu";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/components/ui/tooltip";
-import useCheckActiveNav from "~/hooks/useCheckActiveNav";
-import { cn } from "~/lib/utils";
+} from "~components/ui/dropdown-menu";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~components/ui/tooltip";
+import useCheckActiveNav from "~hooks/useCheckActiveNav";
+import { SideLink } from "~layouts/AdminLayout/data/sideLinks";
+import { cn } from "~lib/utils";
 
-import { SideLink } from "../../data/sideLinks";
 import Button, { buttonVariants } from "../Button";
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {

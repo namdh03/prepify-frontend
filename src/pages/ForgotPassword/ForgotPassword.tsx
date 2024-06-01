@@ -5,17 +5,17 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 
-import { forgotPassword } from "~/apis/users.api";
-import AuthForm from "~/components/common/AuthForm";
-import { forgotPasswordSchema } from "~/components/common/AuthForm/AuthForm.schema";
-import ButtonActionForm from "~/components/common/AuthForm/components/ButtonActionForm";
-import { Form } from "~/components/ui/form";
-import configs from "~/configs";
-import useCountdown from "~/hooks/useCountdown";
-import useDocumentTitle from "~/hooks/useDocumentTitle";
-import useTeddyAnimation from "~/hooks/useTeddyAnimation";
-import { SYSTEM_MESSAGES, USER_MESSAGES } from "~/utils/constants";
-import isAxiosError from "~/utils/isAxiosError";
+import { forgotPassword } from "~apis/users.api";
+import AuthForm from "~components/common/AuthForm";
+import { forgotPasswordSchema } from "~components/common/AuthForm/AuthForm.schema";
+import ButtonActionForm from "~components/common/AuthForm/components/ButtonActionForm";
+import { Form } from "~components/ui/form";
+import configs from "~configs";
+import useCountdown from "~hooks/useCountdown";
+import useDocumentTitle from "~hooks/useDocumentTitle";
+import useTeddyAnimation from "~hooks/useTeddyAnimation";
+import { SYSTEM_MESSAGES, USER_MESSAGES } from "~utils/constants";
+import isAxiosError from "~utils/isAxiosError";
 
 import FormItems from "./components/FormItems";
 

@@ -4,7 +4,7 @@ import { TbLoader2 } from "react-icons/tb";
 
 import { Slot } from "@radix-ui/react-slot";
 
-import { cn } from "~/lib/utils";
+import { cn } from "~lib/utils";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const buttonVariants = cva(

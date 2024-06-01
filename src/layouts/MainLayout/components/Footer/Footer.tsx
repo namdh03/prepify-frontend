@@ -1,10 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
 
-import { cn } from "~/lib/utils";
+import about from "~layouts/MainLayout/data/about";
+import navLinks from "~layouts/MainLayout/data/navLinks";
+import social from "~layouts/MainLayout/data/social";
+import { cn } from "~lib/utils";
 
-import about from "../../data/about";
-import navLinks from "../../data/navLinks";
-import social from "../../data/social";
 import Container from "../Container";
 
 const Footer = () => {

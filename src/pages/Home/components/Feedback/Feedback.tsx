@@ -1,6 +1,6 @@
-import icons from "~/assets/icons";
-import Ratings from "~/components/common/Ratings";
-import Container from "~/layouts/MainLayout/components/Container";
+import icons from "~assets/icons";
+import Ratings from "~components/common/Ratings";
+import Container from "~layouts/MainLayout/components/Container";
 
 const feedbackList = [
   {

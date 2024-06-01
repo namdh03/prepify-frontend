@@ -1,11 +1,10 @@
 import { useMemo } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 
-import InputPassword from "~/components/common/AuthForm/components/InputPassword";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~/components/ui/form";
-import { ObserveInput } from "~/hooks/useTeddyAnimation";
-
-import { ResetPasswordFormType } from "../../ResetPassword";
+import InputPassword from "~components/common/AuthForm/components/InputPassword";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
+import { ObserveInput } from "~hooks/useTeddyAnimation";
+import { ResetPasswordFormType } from "~pages/ResetPassword/ResetPassword";
 
 interface FormItemsProps {
   form: UseFormReturn<ResetPasswordFormType>;

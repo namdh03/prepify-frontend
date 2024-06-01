@@ -2,9 +2,9 @@ import { useEffect, useRef } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getMe, getMeQueryKey } from "~/apis/users.api";
-import { signIn } from "~/contexts/auth/auth.reducer";
-import { getToken } from "~/utils/cookies";
+import { getMe, getMeQueryKey } from "~apis/users.api";
+import { signIn } from "~contexts/auth/auth.reducer";
+import { getToken } from "~utils/cookies";
 
 import useAuth from "./useAuth";
 

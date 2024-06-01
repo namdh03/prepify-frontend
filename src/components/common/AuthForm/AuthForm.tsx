@@ -7,13 +7,13 @@ import { toast } from "react-toastify";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { getGoogleAuthUrl, getGoogleUrlQueryKey, getMe, getMeQueryKey, loginWithGoogle } from "~/apis/users.api";
-import icons from "~/assets/icons";
-import { Button } from "~/components/ui/button";
-import configs from "~/configs";
-import { signIn } from "~/contexts/auth/auth.reducer";
-import useAuth from "~/hooks/useAuth";
-import { SYSTEM_MESSAGES } from "~/utils/constants";
+import { getGoogleAuthUrl, getGoogleUrlQueryKey, getMe, getMeQueryKey, loginWithGoogle } from "~apis/users.api";
+import icons from "~assets/icons";
+import { Button } from "~components/ui/button";
+import configs from "~configs";
+import { signIn } from "~contexts/auth/auth.reducer";
+import useAuth from "~hooks/useAuth";
+import { SYSTEM_MESSAGES } from "~utils/constants";
 
 import Loading from "../Loading";
 
