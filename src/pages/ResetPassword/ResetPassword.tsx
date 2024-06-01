@@ -7,8 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 
 import { resetPassword } from "~apis/users.api";
 import AuthForm from "~components/common/AuthForm";
-import { resetPasswordSchema } from "~components/common/AuthForm/AuthForm.schema";
 import ButtonActionForm from "~components/common/AuthForm/components/ButtonActionForm";
+import { resetPasswordSchema } from "~components/common/AuthForm/data/schema";
 import { Form } from "~components/ui/form";
 import configs from "~configs";
 import useDocumentTitle from "~hooks/useDocumentTitle";

@@ -7,8 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 
 import { forgotPassword } from "~apis/users.api";
 import AuthForm from "~components/common/AuthForm";
-import { forgotPasswordSchema } from "~components/common/AuthForm/AuthForm.schema";
 import ButtonActionForm from "~components/common/AuthForm/components/ButtonActionForm";
+import { forgotPasswordSchema } from "~components/common/AuthForm/data/schema";
 import { Form } from "~components/ui/form";
 import configs from "~configs";
 import useCountdown from "~hooks/useCountdown";
