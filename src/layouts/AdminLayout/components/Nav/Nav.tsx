@@ -14,8 +14,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "~/comp
 import useCheckActiveNav from "~/hooks/useCheckActiveNav";
 import { cn } from "~/lib/utils";
 
+import { SideLink } from "../../data/sideLinks";
 import Button, { buttonVariants } from "../Button";
-import { SideLink } from "../Sidebar/Sidebar.sidelink";
 
 interface NavProps extends React.HTMLAttributes<HTMLDivElement> {
   isCollapsed: boolean;

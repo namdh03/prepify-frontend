@@ -5,11 +5,10 @@ import { TbMenu, TbX } from "react-icons/tb";
 import icons from "~/assets/icons";
 import { cn } from "~/lib/utils";
 
+import { sideLinks } from "../../data/sideLinks";
 import Button from "../Button";
 import { Layout, LayoutHeader } from "../Layout";
 import Nav from "../Nav";
-
-import { sidelinks } from "./Sidebar.sidelink";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLElement> {
   isCollapsed: boolean;
@@ -72,7 +71,7 @@ export default function Sidebar({ className, isCollapsed, setIsCollapsed }: Side
           className={`h-full flex-1 overflow-auto ${navOpened ? "max-h-screen" : "max-h-0 py-0 md:max-h-screen md:py-2"}`}
           closeNav={() => setNavOpened(false)}
           isCollapsed={isCollapsed}
-          links={sidelinks}
+          links={sideLinks}
         />
 
         {/* Scrollbar width toggle button */}

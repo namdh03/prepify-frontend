@@ -2,8 +2,8 @@ import { Link } from "react-router-dom";
 
 import icons from "~/assets/icons";
 import images from "~/assets/imgs";
+import { Button } from "~/components/ui/button";
 import configs from "~/configs";
-import Button from "~/layouts/MainLayout/components/Button";
 import Container from "~/layouts/MainLayout/components/Container";
 
 const Banner = () => {
@@ -21,7 +21,7 @@ const Banner = () => {
               dành riêng cho bạn.
             </p>
             <Link to={configs.routes.shop}>
-              <Button>Xem Ngay</Button>
+              <Button className="px-11 h-14 leading-[56px] text-xl font-semibold rounded-full">Xem Ngay</Button>
             </Link>
           </section>
 

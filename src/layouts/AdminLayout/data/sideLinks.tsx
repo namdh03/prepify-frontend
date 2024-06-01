@@ -33,7 +33,7 @@ export interface SideLink extends NavLink {
   sub?: NavLink[];
 }
 
-export const sidelinks: SideLink[] = [
+export const sideLinks: SideLink[] = [
   {
     title: "Tổng Quan",
     label: "",

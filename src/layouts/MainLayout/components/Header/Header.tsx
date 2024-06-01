@@ -6,28 +6,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { getMeQueryKey } from "~/apis/users.api";
 import Logo from "~/components/common/Logo";
 import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Button } from "~/components/ui/button";
 import configs from "~/configs";
 import { signOut } from "~/contexts/auth/auth.reducer";
 import useAuth from "~/hooks/useAuth";
 import { cn } from "~/lib/utils";
 
-import Button from "../Button";
+import navLinks from "../../data/navLinks";
 import Container from "../Container";
-
-const navbar = [
-  {
-    title: "Trang chủ",
-    to: configs.routes.home,
-  },
-  {
-    title: "Cửa hàng",
-    to: configs.routes.shop,
-  },
-  {
-    title: "Đơn hàng của tôi",
-    to: configs.routes.orders,
-  },
-];
 
 const Header = () => {
   const navigate = useNavigate();
@@ -48,7 +34,7 @@ const Header = () => {
         <div className="flex items-center pt-7 pb-4">
           <Logo />
           <nav className="flex gap-[100px] ml-auto mr-[100px]">
-            {navbar.map((item) => (
+            {navLinks.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
@@ -76,7 +62,7 @@ const Header = () => {
             </div>
           ) : (
             <Link to={configs.routes.login}>
-              <Button>Đăng nhập</Button>
+              <Button className="px-7 h-11 leading-11 text-base font-semibold rounded-full">Đăng nhập</Button>
             </Link>
           )}
         </div>
