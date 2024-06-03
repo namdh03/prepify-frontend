@@ -46,7 +46,7 @@ const Feedback = () => {
 
               <Ratings
                 rating={feedback.rate}
-                size={36}
+                size={30}
                 variant="yellow"
                 className="flex justify-center items-center gap-[1px] mt-14"
               />

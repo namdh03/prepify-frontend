@@ -19,3 +19,13 @@ export const USER_MESSAGES = {
   RESET_PASSWORD_SUCCESS: "Đặt lại mật khẩu thành công",
   RESET_PASSWORD_FAILED: "Không thể đặt lại mật khẩu",
 } as const;
+
+export enum SortEnum {
+  NEWEST = "newest",
+  POPULAR = "popular",
+}
+
+export enum OrderByEnum {
+  ASC = "asc",
+  DESC = "desc",
+}

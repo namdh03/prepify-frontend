@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useMotionValueEvent, useScroll } from "framer-motion";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 
@@ -19,6 +21,10 @@ const Header = () => {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { user, dispatch } = useAuth();
+  const { scrollY } = useScroll();
+  const [scrollYValue, setScrollYValue] = useState(0);
+
+  useMotionValueEvent(scrollY, "change", (latest) => setScrollYValue(latest));
 
   const handleLogout = () => {
     dispatch(signOut());
@@ -29,9 +35,9 @@ const Header = () => {
   };
 
   return (
-    <header className="sticky -top-3 z-40 w-full bg-white">
+    <header className={cn("sticky top-0 z-40 w-full transition-all", { "bg-white shadow": scrollYValue > 0 })}>
       <Container>
-        <div className="flex items-center pt-7 pb-4">
+        <div className="flex items-center pt-5 pb-5">
           <Logo />
           <nav className="flex gap-[100px] ml-auto mr-[100px]">
             {navLinks.map((item) => (
@@ -39,9 +45,7 @@ const Header = () => {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  cn("text-lg text-[rgba(0,_0,_0,_0.85)] font-medium leading-4", {
-                    "text-primary": isActive,
-                  })
+                  cn("text-lg text-[rgba(0,_0,_0,_0.85)] font-medium leading-4", { "text-primary": isActive })
                 }
               >
                 {item.title}

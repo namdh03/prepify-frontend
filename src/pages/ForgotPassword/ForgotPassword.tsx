@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { z } from "zod";
@@ -29,7 +30,7 @@ const COUNT_START = 60;
 
 const ForgotPassword = () => {
   useDocumentTitle("Prepify | Quên mật khẩu");
-  const [count, { startCountdown }] = useCountdown({ countStart: COUNT_START });
+  const [count, { startCountdown, resetCountdown }] = useCountdown({ countStart: COUNT_START });
 
   const { RiveComponent, observeInputText, teddySuccess, teddyFail } = useTeddyAnimation();
   const form = useForm<ForgotPasswordFormType>({
@@ -42,6 +43,10 @@ const ForgotPassword = () => {
   const { mutate: forgotPasswordMutate, isPending: isForgotPasswordPending } = useMutation({
     mutationFn: (body: ForgotPasswordFormType) => forgotPassword(body.email),
   });
+
+  useEffect(() => {
+    count === 0 && resetCountdown();
+  }, [count, resetCountdown]);
 
   const onSubmit = (values: ForgotPasswordFormType) => {
     if (isForgotPasswordPending) return;

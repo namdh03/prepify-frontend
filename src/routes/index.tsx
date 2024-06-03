@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import configs from "~configs";
+import { ShopProvider } from "~contexts/shop/ShopContext";
 import GuestGuard from "~guards/GuestGuard";
 import ResetPasswordGuard from "~guards/ResetPasswordGuard";
 import AdminLayout from "~layouts/AdminLayout";
@@ -11,6 +12,7 @@ import Login from "~pages/Login";
 import NotFound from "~pages/NotFound";
 import Register from "~pages/Register";
 import ResetPassword from "~pages/ResetPassword";
+import Shop from "~pages/Shop";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
       {
         path: configs.routes.home,
         element: <Home />,
+      },
+      {
+        path: configs.routes.shop,
+        element: (
+          <ShopProvider>
+            <Shop />
+          </ShopProvider>
+        ),
       },
     ],
   },

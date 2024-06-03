@@ -9,6 +9,7 @@ import configs from "~configs";
 import nFormatter from "~utils/nFormatter";
 
 export interface ProductProps {
+  id: string;
   title: string;
   category: string;
   mainImage: string;
@@ -22,8 +23,8 @@ export interface ProductProps {
 
 const Product = memo((props: ProductProps) => {
   return (
-    <article className="relative pt-24 px-9 pb-5 bg-white rounded-[34px] text-center [box-shadow:0px_9px_27px_0px_rgba(0,_0,_0,_0.07)]">
-      <Link to={configs.routes.shop}>
+    <Link to={configs.routes.shop}>
+      <article className="relative pt-24 px-9 pb-5 bg-white rounded-[34px] text-center [box-shadow:0px_9px_27px_0px_rgba(0,_0,_0,_0.07)]">
         <div className="absolute -top-[90px] left-1/2 -translate-x-1/2 w-[179px] h-[179px] rounded-full overflow-hidden">
           <motion.div className="flex" whileHover={{ x: "-100%" }}>
             <img src={props.mainImage} alt="" />
@@ -54,8 +55,8 @@ const Product = memo((props: ProductProps) => {
             Đã bán {nFormatter(props.sold)}
           </span>
         </div>
-      </Link>
-    </article>
+      </article>
+    </Link>
   );
 });
 
