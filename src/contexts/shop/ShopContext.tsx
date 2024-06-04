@@ -1,18 +1,23 @@
-import { createContext, FC, PropsWithChildren, useCallback, useRef, useState } from "react";
+import { createContext, FC, PropsWithChildren, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useSearchParams } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { shopSchema } from "~pages/Shop/data/schema";
-import { SortEnum } from "~utils/constants";
+import { OrderByEnum, SortEnum } from "~utils/constants";
 
-import { ShopContextType, ShopFormType, SidebarOptionType, SidebarType } from "./shop.type";
+import {
+  PAGE,
+  ShopContextType,
+  ShopFormType,
+  ShopParamType,
+  ShopSidebarParamType,
+  SidebarOptionType,
+  SidebarType,
+} from "./shop.type";
 
-// Constants
-export const PAGE = 1;
-export const LIMIT = 9;
-
-const sidebarFormDefaultValues: ShopFormType = {
+const formDefaultValues: ShopFormType = {
   keyword: "",
   sort: SortEnum.POPULAR,
   sidebar: {
@@ -23,7 +28,6 @@ const sidebarFormDefaultValues: ShopFormType = {
     evaluate: [],
   },
   page: PAGE,
-  limit: LIMIT,
 };
 
 const cuisineOptions: SidebarOptionType[] = [
@@ -89,7 +93,7 @@ const occasionOptions: SidebarOptionType[] = [
 
 const priceOptions: SidebarOptionType[] = [
   {
-    id: "0-100000",
+    id: "below-100000",
     label: "0 - 100.000VNĐ",
   },
   {
@@ -105,7 +109,7 @@ const priceOptions: SidebarOptionType[] = [
     label: "300.000 - 400.000VNĐ",
   },
   {
-    id: ">500000",
+    id: "above-500000",
     label: "Hơn 500.000VNĐ",
   },
 ];
@@ -166,24 +170,106 @@ const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 // Create provider
 const ShopProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [params, setParams] = useSearchParams();
   const form = useForm<ShopFormType>({
     resolver: zodResolver(shopSchema),
-    defaultValues: sidebarFormDefaultValues,
+    defaultValues: formDefaultValues,
   });
   // Use useRef to store the last submitted values
-  const formRefs = useRef<ShopFormType | null>(null);
+  const formRefs = useRef<ShopFormType | null>(formDefaultValues);
   const [sidebarFilters] = useState<SidebarType[]>(sidebarDefaultData);
 
-  const onSubmit = useCallback((values: ShopFormType) => {
-    if (formRefs.current && JSON.stringify(values) === JSON.stringify(formRefs.current)) return;
+  // Load form values from URL params
+  useEffect(() => {
+    if (params.size === 0) return;
+    const initialFormValues = JSON.parse(JSON.stringify(formDefaultValues));
 
-    console.log(values);
+    for (const [key, value] of params.entries()) {
+      switch (key as ShopParamType) {
+        case "keyword":
+          initialFormValues.keyword = value;
+          break;
 
-    // Update the last submitted values
-    formRefs.current = values;
-  }, []);
+        case "cuisine":
+        case "diet":
+        case "occasion":
+        case "price":
+        case "evaluate":
+          initialFormValues.sidebar[key as keyof ShopFormType["sidebar"]] = value.split(",") || [];
+          break;
 
-  return <ShopContext.Provider value={{ form, sidebarFilters, onSubmit }}>{children}</ShopContext.Provider>;
+        case "sort":
+          initialFormValues.sort = value as SortEnum;
+          break;
+
+        case "orderBy":
+          initialFormValues.orderBy = value as OrderByEnum;
+          break;
+
+        case "page":
+          initialFormValues.page = Number(value || PAGE);
+          break;
+      }
+    }
+
+    formRefs.current = initialFormValues;
+    form.reset(initialFormValues);
+  }, [form, params]);
+
+  // Reset form when the URL params are empty
+  useEffect(() => {
+    if (params.size === 0) form.reset(formDefaultValues);
+  }, [form, params]);
+
+  const onResetSidebar = () => {
+    form.reset({
+      ...formRefs.current,
+      sidebar: formDefaultValues.sidebar,
+      page: PAGE,
+    });
+
+    (["cuisine", "diet", "occasion", "price", "evaluate"] as ShopSidebarParamType[]).forEach((param) =>
+      params.delete(param),
+    );
+    if (params.size > 0) params.set("page", PAGE.toString());
+
+    setParams(params);
+  };
+
+  const onSubmit = useCallback(
+    (values: ShopFormType) => {
+      if (formRefs.current && JSON.stringify(values) === JSON.stringify(formRefs.current)) return;
+
+      const paramConfig = [
+        { key: "keyword", value: values.keyword },
+        { key: "cuisine", value: values.sidebar.cuisine },
+        { key: "diet", value: values.sidebar.diet },
+        { key: "occasion", value: values.sidebar.occasion },
+        { key: "price", value: values.sidebar.price },
+        { key: "evaluate", value: values.sidebar.evaluate },
+        { key: "sort", value: values.sort },
+        { key: "orderBy", value: values.orderBy },
+        { key: "page", value: values.page },
+      ];
+
+      paramConfig.forEach(({ key, value }) => {
+        if (Array.isArray(value)) {
+          value.length > 0 ? params.set(key, value.join(",")) : params.delete(key);
+        } else {
+          value ? params.set(key, value.toString()) : params.delete(key);
+        }
+      });
+      setParams(params);
+
+      // Update the last submitted values
+      formRefs.current = values;
+    },
+    [params, setParams],
+  );
+
+  return (
+    <ShopContext.Provider value={{ form, sidebarFilters, onResetSidebar, onSubmit }}>{children}</ShopContext.Provider>
+  );
 };
 
 export { ShopContext, ShopProvider };

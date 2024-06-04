@@ -1,7 +1,7 @@
 import images from "~assets/imgs";
 import Pagination from "~components/common/Pagination";
 import { Form } from "~components/ui/form";
-import { LIMIT, PAGE } from "~contexts/shop/ShopContext";
+import { LIMIT, PAGE } from "~contexts/shop/shop.type";
 import useShop from "~hooks/useShop";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
