@@ -23,6 +23,7 @@ export const USER_MESSAGES = {
 export enum SortEnum {
   NEWEST = "newest",
   POPULAR = "popular",
+  PRICE = "price",
 }
 
 export enum OrderByEnum {

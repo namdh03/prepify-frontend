@@ -14,5 +14,4 @@ export const shopSchema = z.object({
     evaluate: z.array(z.string()),
   }),
   page: z.number().optional(),
-  limit: z.number().optional(),
 });
