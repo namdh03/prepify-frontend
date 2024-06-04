@@ -22,6 +22,8 @@ import {
   // TbUserShield,
 } from "react-icons/tb";
 
+import configs from "~configs";
+
 export interface NavLink {
   title: string;
   label?: string;
@@ -37,13 +39,13 @@ export const sideLinks: SideLink[] = [
   {
     title: "Tổng Quan",
     label: "",
-    href: "/admin",
+    href: configs.routes.overview,
     icon: <TbLayoutDashboard size={18} />,
   },
   {
     title: "Tạo Công Thức Mới",
     label: "",
-    href: "/tasks",
+    href: configs.routes.createRecipe,
     icon: <TbChecklist size={18} />,
   },
   {
