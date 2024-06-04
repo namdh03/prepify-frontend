@@ -9,8 +9,9 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import configs from "~configs";
 import Container from "~layouts/MainLayout/components/Container";
 import Product from "~layouts/MainLayout/components/Product";
+import { ProductProps } from "~layouts/MainLayout/components/Product/Product";
 
-const suggestList = [
+const suggestList: ProductProps[] = [
   {
     id: "1",
     title: "Canh bí đỏ",

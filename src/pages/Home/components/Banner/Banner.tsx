@@ -14,7 +14,7 @@ const Banner = () => {
           <section className="mt-16">
             <h1 className="text-7xl font-bold leading-[1.1]">
               <span>Giảm lãng phí thực phẩm và </span>
-              <span className="text-secondary">tiết kiệm chi phí</span>
+              <span className="block text-secondary">tiết kiệm chi phí</span>
             </h1>
             <p className="mt-5 mb-8 text-xl">
               Chúng tôi muốn giải quyết vấn đề lãng phí thực phẩm bằng cách đề xuất công thức nấu ăn và khẩu phần ăn
