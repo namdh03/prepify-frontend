@@ -1,11 +1,11 @@
 import images from "~assets/imgs";
 import Pagination from "~components/common/Pagination";
 import { Form } from "~components/ui/form";
-import { LIMIT, PAGE } from "~contexts/shop/shop.type";
 import useShop from "~hooks/useShop";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 import Product, { ProductProps } from "~layouts/MainLayout/components/Product/Product";
+import { LIMIT, PAGE } from "~utils/constants";
 
 import OrderSort from "./components/OrderSort";
 import Search from "./components/Search";
@@ -134,7 +134,17 @@ const Shop = () => {
 
   return (
     <>
-      <Banner image={images.shopBanner} breadcrumbs={breadcrumbs} />
+      <Banner
+        text={
+          <h1 className="mb-32 text-[54px] font-bold leading-[70px] text-[rgba(0,_0,_0,_0.85)]">
+            <span>Cửa hàng của </span>
+            <span className="block text-secondary">Prepify</span>
+          </h1>
+        }
+        image={images.shopBanner}
+        breadcrumbs={breadcrumbs}
+        className="[&_img]:w-[868px]"
+      />
 
       <section className="pt-14 pb-20">
         <Container>

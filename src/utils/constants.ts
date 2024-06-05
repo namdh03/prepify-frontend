@@ -30,3 +30,6 @@ export enum OrderByEnum {
   ASC = "asc",
   DESC = "desc",
 }
+
+export const PAGE = 1;
+export const LIMIT = 9;

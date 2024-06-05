@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import configs from "~configs";
 import { ShopProvider } from "~contexts/shop/ShopContext";
+import AuthGuard from "~guards/AuthGuard";
 import GuestGuard from "~guards/GuestGuard";
 import ResetPasswordGuard from "~guards/ResetPasswordGuard";
 import AdminLayout from "~layouts/AdminLayout";
@@ -58,6 +59,15 @@ const router = createBrowserRouter([
         ),
       },
     ],
+  },
+  {
+    path: configs.routes.cart,
+    element: (
+      <AuthGuard>
+        <MainLayout />
+      </AuthGuard>
+    ),
+    children: [],
   },
   {
     path: configs.routes.moderator,

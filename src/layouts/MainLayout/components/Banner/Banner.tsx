@@ -10,6 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "~components/ui/breadcrumb";
+import { cn } from "~lib/utils";
 
 import Container from "../Container";
 
@@ -19,25 +20,24 @@ export type BreadCrumbItem = {
 };
 
 interface BannerProps {
+  text: JSX.Element;
   image: string;
   breadcrumbs: BreadCrumbItem[];
+  className?: string;
 }
 
-const Banner = ({ image, breadcrumbs }: BannerProps) => {
+const Banner = ({ text, image, breadcrumbs, className }: BannerProps) => {
   return (
-    <section className="pt-[77px] pb-24">
+    <section className={cn("pt-[77px] pb-24", className)}>
       <Container>
         <div className="relative">
-          <img src={image} alt="" className="absolute -top-[77px] -right-32 w-[868px]" />
+          <img src={image} alt="" className="absolute -top-[77px] -right-32 w-full" />
 
           <div className="relative inline-block">
-            <div className="absolute top-0 -left-1/2 translate-x-1/2 w-[156px] h-[152px] bg-[linear-gradient(180deg,_#34A853_52.28%,_#34A853_148.87%)] opacity-30 filter blur-[50px]"></div>
-            <div className="absolute top-0 left-0 w-[290px] h-[197px] rounded-full bg-[linear-gradient(180deg,_rgba(255,_123,_41,_0.80)_0%,_rgba(255,_123,_41,_0.80)_96.6%)] filter blur-[200px]"></div>
+            <div className="absolute top-0 -left-1/2 translate-x-1/2 -z-10 w-[156px] h-[152px] bg-[linear-gradient(180deg,_#34A853_52.28%,_#34A853_148.87%)] opacity-30 filter blur-[50px]"></div>
+            <div className="absolute top-0 left-0 -z-10 w-[290px] h-[197px] rounded-full bg-[linear-gradient(180deg,_rgba(255,_123,_41,_0.80)_0%,_rgba(255,_123,_41,_0.80)_96.6%)] filter blur-[200px]"></div>
 
-            <h2 className="mb-32 text-[54px] font-bold leading-[70px] text-[rgba(0,_0,_0,_0.85)]">
-              <span>Cửa hàng của </span>
-              <span className="block text-secondary">Prepify</span>
-            </h2>
+            {text}
 
             <Breadcrumb>
               <BreadcrumbList>

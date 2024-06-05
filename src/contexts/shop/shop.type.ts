@@ -1,11 +1,8 @@
+import { MutableRefObject } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 import { shopSchema } from "~pages/Shop/data/schema";
-
-// Constants
-export const PAGE = 1;
-export const LIMIT = 9;
 
 export type ShopFormType = z.infer<typeof shopSchema>;
 
@@ -22,8 +19,7 @@ export type SidebarType = {
 
 export type ShopContextType = {
   form: UseFormReturn<ShopFormType>;
-  sidebarFilters: SidebarType[];
-  onResetSidebar: () => void;
+  formRefs: MutableRefObject<ShopFormType | null>;
   onSubmit: (values: ShopFormType) => void;
 };
 
