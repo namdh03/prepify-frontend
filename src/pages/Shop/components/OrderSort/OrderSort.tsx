@@ -20,9 +20,10 @@ const OrderSort = memo(() => {
   const { form, onSubmit } = useShop();
   const sortWatch = form.watch("sort");
 
-  const handleResetOrderBy = () => form.setValue("orderBy", undefined);
-
-  const handleSortChange = (sort: SortEnum) => form.setValue("sort", sort);
+  const handleSortChange = (sort: SortEnum) => {
+    form.setValue("sort", sort);
+    form.getValues("orderBy") && form.setValue("orderBy", undefined);
+  };
 
   const handleSelectChange = (field: ControllerRenderProps<ShopFormType, "orderBy">, value: string) => {
     field.onChange(value);
@@ -35,7 +36,7 @@ const OrderSort = memo(() => {
       <Button
         type="submit"
         variant={sortWatch === SortEnum.POPULAR ? "default" : "outline"}
-        onClick={() => [handleSortChange(SortEnum.POPULAR), handleResetOrderBy()]}
+        onClick={() => handleSortChange(SortEnum.POPULAR)}
         className="font-normal"
       >
         Phổ biến
@@ -43,7 +44,7 @@ const OrderSort = memo(() => {
       <Button
         type="submit"
         variant={sortWatch === SortEnum.NEWEST ? "default" : "outline"}
-        onClick={() => [handleSortChange(SortEnum.NEWEST), handleResetOrderBy()]}
+        onClick={() => handleSortChange(SortEnum.NEWEST)}
         className="font-normal"
       >
         Mới nhất

@@ -1,23 +1,15 @@
-import { createContext, FC, PropsWithChildren, useCallback, useEffect, useRef, useState } from "react";
+import { createContext, FC, PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { shopSchema } from "~pages/Shop/data/schema";
-import { OrderByEnum, SortEnum } from "~utils/constants";
+import { OrderByEnum, PAGE, SortEnum } from "~utils/constants";
 
-import {
-  PAGE,
-  ShopContextType,
-  ShopFormType,
-  ShopParamType,
-  ShopSidebarParamType,
-  SidebarOptionType,
-  SidebarType,
-} from "./shop.type";
+import { ShopContextType, ShopFormType, ShopParamType } from "./shop.type";
 
-const formDefaultValues: ShopFormType = {
+const shopFormDefaultValues: ShopFormType = {
   keyword: "",
   sort: SortEnum.POPULAR,
   sidebar: {
@@ -30,141 +22,6 @@ const formDefaultValues: ShopFormType = {
   page: PAGE,
 };
 
-const cuisineOptions: SidebarOptionType[] = [
-  {
-    id: "vietnam",
-    label: "Việt Nam",
-  },
-  {
-    id: "korea",
-    label: "Hàn Quốc",
-  },
-  {
-    id: "thailand",
-    label: "Thái Lan",
-  },
-  {
-    id: "japan",
-    label: "Nhật Bản",
-  },
-  {
-    id: "europe",
-    label: "Tây Âu",
-  },
-];
-
-const dietOptions: SidebarOptionType[] = [
-  {
-    id: "eat-clean",
-    label: "Eat clean",
-  },
-  {
-    id: "vegetarian",
-    label: "Thuần chay",
-  },
-  {
-    id: "keto",
-    label: "Ăn kiêng",
-  },
-  {
-    id: "balance",
-    label: "Cân bằng",
-  },
-];
-
-const occasionOptions: SidebarOptionType[] = [
-  {
-    id: "personal",
-    label: "Cá nhân",
-  },
-  {
-    id: "couple",
-    label: "Cặp đôi",
-  },
-  {
-    id: "family",
-    label: "Gia đình",
-  },
-  {
-    id: "party",
-    label: "Tiệc",
-  },
-];
-
-const priceOptions: SidebarOptionType[] = [
-  {
-    id: "below-100000",
-    label: "0 - 100.000VNĐ",
-  },
-  {
-    id: "100000-200000",
-    label: "100.000 - 200.000VNĐ",
-  },
-  {
-    id: "200000-300000",
-    label: "200.000 - 300.000VNĐ",
-  },
-  {
-    id: "300000-400000",
-    label: "300.000 - 400.000VNĐ",
-  },
-  {
-    id: "above-500000",
-    label: "Hơn 500.000VNĐ",
-  },
-];
-
-const evaluateOptions: SidebarOptionType[] = [
-  {
-    id: "1",
-    label: "1.0 ⭐",
-  },
-  {
-    id: "2",
-    label: "2.0 ⭐⭐",
-  },
-  {
-    id: "3",
-    label: "3.0 ⭐⭐⭐",
-  },
-  {
-    id: "4",
-    label: "4.0 ⭐⭐⭐⭐",
-  },
-  {
-    id: "5",
-    label: "5.0 ⭐⭐⭐⭐⭐",
-  },
-];
-
-const sidebarDefaultData: SidebarType[] = [
-  {
-    key: "cuisine",
-    title: "Ẩm thực",
-    options: cuisineOptions,
-  },
-  {
-    key: "diet",
-    title: "Chế độ ăn",
-    options: dietOptions,
-  },
-  {
-    key: "occasion",
-    title: "Dịp ăn",
-    options: occasionOptions,
-  },
-  {
-    key: "price",
-    title: "Giá tiền",
-    options: priceOptions,
-  },
-  {
-    key: "evaluate",
-    title: "Đánh giá",
-    options: evaluateOptions,
-  },
-];
-
 // Create context
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
@@ -173,16 +30,15 @@ const ShopProvider: FC<PropsWithChildren> = ({ children }) => {
   const [params, setParams] = useSearchParams();
   const form = useForm<ShopFormType>({
     resolver: zodResolver(shopSchema),
-    defaultValues: formDefaultValues,
+    defaultValues: shopFormDefaultValues,
   });
   // Use useRef to store the last submitted values
-  const formRefs = useRef<ShopFormType | null>(formDefaultValues);
-  const [sidebarFilters] = useState<SidebarType[]>(sidebarDefaultData);
+  const formRefs = useRef<ShopFormType | null>(shopFormDefaultValues);
 
   // Load form values from URL params
   useEffect(() => {
     if (params.size === 0) return;
-    const initialFormValues = JSON.parse(JSON.stringify(formDefaultValues));
+    const initialFormValues = JSON.parse(JSON.stringify(shopFormDefaultValues));
 
     for (const [key, value] of params.entries()) {
       switch (key as ShopParamType) {
@@ -218,23 +74,8 @@ const ShopProvider: FC<PropsWithChildren> = ({ children }) => {
 
   // Reset form when the URL params are empty
   useEffect(() => {
-    if (params.size === 0) form.reset(formDefaultValues);
+    if (params.size === 0) form.reset(shopFormDefaultValues);
   }, [form, params]);
-
-  const onResetSidebar = () => {
-    form.reset({
-      ...formRefs.current,
-      sidebar: formDefaultValues.sidebar,
-      page: PAGE,
-    });
-
-    (["cuisine", "diet", "occasion", "price", "evaluate"] as ShopSidebarParamType[]).forEach((param) =>
-      params.delete(param),
-    );
-    if (params.size > 0) params.set("page", PAGE.toString());
-
-    setParams(params);
-  };
 
   const onSubmit = useCallback(
     (values: ShopFormType) => {
@@ -267,9 +108,7 @@ const ShopProvider: FC<PropsWithChildren> = ({ children }) => {
     [params, setParams],
   );
 
-  return (
-    <ShopContext.Provider value={{ form, sidebarFilters, onResetSidebar, onSubmit }}>{children}</ShopContext.Provider>
-  );
+  return <ShopContext.Provider value={{ form, formRefs, onSubmit }}>{children}</ShopContext.Provider>;
 };
 
 export { ShopContext, ShopProvider };

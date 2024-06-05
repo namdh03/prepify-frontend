@@ -26,7 +26,7 @@ const Banner = () => {
           </section>
 
           <div className="relative flex-shrink-0 px-9 mr-11">
-            <img src={images.banner} alt="" className="block w-[441px] h-[534px]" />
+            <img src={images.homeBanner} alt="" className="block w-[441px] h-[534px]" />
             <img src={icons.bannerCircleDecorate} alt="" className="absolute top-3 left-0 -z-10" />
             <img src={icons.bannerDotDecorate} alt="" className="absolute top-[189px] -right-36 -z-20" />
           </div>
