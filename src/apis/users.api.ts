@@ -1,3 +1,4 @@
+import configs from "~configs";
 import { LoginFormType } from "~pages/Login/Login";
 import { RegisterFormType } from "~pages/Register/Register";
 import { AuthResponse } from "~types/auth.type";
@@ -19,7 +20,10 @@ export const getGoogleAuthUrl = () => http.get<GoogleUrlResponse>("/login/google
 export const loginWithGoogle = (code: string | null, signal?: AbortSignal) =>
   http.post<AuthResponse>("/login/google", { code }, { signal });
 
-export const forgotPassword = (email: string) => http.post("/forgot-password", { email });
+export const forgotPassword = (email: string) => {
+  const redirectUrl = import.meta.env.VITE_BASE_URL + configs.routes.resetPassword;
+  return http.post("/forgot-password", { email, redirect_url: redirectUrl });
+};
 
 export const verifyTokenForgotPassword = (token: string | null, signal?: AbortSignal) =>
   http.post("/verify-token-forgot-password", { token }, { signal });
