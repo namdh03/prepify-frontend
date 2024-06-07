@@ -7,6 +7,7 @@ import GuestGuard from "~guards/GuestGuard";
 import ResetPasswordGuard from "~guards/ResetPasswordGuard";
 import AdminLayout from "~layouts/AdminLayout";
 import MainLayout from "~layouts/MainLayout";
+import Cart from "~pages/Cart";
 import CreateRecipe from "~pages/CreateRecipe";
 import ForgotPassword from "~pages/ForgotPassword";
 import Home from "~pages/Home";
@@ -67,7 +68,12 @@ const router = createBrowserRouter([
         <MainLayout />
       </AuthGuard>
     ),
-    children: [],
+    children: [
+      {
+        path: configs.routes.cart,
+        element: <Cart />,
+      },
+    ],
   },
   {
     path: configs.routes.moderator,
