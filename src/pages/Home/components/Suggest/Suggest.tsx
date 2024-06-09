@@ -15,6 +15,7 @@ const suggestList: ProductProps[] = [
   {
     id: "1",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
@@ -27,6 +28,7 @@ const suggestList: ProductProps[] = [
   {
     id: "2",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
@@ -39,6 +41,7 @@ const suggestList: ProductProps[] = [
   {
     id: "3",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
@@ -51,6 +54,7 @@ const suggestList: ProductProps[] = [
   {
     id: "4",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
@@ -63,6 +67,7 @@ const suggestList: ProductProps[] = [
   {
     id: "5",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
@@ -75,6 +80,7 @@ const suggestList: ProductProps[] = [
   {
     id: "6",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
@@ -87,6 +93,7 @@ const suggestList: ProductProps[] = [
   {
     id: "7",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
@@ -99,6 +106,7 @@ const suggestList: ProductProps[] = [
   {
     id: "8",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
@@ -111,6 +119,7 @@ const suggestList: ProductProps[] = [
   {
     id: "9",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
@@ -123,6 +132,7 @@ const suggestList: ProductProps[] = [
   {
     id: "10",
     title: "Canh bí đỏ",
+    slug: "canh-bi-do",
     category: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,

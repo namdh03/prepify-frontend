@@ -11,8 +11,8 @@ const routes = {
   resetPassword: "/reset-password",
   shop: "/shop",
   cart: "/cart",
+  checkout: "/checkout",
   orders: "/orders",
-  about: "/about",
   error: "*",
 };
 

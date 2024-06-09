@@ -10,6 +10,7 @@ const about = [
   {
     to: "https://maps.app.goo.gl/6dpQsoAybpmUvqnZ7",
     label: "Địa chỉ: Lô E2a-7, Đường D1, Đ. D1, Long Thạnh Mỹ, Thành Phố Thủ Đức, Thành phố Hồ Chí Minh 700000",
+    target: "_blank",
   },
 ];
 

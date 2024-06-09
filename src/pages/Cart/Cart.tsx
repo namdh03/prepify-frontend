@@ -1,7 +1,8 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { getCoreRowModel, RowSelectionState, useReactTable } from "@tanstack/react-table";
 
 import images from "~assets/imgs";
 import {
@@ -16,12 +17,14 @@ import {
 } from "~components/ui/alert-dialog";
 import { Button } from "~components/ui/button";
 import { Checkbox } from "~components/ui/checkbox";
+import configs from "~configs";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
+import { CartItem } from "~types/cart.type";
 
 import DataTable from "./components/DataTable";
 import breadcrumbs from "./data/breadcrumbs";
-import { CartItem, columns } from "./data/columns";
+import { columns } from "./data/columns";
 
 const data: CartItem[] = [
   {
@@ -67,7 +70,8 @@ const data: CartItem[] = [
 ];
 
 const Cart = () => {
-  const [rowSelection, setRowSelection] = useState({});
+  const navigate = useNavigate();
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const table = useReactTable({
     data,
     columns,
@@ -83,12 +87,18 @@ const Cart = () => {
 
   const handleToastError = () => toast.error("Vui lòng chọn sản phẩm");
 
-  const handleDeleteAll = () => {
-    console.log("CALL API TO DELETE ALL SELECTED ITEMS");
+  const handleDelete = () => {
+    console.log(
+      "CALL API TO DELETE ALL SELECTED ITEMS",
+      filteredSelectedRowModel.map((row) => row.original.id),
+    );
   };
 
   const handleOrder = () => {
     console.log("CALL API TO ORDER ALL SELECTED ITEMS");
+    navigate(configs.routes.checkout, {
+      state: filteredSelectedRowModel.map((row) => row.original.id),
+    });
   };
 
   return (
@@ -144,7 +154,7 @@ const Cart = () => {
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogAction>TRỞ LẠI</AlertDialogAction>
-                        <AlertDialogCancel onClick={handleDeleteAll}>CÓ</AlertDialogCancel>
+                        <AlertDialogCancel onClick={handleDelete}>CÓ</AlertDialogCancel>
                       </AlertDialogFooter>
                     </AlertDialogContent>
                   </AlertDialog>

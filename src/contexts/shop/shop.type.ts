@@ -2,7 +2,7 @@ import { MutableRefObject } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
-import { shopSchema } from "~pages/Shop/data/schema";
+import { shopSchema } from "~contexts/shop/shop.schema";
 
 export type ShopFormType = z.infer<typeof shopSchema>;
 

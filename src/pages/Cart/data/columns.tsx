@@ -4,23 +4,11 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "~components/ui/checkbox";
 import configs from "~configs";
+import { CartItem } from "~types/cart.type";
 
 import Bin from "../components/Bin";
 import Quantity from "../components/Quantity";
 import Servings from "../components/Servings";
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type CartItem = {
-  id: string;
-  name: string;
-  slug: string;
-  image: string;
-  servings: string;
-  price: number;
-  quantity: number;
-  total: number;
-};
 
 export const columns: ColumnDef<CartItem>[] = [
   {
