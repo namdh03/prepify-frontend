@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { getGoogleAuthUrl, getGoogleUrlQueryKey, getMe, getMeQueryKey, loginWithGoogle } from "~apis/users.api";
+import { GET_GOOGLE_URL_QUERY_KEY, GET_ME_QUERY_KEY, getGoogleAuthUrl, getMe, loginWithGoogle } from "~apis/users.api";
 import icons from "~assets/icons";
 import { Button } from "~components/ui/button";
 import configs from "~configs";
@@ -48,7 +48,7 @@ const AuthForm = ({ children, animation: Animation, title, loading }: AuthFormPr
 
   // Get google auth url
   const { data: googleUrl } = useQuery({
-    queryKey: [getGoogleUrlQueryKey],
+    queryKey: [GET_GOOGLE_URL_QUERY_KEY],
     queryFn: () => getGoogleAuthUrl(),
     staleTime: STALE_TIME_GOOGLE_AUTH_URL,
     refetchOnWindowFocus: false,
@@ -62,7 +62,7 @@ const AuthForm = ({ children, animation: Animation, title, loading }: AuthFormPr
 
   // Query for get user info
   const { refetch: userRefetch } = useQuery({
-    queryKey: [getMeQueryKey],
+    queryKey: [GET_ME_QUERY_KEY],
     queryFn: () => getMe(),
     enabled: false,
   });

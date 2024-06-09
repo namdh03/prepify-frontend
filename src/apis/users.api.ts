@@ -4,9 +4,9 @@ import { AuthResponse } from "~types/auth.type";
 import { GoogleUrlResponse, UserResponse } from "~types/user.type";
 import http from "~utils/http";
 
-export const getMeQueryKey = "me";
+export const GET_ME_QUERY_KEY = "me";
 
-export const getGoogleUrlQueryKey = "googleAuthUrl";
+export const GET_GOOGLE_URL_QUERY_KEY = "googleAuthUrl";
 
 export const register = (body: RegisterFormType) => http.post<AuthResponse>("/register", body);
 

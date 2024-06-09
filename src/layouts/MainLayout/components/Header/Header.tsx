@@ -5,7 +5,7 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 
 import { useQueryClient } from "@tanstack/react-query";
 
-import { getMeQueryKey } from "~apis/users.api";
+import { GET_ME_QUERY_KEY } from "~apis/users.api";
 import Logo from "~components/common/Logo";
 import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { Button } from "~components/ui/button";
@@ -29,7 +29,7 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(signOut());
     queryClient.removeQueries({
-      queryKey: [getMeQueryKey],
+      queryKey: [GET_ME_QUERY_KEY],
     });
     navigate(configs.routes.login);
   };
