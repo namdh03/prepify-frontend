@@ -46,7 +46,7 @@ const FormItems = ({ form, observeInputEmail }: FormItemsProps) => {
         <FormItem className="w-96">
           <FormLabel>{label}</FormLabel>
           <FormControl>{component(field)}</FormControl>
-          <FormMessage />
+          <FormMessage className="absolute" />
         </FormItem>
       )}
     />

@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 
 import configs from "~configs";
+import { CheckoutProvider } from "~contexts/checkout/CheckoutContext";
 import { ShopProvider } from "~contexts/shop/ShopContext";
 import AuthGuard from "~guards/AuthGuard";
 import GuestGuard from "~guards/GuestGuard";
@@ -8,6 +9,7 @@ import ResetPasswordGuard from "~guards/ResetPasswordGuard";
 import AdminLayout from "~layouts/AdminLayout";
 import MainLayout from "~layouts/MainLayout";
 import Cart from "~pages/Cart";
+import Checkout from "~pages/Checkout";
 import CreateRecipe from "~pages/CreateRecipe";
 import ForgotPassword from "~pages/ForgotPassword";
 import Home from "~pages/Home";
@@ -44,7 +46,6 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: configs.routes.home,
     element: <MainLayout />,
     children: [
       {
@@ -62,7 +63,6 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: configs.routes.cart,
     element: (
       <AuthGuard>
         <MainLayout />
@@ -72,6 +72,14 @@ const router = createBrowserRouter([
       {
         path: configs.routes.cart,
         element: <Cart />,
+      },
+      {
+        path: configs.routes.checkout,
+        element: (
+          <CheckoutProvider>
+            <Checkout />
+          </CheckoutProvider>
+        ),
       },
     ],
   },

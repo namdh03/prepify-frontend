@@ -4,7 +4,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { shopSchema } from "~pages/Shop/data/schema";
+import { shopSchema } from "~contexts/shop/shop.schema";
 import { OrderByEnum, PAGE, SortEnum } from "~utils/constants";
 
 import { ShopContextType, ShopFormType, ShopParamType } from "./shop.type";

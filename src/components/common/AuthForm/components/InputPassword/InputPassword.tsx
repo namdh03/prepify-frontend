@@ -22,6 +22,7 @@ const InputPassword = ({ field, placeholder, observeInput }: InputPasswordProps)
   return (
     <div className="relative">
       <Input
+        autoComplete="off"
         type={showPassword ? "text" : "password"}
         placeholder={placeholder}
         className="h-10 bg-white"

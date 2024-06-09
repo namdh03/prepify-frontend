@@ -42,7 +42,9 @@ const Footer = () => {
             <ul className="mt-[42px]">
               {about.map((item) => (
                 <li key={item.to} className="py-[7px] text-lg">
-                  <Link to={item.to}>{item.label}</Link>
+                  <Link to={item.to} target={item.target}>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
