@@ -1,10 +1,6 @@
-import { SuccessResponse } from "./response.type";
+import { Role } from "~utils/constants";
 
-export enum Role {
-  ADMIN = "ADMIN",
-  CUSTOMER = "CUSTOMER",
-  SHIPPER = "SHIPPER",
-}
+import { SuccessResponse } from "./response.type";
 
 export interface User {
   id: string;

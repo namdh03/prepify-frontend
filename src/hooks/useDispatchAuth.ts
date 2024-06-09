@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getMe, getMeQueryKey } from "~apis/users.api";
+import { GET_ME_QUERY_KEY, getMe } from "~apis/users.api";
 import { signIn } from "~contexts/auth/auth.reducer";
 import { getToken } from "~utils/cookies";
 
@@ -16,7 +16,7 @@ const useDispatchAuth = () => {
 
   // Get current user info
   const { data: userData } = useQuery({
-    queryKey: [getMeQueryKey],
+    queryKey: [GET_ME_QUERY_KEY],
     queryFn: () => getMe(),
     enabled: Boolean(getToken()),
   });

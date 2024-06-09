@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getMe, getMeQueryKey } from "~apis/users.api";
+import { GET_ME_QUERY_KEY, getMe } from "~apis/users.api";
 import Loading from "~components/common/Loading";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 import { getToken } from "~utils/cookies";
@@ -25,7 +25,7 @@ const AuthContext = createContext<AuthContextType>({
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const { refetch: userRefetch } = useQuery({
-    queryKey: [getMeQueryKey],
+    queryKey: [GET_ME_QUERY_KEY],
     queryFn: () => getMe(),
     enabled: false,
   });

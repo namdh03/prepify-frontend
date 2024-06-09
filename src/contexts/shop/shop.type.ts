@@ -6,17 +6,6 @@ import { shopSchema } from "~contexts/shop/shop.schema";
 
 export type ShopFormType = z.infer<typeof shopSchema>;
 
-export type SidebarOptionType = {
-  id: string;
-  label: string;
-};
-
-export type SidebarType = {
-  key: keyof ShopFormType["sidebar"];
-  title: string;
-  options: SidebarOptionType[];
-};
-
 export type ShopContextType = {
   form: UseFormReturn<ShopFormType>;
   formRefs: MutableRefObject<ShopFormType | null>;

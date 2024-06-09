@@ -1,194 +1,138 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { ControllerRenderProps } from "react-hook-form";
 
 import { CheckedState } from "@radix-ui/react-checkbox";
+import { useQuery } from "@tanstack/react-query";
 
+import { GET_FOOD_STYLES_QUERY_KEY, getFoodStyles } from "~apis/food-styles.api";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~components/ui/accordion";
 import { Checkbox } from "~components/ui/checkbox";
 import { FormControl, FormField, FormItem, FormLabel } from "~components/ui/form";
-import { ShopFormType, SidebarOptionType, SidebarType } from "~contexts/shop/shop.type";
+import { ShopFormType } from "~contexts/shop/shop.type";
 import useShop from "~hooks/useShop";
-
-const cuisineOptions: SidebarOptionType[] = [
-  {
-    id: "vietnam",
-    label: "Việt Nam",
-  },
-  {
-    id: "korea",
-    label: "Hàn Quốc",
-  },
-  {
-    id: "thailand",
-    label: "Thái Lan",
-  },
-  {
-    id: "japan",
-    label: "Nhật Bản",
-  },
-  {
-    id: "europe",
-    label: "Tây Âu",
-  },
-];
-
-const dietOptions: SidebarOptionType[] = [
-  {
-    id: "eat-clean",
-    label: "Eat clean",
-  },
-  {
-    id: "vegetarian",
-    label: "Thuần chay",
-  },
-  {
-    id: "keto",
-    label: "Ăn kiêng",
-  },
-  {
-    id: "balance",
-    label: "Cân bằng",
-  },
-];
-
-const occasionOptions: SidebarOptionType[] = [
-  {
-    id: "personal",
-    label: "Cá nhân",
-  },
-  {
-    id: "couple",
-    label: "Cặp đôi",
-  },
-  {
-    id: "family",
-    label: "Gia đình",
-  },
-  {
-    id: "party",
-    label: "Tiệc",
-  },
-];
+import { SidebarOptionType, SidebarType } from "~types/food-styles.type";
 
 const priceOptions: SidebarOptionType[] = [
   {
     id: "below-100000",
-    label: "0 - 100.000VNĐ",
+    name: "0 - 100.000VNĐ",
+    slug: "below-100000",
   },
   {
     id: "100000-200000",
-    label: "100.000 - 200.000VNĐ",
+    name: "100.000 - 200.000VNĐ",
+    slug: "100000-200000",
   },
   {
     id: "200000-300000",
-    label: "200.000 - 300.000VNĐ",
+    name: "200.000 - 300.000VNĐ",
+    slug: "200000-300000",
   },
   {
     id: "300000-400000",
-    label: "300.000 - 400.000VNĐ",
+    name: "300.000 - 400.000VNĐ",
+    slug: "300000-400000",
   },
   {
     id: "above-500000",
-    label: "Hơn 500.000VNĐ",
+    name: "Hơn 500.000VNĐ",
+    slug: "above-500000",
   },
 ];
 
 const evaluateOptions: SidebarOptionType[] = [
   {
     id: "1",
-    label: "1.0 ⭐",
+    name: "1.0 ⭐",
+    slug: "1",
   },
   {
     id: "2",
-    label: "2.0 ⭐⭐",
+    name: "2.0 ⭐⭐",
+    slug: "2",
   },
   {
     id: "3",
-    label: "3.0 ⭐⭐⭐",
+    name: "3.0 ⭐⭐⭐",
+    slug: "3",
   },
   {
     id: "4",
-    label: "4.0 ⭐⭐⭐⭐",
+    name: "4.0 ⭐⭐⭐⭐",
+    slug: "4",
   },
   {
     id: "5",
-    label: "5.0 ⭐⭐⭐⭐⭐",
+    name: "5.0 ⭐⭐⭐⭐⭐",
+    slug: "5",
   },
 ];
 
 const sidebarDefaultData: SidebarType[] = [
   {
-    key: "cuisine",
-    title: "Ẩm thực",
-    options: cuisineOptions,
-  },
-  {
-    key: "diet",
-    title: "Chế độ ăn",
-    options: dietOptions,
-  },
-  {
-    key: "occasion",
-    title: "Dịp ăn",
-    options: occasionOptions,
-  },
-  {
-    key: "price",
+    type: "price",
     title: "Giá tiền",
-    options: priceOptions,
+    data: priceOptions,
   },
   {
-    key: "evaluate",
+    type: "evaluate",
     title: "Đánh giá",
-    options: evaluateOptions,
+    data: evaluateOptions,
   },
 ];
 
 const Filter = memo(() => {
   const { form, onSubmit } = useShop();
-  const [sidebarFilters] = useState<SidebarType[]>(sidebarDefaultData);
+  const { data } = useQuery({
+    queryKey: [GET_FOOD_STYLES_QUERY_KEY],
+    queryFn: () => getFoodStyles(),
+  });
+  const [sidebarFilters, setSidebarFilters] = useState<SidebarType[]>(sidebarDefaultData);
+
+  useEffect(() => {
+    const foodStyles = data && data.data.data;
+    if (!foodStyles) return;
+    setSidebarFilters((prev) => [...foodStyles, ...prev]);
+  }, [data]);
 
   const handleCheckedChange = (
-    field: ControllerRenderProps<
-      ShopFormType,
-      "sidebar.cuisine" | "sidebar.diet" | "sidebar.occasion" | "sidebar.price" | "sidebar.evaluate"
-    >,
+    field: ControllerRenderProps<ShopFormType, `sidebar.${string}`>,
     checked: CheckedState,
-    id: string,
+    slug: string,
   ) => {
-    checked ? field.onChange([...field.value, id]) : field.onChange(field.value?.filter((value) => value !== id));
+    checked ? field.onChange([...field.value, slug]) : field.onChange(field.value?.filter((value) => value !== slug));
     form.handleSubmit(onSubmit)();
   };
 
   return sidebarFilters.map((filter) => (
     <FormField
-      key={filter.key}
+      key={filter.type}
       control={form.control}
-      name={`sidebar.${filter.key}`}
+      name={`sidebar.${filter.type}`}
       render={() => (
         <FormItem>
-          <Accordion type="single" collapsible defaultValue={filter.key}>
-            <AccordionItem value={filter.key}>
+          <Accordion type="single" collapsible defaultValue={filter.type}>
+            <AccordionItem value={filter.type}>
               <AccordionTrigger className="text-[#191720] text-lg font-bold leading-[30px]">
                 {filter.title}
               </AccordionTrigger>
               <AccordionContent className="[&>*]:mb-5">
-                {filter.options.map((item) => (
+                {filter.data.map((item) => (
                   <FormField
                     key={item.id}
                     control={form.control}
-                    name={`sidebar.${filter.key}`}
+                    name={`sidebar.${filter.type}`}
                     render={({ field }) => {
                       return (
                         <FormItem key={item.id} className="flex flex-row items-start space-x-3 space-y-0">
                           <FormControl>
                             <Checkbox
-                              checked={field.value?.includes(item.id)}
-                              onCheckedChange={(checked) => handleCheckedChange(field, checked, item.id)}
+                              checked={field.value?.includes(item.slug)}
+                              onCheckedChange={(checked) => handleCheckedChange(field, checked, item.slug)}
                             />
                           </FormControl>
                           <FormLabel className="text-[#575363] text-base font-normal leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                            {item.label}
+                            {item.name}
                           </FormLabel>
                         </FormItem>
                       );

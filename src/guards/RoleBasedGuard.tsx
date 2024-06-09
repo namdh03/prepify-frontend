@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 import useAuth from "~hooks/useAuth";
 import NotFound from "~pages/NotFound";
-import { Role } from "~types/user.type";
+import { Role } from "~utils/constants";
 
 // Role based guard types
 interface RoleBasedGuardProps {

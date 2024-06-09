@@ -26,6 +26,12 @@ export const USER_MESSAGES = {
   ADDRESS_MESSAGE: "Hệ thống chỉ hỗ trợ nhập địa chỉ tại TP. Hồ Chí Minh",
 } as const;
 
+export enum Role {
+  ADMIN = "ADMIN",
+  CUSTOMER = "CUSTOMER",
+  SHIPPER = "SHIPPER",
+}
+
 export enum SortEnum {
   NEWEST = "newest",
   POPULAR = "popular",
