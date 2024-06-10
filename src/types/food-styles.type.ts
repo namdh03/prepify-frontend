@@ -1,5 +1,3 @@
-import { ShopFormType } from "~contexts/shop/shop.type";
-
 import { SuccessResponse } from "./response.type";
 
 export type FoodStyleData = {
@@ -9,7 +7,7 @@ export type FoodStyleData = {
 };
 
 export type FoodStyleItem = {
-  type: keyof ShopFormType["sidebar"];
+  type: string;
   title: string;
   data: FoodStyleData[];
 };

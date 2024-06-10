@@ -38,7 +38,7 @@ const Product = memo((props: RecipeType) => {
         <span className="text-primary text-xl font-semibold truncate">{props.price.toLocaleString()} VNĐ</span>
 
         <div className="flex justify-center gap-6 mt-2">
-          <Ratings rating={5} size={14} variant="yellow" />
+          <Ratings rating={props.star} size={14} variant="yellow" />
           <span className="text-[13px] text-gray-500 font-semibold whitespace-nowrap">
             Đã bán {nFormatter(props.sold)}
           </span>
