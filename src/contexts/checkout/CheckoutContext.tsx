@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import useAuth from "~hooks/useAuth";
-import { DELIVERY_METHOD, PAYMENT_METHOD } from "~utils/constants";
+import { DeliveryMethodEnum, PaymentMethodEnum } from "~utils/constants";
 
 import modalSchema from "./checkout.schema";
 import { CheckoutContextType, ModalFormType, ShippingAddressType } from "./checkout.type";
@@ -21,8 +21,8 @@ const CheckoutProvider: FC<PropsWithChildren> = ({ children }) => {
     defaultValues: {
       phone: "",
       city: "Hồ Chí Minh",
-      deliveryMethod: DELIVERY_METHOD.FAST,
-      paymentMethod: PAYMENT_METHOD.VNPAY,
+      deliveryMethod: DeliveryMethodEnum.FAST,
+      paymentMethod: PaymentMethodEnum.VNPAY,
     },
   });
   const [shippingAddress, setShippingAddress] = useState<ShippingAddressType>({

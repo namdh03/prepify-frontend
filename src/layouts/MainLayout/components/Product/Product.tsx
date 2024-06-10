@@ -6,23 +6,10 @@ import { Link } from "react-router-dom";
 
 import Ratings from "~components/common/Ratings";
 import configs from "~configs";
+import { RecipeType } from "~types/recipes.type";
 import nFormatter from "~utils/nFormatter";
 
-export interface ProductProps {
-  id: string;
-  title: string;
-  slug: string;
-  category: string;
-  mainImage: string;
-  subImage: string;
-  level: string;
-  time: string;
-  price: number;
-  star: number;
-  sold: number;
-}
-
-const Product = memo((props: ProductProps) => {
+const Product = memo((props: RecipeType) => {
   return (
     <Link to={`${configs.routes.shop}/${props.slug}`}>
       <article className="relative pt-24 px-9 pb-5 bg-white rounded-[34px] text-center [box-shadow:0px_9px_27px_0px_rgba(0,_0,_0,_0.07)]">
@@ -33,8 +20,8 @@ const Product = memo((props: ProductProps) => {
           </motion.div>
         </div>
 
-        <h3 className="mb-1 font-inter text-xl font-semibold text-slate-800 truncate">{props.title}</h3>
-        <span className="text-xs text-slate-800 truncate">{props.category}</span>
+        <h3 className="mb-1 font-inter text-xl font-semibold text-slate-800 truncate">{props.name}</h3>
+        <span className="text-xs text-slate-800 truncate">{props.foodStyle}</span>
 
         <div className="flex justify-center gap-3 mt-3 mb-4">
           <div className="flex items-center gap-[2px]">

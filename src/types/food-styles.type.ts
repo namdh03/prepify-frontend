@@ -2,16 +2,16 @@ import { ShopFormType } from "~contexts/shop/shop.type";
 
 import { SuccessResponse } from "./response.type";
 
-export type SidebarOptionType = {
+export type FoodStyleData = {
   id: string;
   name: string;
   slug: string;
 };
 
-export type SidebarType = {
+export type FoodStyleItem = {
   type: keyof ShopFormType["sidebar"];
   title: string;
-  data: SidebarOptionType[];
+  data: FoodStyleData[];
 };
 
-export type FoodStyleResponse = SuccessResponse<SidebarType[]>;
+export type FoodStyleResponse = SuccessResponse<FoodStyleItem[]>;

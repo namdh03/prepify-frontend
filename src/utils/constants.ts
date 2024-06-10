@@ -39,8 +39,8 @@ export enum SortEnum {
 }
 
 export enum OrderByEnum {
-  ASC = "asc",
-  DESC = "desc",
+  ASC = "ASC",
+  DESC = "DESC",
 }
 
 export const PAGE = 1;
@@ -49,11 +49,17 @@ export const LIMIT = 9;
 export const PHONE_REGEX = /^(0|\+?84)(3|5|7|8|9)[0-9]{8}$/;
 export const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
 
-export enum DELIVERY_METHOD {
+export enum DeliveryMethodEnum {
   FAST = "fast",
   STANDARD = "standard",
 }
 
-export enum PAYMENT_METHOD {
+export enum PaymentMethodEnum {
   VNPAY = "vnpay",
+}
+
+export enum LevelEnum {
+  EASY = "Dễ",
+  MEDIUM = "Trung bình",
+  HARD = "Khó",
 }

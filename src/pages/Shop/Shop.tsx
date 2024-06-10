@@ -1,10 +1,16 @@
+import { useMemo } from "react";
+import { useSearchParams } from "react-router-dom";
+
+import { useQuery } from "@tanstack/react-query";
+
+import { getRecipes } from "~apis/recipes.api";
 import images from "~assets/imgs";
 import Pagination from "~components/common/Pagination";
 import { Form } from "~components/ui/form";
 import useShop from "~hooks/useShop";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
-import Product, { ProductProps } from "~layouts/MainLayout/components/Product/Product";
+import Product from "~layouts/MainLayout/components/Product/Product";
 import { LIMIT, PAGE } from "~utils/constants";
 
 import OrderSort from "./components/OrderSort";
@@ -12,129 +18,17 @@ import Search from "./components/Search";
 import Sidebar from "./components/Sidebar";
 import breadcrumbs from "./data/breadcrumbs";
 
-const productList: ProductProps[] = [
-  {
-    id: "1",
-    title: "Canh bí đỏ",
-    slug: "canh-bi-do",
-    category: "Món Ăn Việt",
-    mainImage: images.suggest1st,
-    subImage: images.suggest2nd,
-    level: "Dễ nấu",
-    time: "30 phút",
-    price: 15000,
-    star: 5,
-    sold: 1200,
-  },
-  {
-    id: "2",
-    title: "Canh bí đỏ",
-    slug: "canh-bi-do",
-    category: "Món Ăn Việt",
-    mainImage: images.suggest1st,
-    subImage: images.suggest2nd,
-    level: "Dễ nấu",
-    time: "30 phút",
-    price: 15000,
-    star: 5,
-    sold: 1200,
-  },
-  {
-    id: "3",
-    title: "Canh bí đỏ",
-    slug: "canh-bi-do",
-    category: "Món Ăn Việt",
-    mainImage: images.suggest1st,
-    subImage: images.suggest2nd,
-    level: "Dễ nấu",
-    time: "30 phút",
-    price: 15000,
-    star: 5,
-    sold: 1200,
-  },
-  {
-    id: "4",
-    title: "Canh bí đỏ",
-    slug: "canh-bi-do",
-    category: "Món Ăn Việt",
-    mainImage: images.suggest1st,
-    subImage: images.suggest2nd,
-    level: "Dễ nấu",
-    time: "30 phút",
-    price: 15000,
-    star: 5,
-    sold: 1200,
-  },
-  {
-    id: "5",
-    title: "Canh bí đỏ",
-    slug: "canh-bi-do",
-    category: "Món Ăn Việt",
-    mainImage: images.suggest1st,
-    subImage: images.suggest2nd,
-    level: "Dễ nấu",
-    time: "30 phút",
-    price: 15000,
-    star: 5,
-    sold: 1200,
-  },
-  {
-    id: "6",
-    title: "Canh bí đỏ",
-    slug: "canh-bi-do",
-    category: "Món Ăn Việt",
-    mainImage: images.suggest1st,
-    subImage: images.suggest2nd,
-    level: "Dễ nấu",
-    time: "30 phút",
-    price: 15000,
-    star: 5,
-    sold: 1200,
-  },
-  {
-    id: "7",
-    title: "Canh bí đỏ",
-    slug: "canh-bi-do",
-    category: "Món Ăn Việt",
-    mainImage: images.suggest1st,
-    subImage: images.suggest2nd,
-    level: "Dễ nấu",
-    time: "30 phút",
-    price: 15000,
-    star: 5,
-    sold: 1200,
-  },
-  {
-    id: "8",
-    title: "Canh bí đỏ",
-    slug: "canh-bi-do",
-    category: "Món Ăn Việt",
-    mainImage: images.suggest1st,
-    subImage: images.suggest2nd,
-    level: "Dễ nấu",
-    time: "30 phút",
-    price: 15000,
-    star: 5,
-    sold: 1200,
-  },
-  {
-    id: "9",
-    title: "Canh bí đỏ",
-    slug: "canh-bi-do",
-    category: "Món Ăn Việt",
-    mainImage: images.suggest1st,
-    subImage: images.suggest2nd,
-    level: "Dễ nấu",
-    time: "30 phút",
-    price: 15000,
-    star: 5,
-    sold: 1200,
-  },
-];
-
 const Shop = () => {
+  const [params] = useSearchParams();
   const { form, onSubmit } = useShop();
   const currentPage = form.watch("page") || PAGE;
+
+  const { data } = useQuery({
+    queryKey: ["products", params.toString()],
+    queryFn: () => getRecipes(form.getValues()),
+    refetchOnWindowFocus: false,
+  });
+  const shopQueryData = useMemo(() => data?.data.data, [data]);
 
   const handlePageChange = (page: number) => {
     form.setValue("page", page);
@@ -168,15 +62,13 @@ const Shop = () => {
                   <OrderSort />
 
                   <div className="grid grid-cols-3 gap-x-[50px] gap-y-40 mt-32">
-                    {productList.map((product) => (
-                      <Product key={product.id} {...product} />
-                    ))}
+                    {shopQueryData?.recipes.map((product) => <Product key={product.id} {...product} />)}
                   </div>
 
                   <Pagination
                     currentPage={currentPage}
-                    pageSize={LIMIT}
-                    totalCount={99}
+                    pageSize={shopQueryData?.pageSize || LIMIT}
+                    totalCount={shopQueryData?.itemTotal || 0}
                     onPageChange={handlePageChange}
                   />
                 </div>

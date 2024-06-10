@@ -1,4 +1,4 @@
-import { createContext, FC, PropsWithChildren, useCallback, useEffect, useRef } from "react";
+import { createContext, FC, PropsWithChildren, useCallback, useEffect, useLayoutEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 
@@ -36,7 +36,7 @@ const ShopProvider: FC<PropsWithChildren> = ({ children }) => {
   const formRefs = useRef<ShopFormType | null>(shopFormDefaultValues);
 
   // Load form values from URL params
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (params.size === 0) return;
     const initialFormValues = JSON.parse(JSON.stringify(shopFormDefaultValues));
 

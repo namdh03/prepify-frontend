@@ -10,84 +10,17 @@ import { Checkbox } from "~components/ui/checkbox";
 import { FormControl, FormField, FormItem, FormLabel } from "~components/ui/form";
 import { ShopFormType } from "~contexts/shop/shop.type";
 import useShop from "~hooks/useShop";
-import { SidebarOptionType, SidebarType } from "~types/food-styles.type";
-
-const priceOptions: SidebarOptionType[] = [
-  {
-    id: "below-100000",
-    name: "0 - 100.000VNĐ",
-    slug: "below-100000",
-  },
-  {
-    id: "100000-200000",
-    name: "100.000 - 200.000VNĐ",
-    slug: "100000-200000",
-  },
-  {
-    id: "200000-300000",
-    name: "200.000 - 300.000VNĐ",
-    slug: "200000-300000",
-  },
-  {
-    id: "300000-400000",
-    name: "300.000 - 400.000VNĐ",
-    slug: "300000-400000",
-  },
-  {
-    id: "above-500000",
-    name: "Hơn 500.000VNĐ",
-    slug: "above-500000",
-  },
-];
-
-const evaluateOptions: SidebarOptionType[] = [
-  {
-    id: "1",
-    name: "1.0 ⭐",
-    slug: "1",
-  },
-  {
-    id: "2",
-    name: "2.0 ⭐⭐",
-    slug: "2",
-  },
-  {
-    id: "3",
-    name: "3.0 ⭐⭐⭐",
-    slug: "3",
-  },
-  {
-    id: "4",
-    name: "4.0 ⭐⭐⭐⭐",
-    slug: "4",
-  },
-  {
-    id: "5",
-    name: "5.0 ⭐⭐⭐⭐⭐",
-    slug: "5",
-  },
-];
-
-const sidebarDefaultData: SidebarType[] = [
-  {
-    type: "price",
-    title: "Giá tiền",
-    data: priceOptions,
-  },
-  {
-    type: "evaluate",
-    title: "Đánh giá",
-    data: evaluateOptions,
-  },
-];
+import sidebar from "~pages/Shop/data/sidebar";
+import { FoodStyleItem } from "~types/food-styles.type";
 
 const Filter = memo(() => {
   const { form, onSubmit } = useShop();
   const { data } = useQuery({
     queryKey: [GET_FOOD_STYLES_QUERY_KEY],
     queryFn: () => getFoodStyles(),
+    refetchOnWindowFocus: false,
   });
-  const [sidebarFilters, setSidebarFilters] = useState<SidebarType[]>(sidebarDefaultData);
+  const [sidebarFilters, setSidebarFilters] = useState<FoodStyleItem[]>(sidebar);
 
   useEffect(() => {
     const foodStyles = data && data.data.data;
