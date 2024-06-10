@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { getRecipes } from "~apis/recipes.api";
+import { GET_RECIPES_QUERY_KEY, getRecipes, RECIPES_STALE_TIME } from "~apis/recipes.api";
 import images from "~assets/imgs";
 import Pagination from "~components/common/Pagination";
 import { Form } from "~components/ui/form";
@@ -20,13 +20,16 @@ import breadcrumbs from "./data/breadcrumbs";
 
 const Shop = () => {
   const [params] = useSearchParams();
-  const { form, onSubmit } = useShop();
+  const { form, formRefs, onSubmit } = useShop();
   const currentPage = form.watch("page") || PAGE;
 
   const { data } = useQuery({
-    queryKey: ["products", params.toString()],
+    queryKey: [GET_RECIPES_QUERY_KEY, params.toString()],
     queryFn: () => getRecipes(form.getValues()),
+    enabled: Boolean(formRefs.current),
+    refetchOnMount: false,
     refetchOnWindowFocus: false,
+    staleTime: RECIPES_STALE_TIME,
   });
   const shopQueryData = useMemo(() => data?.data.data, [data]);
 

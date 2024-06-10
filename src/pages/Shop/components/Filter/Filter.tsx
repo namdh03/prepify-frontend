@@ -1,39 +1,32 @@
-import { memo, useEffect, useState } from "react";
+import { memo } from "react";
 import { ControllerRenderProps } from "react-hook-form";
 
 import { CheckedState } from "@radix-ui/react-checkbox";
-import { useQuery } from "@tanstack/react-query";
 
-import { GET_FOOD_STYLES_QUERY_KEY, getFoodStyles } from "~apis/food-styles.api";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "~components/ui/accordion";
 import { Checkbox } from "~components/ui/checkbox";
 import { FormControl, FormField, FormItem, FormLabel } from "~components/ui/form";
 import { ShopFormType } from "~contexts/shop/shop.type";
 import useShop from "~hooks/useShop";
-import sidebar from "~pages/Shop/data/sidebar";
 import { FoodStyleItem } from "~types/food-styles.type";
+import { PAGE } from "~utils/constants";
 
-const Filter = memo(() => {
+interface FilterProps {
+  sidebarFilters: FoodStyleItem[];
+}
+
+const Filter = memo(({ sidebarFilters }: FilterProps) => {
   const { form, onSubmit } = useShop();
-  const { data } = useQuery({
-    queryKey: [GET_FOOD_STYLES_QUERY_KEY],
-    queryFn: () => getFoodStyles(),
-    refetchOnWindowFocus: false,
-  });
-  const [sidebarFilters, setSidebarFilters] = useState<FoodStyleItem[]>(sidebar);
-
-  useEffect(() => {
-    const foodStyles = data && data.data.data;
-    if (!foodStyles) return;
-    setSidebarFilters((prev) => [...foodStyles, ...prev]);
-  }, [data]);
 
   const handleCheckedChange = (
     field: ControllerRenderProps<ShopFormType, `sidebar.${string}`>,
     checked: CheckedState,
     slug: string,
   ) => {
-    checked ? field.onChange([...field.value, slug]) : field.onChange(field.value?.filter((value) => value !== slug));
+    checked
+      ? field.onChange([...(field.value || []), slug])
+      : field.onChange(field.value?.filter((value) => value !== slug));
+    form.setValue("page", PAGE);
     form.handleSubmit(onSubmit)();
   };
 

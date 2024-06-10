@@ -14,7 +14,7 @@ import {
 } from "~components/ui/select";
 import { ShopFormType } from "~contexts/shop/shop.type";
 import useShop from "~hooks/useShop";
-import { OrderByEnum, SortEnum } from "~utils/constants";
+import { OrderByEnum, PAGE, SortEnum } from "~utils/constants";
 
 const OrderSort = memo(() => {
   const { form, onSubmit } = useShop();
@@ -22,12 +22,16 @@ const OrderSort = memo(() => {
 
   const handleSortChange = (sort: SortEnum) => {
     form.setValue("sort", sort);
-    form.getValues("orderBy") && form.setValue("orderBy", undefined);
+    form.setValue("page", PAGE);
+    form.getValues("orderBy") && form.setValue("orderBy", "");
   };
 
   const handleSelectChange = (field: ControllerRenderProps<ShopFormType, "orderBy">, value: string) => {
+    if (!value) return field.onChange("");
     field.onChange(value);
-    handleSortChange(SortEnum.PRICE);
+    form.setValue("page", PAGE);
+    form.setValue("sort", SortEnum.PRICE);
+    form.setValue("orderBy", value);
     form.handleSubmit(onSubmit)();
   };
 
@@ -55,7 +59,11 @@ const OrderSort = memo(() => {
         name="orderBy"
         render={({ field }) => (
           <FormItem>
-            <Select value={field.value} onValueChange={(value) => handleSelectChange(field, value)}>
+            <Select
+              defaultValue={field.value}
+              value={field.value}
+              onValueChange={(value) => handleSelectChange(field, value)}
+            >
               <FormControl>
                 <SelectTrigger className="w-[180px]">
                   {field.value ? <SelectValue placeholder="Sắp xếp theo giá" /> : "Sắp xếp theo giá"}

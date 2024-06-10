@@ -1,26 +1,13 @@
-import { createContext, FC, PropsWithChildren, useCallback, useEffect, useLayoutEffect, useRef } from "react";
+import { createContext, FC, PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { useSearchParams } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { shopSchema } from "~contexts/shop/shop.schema";
-import { OrderByEnum, PAGE, SortEnum } from "~utils/constants";
+import { shopDefaultValues, shopSchema } from "~contexts/shop/shop.schema";
+import { PAGE } from "~utils/constants";
 
-import { ShopContextType, ShopFormType, ShopParamType } from "./shop.type";
-
-const shopFormDefaultValues: ShopFormType = {
-  keyword: "",
-  sort: SortEnum.POPULAR,
-  sidebar: {
-    cuisine: [],
-    diet: [],
-    occasion: [],
-    price: [],
-    evaluate: [],
-  },
-  page: PAGE,
-};
+import { ShopContextType, ShopFormType } from "./shop.type";
 
 // Create context
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
@@ -28,78 +15,67 @@ const ShopContext = createContext<ShopContextType | undefined>(undefined);
 // Create provider
 const ShopProvider: FC<PropsWithChildren> = ({ children }) => {
   const [params, setParams] = useSearchParams();
+  const paramRef = useRef(params);
   const form = useForm<ShopFormType>({
     resolver: zodResolver(shopSchema),
-    defaultValues: shopFormDefaultValues,
+    defaultValues: shopDefaultValues,
   });
   // Use useRef to store the last submitted values
-  const formRefs = useRef<ShopFormType | null>(shopFormDefaultValues);
+  const formRefs = useRef<ShopFormType | null>(null);
 
   // Load form values from URL params
-  useLayoutEffect(() => {
-    if (params.size === 0) return;
-    const initialFormValues = JSON.parse(JSON.stringify(shopFormDefaultValues));
+  useEffect(() => {
+    if (paramRef.current.size === 0) {
+      formRefs.current = shopDefaultValues;
+      return;
+    }
 
-    for (const [key, value] of params.entries()) {
-      switch (key as ShopParamType) {
+    const initialFormValues = JSON.parse(JSON.stringify(shopDefaultValues));
+    for (const [key, value] of paramRef.current.entries()) {
+      switch (key) {
         case "keyword":
           initialFormValues.keyword = value;
           break;
 
-        case "cuisine":
-        case "diet":
-        case "occasion":
-        case "price":
-        case "evaluate":
-          initialFormValues.sidebar[key as keyof ShopFormType["sidebar"]] = value.split(",") || [];
-          break;
-
         case "sort":
-          initialFormValues.sort = value as SortEnum;
+          initialFormValues.sort = value;
           break;
 
         case "orderBy":
-          initialFormValues.orderBy = value as OrderByEnum;
+          initialFormValues.orderBy = value;
           break;
 
         case "page":
           initialFormValues.page = Number(value || PAGE);
           break;
+
+        default:
+          initialFormValues.sidebar[key] = value.split(",") || [];
       }
     }
 
     formRefs.current = initialFormValues;
     form.reset(initialFormValues);
-  }, [form, params]);
-
-  // Reset form when the URL params are empty
-  useEffect(() => {
-    if (params.size === 0) form.reset(shopFormDefaultValues);
-  }, [form, params]);
+  }, [form]);
 
   const onSubmit = useCallback(
     (values: ShopFormType) => {
       if (formRefs.current && JSON.stringify(values) === JSON.stringify(formRefs.current)) return;
 
-      const paramConfig = [
-        { key: "keyword", value: values.keyword },
-        { key: "cuisine", value: values.sidebar.cuisine },
-        { key: "diet", value: values.sidebar.diet },
-        { key: "occasion", value: values.sidebar.occasion },
-        { key: "price", value: values.sidebar.price },
-        { key: "evaluate", value: values.sidebar.evaluate },
-        { key: "sort", value: values.sort },
-        { key: "orderBy", value: values.orderBy },
-        { key: "page", value: values.page },
-      ];
+      const paramsMap = {
+        keyword: values.keyword,
+        sort: values.sort,
+        orderBy: values.orderBy,
+        page: values.page ? String(values.page) : null,
+        ...Object.fromEntries(
+          Object.entries(values.sidebar).map(([key, value]) => [key, value && value.length ? value.join(",") : null]),
+        ),
+      };
 
-      paramConfig.forEach(({ key, value }) => {
-        if (Array.isArray(value)) {
-          value.length > 0 ? params.set(key, value.join(",")) : params.delete(key);
-        } else {
-          value ? params.set(key, value.toString()) : params.delete(key);
-        }
+      Object.entries(paramsMap).forEach(([key, value]) => {
+        value ? params.set(key, value) : params.delete(key);
       });
+
       setParams(params);
 
       // Update the last submitted values
