@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { DELIVERY_METHOD, PAYMENT_METHOD, PHONE_REGEX, USER_MESSAGES } from "~utils/constants";
+import { DeliveryMethodEnum, PaymentMethodEnum, PHONE_REGEX, USER_MESSAGES } from "~utils/constants";
 
 const modalSchema = z.object({
   phone: z
@@ -24,8 +24,8 @@ const modalSchema = z.object({
     message: USER_MESSAGES.ADDRESS_MESSAGE,
   }),
   note: z.string().optional(),
-  deliveryMethod: z.nativeEnum(DELIVERY_METHOD),
-  paymentMethod: z.nativeEnum(PAYMENT_METHOD),
+  deliveryMethod: z.nativeEnum(DeliveryMethodEnum),
+  paymentMethod: z.nativeEnum(PaymentMethodEnum),
 });
 
 export default modalSchema;

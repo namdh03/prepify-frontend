@@ -2,13 +2,13 @@ import { FiTruck } from "react-icons/fi";
 
 import useCheckout from "~hooks/useCheckout";
 import { cn } from "~lib/utils";
-import { DELIVERY_METHOD } from "~utils/constants";
+import { DeliveryMethodEnum } from "~utils/constants";
 
 const Transport = () => {
   const { form } = useCheckout();
   const deliveryMethodWatch = form.watch("deliveryMethod");
 
-  const handleDeliveryMethodChange = (method: DELIVERY_METHOD) => form.setValue("deliveryMethod", method);
+  const handleDeliveryMethodChange = (method: DeliveryMethodEnum) => form.setValue("deliveryMethod", method);
 
   return (
     <div className="flex-1 text-[#18181B] pl-[34px] pr-14 py-7">
@@ -18,10 +18,10 @@ const Transport = () => {
         className={cn(
           "flex items-center justify-between mt-4 rounded-[5px] border-[1px] border-solid border-[#E4E4E7] px-3 py-1 cursor-pointer",
           {
-            "border-primary": deliveryMethodWatch === DELIVERY_METHOD.FAST,
+            "border-primary": deliveryMethodWatch === DeliveryMethodEnum.FAST,
           },
         )}
-        onClick={() => handleDeliveryMethodChange(DELIVERY_METHOD.FAST)}
+        onClick={() => handleDeliveryMethodChange(DeliveryMethodEnum.FAST)}
       >
         <div>
           <span className="text-sm font-normal leading-7">Hoả tốc</span>
@@ -41,10 +41,10 @@ const Transport = () => {
         className={cn(
           "flex items-center justify-between mt-4 rounded-[5px] border-[1px] border-solid border-[#E4E4E7] px-3 py-1 cursor-pointer",
           {
-            "border-primary": deliveryMethodWatch === DELIVERY_METHOD.STANDARD,
+            "border-primary": deliveryMethodWatch === DeliveryMethodEnum.STANDARD,
           },
         )}
-        onClick={() => handleDeliveryMethodChange(DELIVERY_METHOD.STANDARD)}
+        onClick={() => handleDeliveryMethodChange(DeliveryMethodEnum.STANDARD)}
       >
         <div>
           <span className="text-sm font-normal leading-7">Nhanh</span>
