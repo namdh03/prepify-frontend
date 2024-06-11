@@ -1,10 +1,24 @@
-export interface CartItem {
+import { SuccessResponse } from "./response.type";
+
+export type MealKitItem = {
+  id: string;
+  price: number;
+  serving: number;
+};
+
+export type RecipeItem = {
   id: string;
   name: string;
   slug: string;
-  image: string;
-  servings: string;
-  price: number;
+};
+
+export interface CartItem {
+  id: string;
+  recipe: RecipeItem;
+  mealKitSelected: MealKitItem;
   quantity: number;
-  total: number;
+  image: string;
+  mealKits: MealKitItem[];
 }
+
+export type CartResponse = SuccessResponse<CartItem[]>;

@@ -14,7 +14,7 @@ const MAX_VALUE = 99;
 
 const Quantity = memo(({ id, defaultValue }: QuantityProps) => {
   const [quantityValue, setQuantityValue] = useState<number>();
-  const quantityDebounce = useDebounce(quantityValue, 500);
+  const quantityDebounce = useDebounce(quantityValue, 1000);
 
   useEffect(() => {
     if (quantityDebounce && quantityDebounce >= MIN_VALUE && quantityDebounce <= MAX_VALUE) {
@@ -23,7 +23,10 @@ const Quantity = memo(({ id, defaultValue }: QuantityProps) => {
   }, [id, quantityDebounce]);
 
   const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
-    e.target.value === "" && (e.target.value = String(MIN_VALUE)) && setQuantityValue(1);
+    if (Number(e.currentTarget.value) < MIN_VALUE) {
+      e.target.value = String(MIN_VALUE);
+      setQuantityValue(MIN_VALUE);
+    }
   };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {

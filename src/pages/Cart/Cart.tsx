@@ -2,8 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { useQuery } from "@tanstack/react-query";
 import { getCoreRowModel, RowSelectionState, useReactTable } from "@tanstack/react-table";
 
+import { CARTS_STALE_TIME, GET_CARTS_QUERY_KEY, getCarts } from "~apis/carts.api";
 import images from "~assets/imgs";
 import {
   AlertDialog,
@@ -20,60 +22,22 @@ import { Checkbox } from "~components/ui/checkbox";
 import configs from "~configs";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
-import { CartItem } from "~types/cart.type";
 
 import DataTable from "./components/DataTable";
 import breadcrumbs from "./data/breadcrumbs";
 import { columns } from "./data/columns";
 
-const data: CartItem[] = [
-  {
-    id: "1",
-    name: "Thịt kho hột vịt Thịt kho hột vịt Thịt kho hột vịt Thịt kho hột vịt Thịt kho hột vịt Thịt kho hột vịt",
-    slug: "thit-kho-hot-vit",
-    image: images.suggest1st,
-    servings: "1 người ăn",
-    price: 129200,
-    quantity: 1,
-    total: 200000,
-  },
-  {
-    id: "2",
-    name: "Thịt kho hột vịt",
-    slug: "thit-kho-hot-vit",
-    image: images.suggest2nd,
-    servings: "1 người ăn",
-    price: 129200,
-    quantity: 1,
-    total: 200000,
-  },
-  {
-    id: "3",
-    name: "Thịt kho hột vịt",
-    slug: "thit-kho-hot-vit",
-    image: images.suggest1st,
-    servings: "1 người ăn",
-    price: 129200,
-    quantity: 1,
-    total: 200000,
-  },
-  {
-    id: "4",
-    name: "Thịt kho hột vịt",
-    slug: "thit-kho-hot-vit",
-    image: images.suggest2nd,
-    servings: "1 người ăn",
-    price: 129200,
-    quantity: 1,
-    total: 200000,
-  },
-];
-
 const Cart = () => {
   const navigate = useNavigate();
+  const { data } = useQuery({
+    queryKey: [GET_CARTS_QUERY_KEY],
+    queryFn: () => getCarts(),
+    select: (data) => data.data.data,
+    staleTime: CARTS_STALE_TIME,
+  });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const table = useReactTable({
-    data,
+    data: data || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
@@ -83,7 +47,10 @@ const Cart = () => {
   });
   const filteredSelectedRowModel = table.getFilteredSelectedRowModel().rows;
   const filteredRowModel = table.getFilteredRowModel().rows;
-  const totalPrice = filteredSelectedRowModel.reduce((acc, row) => acc + row.original.total, 0);
+  const totalPrice = filteredSelectedRowModel.reduce(
+    (acc, row) => acc + row.original.quantity * row.original.mealKitSelected.price,
+    0,
+  );
 
   const handleToastError = () => toast.error("Vui lòng chọn sản phẩm");
 
@@ -128,56 +95,58 @@ const Cart = () => {
               <DataTable table={table} length={columns.length} />
             </div>
 
-            <div className="sticky bottom-0 flex justify-between py-[30px] px-[18px] bg-white [box-shadow:0px_-2px_14px_0px_rgba(0,_0,_0,_0.10)]">
-              <div className="flex items-center gap-8 text-base font-normal leading-5">
-                <Checkbox
-                  id="check-all"
-                  checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
-                  onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-                  aria-label="Select all"
-                />
+            {data?.length != 0 && (
+              <div className="sticky bottom-0 flex justify-between py-[30px] px-[18px] bg-white [box-shadow:0px_-2px_14px_0px_rgba(0,_0,_0,_0.10)]">
+                <div className="flex items-center gap-8 text-base font-normal leading-5">
+                  <Checkbox
+                    id="check-all"
+                    checked={table.getIsAllPageRowsSelected() || (table.getIsSomePageRowsSelected() && "indeterminate")}
+                    onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+                    aria-label="Select all"
+                  />
 
-                <label htmlFor="check-all" className="cursor-pointer">
-                  Chọn tất cả ({filteredRowModel.length})
-                </label>
+                  <label htmlFor="check-all" className="cursor-pointer">
+                    Chọn tất cả ({filteredRowModel.length})
+                  </label>
 
-                {filteredSelectedRowModel.length ? (
-                  <AlertDialog>
-                    <AlertDialogTrigger data-state="closed">
-                      <span className="cursor-pointer">Xoá</span>
-                    </AlertDialogTrigger>
-                    <AlertDialogContent>
-                      <AlertDialogHeader>
-                        <AlertDialogTitle className="font-normal">
-                          Bạn có muốn bỏ {filteredSelectedRowModel.length} sản phẩm?
-                        </AlertDialogTitle>
-                      </AlertDialogHeader>
-                      <AlertDialogFooter>
-                        <AlertDialogAction>TRỞ LẠI</AlertDialogAction>
-                        <AlertDialogCancel onClick={handleDelete}>CÓ</AlertDialogCancel>
-                      </AlertDialogFooter>
-                    </AlertDialogContent>
-                  </AlertDialog>
-                ) : (
-                  <span className="cursor-pointer" onClick={handleToastError}>
-                    Xoá
+                  {filteredSelectedRowModel.length ? (
+                    <AlertDialog>
+                      <AlertDialogTrigger data-state="closed">
+                        <span className="cursor-pointer">Xoá</span>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle className="font-normal">
+                            Bạn có muốn bỏ {filteredSelectedRowModel.length} sản phẩm?
+                          </AlertDialogTitle>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogAction>TRỞ LẠI</AlertDialogAction>
+                          <AlertDialogCancel onClick={handleDelete}>CÓ</AlertDialogCancel>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
+                  ) : (
+                    <span className="cursor-pointer" onClick={handleToastError}>
+                      Xoá
+                    </span>
+                  )}
+                </div>
+                <div className="flex items-center text-xl font-medium leading-7">
+                  <h4 className="">Tổng thanh toán ({filteredSelectedRowModel.length} sản phẩm):</h4>
+                  <span className="ml-9 text-primary">
+                    <sup>₫</sup>
+                    {totalPrice.toLocaleString()}
                   </span>
-                )}
+                  <Button
+                    className="ml-[52px] min-w-[180px]"
+                    onClick={filteredSelectedRowModel.length ? handleOrder : handleToastError}
+                  >
+                    Mua hàng
+                  </Button>
+                </div>
               </div>
-              <div className="flex items-center text-xl font-medium leading-7">
-                <h4 className="">Tổng thanh toán ({filteredSelectedRowModel.length} sản phẩm):</h4>
-                <span className="ml-9 text-primary">
-                  <sup>₫</sup>
-                  {totalPrice.toLocaleString()}
-                </span>
-                <Button
-                  className="ml-[52px] min-w-[180px]"
-                  onClick={filteredSelectedRowModel.length ? handleOrder : handleToastError}
-                >
-                  Mua hàng
-                </Button>
-              </div>
-            </div>
+            )}
           </div>
         </Container>
       </section>

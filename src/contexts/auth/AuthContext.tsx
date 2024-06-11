@@ -28,6 +28,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     queryKey: [GET_ME_QUERY_KEY],
     queryFn: () => getMe(),
     enabled: false,
+    select: (data) => data.data.data.user,
   });
 
   useEffect(() => {
@@ -40,8 +41,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       try {
         const { data } = await userRefetch();
         if (data) {
-          const user = data.data.data.user;
-          dispatch(initialize({ isAuthenticated: true, user }));
+          dispatch(initialize({ isAuthenticated: true, user: data }));
         }
       } catch (error) {
         toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);

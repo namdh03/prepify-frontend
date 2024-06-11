@@ -47,13 +47,13 @@ const AuthForm = ({ children, animation: Animation, title, loading }: AuthFormPr
   const code = useMemo(() => params.get("code"), [params]);
 
   // Get google auth url
-  const { data: googleUrl } = useQuery({
+  const { data } = useQuery({
     queryKey: [GET_GOOGLE_URL_QUERY_KEY],
     queryFn: () => getGoogleAuthUrl(),
+    select: (data) => data.data.data.url,
     staleTime: STALE_TIME_GOOGLE_AUTH_URL,
     refetchOnWindowFocus: false,
   });
-  const url = useMemo(() => (googleUrl && googleUrl.data.data.url) || "", [googleUrl]);
 
   // Mutation for login with google
   const { mutate: googleMutate } = useMutation({
@@ -137,7 +137,7 @@ const AuthForm = ({ children, animation: Animation, title, loading }: AuthFormPr
         <div>{children}</div>
         <div className="flex justify-center w-full">
           <Button variant={"outline"} size={"lg"} className="w-96 mt-7 p-0" disabled={loading}>
-            <Link to={loading ? "" : url} className="w-full py-2">
+            <Link to={loading ? "" : data || ""} className="w-full py-2">
               <div className="flex justify-center items-center gap-3">
                 {loading ? <BiLoaderAlt className="me-2 animate-spin" /> : <FcGoogle size={20} />}
                 <span className="text-zinc-500 text-base">Tiếp tục với Google</span>

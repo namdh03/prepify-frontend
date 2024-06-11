@@ -1,41 +1,30 @@
 import { memo } from "react";
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select";
+import { MealKitItem } from "~types/cart.type";
 
 interface SelectProps {
   id: string;
-  defaultValue?: string;
+  selectedId: string;
+  quantity: number;
+  mealKits: MealKitItem[];
+  mealKitExisted: (string | undefined)[];
 }
 
-const servingsList = [
-  {
-    id: "1",
-    name: "1 người ăn",
-  },
-  {
-    id: "3",
-    name: "3 người ăn",
-  },
-  {
-    id: "5",
-    name: "5 người ăn",
-  },
-];
-
-const Servings = memo(({ id, defaultValue }: SelectProps) => {
-  const handleValueChange = (value: string) => {
-    console.log(`CALL API TO UPDATE SERVINGS FOR ITEM ${id} TO ${value}`);
+const Servings = memo(({ id, selectedId, quantity, mealKits, mealKitExisted }: SelectProps) => {
+  const handleValueChange = (serving: string) => {
+    console.log(`CALL API TO UPDATE FOR CART ITEM ${id} TO ${serving} WITH ${quantity}`);
   };
 
   return (
-    <Select defaultValue={defaultValue} onValueChange={(value) => handleValueChange(value)}>
+    <Select defaultValue={selectedId} onValueChange={(value) => handleValueChange(value)}>
       <SelectTrigger className="w-[150px] ml-auto mr-auto">
         <SelectValue placeholder="Khẩu phần ăn" />
       </SelectTrigger>
       <SelectContent>
-        {servingsList.map((item) => (
-          <SelectItem key={item.id} value={item.name}>
-            {item.name}
+        {mealKits.map((mealKit) => (
+          <SelectItem key={mealKit.id} value={mealKit.id} disabled={mealKitExisted.includes(mealKit.id)}>
+            {mealKit.serving} người ăn
           </SelectItem>
         ))}
       </SelectContent>

@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
@@ -26,12 +25,10 @@ const Shop = () => {
   const { data } = useQuery({
     queryKey: [GET_RECIPES_QUERY_KEY, params.toString()],
     queryFn: () => getRecipes(form.getValues()),
+    select: (data) => data.data.data,
     enabled: Boolean(formRefs.current),
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
     staleTime: RECIPES_STALE_TIME,
   });
-  const shopQueryData = useMemo(() => data?.data.data, [data]);
 
   const handlePageChange = (page: number) => {
     form.setValue("page", page);
@@ -65,13 +62,13 @@ const Shop = () => {
                   <OrderSort />
 
                   <div className="grid grid-cols-3 gap-x-[50px] gap-y-40 mt-32">
-                    {shopQueryData?.recipes.map((product) => <Product key={product.id} {...product} />)}
+                    {data?.recipes.map((product) => <Product key={product.id} {...product} />)}
                   </div>
 
                   <Pagination
                     currentPage={currentPage}
-                    pageSize={shopQueryData?.pageSize || LIMIT}
-                    totalCount={shopQueryData?.itemTotal || 0}
+                    pageSize={data?.pageSize || LIMIT}
+                    totalCount={data?.itemTotal || 0}
                     onPageChange={handlePageChange}
                   />
                 </div>
