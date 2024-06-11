@@ -15,17 +15,17 @@ const useDispatchAuth = () => {
   const { dispatch } = useAuth();
 
   // Get current user info
-  const { data: userData } = useQuery({
+  const { data } = useQuery({
     queryKey: [GET_ME_QUERY_KEY],
     queryFn: () => getMe(),
     enabled: Boolean(getToken()),
+    select: (data) => data.data.data.user,
   });
 
   useEffect(() => {
-    if (userData) {
+    if (data) {
       idTimeOutRef.current = setTimeout(() => {
-        const user = userData.data.data.user;
-        dispatch(signIn({ isAuthenticated: true, user }));
+        dispatch(signIn({ isAuthenticated: true, user: data }));
       }, WAIT_TEDDY_TIME);
     }
 
@@ -34,7 +34,7 @@ const useDispatchAuth = () => {
         clearTimeout(idTimeOutRef.current);
       }
     };
-  }, [dispatch, userData]);
+  }, [data, dispatch]);
 };
 
 export default useDispatchAuth;

@@ -4,9 +4,19 @@ import { Link } from "react-router-dom";
 import images from "~assets/imgs";
 import { Table as TableShadcn, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~components/ui/table";
 import configs from "~configs";
-import { CartItem } from "~types/cart.type";
 
 import Popup from "../Popup";
+
+export interface CartItem {
+  id: string;
+  name: string;
+  slug: string;
+  image: string;
+  servings: string;
+  price: number;
+  quantity: number;
+  total: number;
+}
 
 const data: CartItem[] = [
   {

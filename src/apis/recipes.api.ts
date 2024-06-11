@@ -6,7 +6,7 @@ import http from "~utils/http";
 
 type PreventKeyType = keyof Pick<ShopFormType["sidebar"], "price" | "evaluate">;
 
-export const GET_RECIPES_QUERY_KEY = "recipes";
+export const GET_RECIPES_QUERY_KEY = "GET_RECIPES";
 export const RECIPES_STALE_TIME = 30 * 1000; // 30 seconds
 
 export const getRecipes = (values: ShopFormType) => {

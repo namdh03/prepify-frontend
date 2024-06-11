@@ -18,15 +18,15 @@ const Sidebar = memo(() => {
   const { data } = useQuery({
     queryKey: [GET_FOOD_STYLES_QUERY_KEY],
     queryFn: () => getFoodStyles(),
+    select: (data) => data.data.data,
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
   const [sidebarFilters, setSidebarFilters] = useState<FoodStyleItem[]>(sidebar);
 
   useEffect(() => {
-    const foodStyles = data && data.data.data;
-    if (!foodStyles) return;
-    setSidebarFilters((prev) => [...foodStyles, ...prev]);
+    if (!data) return;
+    setSidebarFilters((prev) => [...data, ...prev]);
 
     return () => {
       setSidebarFilters(sidebar);

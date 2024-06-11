@@ -41,7 +41,7 @@ const DataTable = <TData,>({ table, length }: DataTableProps<TData>) => {
         ) : (
           <TableRow>
             <TableCell colSpan={length} className="h-24 text-center">
-              No results.
+              Không tìm thấy sản phẩm.
             </TableCell>
           </TableRow>
         )}
