@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useQuery } from "@tanstack/react-query";
 import { getCoreRowModel, RowSelectionState, useReactTable } from "@tanstack/react-table";
 
-import { CARTS_STALE_TIME, GET_CARTS_QUERY_KEY, getCarts } from "~apis/carts.api";
+import { CART_STALE_TIME, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
 import images from "~assets/imgs";
 import {
   AlertDialog,
@@ -30,10 +30,10 @@ import { columns } from "./data/columns";
 const Cart = () => {
   const navigate = useNavigate();
   const { data } = useQuery({
-    queryKey: [GET_CARTS_QUERY_KEY],
-    queryFn: () => getCarts(),
+    queryKey: [GET_CART_QUERY_KEY],
+    queryFn: () => getCart(),
     select: (data) => data.data.data,
-    staleTime: CARTS_STALE_TIME,
+    staleTime: CART_STALE_TIME,
   });
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const table = useReactTable({
