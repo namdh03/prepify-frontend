@@ -3,29 +3,27 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { useQuery } from "@tanstack/react-query";
-import { getCoreRowModel, RowSelectionState, useReactTable } from "@tanstack/react-table";
+import { getCoreRowModel, RowData, RowSelectionState, useReactTable } from "@tanstack/react-table";
 
 import { CART_STALE_TIME, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
 import images from "~assets/imgs";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "~components/ui/alert-dialog";
+import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
 import { Checkbox } from "~components/ui/checkbox";
 import configs from "~configs";
+import useMutateCart from "~hooks/useMutateCart";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 
 import DataTable from "./components/DataTable";
 import breadcrumbs from "./data/breadcrumbs";
 import { columns } from "./data/columns";
+
+declare module "@tanstack/react-table" {
+  interface TableMeta<TData extends RowData> {
+    mutateCart: (cartItem: TData) => void;
+  }
+}
 
 const Cart = () => {
   const navigate = useNavigate();
@@ -35,6 +33,7 @@ const Cart = () => {
     select: (data) => data.data.data,
     staleTime: CART_STALE_TIME,
   });
+  const { mutateCart } = useMutateCart();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const table = useReactTable({
     data: data || [],
@@ -44,11 +43,17 @@ const Cart = () => {
     state: {
       rowSelection,
     },
+    meta: {
+      mutateCart,
+    },
   });
   const filteredSelectedRowModel = table.getFilteredSelectedRowModel().rows;
   const filteredRowModel = table.getFilteredRowModel().rows;
   const totalPrice = filteredSelectedRowModel.reduce(
-    (acc, row) => acc + row.original.quantity * row.original.mealKitSelected.price,
+    (acc, row) =>
+      acc +
+      row.original.quantity * row.original.mealKitSelected.price +
+      (row.original.mealKitSelected.extraSpice?.price || 0),
     0,
   );
 
@@ -95,7 +100,7 @@ const Cart = () => {
               <DataTable table={table} length={columns.length} />
             </div>
 
-            {data?.length != 0 && (
+            {data && data.length > 0 && (
               <div className="sticky bottom-0 flex justify-between py-[30px] px-[18px] bg-white [box-shadow:0px_-2px_14px_0px_rgba(0,_0,_0,_0.10)]">
                 <div className="flex items-center gap-8 text-base font-normal leading-5">
                   <Checkbox
@@ -110,22 +115,15 @@ const Cart = () => {
                   </label>
 
                   {filteredSelectedRowModel.length ? (
-                    <AlertDialog>
-                      <AlertDialogTrigger data-state="closed">
-                        <span className="cursor-pointer">Xoá</span>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle className="font-normal">
-                            Bạn có muốn bỏ {filteredSelectedRowModel.length} sản phẩm?
-                          </AlertDialogTitle>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogAction>TRỞ LẠI</AlertDialogAction>
-                          <AlertDialogCancel onClick={handleDelete}>CÓ</AlertDialogCancel>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                    <AlertDialog
+                      trigger={<span className="cursor-pointer">Xoá</span>}
+                      title={`Bạn có muốn bỏ ${filteredSelectedRowModel.length} sản phẩm?`}
+                      cancelText="TRỞ LẠI"
+                      actionText="CÓ"
+                      onAction={handleDelete}
+                      reverse
+                      className="[&_h2]:font-normal"
+                    />
                   ) : (
                     <span className="cursor-pointer" onClick={handleToastError}>
                       Xoá

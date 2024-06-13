@@ -31,7 +31,7 @@ const CheckoutProvider: FC<PropsWithChildren> = ({ children }) => {
     district: "",
     address: "",
   });
-  const isErrorSubmit = useMemo(() => !(user?.phone || user?.address), [user?.address, user?.phone]);
+  const isErrorSubmit = useMemo(() => !(user?.phone && user?.address), [user?.address, user?.phone]);
 
   const onShippingAddress = (data: ShippingAddressType) => setShippingAddress(data);
 

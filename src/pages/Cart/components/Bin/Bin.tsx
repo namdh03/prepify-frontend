@@ -1,44 +1,31 @@
 import { memo } from "react";
 import { LuTrash } from "react-icons/lu";
 
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "~components/ui/alert-dialog";
+import { CellContext } from "@tanstack/react-table";
+
+import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
+import { CartItem } from "~types/cart.type";
 
-interface BinProps {
-  id: string;
-}
-
-const Bin = memo(({ id }: BinProps) => {
+const Bin = memo(({ row }: CellContext<CartItem, unknown>) => {
   const handleDelete = () => {
-    console.log(`CALL API TO DELETE ITEM WITH ID: ${id}`);
+    console.log(`CALL API TO DELETE ITEM WITH ID: ${row.original.id}`);
   };
 
   return (
-    <AlertDialog>
-      <AlertDialogTrigger asChild>
+    <AlertDialog
+      trigger={
         <Button variant={"ghost"} size={"icon"} className="relative left-1/2 -translate-x-1/2">
           <LuTrash size={20} />
         </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle className="font-normal">Bạn có muốn bỏ sản phẩm này?</AlertDialogTitle>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogAction>TRỞ LẠI</AlertDialogAction>
-          <AlertDialogCancel onClick={handleDelete}>CÓ</AlertDialogCancel>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      }
+      title="Bạn có muốn bỏ sản phẩm này?"
+      cancelText="TRỞ LẠI"
+      actionText="CÓ"
+      onAction={handleDelete}
+      reverse
+      className="[&_h2]:font-normal"
+    />
   );
 });
 

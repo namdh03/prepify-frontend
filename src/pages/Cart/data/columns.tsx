@@ -1,14 +1,11 @@
-import { Link } from "react-router-dom";
-
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "~components/ui/checkbox";
-import configs from "~configs";
 import { CartItem } from "~types/cart.type";
 
 import Bin from "../components/Bin";
+import IngredientPackage from "../components/IngredientPackage";
 import Quantity from "../components/Quantity";
-import Servings from "../components/Servings";
 
 export const columns: ColumnDef<CartItem>[] = [
   {
@@ -33,34 +30,7 @@ export const columns: ColumnDef<CartItem>[] = [
   {
     id: "cart-item",
     header: () => <h3 className="text-base font-medium leading-5">Gói nguyên liệu</h3>,
-    cell: ({ table, row }) => {
-      const cartItem = row.original;
-      const cart = table.getRowModel().rows.map((row) => row.original);
-      const mealKitExisted = cart.map((item) => {
-        if (item.recipe.id === cartItem.recipe.id && item.mealKitSelected.id !== cartItem.mealKitSelected.id) {
-          return item.mealKitSelected.id;
-        }
-      });
-
-      return (
-        <div className="flex items-center">
-          <Link to={`${configs.routes.shop}/${cartItem.recipe.slug}`} className="flex items-center">
-            <img src={cartItem.image} alt="" className="w-20 h-20 rounded-[5px] object-contain" />
-            <h4 className="w-44 ml-[10px] text-sm font-normal leading-5 line-clamp-3 break-keep">
-              {cartItem.recipe.name}
-            </h4>
-          </Link>
-
-          <Servings
-            id={cartItem.id}
-            selectedId={cartItem.mealKitSelected.id}
-            quantity={cartItem.quantity}
-            mealKits={cartItem.mealKits}
-            mealKitExisted={mealKitExisted}
-          />
-        </div>
-      );
-    },
+    cell: IngredientPackage,
   },
   {
     id: "price",
@@ -80,9 +50,7 @@ export const columns: ColumnDef<CartItem>[] = [
     id: "quantity",
     accessorKey: "quantity",
     header: () => <h3 className="text-center text-base font-medium leading-5">Số lượng</h3>,
-    cell: ({ row }) => {
-      return <Quantity id={row.original.id} defaultValue={String(row.original.quantity)} />;
-    },
+    cell: Quantity,
   },
   {
     id: "totalPrice",
@@ -101,8 +69,6 @@ export const columns: ColumnDef<CartItem>[] = [
   {
     id: "actions",
     header: () => <h3 className="text-center text-base font-medium leading-5">Thao tác</h3>,
-    cell: ({ row }) => {
-      return <Bin id={row.original.id} />;
-    },
+    cell: Bin,
   },
 ];
