@@ -42,7 +42,7 @@ const DataTable = ({ table, length }: DataTableProps<CartItem>) => {
                   {row.getVisibleCells().map((cell, index) => (
                     <TableCell
                       key={cell.id}
-                      className={cn("p-4", {
+                      className={cn("px-4 py-5", {
                         "border-b-[1px]": index > 0,
                       })}
                     >
@@ -51,7 +51,9 @@ const DataTable = ({ table, length }: DataTableProps<CartItem>) => {
                   ))}
                 </TableRow>
 
-                {row.original.mealKitSelected.extraSpice && <Spice spice={row.original.mealKitSelected.extraSpice} />}
+                {row.original.mealKitSelected.extraSpice && (
+                  <Spice cartItem={row.original} updateCart={table.options.meta?.updateCart} />
+                )}
               </>
             </Collapsible>
           ))

@@ -21,7 +21,8 @@ import { columns } from "./data/columns";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
-    mutateCart: (cartItem: TData) => void;
+    updateCart: (cartItem: TData) => void;
+    deleteCart: (cartItemId: string) => void;
   }
 }
 
@@ -33,7 +34,7 @@ const Cart = () => {
     select: (data) => data.data.data,
     staleTime: CART_STALE_TIME,
   });
-  const { mutateCart } = useMutateCart();
+  const { updateCart, deleteCart } = useMutateCart();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const table = useReactTable({
     data: data || [],
@@ -44,7 +45,8 @@ const Cart = () => {
       rowSelection,
     },
     meta: {
-      mutateCart,
+      updateCart,
+      deleteCart,
     },
   });
   const filteredSelectedRowModel = table.getFilteredSelectedRowModel().rows;

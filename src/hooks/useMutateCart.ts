@@ -8,7 +8,7 @@ import { CartItem, CartResponse } from "~types/cart.type";
 const useMutateCart = () => {
   const queryClient = useQueryClient();
 
-  const mutateCart = (cartItem: CartItem) => {
+  const updateCart = (cartItem: CartItem) => {
     queryClient.setQueryData([GET_CART_QUERY_KEY], (prevResponse: AxiosResponse<CartResponse>) => {
       const cart = [...prevResponse.data.data];
 
@@ -29,7 +29,21 @@ const useMutateCart = () => {
     });
   };
 
-  return { mutateCart };
+  const deleteCart = (cartItemId: string) => {
+    queryClient.setQueryData([GET_CART_QUERY_KEY], (prevResponse: AxiosResponse<CartResponse>) => {
+      const cart = prevResponse.data.data.filter((item) => item.id !== cartItemId);
+
+      return {
+        ...prevResponse,
+        data: {
+          ...prevResponse.data,
+          data: cart,
+        },
+      };
+    });
+  };
+
+  return { updateCart, deleteCart };
 };
 
 export default useMutateCart;
