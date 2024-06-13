@@ -17,7 +17,7 @@ const IngredientPackage = memo(({ table, row }: CellContext<CartItem, unknown>) 
 
   const handleValueChange = (serving: string) => {
     console.log(`CALL API TO UPDATE FOR CART ITEM ${cartItem.id} TO ${serving} WITH ${cartItem.quantity}`);
-    table.options.meta?.mutateCart({
+    table.options.meta?.updateCart({
       ...row.original,
       mealKitSelected: cartItem.mealKits.find((mealKit) => mealKit.id === serving) || cartItem.mealKitSelected,
     });
@@ -30,7 +30,7 @@ const IngredientPackage = memo(({ table, row }: CellContext<CartItem, unknown>) 
         <h4 className="w-44 text-sm font-normal leading-5 line-clamp-3 break-keep">{cartItem.recipe.name}</h4>
       </Link>
 
-      <Select defaultValue={cartItem.mealKitSelected.id} onValueChange={(value) => handleValueChange(value)}>
+      <Select value={cartItem.mealKitSelected.id} onValueChange={(value) => handleValueChange(value)}>
         <SelectTrigger className="w-[150px] ml-auto mr-auto">
           <SelectValue placeholder="Khẩu phần ăn" />
         </SelectTrigger>

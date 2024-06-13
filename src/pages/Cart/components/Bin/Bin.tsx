@@ -7,9 +7,10 @@ import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
 import { CartItem } from "~types/cart.type";
 
-const Bin = memo(({ row }: CellContext<CartItem, unknown>) => {
+const Bin = memo(({ table, row }: CellContext<CartItem, unknown>) => {
   const handleDelete = () => {
-    console.log(`CALL API TO DELETE ITEM WITH ID: ${row.original.id}`);
+    row.toggleSelected(false);
+    table.options.meta?.deleteCart(row.original.id);
   };
 
   return (
