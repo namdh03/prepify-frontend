@@ -17,7 +17,7 @@ const IngredientPackage = memo(({ table, row }: CellContext<CartItem, unknown>) 
 
   const handleValueChange = (serving: string) => {
     console.log(`CALL API TO UPDATE FOR CART ITEM ${cartItem.id} TO ${serving} WITH ${cartItem.quantity}`);
-    table.options.meta?.updateCart({
+    table.options.meta?.updateCartItem({
       ...row.original,
       mealKitSelected: cartItem.mealKits.find((mealKit) => mealKit.id === serving) || cartItem.mealKitSelected,
     });

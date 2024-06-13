@@ -10,7 +10,7 @@ import { CartItem } from "~types/cart.type";
 const Bin = memo(({ table, row }: CellContext<CartItem, unknown>) => {
   const handleDelete = () => {
     row.toggleSelected(false);
-    table.options.meta?.deleteCart(row.original.id);
+    table.options.meta?.deleteCartItem(row.original.id);
   };
 
   return (

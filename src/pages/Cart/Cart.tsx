@@ -21,8 +21,10 @@ import { columns } from "./data/columns";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
-    updateCart: (cartItem: TData) => void;
-    deleteCart: (cartItemId: string) => void;
+    updateCartItem: (cartItem: TData) => void;
+    deleteCartItem: (cartItemId: string) => void;
+    deleteManyCartItems: (cartItemIds: string[]) => void;
+    deleteCart: () => void;
   }
 }
 
@@ -34,7 +36,7 @@ const Cart = () => {
     select: (data) => data.data.data,
     staleTime: CART_STALE_TIME,
   });
-  const { updateCart, deleteCart } = useMutateCart();
+  const { updateCartItem, deleteCartItem, deleteManyCartItems, deleteCart } = useMutateCart();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const table = useReactTable({
     data: data || [],
@@ -45,7 +47,9 @@ const Cart = () => {
       rowSelection,
     },
     meta: {
-      updateCart,
+      updateCartItem,
+      deleteCartItem,
+      deleteManyCartItems,
       deleteCart,
     },
   });
@@ -61,11 +65,12 @@ const Cart = () => {
 
   const handleToastError = () => toast.error("Vui lòng chọn sản phẩm");
 
-  const handleDelete = () => {
+  const handleDeleteAllCartItem = () => {
     console.log(
       "CALL API TO DELETE ALL SELECTED ITEMS",
       filteredSelectedRowModel.map((row) => row.original.id),
     );
+    table.options.meta?.deleteManyCartItems(filteredSelectedRowModel.map((row) => row.original.id));
   };
 
   const handleOrder = () => {
@@ -122,7 +127,7 @@ const Cart = () => {
                       title={`Bạn có muốn bỏ ${filteredSelectedRowModel.length} sản phẩm?`}
                       cancelText="TRỞ LẠI"
                       actionText="CÓ"
-                      onAction={handleDelete}
+                      onAction={handleDeleteAllCartItem}
                       reverse
                       className="[&_h2]:font-normal"
                     />

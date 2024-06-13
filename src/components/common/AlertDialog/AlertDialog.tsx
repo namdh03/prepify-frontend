@@ -14,7 +14,7 @@ import {
 
 interface AlertDialogProps {
   title?: string;
-  description?: string;
+  description?: ReactNode | string;
   cancelText?: string;
   actionText?: string;
   trigger?: ReactNode;
@@ -39,7 +39,7 @@ const AlertDialog = ({
       <AlertDialogContent className={className}>
         <AlertDialogHeader>
           <AlertDialogTitle>{title}</AlertDialogTitle>
-          <AlertDialogDescription>{description}</AlertDialogDescription>
+          <AlertDialogDescription asChild>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           {reverse ? (
