@@ -1,52 +1,39 @@
-import { FocusEvent, KeyboardEvent, memo, useEffect, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
-import { Input } from "~components/ui/input";
+import { CellContext } from "@tanstack/react-table";
+
+import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import useDebounce from "~hooks/useDebounce";
-import inputOnlyPositiveNumber from "~utils/inputOnlyPositiveNumber";
-
-interface QuantityProps {
-  id: string;
-  defaultValue?: string;
-}
+import { CartItem } from "~types/cart.type";
 
 const MIN_VALUE = 1;
 const MAX_VALUE = 99;
 
-const Quantity = memo(({ id, defaultValue }: QuantityProps) => {
-  const [quantityValue, setQuantityValue] = useState<number>();
+const Quantity = memo(({ table, row }: CellContext<CartItem, unknown>) => {
+  const [quantityValue, setQuantityValue] = useState<number>(row.original.quantity);
+  const quantityRef = useRef(row.original.quantity);
   const quantityDebounce = useDebounce(quantityValue, 1000);
 
   useEffect(() => {
-    if (quantityDebounce && quantityDebounce >= MIN_VALUE && quantityDebounce <= MAX_VALUE) {
-      console.log(`Quantity of ${id} is ${quantityDebounce}`);
+    if (quantityDebounce !== quantityRef.current) {
+      table.options.meta?.mutateCart({
+        ...row.original,
+        quantity: quantityDebounce,
+      });
+      quantityRef.current = quantityDebounce;
     }
-  }, [id, quantityDebounce]);
+  }, [quantityDebounce, row.original, table.options.meta]);
 
-  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
-    if (Number(e.currentTarget.value) < MIN_VALUE) {
-      e.target.value = String(MIN_VALUE);
-      setQuantityValue(MIN_VALUE);
-    }
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const _e = inputOnlyPositiveNumber(e, 1, 99);
-    setQuantityValue(Number(_e.currentTarget.value));
-  };
-
-  const handleValueChange = (value: string) => setQuantityValue(Number(value));
+  const handleQuantityChange = (value: number) => setQuantityValue(value);
 
   return (
-    <Input
-      type="number"
-      min={1}
-      max={99}
-      defaultValue={defaultValue}
+    <InputPositiveNumber
+      min={MIN_VALUE}
+      max={MAX_VALUE}
+      value={quantityValue}
       placeholder="Số lượng"
       className="max-w-24 ml-auto mr-auto"
-      onKeyDown={(e) => handleKeyDown(e)}
-      onBlur={(e) => handleBlur(e)}
-      onChange={(e) => handleValueChange(e.target.value)}
+      onValueChange={handleQuantityChange}
     />
   );
 });
