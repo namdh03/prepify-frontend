@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 
 import configs from "~configs";
 import { CheckoutProvider } from "~contexts/checkout/CheckoutContext";
+import { RecipeProvider } from "~contexts/recipe/RecipeContext";
 import { ShopProvider } from "~contexts/shop/ShopContext";
 import AuthGuard from "~guards/AuthGuard";
 import GuestGuard from "~guards/GuestGuard";
@@ -89,7 +90,11 @@ const router = createBrowserRouter([
     children: [
       {
         path: configs.routes.createRecipe,
-        element: <CreateRecipe />,
+        element: (
+          <RecipeProvider>
+            <CreateRecipe />
+          </RecipeProvider>
+        ),
       },
     ],
   },
