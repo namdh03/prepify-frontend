@@ -5,6 +5,7 @@ import { Table as TableShadcn, TableBody, TableCell, TableHead, TableHeader, Tab
 import { cn } from "~lib/utils";
 import { CartItem } from "~types/cart.type";
 
+import AddMore from "../AddMore";
 import Spice from "../Spice";
 
 interface DataTableProps<TData> {
@@ -30,33 +31,48 @@ const DataTable = ({ table, length }: DataTableProps<CartItem>) => {
       </TableHeader>
       <TableBody>
         {table.getRowModel().rows?.length ? (
-          table.getRowModel().rows.map((row) => (
-            <Collapsible key={row.id} asChild open={row.getIsSelected()}>
-              <>
-                <TableRow
-                  data-state={row.getIsSelected() && "selected"}
-                  className={cn("data-[state=selected]:bg-white", {
-                    "border-none": row.original.mealKitSelected.extraSpice && row.getIsSelected(),
-                  })}
-                >
-                  {row.getVisibleCells().map((cell, index) => (
-                    <TableCell
-                      key={cell.id}
-                      className={cn("px-4 py-5", {
-                        "border-b-[1px]": index > 0,
-                      })}
-                    >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                    </TableCell>
-                  ))}
-                </TableRow>
+          table.getRowModel().rows.map((row) => {
+            const cartItem = row.original;
+            const extraSpiceById = cartItem.mealKits.find(
+              (mealKit) => mealKit.id === cartItem.mealKitSelected.id,
+            )?.extraSpice;
 
-                {row.original.mealKitSelected.extraSpice && (
-                  <Spice cartItem={row.original} updateCart={table.options.meta?.updateCart} />
-                )}
-              </>
-            </Collapsible>
-          ))
+            return (
+              <Collapsible key={row.id} asChild open={row.getIsSelected()}>
+                <>
+                  {!cartItem.mealKitSelected.extraSpice && extraSpiceById && (
+                    <AddMore
+                      cartItem={cartItem}
+                      spice={extraSpiceById}
+                      updateCartItem={table.options.meta?.updateCartItem}
+                    />
+                  )}
+
+                  <TableRow
+                    data-state={row.getIsSelected() && "selected"}
+                    className={cn("data-[state=selected]:bg-white", {
+                      "border-none": cartItem.mealKitSelected.extraSpice && row.getIsSelected(),
+                    })}
+                  >
+                    {row.getVisibleCells().map((cell, index) => (
+                      <TableCell
+                        key={cell.id}
+                        className={cn("px-4 py-5", {
+                          "border-b-[1px]": index > 0,
+                        })}
+                      >
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+
+                  {cartItem.mealKitSelected.extraSpice && (
+                    <Spice cartItem={cartItem} updateCartItem={table.options.meta?.updateCartItem} />
+                  )}
+                </>
+              </Collapsible>
+            );
+          })
         ) : (
           <TableRow>
             <TableCell colSpan={length} className="h-24 text-center">

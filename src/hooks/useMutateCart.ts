@@ -8,7 +8,7 @@ import { CartItem, CartResponse } from "~types/cart.type";
 const useMutateCart = () => {
   const queryClient = useQueryClient();
 
-  const updateCart = (cartItem: CartItem) => {
+  const updateCartItem = (cartItem: CartItem) => {
     queryClient.setQueryData([GET_CART_QUERY_KEY], (prevResponse: AxiosResponse<CartResponse>) => {
       const cart = [...prevResponse.data.data];
 
@@ -29,7 +29,7 @@ const useMutateCart = () => {
     });
   };
 
-  const deleteCart = (cartItemId: string) => {
+  const deleteCartItem = (cartItemId: string) => {
     queryClient.setQueryData([GET_CART_QUERY_KEY], (prevResponse: AxiosResponse<CartResponse>) => {
       const cart = prevResponse.data.data.filter((item) => item.id !== cartItemId);
 
@@ -43,7 +43,33 @@ const useMutateCart = () => {
     });
   };
 
-  return { updateCart, deleteCart };
+  const deleteManyCartItems = (cartItemIds: string[]) => {
+    queryClient.setQueryData([GET_CART_QUERY_KEY], (prevResponse: AxiosResponse<CartResponse>) => {
+      const cart = prevResponse.data.data.filter((item) => !cartItemIds.includes(item.id));
+
+      return {
+        ...prevResponse,
+        data: {
+          ...prevResponse.data,
+          data: cart,
+        },
+      };
+    });
+  };
+
+  const deleteCart = () => {
+    queryClient.setQueryData([GET_CART_QUERY_KEY], (prevResponse: AxiosResponse<CartResponse>) => {
+      return {
+        ...prevResponse,
+        data: {
+          ...prevResponse.data,
+          data: [],
+        },
+      };
+    });
+  };
+
+  return { updateCartItem, deleteCartItem, deleteManyCartItems, deleteCart };
 };
 
 export default useMutateCart;

@@ -9,14 +9,14 @@ import { CartItem } from "~types/cart.type";
 
 interface SpiceProps {
   cartItem: CartItem;
-  updateCart?: (cartItem: CartItem) => void;
+  updateCartItem?: (cartItem: CartItem) => void;
 }
 
-const Spice = memo(({ cartItem, updateCart }: SpiceProps) => {
+const Spice = memo(({ cartItem, updateCartItem }: SpiceProps) => {
   const spice = cartItem.mealKitSelected.extraSpice;
 
   const handleDelete = () => {
-    updateCart?.({
+    updateCartItem?.({
       ...cartItem,
       mealKitSelected: {
         ...cartItem.mealKitSelected,
@@ -27,7 +27,7 @@ const Spice = memo(({ cartItem, updateCart }: SpiceProps) => {
 
   return (
     <CollapsibleContent asChild>
-      <TableRow className="text-center [&>*]:px-4 [&>*]:py-4">
+      <TableRow className="text-center [&>*]:px-4 [&>*]:py-8">
         <TableCell colSpan={2} className="text-left">
           <article className="ml-24">
             <section className="flex items-center gap-[10px]">

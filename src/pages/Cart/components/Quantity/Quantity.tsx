@@ -16,7 +16,7 @@ const Quantity = memo(({ table, row }: CellContext<CartItem, unknown>) => {
 
   useEffect(() => {
     if (quantityDebounce && quantityDebounce !== quantityRef.current) {
-      table.options.meta?.updateCart({
+      table.options.meta?.updateCartItem({
         ...row.original,
         quantity: quantityDebounce,
       });
