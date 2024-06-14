@@ -1,11 +1,15 @@
 import { memo } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
+import { useMutation } from "@tanstack/react-query";
 import { CellContext } from "@tanstack/react-table";
 
+import { updateCart, UpdateCartBody } from "~apis/cart.api";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select";
 import configs from "~configs";
 import { CartItem } from "~types/cart.type";
+import { SYSTEM_MESSAGES } from "~utils/constants";
 
 const IngredientPackage = memo(({ table, row }: CellContext<CartItem, unknown>) => {
   const cartItem = row.original;
@@ -14,13 +18,39 @@ const IngredientPackage = memo(({ table, row }: CellContext<CartItem, unknown>) 
       return item.mealKitSelected.id;
     }
   });
+  const { mutate } = useMutation({
+    mutationFn: (body: UpdateCartBody) => updateCart(body),
+  });
 
-  const handleValueChange = (serving: string) => {
-    console.log(`CALL API TO UPDATE FOR CART ITEM ${cartItem.id} TO ${serving} WITH ${cartItem.quantity}`);
-    table.options.meta?.updateCartItem({
-      ...row.original,
-      mealKitSelected: cartItem.mealKits.find((mealKit) => mealKit.id === serving) || cartItem.mealKitSelected,
-    });
+  const handleValueChange = (id: string) => {
+    const mealKitSelected = cartItem.mealKits.find((mealKit) => mealKit.id === id) || cartItem.mealKitSelected;
+    const isHasExtraSpice = Boolean(cartItem.mealKitSelected.extraSpice);
+
+    mutate(
+      {
+        cartId: cartItem.id,
+        has_extra_spice: isHasExtraSpice,
+        mealkitId: mealKitSelected.id,
+        quantity: cartItem.quantity,
+      },
+      {
+        onSuccess: () => {
+          table.options.meta?.updateCartItem({
+            ...row.original,
+            mealKitSelected: {
+              ...mealKitSelected,
+              extraSpice: isHasExtraSpice ? mealKitSelected.extraSpice : null,
+            },
+          });
+        },
+        onError: () => {
+          table.options.meta?.updateCartItem({
+            ...row.original,
+          });
+          toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+      },
+    );
   };
 
   return (
