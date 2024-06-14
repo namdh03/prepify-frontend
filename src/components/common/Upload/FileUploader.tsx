@@ -8,9 +8,8 @@ import { Button } from "~components/ui/button";
 import { Progress } from "~components/ui/progress";
 import { ScrollArea } from "~components/ui/scroll-area";
 import { cn } from "~lib/utils";
+import { UploadedFile } from "~pages/CreateRecipe/components/Upload/Upload";
 import { formatBytes } from "~utils/file";
-
-import { UploadedFile } from "./Upload";
 
 interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
   files?: File[];
