@@ -1,6 +1,6 @@
 import { ControllerRenderProps } from "react-hook-form";
 
-import { FileUploader } from "~components/common/Upload/FileUploader";
+import FileUploader from "~components/common/Upload/FileUploader";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
 import { RecipeFormType } from "~contexts/recipe/recipe.type";
 import useRecipe from "~hooks/useRecipe";

@@ -1,7 +1,6 @@
+import RichTextEditor from "~components/common/RichTextEditor";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
 import useRecipe from "~hooks/useRecipe";
-
-import RichTextEditor from "./RichTextEditor";
 
 const InputTextEditor = () => {
   const { form } = useRecipe();
