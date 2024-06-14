@@ -1,14 +1,16 @@
 import { ControllerRenderProps } from "react-hook-form";
 
+import { FileUploader } from "~components/common/Upload/FileUploader";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
 import { RecipeFormType } from "~contexts/recipe/recipe.type";
 import useRecipe from "~hooks/useRecipe";
 
-import { FileUploader } from "./FileUploader";
-
 export interface UploadedFile extends File {
   preview: string;
 }
+
+const MAX_FILES = 4;
+const MAX_SIZE = 4 * 1024 * 1024;
 
 export default function Upload() {
   const { form, files, onUpload } = useRecipe();
@@ -28,8 +30,8 @@ export default function Upload() {
           <FormControl>
             <div className="space-y-6">
               <FileUploader
-                maxFiles={4}
-                maxSize={4 * 1024 * 1024}
+                maxFiles={MAX_FILES}
+                maxSize={MAX_SIZE}
                 files={files}
                 handleUpload={(files) => handleUpload(files, field)}
                 disabled={false}
