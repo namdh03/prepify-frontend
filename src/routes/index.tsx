@@ -9,6 +9,7 @@ import GuestGuard from "~guards/GuestGuard";
 import ResetPasswordGuard from "~guards/ResetPasswordGuard";
 import AdminLayout from "~layouts/AdminLayout";
 import MainLayout from "~layouts/MainLayout";
+import AppResetPassword from "~pages/AppResetPassword";
 import Cart from "~pages/Cart";
 import Checkout from "~pages/Checkout";
 import CreateRecipe from "~pages/CreateRecipe";
@@ -43,6 +44,10 @@ const router = createBrowserRouter([
             <ResetPassword />
           </ResetPasswordGuard>
         ),
+      },
+      {
+        path: configs.routes.appResetPassword,
+        element: <AppResetPassword />,
       },
     ],
   },

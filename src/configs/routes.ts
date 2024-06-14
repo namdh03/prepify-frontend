@@ -9,6 +9,7 @@ const routes = {
   logout: "/logout",
   forgotPassword: "/forgot-password",
   resetPassword: "/reset-password",
+  appResetPassword: "/app/reset-password",
   shop: "/shop",
   cart: "/cart",
   checkout: "/checkout",
