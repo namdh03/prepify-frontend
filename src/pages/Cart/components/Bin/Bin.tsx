@@ -1,16 +1,31 @@
 import { memo } from "react";
 import { LuTrash } from "react-icons/lu";
+import { toast } from "react-toastify";
 
+import { useMutation } from "@tanstack/react-query";
 import { CellContext } from "@tanstack/react-table";
 
+import { deleteOneCart } from "~apis/cart.api";
 import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
 import { CartItem } from "~types/cart.type";
+import { SYSTEM_MESSAGES } from "~utils/constants";
 
 const Bin = memo(({ table, row }: CellContext<CartItem, unknown>) => {
+  const { mutate } = useMutation({
+    mutationFn: (cartId: string) => deleteOneCart(cartId),
+  });
+
   const handleDelete = () => {
-    row.toggleSelected(false);
-    table.options.meta?.deleteCartItem(row.original.id);
+    mutate(row.original.id, {
+      onSuccess: () => {
+        row.toggleSelected(false);
+        table.options.meta?.deleteCartItem(row.original.id);
+      },
+      onError: () => {
+        toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+      },
+    });
   };
 
   return (

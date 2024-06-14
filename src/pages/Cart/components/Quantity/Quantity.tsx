@@ -4,10 +4,10 @@ import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { CellContext } from "@tanstack/react-table";
 
-import { updateCart, UpdateCartBody } from "~apis/cart.api";
+import { updateCart } from "~apis/cart.api";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import useDebounce from "~hooks/useDebounce";
-import { CartItem } from "~types/cart.type";
+import { CartItem, UpdateCartBody } from "~types/cart.type";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 import isAxiosError from "~utils/isAxiosError";
 

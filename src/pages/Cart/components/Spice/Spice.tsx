@@ -4,12 +4,12 @@ import { toast } from "react-toastify";
 
 import { useMutation } from "@tanstack/react-query";
 
-import { updateCart, UpdateCartBody } from "~apis/cart.api";
+import { updateCart } from "~apis/cart.api";
 import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
 import { CollapsibleContent } from "~components/ui/collapsible";
 import { TableCell, TableRow } from "~components/ui/table";
-import { CartItem } from "~types/cart.type";
+import { CartItem, UpdateCartBody } from "~types/cart.type";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 
 interface SpiceProps {

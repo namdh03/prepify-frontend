@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCoreRowModel, RowData, RowSelectionState, useReactTable } from "@tanstack/react-table";
 
-import { CART_STALE_TIME, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
+import { CART_STALE_TIME, deleteManyCart, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
 import images from "~assets/imgs";
 import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
@@ -14,6 +14,8 @@ import configs from "~configs";
 import useMutateCart from "~hooks/useMutateCart";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
+import { DeleteCartBody } from "~types/cart.type";
+import { SYSTEM_MESSAGES } from "~utils/constants";
 
 import DataTable from "./components/DataTable";
 import breadcrumbs from "./data/breadcrumbs";
@@ -53,6 +55,9 @@ const Cart = () => {
       deleteCart,
     },
   });
+  const { mutate } = useMutation({
+    mutationFn: (body: DeleteCartBody) => deleteManyCart(body),
+  });
   const filteredSelectedRowModel = table.getFilteredSelectedRowModel().rows;
   const filteredRowModel = table.getFilteredRowModel().rows;
   const totalPrice = filteredSelectedRowModel.reduce(
@@ -65,12 +70,22 @@ const Cart = () => {
 
   const handleToastError = () => toast.error("Vui lòng chọn sản phẩm");
 
-  const handleDeleteAllCartItem = () => {
-    console.log(
-      "CALL API TO DELETE ALL SELECTED ITEMS",
-      filteredSelectedRowModel.map((row) => row.original.id),
+  const handleDeleteManyCartItem = () => {
+    const cartIds = filteredSelectedRowModel.map((row) => row.original.id);
+
+    mutate(
+      { cartIds },
+      {
+        onSuccess: () => {
+          table.options.meta?.deleteManyCartItems(cartIds);
+          table.toggleAllPageRowsSelected(false);
+          toast.success(`Đã xoá ${cartIds.length} sản phẩm khỏi giỏ hàng`);
+        },
+        onError: () => {
+          toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+      },
     );
-    table.options.meta?.deleteManyCartItems(filteredSelectedRowModel.map((row) => row.original.id));
   };
 
   const handleOrder = () => {
@@ -127,7 +142,7 @@ const Cart = () => {
                       title={`Bạn có muốn bỏ ${filteredSelectedRowModel.length} sản phẩm?`}
                       cancelText="TRỞ LẠI"
                       actionText="CÓ"
-                      onAction={handleDeleteAllCartItem}
+                      onAction={handleDeleteManyCartItem}
                       reverse
                       className="[&_h2]:font-normal"
                     />

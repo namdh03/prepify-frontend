@@ -30,3 +30,14 @@ export interface CartItem {
 }
 
 export type CartResponse = SuccessResponse<CartItem[]>;
+
+export type UpdateCartBody = {
+  cartId: string;
+  has_extra_spice: boolean;
+  mealkitId: string;
+  quantity: number;
+};
+
+export type DeleteCartBody = {
+  cartIds: string[];
+};

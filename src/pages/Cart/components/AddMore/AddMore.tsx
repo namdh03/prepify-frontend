@@ -6,12 +6,12 @@ import { CheckedState } from "@radix-ui/react-checkbox";
 import { useMutation } from "@tanstack/react-query";
 import { Row, Table } from "@tanstack/react-table";
 
-import { updateCart, UpdateCartBody } from "~apis/cart.api";
+import { updateCart } from "~apis/cart.api";
 import AlertDialog from "~components/common/AlertDialog";
 import { Checkbox } from "~components/ui/checkbox";
 import { Separator } from "~components/ui/separator";
 import { TableCell, TableRow } from "~components/ui/table";
-import { CartItem, ExtraSpice } from "~types/cart.type";
+import { CartItem, ExtraSpice, UpdateCartBody } from "~types/cart.type";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 
 interface AddMoreProps<TData> {
