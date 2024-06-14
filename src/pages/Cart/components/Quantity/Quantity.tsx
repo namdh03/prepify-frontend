@@ -1,28 +1,68 @@
 import { memo, useEffect, useRef, useState } from "react";
+import { toast } from "react-toastify";
 
+import { useMutation } from "@tanstack/react-query";
 import { CellContext } from "@tanstack/react-table";
 
+import { updateCart, UpdateCartBody } from "~apis/cart.api";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import useDebounce from "~hooks/useDebounce";
 import { CartItem } from "~types/cart.type";
+import { SYSTEM_MESSAGES } from "~utils/constants";
+import isAxiosError from "~utils/isAxiosError";
 
 const MIN_VALUE = 1;
 const MAX_VALUE = 99;
 
 const Quantity = memo(({ table, row }: CellContext<CartItem, unknown>) => {
+  const cartItem = row.original;
   const [quantityValue, setQuantityValue] = useState<number>();
-  const quantityRef = useRef<number>(row.original.quantity);
+  const quantityRef = useRef<number>(cartItem.quantity);
   const quantityDebounce = useDebounce(quantityValue, 1000);
+  const { mutate } = useMutation({
+    mutationFn: (body: UpdateCartBody) => updateCart(body),
+  });
 
   useEffect(() => {
     if (quantityDebounce && quantityDebounce !== quantityRef.current) {
-      table.options.meta?.updateCartItem({
-        ...row.original,
-        quantity: quantityDebounce,
-      });
-      quantityRef.current = quantityDebounce;
+      mutate(
+        {
+          cartId: cartItem.id,
+          has_extra_spice: Boolean(cartItem.mealKitSelected.extraSpice),
+          mealkitId: cartItem.mealKitSelected.id,
+          quantity: quantityDebounce,
+        },
+        {
+          onSuccess: () => {
+            table.options.meta?.updateCartItem({
+              ...row.original,
+              quantity: quantityDebounce,
+            });
+            quantityRef.current = quantityDebounce;
+          },
+          onError: (error) => {
+            if (isAxiosError<Error>(error)) {
+              toast.error(error.response?.data.message);
+            } else {
+              toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+            }
+
+            quantityRef.current = cartItem.quantity;
+            setQuantityValue(cartItem.quantity);
+          },
+        },
+      );
     }
-  }, [quantityDebounce, row.original, table.options.meta]);
+  }, [
+    cartItem.id,
+    cartItem.mealKitSelected.extraSpice,
+    cartItem.mealKitSelected.id,
+    cartItem.quantity,
+    mutate,
+    quantityDebounce,
+    row.original,
+    table.options.meta,
+  ]);
 
   const handleQuantityChange = (value: number) => setQuantityValue(value);
 
@@ -30,7 +70,7 @@ const Quantity = memo(({ table, row }: CellContext<CartItem, unknown>) => {
     <InputPositiveNumber
       min={MIN_VALUE}
       max={MAX_VALUE}
-      value={quantityValue || row.original.quantity}
+      value={quantityValue || cartItem.quantity}
       placeholder="Số lượng"
       className="max-w-24 ml-auto mr-auto"
       onValueChange={handleQuantityChange}

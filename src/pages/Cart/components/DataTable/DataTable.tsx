@@ -41,11 +41,7 @@ const DataTable = ({ table, length }: DataTableProps<CartItem>) => {
               <Collapsible key={row.id} asChild open={row.getIsSelected()}>
                 <>
                   {!cartItem.mealKitSelected.extraSpice && extraSpiceById && (
-                    <AddMore
-                      cartItem={cartItem}
-                      spice={extraSpiceById}
-                      updateCartItem={table.options.meta?.updateCartItem}
-                    />
+                    <AddMore table={table} row={row} cartItem={cartItem} spice={extraSpiceById} />
                   )}
 
                   <TableRow

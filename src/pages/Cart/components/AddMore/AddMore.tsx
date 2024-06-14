@@ -1,36 +1,65 @@
 import { memo, useState } from "react";
 import { IoIosArrowForward } from "react-icons/io";
+import { toast } from "react-toastify";
 
 import { CheckedState } from "@radix-ui/react-checkbox";
+import { useMutation } from "@tanstack/react-query";
+import { Row, Table } from "@tanstack/react-table";
 
+import { updateCart, UpdateCartBody } from "~apis/cart.api";
 import AlertDialog from "~components/common/AlertDialog";
 import { Checkbox } from "~components/ui/checkbox";
 import { Separator } from "~components/ui/separator";
 import { TableCell, TableRow } from "~components/ui/table";
 import { CartItem, ExtraSpice } from "~types/cart.type";
+import { SYSTEM_MESSAGES } from "~utils/constants";
 
-interface AddMoreProps {
+interface AddMoreProps<TData> {
+  table: Table<TData>;
+  row: Row<CartItem>;
   cartItem: CartItem;
   spice: ExtraSpice | null;
-  updateCartItem?: (cartItem: CartItem) => void;
 }
 
-const AddMore = memo(({ cartItem, spice, updateCartItem }: AddMoreProps) => {
+const AddMore = memo(({ table, row, cartItem, spice }: AddMoreProps<CartItem>) => {
   const [checked, setChecked] = useState<CheckedState>(false);
+  const { mutate } = useMutation({
+    mutationFn: (body: UpdateCartBody) => updateCart(body),
+  });
 
   const handleCheckChange = (value: CheckedState) => setChecked(value);
 
-  const handleAddSpice = () =>
-    updateCartItem?.({
-      ...cartItem,
-      mealKitSelected: {
-        ...cartItem.mealKitSelected,
-        extraSpice: spice,
+  const handleAddSpice = () => {
+    mutate(
+      {
+        cartId: cartItem.id,
+        has_extra_spice: true,
+        mealkitId: cartItem.mealKitSelected.id,
+        quantity: cartItem.quantity,
       },
-    });
+      {
+        onSuccess: () => {
+          row.toggleSelected(true);
+          table.options.meta?.updateCartItem?.({
+            ...cartItem,
+            mealKitSelected: {
+              ...cartItem.mealKitSelected,
+              extraSpice: spice,
+            },
+          });
+        },
+        onError: () => {
+          table.options.meta?.updateCartItem({
+            ...row.original,
+          });
+          toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+      },
+    );
+  };
 
   return (
-    <TableRow className="bg-[#FFEDD5] text-center [&>*]:px-[10px] [&>*]:py-2 hover:bg-[#FFEDD5]">
+    <TableRow className="bg-[#FFEDD5] text-center [&>*]:px-[10px] [&>*]:py-2 hover:bg-[#FFEDD5] border-b-transparent">
       <TableCell colSpan={6} className="text-left">
         <div className="flex items-center gap-2 leading-5">
           <span className="px-[6px] text-red-500 text-[10px] font-medium rounded border-[1px] border-red-500">

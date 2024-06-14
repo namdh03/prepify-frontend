@@ -1,11 +1,16 @@
 import { memo } from "react";
 import { LuTrash } from "react-icons/lu";
+import { toast } from "react-toastify";
 
+import { useMutation } from "@tanstack/react-query";
+
+import { updateCart, UpdateCartBody } from "~apis/cart.api";
 import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
 import { CollapsibleContent } from "~components/ui/collapsible";
 import { TableCell, TableRow } from "~components/ui/table";
 import { CartItem } from "~types/cart.type";
+import { SYSTEM_MESSAGES } from "~utils/constants";
 
 interface SpiceProps {
   cartItem: CartItem;
@@ -14,24 +19,45 @@ interface SpiceProps {
 
 const Spice = memo(({ cartItem, updateCartItem }: SpiceProps) => {
   const spice = cartItem.mealKitSelected.extraSpice;
+  const { mutate } = useMutation({
+    mutationFn: (body: UpdateCartBody) => updateCart(body),
+  });
 
   const handleDelete = () => {
-    updateCartItem?.({
-      ...cartItem,
-      mealKitSelected: {
-        ...cartItem.mealKitSelected,
-        extraSpice: null,
+    mutate(
+      {
+        cartId: cartItem.id,
+        has_extra_spice: false,
+        mealkitId: cartItem.mealKitSelected.id,
+        quantity: cartItem.quantity,
       },
-    });
+      {
+        onSuccess: () => {
+          updateCartItem?.({
+            ...cartItem,
+            mealKitSelected: {
+              ...cartItem.mealKitSelected,
+              extraSpice: null,
+            },
+          });
+        },
+        onError: () => {
+          updateCartItem?.({
+            ...cartItem,
+          });
+          toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+      },
+    );
   };
 
   return (
     <CollapsibleContent asChild>
-      <TableRow className="text-center [&>*]:px-4 [&>*]:py-8">
+      <TableRow className="text-center [&>*]:px-4 [&>*]:py-5">
         <TableCell colSpan={2} className="text-left">
-          <article className="ml-24">
+          <article className="ml-32">
             <section className="flex items-center gap-[10px]">
-              <img src={spice?.image} alt="" className="w-14 h-w-14 rounded-[5px] object-contain" />
+              <img src={spice?.image} alt="" className="w-12 h-w-12 rounded-[5px] object-contain" />
               <h5 className="w-44 text-sm font-normal leading-5 line-clamp-3 break-keep">{spice?.name}</h5>
             </section>
           </article>
