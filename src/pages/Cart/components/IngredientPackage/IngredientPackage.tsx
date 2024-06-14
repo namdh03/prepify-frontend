@@ -5,10 +5,10 @@ import { toast } from "react-toastify";
 import { useMutation } from "@tanstack/react-query";
 import { CellContext } from "@tanstack/react-table";
 
-import { updateCart, UpdateCartBody } from "~apis/cart.api";
+import { updateCart } from "~apis/cart.api";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select";
 import configs from "~configs";
-import { CartItem } from "~types/cart.type";
+import { CartItem, UpdateCartBody } from "~types/cart.type";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 
 const IngredientPackage = memo(({ table, row }: CellContext<CartItem, unknown>) => {
