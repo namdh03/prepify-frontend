@@ -39,7 +39,7 @@ const CreateRecipe = () => {
           </div>
         </div>
         <Button type="submit" className="mt-4">
-          Submit
+          Tạo công thức
         </Button>
       </form>
     </Form>

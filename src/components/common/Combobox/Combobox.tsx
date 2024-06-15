@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 
 import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
@@ -29,6 +29,16 @@ export default function Combobox({
 }: ComboboxProps) {
   const [open, setOpen] = useState(false);
 
+  const selectedLabel = useMemo(() => options.find((option) => option.value === value)?.label, [options, value]);
+
+  const handleSelect = useCallback(
+    (selectedValue: string, selectedLabel: string) => {
+      onValueChange(selectedValue, selectedLabel);
+      setOpen(false);
+    },
+    [onValueChange],
+  );
+
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
@@ -38,7 +48,7 @@ export default function Combobox({
             role="combobox"
             className={cn(`w-[${width}] justify-between`, !value && "text-muted-foreground")}
           >
-            {value ? options.find((option) => option.value === value)?.label : placeholder}
+            {selectedLabel || placeholder}
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </FormControl>
@@ -53,10 +63,7 @@ export default function Combobox({
                 <CommandItem
                   value={option.label}
                   key={option.value}
-                  onSelect={(label) => {
-                    onValueChange(option.value, label);
-                    setOpen(false);
-                  }}
+                  onSelect={(label) => handleSelect(option.value, label)}
                 >
                   {option.label}
                   <CheckIcon className={cn("ml-auto h-4 w-4", option.value === value ? "opacity-100" : "opacity-0")} />

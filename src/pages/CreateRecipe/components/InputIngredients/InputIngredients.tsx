@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { RxCross2 } from "react-icons/rx";
 
@@ -14,7 +13,6 @@ const InputIngredients = () => {
     control: form.control,
     name: "ingredients",
   });
-  const [amountValue, setAmountValue] = useState<number>();
 
   return (
     <div className="flex flex-col justify-center">
@@ -51,11 +49,9 @@ const InputIngredients = () => {
                 <FormLabel>Số lượng</FormLabel>
                 <FormControl>
                   <InputFloatNumber
-                    value={amountValue}
-                    defaultValue={0}
+                    value={field.value as number}
                     placeholder={"Nhập số lượng"}
                     onValueChange={(value) => {
-                      setAmountValue(value);
                       field.onChange(value);
                     }}
                   />
@@ -101,7 +97,13 @@ const InputIngredients = () => {
           )}
         </div>
       ))}
-      <Button className="mt-5" type="button" onClick={() => append({ ingredient_id: "", amount: 0, unit_id: "" })}>
+      <Button
+        className="mt-5"
+        type="button"
+        onClick={() => {
+          append({ ingredient_id: "", amount: 0, unit_id: "" });
+        }}
+      >
         + Thêm nguyên liệu
       </Button>
     </div>
