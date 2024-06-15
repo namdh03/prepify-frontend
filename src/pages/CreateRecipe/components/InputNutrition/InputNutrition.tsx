@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { RxCross2 } from "react-icons/rx";
 
@@ -10,7 +9,6 @@ import useRecipe from "~hooks/useRecipe";
 
 const InputNutrition = () => {
   const { form } = useRecipe();
-  const [amountValue, setAmountValue] = useState<number>();
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "nutrition",
@@ -51,11 +49,9 @@ const InputNutrition = () => {
                 <FormLabel>Số lượng</FormLabel>
                 <FormControl>
                   <InputFloatNumber
-                    value={amountValue}
-                    defaultValue={0}
+                    value={field.value as number}
                     placeholder={"Nhập số lượng"}
                     onValueChange={(value) => {
-                      setAmountValue(value);
                       field.onChange(value);
                     }}
                   />

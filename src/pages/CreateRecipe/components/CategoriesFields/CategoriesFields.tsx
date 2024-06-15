@@ -1,16 +1,14 @@
-import { FocusEvent, KeyboardEvent, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ControllerRenderProps } from "react-hook-form";
 
 import { useQuery } from "@tanstack/react-query";
 
 import { GET_FOOD_STYLES_QUERY_KEY, getFoodStyles } from "~apis/food-styles.api";
 import Combobox from "~components/common/Combobox";
+import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
-import { Input } from "~components/ui/input";
 import { RecipeFormType } from "~contexts/recipe/recipe.type";
-import useDebounce from "~hooks/useDebounce";
 import useRecipe from "~hooks/useRecipe";
-import inputOnlyPositiveNumber from "~utils/inputOnlyPositiveNumber";
 
 type RecipeObjectType = {
   name?: keyof RecipeFormType;
@@ -18,9 +16,6 @@ type RecipeObjectType = {
   title: string;
   component: (field: ControllerRenderProps<RecipeFormType, keyof RecipeFormType>) => JSX.Element;
 };
-
-const MIN_VALUE = 1;
-const MAX_VALUE = 99;
 
 const CategoriesFields = () => {
   const { form } = useRecipe();
@@ -30,17 +25,6 @@ const CategoriesFields = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
-
-  const handleBlur = (e: FocusEvent<HTMLInputElement>) => {
-    e.target.value === "" && (e.target.value = String(MIN_VALUE)) && setQuantityValue(1);
-  };
-
-  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    const _e = inputOnlyPositiveNumber(e, 1, 99);
-    setQuantityValue(Number(_e.currentTarget.value));
-  };
-
-  const handleValueChange = (value: string) => setQuantityValue(Number(value));
 
   const defaultFields: RecipeObjectType[] = useMemo(
     () => [
@@ -63,19 +47,15 @@ const CategoriesFields = () => {
       },
       {
         type: "time",
-        title: "Thời gian nấu",
-        component: () => (
+        title: "Thời gian nấu (phút)",
+        component: (field) => (
           <FormControl>
-            <Input
-              type="number"
-              min={1}
-              max={99}
-              defaultValue={"1"}
-              placeholder="Số lượng"
-              className=" ml-auto mr-auto"
-              onKeyDown={(e) => handleKeyDown(e)}
-              onBlur={(e) => handleBlur(e)}
-              onChange={(e) => handleValueChange(e.target.value)}
+            <InputPositiveNumber
+              value={field.value as number}
+              placeholder="Nhập thời gian nấu"
+              onValueChange={(value) => {
+                field.onChange(value);
+              }}
             />
           </FormControl>
         ),
@@ -100,16 +80,7 @@ const CategoriesFields = () => {
     ],
     [],
   );
-
   const [dynamicFields, setDynamicFields] = useState<RecipeObjectType[]>(defaultFields);
-  const [quantityValue, setQuantityValue] = useState<number>();
-  const quantityDebounce = useDebounce(quantityValue, 500);
-
-  useEffect(() => {
-    if (quantityDebounce && quantityDebounce >= MIN_VALUE && quantityDebounce <= MAX_VALUE) {
-      console.log(` ${quantityDebounce}`);
-    }
-  }, [quantityDebounce]);
 
   useEffect(() => {
     const foodStyles = data && data.data.data;
