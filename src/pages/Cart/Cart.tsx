@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCoreRowModel, RowData, RowSelectionState, useReactTable } from "@tanstack/react-table";
 
 import { deleteManyCart, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
+import { checkout } from "~apis/checkout.api";
 import images from "~assets/imgs";
 import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
@@ -54,8 +55,11 @@ const Cart = () => {
       deleteCart,
     },
   });
-  const { mutate } = useMutation({
+  const { mutate: deleteCartMutate } = useMutation({
     mutationFn: (body: DeleteCartBody) => deleteManyCart(body),
+  });
+  const { mutate: checkoutMutate } = useMutation({
+    mutationFn: (cartIds: string[]) => checkout({ cartIds }),
   });
   const filteredSelectedRowModel = table.getFilteredSelectedRowModel().rows;
   const filteredRowModel = table.getFilteredRowModel().rows;
@@ -72,7 +76,7 @@ const Cart = () => {
   const handleDeleteManyCartItem = () => {
     const cartIds = filteredSelectedRowModel.map((row) => row.original.id);
 
-    mutate(
+    deleteCartMutate(
       { cartIds },
       {
         onSuccess: () => {
@@ -87,12 +91,14 @@ const Cart = () => {
     );
   };
 
-  const handleOrder = () => {
-    console.log("CALL API TO ORDER ALL SELECTED ITEMS");
-    navigate(configs.routes.checkout, {
-      state: filteredSelectedRowModel.map((row) => row.original.id),
-    });
-  };
+  const handleOrder = () =>
+    checkoutMutate(
+      filteredSelectedRowModel.map((row) => row.original.id),
+      {
+        onSuccess: () => navigate(configs.routes.checkout),
+        onError: () => toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG),
+      },
+    );
 
   return (
     <>
