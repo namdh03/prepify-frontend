@@ -11,7 +11,8 @@ import AlertDialog from "~components/common/AlertDialog";
 import { Checkbox } from "~components/ui/checkbox";
 import { Separator } from "~components/ui/separator";
 import { TableCell, TableRow } from "~components/ui/table";
-import { CartItem, ExtraSpice, UpdateCartBody } from "~types/cart.type";
+import { CartItem, UpdateCartBody } from "~types/cart.type";
+import { ExtraSpice } from "~types/meal-kit.type";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 
 interface AddMoreProps<TData> {
@@ -62,7 +63,7 @@ const AddMore = memo(({ table, row, cartItem, spice }: AddMoreProps<CartItem>) =
     <TableRow className="bg-[#FFEDD5] text-center [&>*]:px-[10px] [&>*]:py-2 hover:bg-[#FFEDD5] border-b-transparent">
       <TableCell colSpan={6} className="text-left">
         <div className="flex items-center gap-2 leading-5">
-          <span className="px-[6px] text-red-500 text-[10px] font-medium rounded border-[1px] border-red-500">
+          <span className="px-[6px] py-1 text-red-500 text-[10px] font-medium rounded border-[1px] border-red-500">
             Mua thêm
           </span>
 
