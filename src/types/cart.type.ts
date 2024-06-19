@@ -34,3 +34,7 @@ export type AddToCartBody = {
   mealkitId: string;
   quantity: number;
 };
+
+export type CheckoutBody = {
+  cartIds: string[];
+};
