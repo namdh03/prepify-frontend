@@ -1,18 +1,5 @@
+import { MealKitItem } from "./meal-kit.type";
 import { SuccessResponse } from "./response.type";
-
-export type ExtraSpice = {
-  id: string;
-  name: string;
-  image: string;
-  price: number;
-};
-
-export type MealKitItem = {
-  id: string;
-  price: number;
-  serving: number;
-  extraSpice: ExtraSpice | null;
-};
 
 export type RecipeItem = {
   id: string;
@@ -40,4 +27,10 @@ export type UpdateCartBody = {
 
 export type DeleteCartBody = {
   cartIds: string[];
+};
+
+export type AddToCartBody = {
+  has_extra_spice: boolean;
+  mealkitId: string;
+  quantity: number;
 };

@@ -3,6 +3,7 @@ import { createBrowserRouter } from "react-router-dom";
 import configs from "~configs";
 import { CheckoutProvider } from "~contexts/checkout/CheckoutContext";
 import { RecipeProvider } from "~contexts/recipe/RecipeContext";
+import { RecipeDetailProvider } from "~contexts/recipe-detail/RecipeDetailContext";
 import { ShopProvider } from "~contexts/shop/ShopContext";
 import AuthGuard from "~guards/AuthGuard";
 import GuestGuard from "~guards/GuestGuard";
@@ -17,6 +18,7 @@ import ForgotPassword from "~pages/ForgotPassword";
 import Home from "~pages/Home";
 import Login from "~pages/Login";
 import NotFound from "~pages/NotFound";
+import RecipeDetail from "~pages/RecipeDetail";
 import Register from "~pages/Register";
 import ResetPassword from "~pages/ResetPassword";
 import Shop from "~pages/Shop";
@@ -64,6 +66,14 @@ const router = createBrowserRouter([
           <ShopProvider>
             <Shop />
           </ShopProvider>
+        ),
+      },
+      {
+        path: configs.routes.recipeDetail,
+        element: (
+          <RecipeDetailProvider>
+            <RecipeDetail />
+          </RecipeDetailProvider>
         ),
       },
     ],

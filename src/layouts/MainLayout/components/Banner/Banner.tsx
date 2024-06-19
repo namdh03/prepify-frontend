@@ -28,7 +28,7 @@ interface BannerProps {
 
 const Banner = ({ text, image, breadcrumbs, className }: BannerProps) => {
   return (
-    <section className={cn("pt-[77px] pb-24", className)}>
+    <section className={cn("pt-[77px] pb-[35px]", className)}>
       <Container>
         <div className="relative">
           <img src={image} alt="" className="absolute -top-[77px] -right-32 w-full" />

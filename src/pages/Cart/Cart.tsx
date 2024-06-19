@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCoreRowModel, RowData, RowSelectionState, useReactTable } from "@tanstack/react-table";
 
-import { CART_STALE_TIME, deleteManyCart, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
+import { deleteManyCart, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
 import images from "~assets/imgs";
 import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
@@ -36,7 +36,6 @@ const Cart = () => {
     queryKey: [GET_CART_QUERY_KEY],
     queryFn: () => getCart(),
     select: (data) => data.data.data,
-    staleTime: CART_STALE_TIME,
   });
   const { updateCartItem, deleteCartItem, deleteManyCartItems, deleteCart } = useMutateCart();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -110,7 +109,7 @@ const Cart = () => {
         className="[&_img]:w-[1000px] pb-9"
       />
 
-      <section className="pt-9 pb-16 bg-[#F5F5F5]">
+      <section className="pt-24 pb-16 bg-[#F5F5F5]">
         <Container>
           <h2 className="text-[#18181B] text-xl font-bold leading-9">
             <span>Giỏ hàng </span>

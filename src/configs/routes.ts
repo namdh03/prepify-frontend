@@ -14,6 +14,7 @@ const routes = {
   cart: "/cart",
   checkout: "/checkout",
   orders: "/orders",
+  recipeDetail: "/shop/:slug",
   error: "*",
 };
 

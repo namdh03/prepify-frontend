@@ -49,7 +49,7 @@ const Shop = () => {
         className="[&_img]:w-[868px]"
       />
 
-      <section className="pt-14 pb-20">
+      <section className="pt-28 pb-20">
         <Container>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)}>
