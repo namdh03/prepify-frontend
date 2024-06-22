@@ -1,15 +1,18 @@
+import { useSearchParams } from "react-router-dom";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import images from "~assets/imgs";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 
 import Feedback from "./components/Feedback";
-import ImplementationGuide from "./components/ImplementationGuide";
 import IngredientInfo from "./components/IngredientInfo";
 import RecipeInfo from "./components/RecipeInfo";
 import breadcrumbs from "./data/breadcrumbs";
 
 const RecipeDetail = () => {
+  const [params] = useSearchParams();
+
   return (
     <>
       <Banner
@@ -34,7 +37,10 @@ const RecipeDetail = () => {
         <Container>
           <RecipeInfo />
 
-          <Tabs defaultValue="ingredient-info" className="w-full mt-11">
+          <Tabs
+            defaultValue={params.get("rating") || params.get("page") === "feedback" ? "feedback" : "ingredient-info"}
+            className="w-full mt-11"
+          >
             <TabsList className="w-[450px] grid grid-cols-2 bg-white h-fit">
               <TabsTrigger
                 value="ingredient-info"
@@ -56,8 +62,6 @@ const RecipeDetail = () => {
               <Feedback />
             </TabsContent>
           </Tabs>
-
-          <ImplementationGuide />
         </Container>
       </section>
     </>
