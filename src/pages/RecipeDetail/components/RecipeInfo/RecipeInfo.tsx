@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { IoIosCheckmarkCircle } from "react-icons/io";
 import { LuShoppingCart } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,8 +15,10 @@ import { Button } from "~components/ui/button";
 import { Checkbox } from "~components/ui/checkbox";
 import { Form, FormControl, FormField, FormItem, FormLabel } from "~components/ui/form";
 import { Separator } from "~components/ui/separator";
+import configs from "~configs";
 import { recipeDetailDefaultValues, recipeDetailSchema } from "~contexts/recipe-detail/recipe-detail.schema";
 import { RecipeDetailFormType } from "~contexts/recipe-detail/recipe-detail.type";
+import useAuth from "~hooks/useAuth";
 import useRecipeDetail from "~hooks/useRecipeDetail";
 import { cn } from "~lib/utils";
 import { AddToCartBody } from "~types/cart.type";
@@ -23,7 +26,11 @@ import { SYSTEM_MESSAGES } from "~utils/constants";
 import isAxiosError from "~utils/isAxiosError";
 import nFormatter from "~utils/nFormatter";
 
+import Image from "../Image";
+
 const RecipeInfo = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
   const form = useForm<RecipeDetailFormType>({
     resolver: zodResolver(recipeDetailSchema),
     defaultValues: recipeDetailDefaultValues,
@@ -57,28 +64,12 @@ const RecipeInfo = () => {
     });
   };
 
+  const navigateToLogin = () => navigate(configs.routes.login);
+
   return (
-    <section className="pt-16 px-5 pb-32 bg-white rounded-[5px]">
+    <section className="pt-16 px-5 pb-32 bg-white rounded-[5px] [box-shadow:0px_4px_16px_0px_rgba(0,_0,_0,_0.07)]">
       <div className="flex gap-20 items-end">
-        <div className="max-w-[570px]">
-          <figure className="h-[570px]">
-            <img src={recipe?.images[0]} alt="" className="w-full h-full rounded-[5px] object-contain" />
-          </figure>
-          <ul className="flex items-center gap-4 mt-4">
-            <li>
-              <img src={recipe?.images[0]} alt="" className="w-[132px] h-[120px] rounded-[5px] object-contain" />
-            </li>
-            <li>
-              <img src={recipe?.images[1]} alt="" className="w-[132px] h-[120px] rounded-[5px] object-contain" />
-            </li>
-            <li>
-              <img src={recipe?.images[0]} alt="" className="w-[132px] h-[120px] rounded-[5px] object-contain" />
-            </li>
-            <li>
-              <img src={recipe?.images[1]} alt="" className="w-[132px] h-[120px] rounded-[5px] object-contain" />
-            </li>
-          </ul>
-        </div>
+        <Image />
 
         <section className="flex-1 pr-14">
           <h1 className="text-primary text-4xl font-medium leading-10">{recipe?.name}</h1>
@@ -124,7 +115,7 @@ const RecipeInfo = () => {
           </div>
 
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleAddToCart)}>
+            <form onSubmit={form.handleSubmit(user ? handleAddToCart : navigateToLogin)}>
               <FormField
                 control={form.control}
                 name="has_extra_spice"
