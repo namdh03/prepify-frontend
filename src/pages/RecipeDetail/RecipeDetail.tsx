@@ -3,6 +3,7 @@ import images from "~assets/imgs";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 
+import Feedback from "./components/Feedback";
 import ImplementationGuide from "./components/ImplementationGuide";
 import IngredientInfo from "./components/IngredientInfo";
 import RecipeInfo from "./components/RecipeInfo";
@@ -42,7 +43,7 @@ const RecipeDetail = () => {
                 Thông tin gói nguyên liệu
               </TabsTrigger>
               <TabsTrigger
-                value="implementation-guide"
+                value="feedback"
                 className="py-2 data-[state=active]:bg-primary data-[state=active]:text-white"
               >
                 Đánh giá từ người dùng khác
@@ -51,10 +52,12 @@ const RecipeDetail = () => {
             <TabsContent value="ingredient-info">
               <IngredientInfo />
             </TabsContent>
-            <TabsContent value="implementation-guide">
-              <ImplementationGuide />
+            <TabsContent value="feedback">
+              <Feedback />
             </TabsContent>
           </Tabs>
+
+          <ImplementationGuide />
         </Container>
       </section>
     </>
