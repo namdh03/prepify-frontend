@@ -1,7 +1,10 @@
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import images from "~assets/imgs";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 
+import ImplementationGuide from "./components/ImplementationGuide";
+import IngredientInfo from "./components/IngredientInfo";
 import RecipeInfo from "./components/RecipeInfo";
 import breadcrumbs from "./data/breadcrumbs";
 
@@ -29,6 +32,29 @@ const RecipeDetail = () => {
       <section className="pt-8 pb-12 bg-[#F6F6F6] rounded-[5px]">
         <Container>
           <RecipeInfo />
+
+          <Tabs defaultValue="ingredient-info" className="w-full mt-11">
+            <TabsList className="w-[450px] grid grid-cols-2 bg-white h-fit">
+              <TabsTrigger
+                value="ingredient-info"
+                className="py-2 data-[state=active]:bg-primary data-[state=active]:text-white"
+              >
+                Thông tin gói nguyên liệu
+              </TabsTrigger>
+              <TabsTrigger
+                value="implementation-guide"
+                className="py-2 data-[state=active]:bg-primary data-[state=active]:text-white"
+              >
+                Đánh giá từ người dùng khác
+              </TabsTrigger>
+            </TabsList>
+            <TabsContent value="ingredient-info">
+              <IngredientInfo />
+            </TabsContent>
+            <TabsContent value="implementation-guide">
+              <ImplementationGuide />
+            </TabsContent>
+          </Tabs>
         </Container>
       </section>
     </>

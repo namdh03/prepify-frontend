@@ -13,7 +13,7 @@ const recipe = {
   star: 5,
   sold: 1300,
   totalFeedback: 400,
-  images: [images.suggest1st, images.suggest2nd],
+  images: [images.suggest1st, images.suggest2nd, images.mission1st, images.mission2nd, images.mission3rd],
   mealKits: [
     {
       id: "feqfqe2",
