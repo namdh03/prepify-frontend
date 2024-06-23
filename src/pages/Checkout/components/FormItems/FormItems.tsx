@@ -1,4 +1,4 @@
-import { memo, MutableRefObject } from "react";
+import { memo, MutableRefObject, useMemo } from "react";
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 
 import Combobox from "~components/common/Combobox";
@@ -6,8 +6,10 @@ import { ComboboxOption } from "~components/common/Combobox/Combobox";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
 import { Input } from "~components/ui/input";
 import { Textarea } from "~components/ui/textarea";
-import { ModalFormType } from "~contexts/checkout/checkout.type";
+import useCheckout from "~hooks/useCheckout";
 import { USER_MESSAGES } from "~utils/constants";
+
+import { ModalFormType } from "../Modal/Modal";
 
 interface FormItemsProps {
   form: UseFormReturn<ModalFormType>;
@@ -21,94 +23,16 @@ type ModalObjectType = {
   description?: string;
 };
 
-const districts: ComboboxOption[] = [
-  {
-    value: "quan-1",
-    label: "Quận 1",
-  },
-  {
-    value: "quan-3",
-    label: "Quận 3",
-  },
-  {
-    value: "quan-4",
-    label: "Quận 4",
-  },
-  {
-    value: "quan-5",
-    label: "Quận 5",
-  },
-  {
-    value: "quan-6",
-    label: "Quận 6",
-  },
-  {
-    value: "quan-7",
-    label: "Quận 7",
-  },
-  {
-    value: "quan-8",
-    label: "Quận 8",
-  },
-  {
-    value: "quan-10",
-    label: "Quận 10",
-  },
-  {
-    value: "quan-11",
-    label: "Quận 11",
-  },
-  {
-    value: "quan-12",
-    label: "Quận 12",
-  },
-  {
-    value: "quan-tan-binh",
-    label: "Quận Tân Bình",
-  },
-  {
-    value: "quan-binh-tan",
-    label: "Quận Bình Tân",
-  },
-  {
-    value: "quan-binh-thanh",
-    label: "Quận Bình Thạnh",
-  },
-  {
-    value: "quan-tan-phu",
-    label: "Quận Tân Phú",
-  },
-  {
-    value: "quan-go-vap",
-    label: "Quận Gò Vấp",
-  },
-  {
-    value: "quan-phu-nhuan",
-    label: "Quận Phú Nhuận",
-  },
-  {
-    value: "huyen-binh-chanh",
-    label: "Huyện Bình Chánh",
-  },
-  {
-    value: "huyen-hoc-mon",
-    label: "Huyện Hóc Môn",
-  },
-  {
-    value: "huyen-can-gio",
-    label: "Huyện Cần Giờ",
-  },
-  {
-    value: "huyen-cu-chi",
-    label: "Huyện Củ Chi",
-  },
-  {
-    value: "huyen-nha-be",
-    label: "Huyện Nhà Bè",
-  },
-];
-
 const FormItems = memo(({ form, districtLabel }: FormItemsProps) => {
+  const { checkout } = useCheckout();
+  const districts: ComboboxOption[] = useMemo(
+    () =>
+      checkout?.area.map((district) => ({
+        value: district.id,
+        label: district.name,
+      })) || [],
+    [checkout],
+  );
   const modalFields: ModalObjectType[] = [
     {
       name: "phone",
@@ -147,7 +71,7 @@ const FormItems = memo(({ form, districtLabel }: FormItemsProps) => {
       ),
     },
     {
-      name: "address",
+      name: "specificAddress",
       label: "Địa chỉ cụ thể",
       component: (field) => (
         <FormControl>

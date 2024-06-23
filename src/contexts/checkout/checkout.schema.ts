@@ -1,31 +1,16 @@
 import { z } from "zod";
 
-import { DeliveryMethodEnum, PaymentMethodEnum, PHONE_REGEX, USER_MESSAGES } from "~utils/constants";
+import { citySchema, districtSchema, phoneSchema, specificAddressSchema } from "~pages/Checkout/data/schema";
+import { DeliveryMethodEnum } from "~utils/constants";
 
-const modalSchema = z.object({
-  phone: z
-    .string({
-      message: USER_MESSAGES.PHONE_MESSAGE,
-    })
-    .refine((value) => PHONE_REGEX.test(value), {
-      message: USER_MESSAGES.PHONE_MESSAGE,
-    }),
-  city: z
-    .string({
-      message: USER_MESSAGES.ADDRESS_MESSAGE,
-    })
-    .refine((value) => value === "Hồ Chí Minh", {
-      message: USER_MESSAGES.ADDRESS_MESSAGE,
-    }),
-  district: z.string({
-    message: USER_MESSAGES.ADDRESS_MESSAGE,
-  }),
-  address: z.string({
-    message: USER_MESSAGES.ADDRESS_MESSAGE,
-  }),
+const checkoutSchema = z.object({
+  phone: phoneSchema,
+  city: citySchema,
+  district: districtSchema,
+  specificAddress: specificAddressSchema,
   note: z.string().optional(),
   deliveryMethod: z.nativeEnum(DeliveryMethodEnum),
-  paymentMethod: z.nativeEnum(PaymentMethodEnum),
+  paymentMethod: z.string(),
 });
 
-export default modalSchema;
+export default checkoutSchema;

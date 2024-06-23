@@ -11,7 +11,7 @@ export interface User {
   address: string | null;
   role: Role;
   avatar: string | null;
-  area: string | null;
+  areaId: string | null;
 }
 
 export type UserResponse = SuccessResponse<{
