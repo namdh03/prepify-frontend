@@ -1,7 +1,18 @@
+import { PiWarningCircle } from "react-icons/pi";
 import { useSearchParams } from "react-router-dom";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import images from "~assets/imgs";
+import { Button } from "~components/ui/button";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "~components/ui/dialog";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 
@@ -15,6 +26,32 @@ const RecipeDetail = () => {
 
   return (
     <>
+      <Dialog defaultOpen>
+        <DialogContent className="max-w-[600px] px-20 pb-7 gap-[34px]">
+          <div className="flex justify-center">
+            <PiWarningCircle size={100} color="#EAB308" />
+          </div>
+          <DialogHeader className="gap-3">
+            <DialogTitle className="text-[#18181B] text-2xl font-semibold leading-9 text-center">
+              Cảnh bảo công thức có thể gây dị ứng!
+            </DialogTitle>
+            <DialogDescription className="text-[#71717A] text-base font-normal leading-7">
+              Lưu ý: Công thức này có chứa
+              <span className="text-destructive"> đậu nành, lúa mì, thịt bò </span>
+              có thể gây dị ứng cho bạn.
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter className="sm:justify-center">
+            <DialogClose asChild>
+              <Button type="button" className="min-w-[262px]">
+                Tiếp tục
+              </Button>
+            </DialogClose>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       <Banner
         text={
           <h1 className="mb-32 text-[54px] font-bold leading-[70px] text-[rgba(0,_0,_0,_0.85)]">

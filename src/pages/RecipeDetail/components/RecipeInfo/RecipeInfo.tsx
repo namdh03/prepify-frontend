@@ -200,7 +200,9 @@ const RecipeInfo = () => {
                   <LuShoppingCart size={16} />
                   Thêm vào giỏ hàng
                 </Button>
-                <Button className="w-full h-12">Mua ngay</Button>
+                <Button type="button" className="w-full h-12">
+                  Mua ngay
+                </Button>
               </div>
             </form>
           </Form>

@@ -6,7 +6,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { getCoreRowModel, RowData, RowSelectionState, useReactTable } from "@tanstack/react-table";
 
 import { deleteManyCart, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
-import { checkout } from "~apis/checkout.api";
+import { postCheckout } from "~apis/checkout.api";
 import images from "~assets/imgs";
 import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
@@ -59,15 +59,15 @@ const Cart = () => {
     mutationFn: (body: DeleteCartBody) => deleteManyCart(body),
   });
   const { mutate: checkoutMutate } = useMutation({
-    mutationFn: (cartIds: string[]) => checkout({ cartIds }),
+    mutationFn: (cartIds: string[]) => postCheckout({ cartIds }),
   });
   const filteredSelectedRowModel = table.getFilteredSelectedRowModel().rows;
   const filteredRowModel = table.getFilteredRowModel().rows;
   const totalPrice = filteredSelectedRowModel.reduce(
     (acc, row) =>
       acc +
-      row.original.quantity * row.original.mealKitSelected.price +
-      (row.original.mealKitSelected.extraSpice?.price || 0),
+      row.original.mealKitSelected.price * row.original.quantity +
+      (row.original.mealKitSelected.extraSpice?.price ?? 0) * row.original.quantity,
     0,
   );
 

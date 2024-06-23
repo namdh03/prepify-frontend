@@ -1,16 +1,17 @@
-import { ChangeEvent } from "react";
+import { ChangeEvent, useMemo } from "react";
 import { toast } from "react-toastify";
 
-import icons from "~assets/icons";
 import images from "~assets/imgs";
 import { Button } from "~components/ui/button";
 import { Label } from "~components/ui/label";
 import { Separator } from "~components/ui/separator";
 import { Textarea } from "~components/ui/textarea";
+import useAuth from "~hooks/useAuth";
 import useCheckout from "~hooks/useCheckout";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
-import { SYSTEM_MESSAGES } from "~utils/constants";
+import { cn } from "~lib/utils";
+import { DeliveryMethodEnum, SYSTEM_MESSAGES } from "~utils/constants";
 
 import ShippingAddress from "./components/ShippingAddress";
 import Table from "./components/Table";
@@ -18,8 +19,23 @@ import Transport from "./components/Transport";
 import breadcrumbs from "./data/breadcrumbs";
 
 const Checkout = () => {
-  const { form, isErrorSubmit: isErrorSubmit } = useCheckout();
+  const { user } = useAuth();
+  const { form, area, checkout } = useCheckout();
   const noteWatch = form.watch("note");
+  const deliveryMethodWatch = form.watch("deliveryMethod");
+  const paymentMethodWatch = form.watch("paymentMethod");
+  const totalGoods = useMemo(
+    () =>
+      checkout?.items.reduce(
+        (acc, item) => acc + item.price * item.quantity + (item.extraSpice?.price ?? 0) * item.quantity,
+        0,
+      ) || 0,
+    [checkout?.items],
+  );
+  const deliveryPrice = useMemo(
+    () => (deliveryMethodWatch === DeliveryMethodEnum.INSTANT ? area?.instantPrice : area?.standardPrice) || 0,
+    [deliveryMethodWatch, area?.instantPrice, area?.standardPrice],
+  );
 
   const handleNoteChange = (e: ChangeEvent<HTMLTextAreaElement>) => form.setValue("note", e.target.value);
 
@@ -48,7 +64,7 @@ const Checkout = () => {
         <Container>
           <h2 className="text-[#18181B] text-xl font-bold leading-9">
             <span>Tổng đơn hàng </span>
-            <span className="text-muted-foreground text-lg font-normal">(4 sản phẩm)</span>
+            <span className="text-muted-foreground text-lg font-normal">({checkout?.items.length || 0} sản phẩm)</span>
           </h2>
 
           <ShippingAddress />
@@ -76,11 +92,17 @@ const Checkout = () => {
             <div className="flex items-center justify-between">
               <div className="flex flex-col gap-3">
                 <h3 className="text-xl font-semibold leading-9">Phương thức thanh toán</h3>
-                <img
-                  src={icons.VNPAY}
-                  alt=""
-                  className="w-28 h-24 p-4 rounded-[6px] border-[1px] border-solid border-[#F4F4F5]"
-                />
+                {checkout?.payments.map((payment) => (
+                  <img
+                    key={payment.id}
+                    src={payment.icon}
+                    alt=""
+                    className={cn("w-28 h-24 p-4 rounded-[6px] border-[1px] border-solid border-[#F4F4F5]", {
+                      "border-primary": paymentMethodWatch === payment.id,
+                    })}
+                    onClick={() => form.setValue("paymentMethod", payment.id)}
+                  />
+                ))}
               </div>
 
               <div className="flex flex-col gap-6 min-w-[450px]">
@@ -88,7 +110,7 @@ const Checkout = () => {
                   <span className="text-[#71717A] text-base font-normal leading-7">Tổng tiền hàng:</span>
                   <span className="text-base font-normal leading-7">
                     <sup>₫</sup>
-                    {Number(49200).toLocaleString()}
+                    {totalGoods.toLocaleString()}
                   </span>
                 </div>
 
@@ -96,15 +118,17 @@ const Checkout = () => {
                   <span className="text-[#71717A] text-base font-normal leading-7">Phí vận chuyển:</span>
                   <span className="text-base font-normal leading-7">
                     <sup>₫</sup>
-                    {Number(49200).toLocaleString()}
+                    {deliveryPrice.toLocaleString()}
                   </span>
                 </div>
 
                 <div className="flex items-center justify-between">
-                  <span className="text-[#71717A] text-base font-normal leading-7">Tổng thanh toán (3 sản phẩm):</span>
+                  <span className="text-[#71717A] text-base font-normal leading-7">
+                    Tổng thanh toán ({checkout?.items.length || 0} sản phẩm):
+                  </span>
                   <span className="text-primary text-xl font-semibold leading-7">
                     <sup>₫</sup>
-                    {Number(49200).toLocaleString()}
+                    {(totalGoods + deliveryPrice).toLocaleString()}
                   </span>
                 </div>
               </div>
@@ -117,7 +141,20 @@ const Checkout = () => {
                   Điều khoản Prepify
                 </a>
               </p>
-              <Button className="min-w-[180px] h-10" onClick={isErrorSubmit ? handleShowError : handleOrder}>
+              <Button
+                className="min-w-[180px] h-10"
+                onClick={
+                  (!user?.phone || !user?.address) &&
+                  !(
+                    form.getValues("city") &&
+                    form.getValues("district") &&
+                    form.getValues("phone") &&
+                    form.getValues("specificAddress")
+                  )
+                    ? handleShowError
+                    : handleOrder
+                }
+              >
                 Đặt hàng
               </Button>
             </div>

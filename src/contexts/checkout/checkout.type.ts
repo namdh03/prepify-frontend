@@ -1,15 +1,33 @@
+import { Dispatch } from "react";
 import { UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
-import modalSchema from "./checkout.schema";
+import { Area } from "~types/area.type";
+import { CheckoutData } from "~types/checkout.type";
 
-export type ModalFormType = z.infer<typeof modalSchema>;
+import checkoutSchema from "./checkout.schema";
 
-export type ShippingAddressType = Pick<ModalFormType, "phone" | "city" | "district" | "address">;
+export type CheckoutFormType = z.infer<typeof checkoutSchema>;
 
-export type CheckoutContextType = {
-  form: UseFormReturn<ModalFormType>;
-  shippingAddress: ShippingAddressType;
-  onShippingAddress: (data: ShippingAddressType) => void;
-  isErrorSubmit: boolean;
-};
+export enum CheckoutActionType {
+  SET_AREA = "SET_AREA",
+}
+
+export interface CheckoutState {
+  form: UseFormReturn<CheckoutFormType>;
+  area?: Area | null;
+  checkout?: CheckoutData | null;
+}
+
+export interface PayloadAction<T> {
+  type: CheckoutActionType;
+  payload: Partial<T>;
+}
+
+export interface CheckoutContextType extends CheckoutState {
+  dispatch: Dispatch<PayloadAction<CheckoutState>>;
+}
+
+export interface ReducerHandler {
+  [CheckoutActionType.SET_AREA]: (state: CheckoutState, action: PayloadAction<CheckoutState>) => CheckoutState;
+}

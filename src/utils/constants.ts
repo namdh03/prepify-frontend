@@ -50,12 +50,8 @@ export const PHONE_REGEX = /^(0|\+?84)(3|5|7|8|9)[0-9]{8}$/;
 export const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
 
 export enum DeliveryMethodEnum {
-  FAST = "fast",
+  INSTANT = "instant",
   STANDARD = "standard",
-}
-
-export enum PaymentMethodEnum {
-  VNPAY = "vnpay",
 }
 
 export enum LevelEnum {
