@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { createBrowserRouter, Navigate } from "react-router-dom";
 
 import configs from "~configs";
 import { CheckoutProvider } from "~contexts/checkout/CheckoutContext";
@@ -10,6 +10,7 @@ import GuestGuard from "~guards/GuestGuard";
 import ResetPasswordGuard from "~guards/ResetPasswordGuard";
 import AdminLayout from "~layouts/AdminLayout";
 import MainLayout from "~layouts/MainLayout";
+import UserLayout from "~layouts/UserLayout";
 import AppResetPassword from "~pages/AppResetPassword";
 import Cart from "~pages/Cart";
 import Checkout from "~pages/Checkout";
@@ -23,6 +24,7 @@ import RecipeDetail from "~pages/RecipeDetail";
 import Register from "~pages/Register";
 import ResetPassword from "~pages/ResetPassword";
 import Shop from "~pages/Shop";
+import UserProfile from "~pages/UserProfile";
 
 const router = createBrowserRouter([
   {
@@ -115,6 +117,24 @@ const router = createBrowserRouter([
             <CreateRecipe />
           </RecipeProvider>
         ),
+      },
+    ],
+  },
+  {
+    path: configs.routes.user,
+    element: (
+      <AuthGuard>
+        <UserLayout />
+      </AuthGuard>
+    ),
+    children: [
+      {
+        index: true,
+        element: <Navigate to={configs.routes.userProfile} replace />,
+      },
+      {
+        path: configs.routes.userProfile,
+        element: <UserProfile />,
       },
     ],
   },

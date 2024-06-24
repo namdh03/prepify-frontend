@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { citySchema, districtSchema, phoneSchema, specificAddressSchema } from "~pages/Checkout/data/schema";
 import { DeliveryMethodEnum } from "~utils/constants";
+import { citySchema, districtSchema, phoneSchema, specificAddressSchema } from "~utils/schema";
 
 const checkoutSchema = z.object({
   phone: phoneSchema,

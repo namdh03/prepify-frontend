@@ -12,6 +12,7 @@ export type ComboboxOption = { value: string; label: string };
 
 type ComboboxProps = {
   options: ComboboxOption[];
+  selectedOption?: string[];
   onValueChange: (value: string, label?: string) => void;
   value: string;
   placeholder: string;
@@ -21,6 +22,7 @@ type ComboboxProps = {
 
 export default function Combobox({
   options = [],
+  selectedOption = [],
   onValueChange,
   value,
   placeholder,
@@ -64,6 +66,7 @@ export default function Combobox({
                   value={option.label}
                   key={option.value}
                   onSelect={(label) => handleSelect(option.value, label)}
+                  disabled={selectedOption.some((selected) => selected === option.value)}
                 >
                   {option.label}
                   <CheckIcon className={cn("ml-auto h-4 w-4", option.value === value ? "opacity-100" : "opacity-0")} />

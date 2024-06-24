@@ -1,15 +1,7 @@
 import { z } from "zod";
 
-import { PASSWORD_REGEX, PHONE_REGEX, USER_MESSAGES } from "~utils/constants";
-
-const emailSchema = () =>
-  z
-    .string({
-      message: USER_MESSAGES.EMAIL_MESSAGE,
-    })
-    .email({
-      message: USER_MESSAGES.EMAIL_MESSAGE,
-    });
+import { PASSWORD_REGEX, USER_MESSAGES } from "~utils/constants";
+import { emailSchema, fullnameSchema, phoneSchema } from "~utils/schema";
 
 const passwordSchema = (message: string = "") =>
   z
@@ -21,31 +13,19 @@ const passwordSchema = (message: string = "") =>
     });
 
 export const loginSchema = z.object({
-  email: emailSchema(),
+  email: emailSchema,
   password: passwordSchema(USER_MESSAGES.PASSWORD_MESSAGE),
 });
 
 export const registerSchema = z.object({
-  fullname: z
-    .string({
-      message: USER_MESSAGES.FULLNAME_MESSAGE,
-    })
-    .min(1, {
-      message: USER_MESSAGES.FULLNAME_MESSAGE,
-    }),
-  email: emailSchema(),
-  phone: z
-    .string({
-      message: USER_MESSAGES.PHONE_MESSAGE,
-    })
-    .refine((value) => PHONE_REGEX.test(value), {
-      message: USER_MESSAGES.PHONE_MESSAGE,
-    }),
+  fullname: fullnameSchema,
+  email: emailSchema,
+  phone: phoneSchema,
   password: passwordSchema(USER_MESSAGES.PASSWORD_MESSAGE),
 });
 
 export const forgotPasswordSchema = z.object({
-  email: emailSchema(),
+  email: emailSchema,
 });
 
 export const resetPasswordSchema = z
