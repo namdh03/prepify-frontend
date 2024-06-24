@@ -24,7 +24,14 @@ export const USER_MESSAGES = {
   RESET_PASSWORD_SUCCESS: "Đặt lại mật khẩu thành công",
   RESET_PASSWORD_FAILED: "Không thể đặt lại mật khẩu",
   ADDRESS_MESSAGE: "Hệ thống chỉ hỗ trợ nhập địa chỉ tại TP. Hồ Chí Minh",
+  DISTRICT_MESSAGE: "Vui lòng chọn quận/huyện",
+  SPECIFIC_ADDRESS_MESSAGE: "Vui lòng nhập địa chỉ cụ thể",
 } as const;
+
+export const IMAGE_MESSAGES = {
+  AVATAR_IS_REQUIRED: "Vui lòng chọn ảnh đại diện",
+  AVATAR_SIZE: "Kích thước ảnh tối đa là 1MB",
+};
 
 export enum Role {
   ADMIN = "ADMIN",
