@@ -18,6 +18,7 @@ import ForgotPassword from "~pages/ForgotPassword";
 import Home from "~pages/Home";
 import Login from "~pages/Login";
 import NotFound from "~pages/NotFound";
+import Order from "~pages/Order";
 import RecipeDetail from "~pages/RecipeDetail";
 import Register from "~pages/Register";
 import ResetPassword from "~pages/ResetPassword";
@@ -96,6 +97,10 @@ const router = createBrowserRouter([
             <Checkout />
           </CheckoutProvider>
         ),
+      },
+      {
+        path: configs.routes.order,
+        element: <Order />,
       },
     ],
   },

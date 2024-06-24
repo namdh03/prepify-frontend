@@ -48,6 +48,7 @@
     "lucide-react": "^0.378.0",
     "npm": "^10.8.1",
     "react": "^18.2.0",
+    "react-confetti-explosion": "^2.1.2",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
     "react-hook-form": "^7.51.5",

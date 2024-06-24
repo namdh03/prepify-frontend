@@ -9,6 +9,8 @@ import level from "./level.svg";
 import logo from "./logo.svg";
 import maps from "./maps.svg";
 import occasion from "./occasion.svg";
+import orderFail from "./order-fail.svg";
+import orderSuccess from "./order-success.svg";
 import quotationMark from "./quotation-mark.svg";
 import suggestDecorate from "./suggest-decorate.svg";
 import time from "./time.svg";
@@ -27,6 +29,8 @@ const icons = {
   logo,
   maps,
   occasion,
+  orderFail,
+  orderSuccess,
   quotationMark,
   suggestDecorate,
   VNPAY,

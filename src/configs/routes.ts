@@ -13,8 +13,9 @@ const routes = {
   shop: "/shop",
   cart: "/cart",
   checkout: "/checkout",
-  orders: "/orders",
+  order: "/order",
   recipeDetail: "/shop/:slug",
+  purchase: "/purchase",
   error: "*",
 };
 
