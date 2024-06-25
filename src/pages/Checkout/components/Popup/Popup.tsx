@@ -1,24 +1,32 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "~components/ui/dialog";
+import useCheckout from "~hooks/useCheckout";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 
-interface PopupProps {
-  open: boolean;
-}
+const Popup = memo(() => {
+  const { checkout } = useCheckout();
+  const [open, setOpen] = useState(false);
 
-const Popup = memo(({ open }: PopupProps) => {
+  useEffect(() => {
+    if (checkout?.items.length === 0 || !checkout) setOpen(true);
+  }, [checkout]);
+
+  const handleOpenChange = (value: boolean) => setOpen(value);
+
   return (
-    <Dialog defaultOpen={open}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{SYSTEM_MESSAGES.SOMETHING_WENT_WRONG}</DialogTitle>
-          <DialogDescription>
-            Một số sản phẩm trong giỏ hàng vừa được cập nhật, bạn vui lòng kiểm tra và thử lại.
-          </DialogDescription>
-        </DialogHeader>
-      </DialogContent>
-    </Dialog>
+    !checkout && (
+      <Dialog open={open} onOpenChange={handleOpenChange}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{SYSTEM_MESSAGES.SOMETHING_WENT_WRONG}</DialogTitle>
+            <DialogDescription>
+              Một số sản phẩm trong giỏ hàng vừa được cập nhật, bạn vui lòng kiểm tra và thử lại.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    )
   );
 });
 

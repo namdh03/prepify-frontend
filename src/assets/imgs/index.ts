@@ -7,6 +7,7 @@ import mission1st from "./mission-01.png";
 import mission2nd from "./mission-02.png";
 import mission3rd from "./mission-03.png";
 import missionBackground from "./mission-background.png";
+import noOrder from "./no-order.png";
 import onion from "./onion.png";
 import pasta from "./pasta.png";
 import pepper from "./pepper.png";
@@ -29,6 +30,7 @@ const images = {
   mission2nd,
   mission3rd,
   missionBackground,
+  noOrder,
   onion,
   pasta,
   pepper,

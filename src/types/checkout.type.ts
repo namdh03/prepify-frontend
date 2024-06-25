@@ -1,22 +1,11 @@
 import { Area } from "./area.type";
-import { ExtraSpice } from "./meal-kit.type";
+import { OrderItem } from "./order.type";
 import { SuccessResponse } from "./response.type";
 
 export type CheckoutDate = {
   day: number;
   month: number;
   year: number;
-};
-
-export type CartItem = {
-  id: string;
-  name: string;
-  slug: string;
-  image: string;
-  price: number;
-  quantity: number;
-  serving: number;
-  extraSpice?: ExtraSpice;
 };
 
 export type Payment = {
@@ -26,7 +15,7 @@ export type Payment = {
 };
 
 export type CheckoutData = {
-  items: CartItem[];
+  items: OrderItem[];
   area: Area[];
   instantDate: CheckoutDate;
   standardDate: CheckoutDate;
