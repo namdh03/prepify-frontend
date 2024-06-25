@@ -3,7 +3,7 @@ import { OrderItem as OrderItemType } from "~types/order.type";
 const OrderItem = ({ id, image, name, serving, quantity, price, extraSpice }: OrderItemType) => {
   return (
     <article key={id}>
-      <div className="flex items-center pt-3">
+      <div className="flex items-center pt-4">
         <img src={image} alt="" className="w-24 h-24 object-contain" />
         <div className="flex flex-col gap-[5px] ml-3 text-[rgba(0,0,0,.87)]">
           <span className="max-w-2xl text-base">{name}</span>
@@ -17,7 +17,7 @@ const OrderItem = ({ id, image, name, serving, quantity, price, extraSpice }: Or
       </div>
 
       {extraSpice && (
-        <div className="flex items-center pt-3 ml-[30px]">
+        <div className="flex items-center pt-3 ml-10">
           <img src={extraSpice.image} alt="" className="w-12 h-w-12 object-contain" />
           <div className="flex flex-col ml-3 gap-1 text-[rgba(0,0,0,.87)]">
             <div className="max-w-2xl text-base">

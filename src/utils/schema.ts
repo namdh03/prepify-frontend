@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { PASSWORD_REGEX, PHONE_REGEX, USER_MESSAGES } from "./constants";
+import { IMAGE_MESSAGES, PASSWORD_REGEX, PHONE_REGEX, USER_MESSAGES } from "./constants";
 
 // GLOBAL SCHEMA
 export const emailSchema = z
@@ -59,3 +59,20 @@ export const specificAddressSchema = z
   .min(1, {
     message: USER_MESSAGES.SPECIFIC_ADDRESS_MESSAGE,
   });
+
+export const imageSchema = z.instanceof(File).refine(
+  (file) => {
+    // Check if file size is less than or equal to 1MB (1MB = 1048576 bytes)
+    if (file.size > 1048576) {
+      return false;
+    }
+    // Check if file type is either 'image/jpeg' or 'image/png'
+    if (file.type !== "image/jpeg" && file.type !== "image/png") {
+      return false;
+    }
+    return true;
+  },
+  {
+    message: IMAGE_MESSAGES.IMAGE_MUST_BE_JPEG_OR_PNG_AND_NOT_EXCEED_1MB,
+  },
+);

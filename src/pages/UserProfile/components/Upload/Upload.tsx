@@ -22,8 +22,8 @@ export default function Upload() {
     resolver: zodResolver(uploadAvatarSchema),
   });
 
-  function handleUploadAvatar(value: UploadAvatarFormType) {
-    console.log({ value });
+  function handleUploadAvatar(values: UploadAvatarFormType) {
+    console.log(values);
   }
 
   return (
@@ -55,7 +55,7 @@ export default function Upload() {
                   onChange={(event) => {
                     const { files, displayUrl } = getImageData(event);
                     setPreview(displayUrl);
-                    field.onChange(files);
+                    field.onChange(files[0]);
                     form.handleSubmit(handleUploadAvatar)();
                   }}
                   className="hidden"
