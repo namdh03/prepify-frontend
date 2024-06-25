@@ -8,7 +8,6 @@ import { useMutation } from "@tanstack/react-query";
 import { login } from "~apis/users.api";
 import AuthForm from "~components/common/AuthForm";
 import ButtonActionForm from "~components/common/AuthForm/components/ButtonActionForm";
-import { loginSchema } from "~components/common/AuthForm/data/schema";
 import { Form } from "~components/ui/form";
 import configs from "~configs";
 import useDispatchAuth from "~hooks/useDispatchAuth";
@@ -18,6 +17,7 @@ import { AUTH_MESSAGES, SYSTEM_MESSAGES } from "~utils/constants";
 import isAxiosError from "~utils/isAxiosError";
 
 import FormItems from "./components/FormItems";
+import loginSchema from "./data/schema";
 
 export type LoginFormType = z.infer<typeof loginSchema>;
 

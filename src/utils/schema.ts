@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { PHONE_REGEX, USER_MESSAGES } from "./constants";
+import { PASSWORD_REGEX, PHONE_REGEX, USER_MESSAGES } from "./constants";
 
 // GLOBAL SCHEMA
 export const emailSchema = z
@@ -10,6 +10,15 @@ export const emailSchema = z
   .email({
     message: USER_MESSAGES.EMAIL_MESSAGE,
   });
+
+export const passwordSchema = (message: string = "") =>
+  z
+    .string({
+      message: message,
+    })
+    .refine((value) => PASSWORD_REGEX.test(value), {
+      message: message,
+    });
 
 export const fullnameSchema = z
   .string({

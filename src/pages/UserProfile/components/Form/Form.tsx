@@ -160,7 +160,7 @@ const Form = () => {
                 <Input placeholder="Nguyen Van A" {...field} />
               </FormControl>
               <FormDescription>
-                Đây là tên hiển thị công khai của bạn. Nó có thể là tên thật hoặc bút danh của bạn.
+                Đây là tên hiển thị công khai của bạn. Nó có thể là tên thật hoặc bút danh của bạn
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -177,7 +177,7 @@ const Form = () => {
                 <Input placeholder="example@gmail.com" {...field} />
               </FormControl>
               <FormDescription>
-                Bạn có thể quản lý các địa chỉ email đã xác minh trong cài đặt email của mình.
+                Bạn có thể quản lý các địa chỉ email đã xác minh trong cài đặt email của mình
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -200,7 +200,7 @@ const Form = () => {
 
         <FormItem>
           <FormLabel>Địa chỉ</FormLabel>
-          <FormDescription>Đây là địa chỉ nhận hàng của bạn.</FormDescription>
+          <FormDescription>Đây là địa chỉ nhận hàng của bạn</FormDescription>
 
           <FormField
             control={form.control}
