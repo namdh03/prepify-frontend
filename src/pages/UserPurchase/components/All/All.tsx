@@ -7,7 +7,7 @@ const orders = [
     id: "4",
     orderItems: [
       {
-        id: "3",
+        id: "1",
         name: "Spicy seasoned seafood noodles",
         slug: "spicy-seasoned-seafood-noodles",
         image: images.suggest1st,
@@ -22,6 +22,24 @@ const orders = [
         },
       },
       {
+        id: "2",
+        name: "Salted pasta with mushroom sauce",
+        slug: "salted-pasta-with-mushroom-sauce",
+        image: images.suggest1st,
+        price: 2.99,
+        quantity: 1,
+        serving: 2,
+      },
+      {
+        id: "3",
+        name: "Spicy seasoned seafood noodles",
+        slug: "spicy-seasoned-seafood-noodles",
+        image: images.suggest1st,
+        price: 2.29,
+        quantity: 2,
+        serving: 1,
+      },
+      {
         id: "4",
         name: "Salted pasta with mushroom sauce",
         slug: "salted-pasta-with-mushroom-sauce",
@@ -29,12 +47,6 @@ const orders = [
         price: 2.99,
         quantity: 1,
         serving: 2,
-        extraSpice: {
-          id: "c",
-          name: "Extra salt",
-          image: images.suggest2nd,
-          price: 0.5,
-        },
       },
     ],
     status: "Completed",

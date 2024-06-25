@@ -31,6 +31,8 @@ export const USER_MESSAGES = {
 export const IMAGE_MESSAGES = {
   AVATAR_IS_REQUIRED: "Vui lòng chọn ảnh đại diện",
   AVATAR_SIZE: "Kích thước ảnh tối đa là 1MB",
+  IMAGE_MUST_BE_JPEG_OR_PNG_AND_NOT_EXCEED_1MB: "Ảnh phải là file JPEG hoặc PNG và không vượt quá 1MB",
+  MAX_3_IMAGES: "Tối đa 3 ảnh",
 };
 
 export enum Role {

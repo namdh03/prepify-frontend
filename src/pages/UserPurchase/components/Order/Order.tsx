@@ -1,3 +1,4 @@
+import { useState } from "react";
 import dayjs from "dayjs";
 import { BsTruck } from "react-icons/bs";
 import { SiAdguard } from "react-icons/si";
@@ -16,6 +17,7 @@ import { Button } from "~components/ui/button";
 import { Separator } from "~components/ui/separator";
 import { OrderItem as OrderItemType } from "~types/order.type";
 
+import Feedback from "../Feedback";
 import OrderItem from "../OrderItem";
 
 import "dayjs/locale/vi";
@@ -30,6 +32,11 @@ interface OrderProps {
 }
 
 const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
+  const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
+
+  const handleOpenFeedbackModal = () => setOpenFeedbackModal(true);
+  const handleCloseFeedbackModal = () => setOpenFeedbackModal(false);
+
   return (
     <article className="my-3 p-6 bg-white rounded-[5px] [box-shadow:0px_4px_16px_0px_rgba(0,_0,_0,_0.07)]">
       <div className="flex items-center justify-between">
@@ -96,9 +103,16 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
           </Button>
 
           {status === "Completed" && (
-            <Button variant={"outline"} size={"lg"} className="min-w-[150px]">
-              Đánh giá
-            </Button>
+            <Feedback
+              trigger={
+                <Button variant={"outline"} size={"lg"} className="min-w-[150px]" onClick={handleOpenFeedbackModal}>
+                  Đánh giá
+                </Button>
+              }
+              orderItems={orderItems}
+              open={openFeedbackModal}
+              onClose={handleCloseFeedbackModal}
+            />
           )}
         </div>
       </div>
