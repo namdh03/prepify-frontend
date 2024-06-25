@@ -24,6 +24,7 @@ import RecipeDetail from "~pages/RecipeDetail";
 import Register from "~pages/Register";
 import ResetPassword from "~pages/ResetPassword";
 import Shop from "~pages/Shop";
+import UserChangePassword from "~pages/UserChangePassword";
 import UserProfile from "~pages/UserProfile";
 
 const router = createBrowserRouter([
@@ -135,6 +136,10 @@ const router = createBrowserRouter([
       {
         path: configs.routes.userProfile,
         element: <UserProfile />,
+      },
+      {
+        path: configs.routes.userChangePassword,
+        element: <UserChangePassword />,
       },
     ],
   },

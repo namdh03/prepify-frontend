@@ -9,7 +9,6 @@ import { useMutation } from "@tanstack/react-query";
 import { forgotPassword } from "~apis/users.api";
 import AuthForm from "~components/common/AuthForm";
 import ButtonActionForm from "~components/common/AuthForm/components/ButtonActionForm";
-import { forgotPasswordSchema } from "~components/common/AuthForm/data/schema";
 import { Form } from "~components/ui/form";
 import configs from "~configs";
 import useCountdown from "~hooks/useCountdown";
@@ -19,6 +18,7 @@ import { SYSTEM_MESSAGES, USER_MESSAGES } from "~utils/constants";
 import isAxiosError from "~utils/isAxiosError";
 
 import FormItems from "./components/FormItems";
+import forgotPasswordSchema from "./data/schema";
 
 export type ForgotPasswordFormType = z.infer<typeof forgotPasswordSchema>;
 

@@ -9,7 +9,7 @@ const UserProfile = () => {
       <div className="max-w-2xl space-y-6">
         <div>
           <h3 className="text-lg font-medium">Hồ sơ của tôi</h3>
-          <p className="text-sm text-muted-foreground">Quản lý thông tin hồ sơ.</p>
+          <p className="text-sm text-muted-foreground">Quản lý thông tin hồ sơ</p>
         </div>
         <Separator className="my-4" />
 
