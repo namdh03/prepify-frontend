@@ -1,5 +1,4 @@
 import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
-import { Button } from "~components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,10 +6,13 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "~components/ui/dropdown-menu";
 
-export default function TopNav() {
+import Button from "../Button";
+
+export default function UserNav() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -30,10 +32,25 @@ export default function TopNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Billing
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>Log out</DropdownMenuItem>
+        <DropdownMenuItem>
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
