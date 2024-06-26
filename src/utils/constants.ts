@@ -66,5 +66,5 @@ export enum DeliveryMethodEnum {
 export enum LevelEnum {
   EASY = "Dễ",
   MEDIUM = "Trung bình",
-  HARD = "Khó",
+  HARD = "Nâng cao",
 }

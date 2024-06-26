@@ -3,6 +3,7 @@ const routes = {
   moderator: "/moderator",
   overview: "/moderator/overview",
   createRecipe: "/moderator/create-recipe",
+  listRecipe: "/moderator/list-recipe",
   login: "/login",
   loginGoogle: "/login/google",
   register: "/register",

@@ -21,6 +21,7 @@ import Login from "~pages/Login";
 import NotFound from "~pages/NotFound";
 import Order from "~pages/Order";
 import RecipeDetail from "~pages/RecipeDetail";
+import RecipeList from "~pages/RecipeList";
 import Register from "~pages/Register";
 import ResetPassword from "~pages/ResetPassword";
 import Shop from "~pages/Shop";
@@ -119,6 +120,10 @@ const router = createBrowserRouter([
             <CreateRecipe />
           </RecipeProvider>
         ),
+      },
+      {
+        path: configs.routes.listRecipe,
+        element: <RecipeList />,
       },
     ],
   },

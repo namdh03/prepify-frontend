@@ -2,32 +2,31 @@ import { Outlet } from "react-router-dom";
 
 import useIsCollapsed from "~hooks/useIsCollapsed";
 
-import { Layout, LayoutBody, LayoutHeader } from "./components/Layout";
+import { Layout, LayoutHeader } from "./components/Layout";
 import Sidebar from "./components/Sidebar";
-import TopNav from "./components/TopNav";
+import UserNav from "./components/UserNav";
 
 const AdminLayout = () => {
   const [isCollapsed, setIsCollapsed] = useIsCollapsed();
   return (
-    <Layout>
+    <div className="relative h-full bg-background">
       <Sidebar isCollapsed={isCollapsed} setIsCollapsed={setIsCollapsed} />
       <main
         id="content"
-        className={`overflow-x-hidden pt-16 transition-[margin]  md:pt-0 ${isCollapsed ? "md:ml-14" : "md:ml-64"} h-full`}
+        className={`pt-16 transition-[margin] md:pt-0 ${isCollapsed ? "md:ml-14" : "md:ml-64"} h-full`}
       >
-        <LayoutHeader>
-          <div className="flex w-full items-center justify-end">
-            <div className="flex items-center space-x-4">
-              <TopNav />
+        <Layout>
+          {/* ===== Top Heading ===== */}
+          <LayoutHeader className="sticky top-0 shadow z-10">
+            <div className="ml-auto flex items-center space-x-4">
+              <UserNav />
             </div>
-          </div>
-        </LayoutHeader>
+          </LayoutHeader>
 
-        <LayoutBody>
           <Outlet />
-        </LayoutBody>
+        </Layout>
       </main>
-    </Layout>
+    </div>
   );
 };
 

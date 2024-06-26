@@ -39,6 +39,7 @@ const Images = ({ orderItemIndex, form }: ImagesProps) => {
             })}
           >
             <button
+              type="button"
               onClick={() => handleClearImage(index)}
               className="absolute -top-2 -right-2 p-1 text-white bg-black bg-opacity-50 rounded-full shadow hover:bg-opacity-100 transition-colors duration-200 ease-in-out"
             >
@@ -71,12 +72,19 @@ const Images = ({ orderItemIndex, form }: ImagesProps) => {
                 className="hidden"
               />
             </FormControl>
-            <Button type="button" variant={"outline"} className="p-0">
-              <FormLabel className="flex items-center justify-center gap-1 p-4 w-full h-full cursor-pointer">
-                <FaPlus />
-                <span className="text-sm">Thêm ảnh</span>
-              </FormLabel>
-            </Button>
+
+            {imagePreviews.length === 0 && (
+              <p className="text-xs text-gray-500">Tối đa 3 ảnh, mỗi ảnh không quá 1MB. Hỗ trợ định dạng JPG, PNG.</p>
+            )}
+
+            {imagePreviews.length < 3 && (
+              <Button type="button" variant={"outline"} className="p-0">
+                <FormLabel className="flex items-center justify-center gap-1 p-4 w-full h-full cursor-pointer">
+                  <FaPlus />
+                  <span className="text-sm">Thêm ảnh</span>
+                </FormLabel>
+              </Button>
+            )}
 
             {imagePreviews.map((_, index) => (
               <p key={index} className="text-xs text-destructive">
