@@ -33,11 +33,11 @@ export default function SidebarNav({ className, items, ...props }: SidebarNavPro
   };
 
   const handleLogout = () => {
+    navigate(configs.routes.login);
     dispatch(signOut());
     queryClient.removeQueries({
       queryKey: [GET_ME_QUERY_KEY],
     });
-    navigate(configs.routes.login);
   };
 
   return (

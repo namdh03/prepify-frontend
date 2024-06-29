@@ -1,14 +1,10 @@
-import React from "react";
+import { BiLoaderAlt } from "react-icons/bi";
+import { IconBaseProps } from "react-icons/lib";
 
 import { cn } from "~lib/utils";
 
-const Spinner = ({ className, ...props }: React.ComponentProps<"span">) => {
-  return (
-    <span
-      className={cn("w-5 h-5 border-2 border-t-transparent rounded-full animate-spin", className)}
-      {...props}
-    ></span>
-  );
+const Spinner = ({ size = 24, className, ...props }: IconBaseProps) => {
+  return <BiLoaderAlt size={size} className={cn("animate-spin", className)} {...props} />;
 };
 
 export default Spinner;

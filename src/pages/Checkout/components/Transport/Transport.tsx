@@ -5,7 +5,7 @@ import { cn } from "~lib/utils";
 import { DeliveryMethodEnum } from "~utils/constants";
 
 const Transport = () => {
-  const { form, area: district, checkout } = useCheckout();
+  const { form, area, checkout } = useCheckout();
   const deliveryMethodWatch = form.watch("deliveryMethod");
 
   const handleDeliveryMethodChange = (method: DeliveryMethodEnum) => {
@@ -37,7 +37,7 @@ const Transport = () => {
 
         <span className="text-base font-normal leading-7">
           <sup>₫</sup>
-          {(district?.instantPrice || 0).toLocaleString()}
+          {(area?.instantPrice || 0).toLocaleString()}
         </span>
       </article>
 
@@ -62,7 +62,7 @@ const Transport = () => {
 
         <span className="text-base font-normal leading-7">
           <sup>₫</sup>
-          {(district?.standardPrice || 0).toLocaleString()}
+          {(area?.standardPrice || 0).toLocaleString()}
         </span>
       </article>
     </div>

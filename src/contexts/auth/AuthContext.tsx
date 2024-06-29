@@ -27,11 +27,12 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const [cookies] = useCookies([configs.cookies.accessToken]);
   const queryClient = useQueryClient();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const { refetch: userRefetch } = useQuery({
+  const { data, refetch: userRefetch } = useQuery({
     queryKey: [GET_ME_QUERY_KEY],
     queryFn: () => getMe(),
-    enabled: false,
+    enabled: Boolean(cookies[configs.cookies.accessToken]),
     select: (data) => data.data.data.user,
+    refetchOnWindowFocus: false,
   });
 
   // Listen to the cookies to control the authentication state
@@ -61,7 +62,12 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [queryClient, userRefetch]);
+  }, []);
+
+  // Update the user info when the user info is fetched
+  useEffect(() => {
+    if (data) dispatch(initialize({ isAuthenticated: true, user: data }));
+  }, [data]);
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>

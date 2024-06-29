@@ -1,7 +1,7 @@
 import { memo } from "react";
-import { BiLoaderAlt } from "react-icons/bi";
 import { Link } from "react-router-dom";
 
+import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
 
 interface ButtonActionFormProps {
@@ -18,7 +18,7 @@ const ButtonActionForm = memo(({ mainTitle, subTitle, to, loading = false }: But
         <Button type="submit" size={"lg"} className="w-48 text-base" disabled={loading}>
           {loading ? (
             <>
-              <BiLoaderAlt className="me-2 animate-spin" />
+              <Spinner className="me-2" />
               Loading...
             </>
           ) : (
