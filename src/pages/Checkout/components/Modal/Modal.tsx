@@ -46,8 +46,8 @@ const Modal = () => {
   const handleOpenChange = (isOpen: boolean) => setOpen(isOpen);
 
   const onSubmit = (values: ModalFormType) => {
-    const district = checkout?.area.find((area) => area.id === values.district);
-    dispatch(setArea({ area: district }));
+    const area = checkout?.area.find((area) => area.id === values.district);
+    dispatch(setArea({ area }));
 
     checkoutForm.reset({
       ...checkoutForm.getValues(),

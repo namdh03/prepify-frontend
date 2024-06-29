@@ -1,6 +1,5 @@
 import { ComponentProps, ReactNode, useEffect, useMemo } from "react";
 import { motion } from "framer-motion";
-import { BiLoaderAlt } from "react-icons/bi";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -16,6 +15,7 @@ import useAuth from "~hooks/useAuth";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 
 import Loading from "../Loading";
+import Spinner from "../Spinner";
 
 import ButtonLink from "./components/ButtonLink";
 
@@ -139,7 +139,7 @@ const AuthForm = ({ children, animation: Animation, title, loading }: AuthFormPr
           <Button variant={"outline"} size={"lg"} className="w-96 mt-7 p-0" disabled={loading}>
             <Link to={loading ? "" : data || ""} className="w-full py-2">
               <div className="flex justify-center items-center gap-3">
-                {loading ? <BiLoaderAlt className="me-2 animate-spin" /> : <FcGoogle size={20} />}
+                {loading ? <Spinner className="me-2" /> : <FcGoogle size={20} />}
                 <span className="text-zinc-500 text-base">Tiếp tục với Google</span>
               </div>
             </Link>

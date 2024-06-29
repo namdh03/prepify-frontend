@@ -1,14 +1,25 @@
 import { memo, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { postOrder } from "~apis/order.api";
+import { GET_ME_QUERY_KEY } from "~apis/users.api";
+import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
 import { Separator } from "~components/ui/separator";
+import configs from "~configs";
 import useAuth from "~hooks/useAuth";
 import useCheckout from "~hooks/useCheckout";
 import { cn } from "~lib/utils";
+import { PostOrderBody } from "~types/order.type";
 import { DeliveryMethodEnum, SYSTEM_MESSAGES } from "~utils/constants";
+import isAxiosError from "~utils/isAxiosError";
 
 const OrderAction = memo(() => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { user } = useAuth();
   const { form, area, checkout } = useCheckout();
   const deliveryMethodWatch = form.watch("deliveryMethod");
@@ -25,11 +36,36 @@ const OrderAction = memo(() => {
     () => (deliveryMethodWatch === DeliveryMethodEnum.INSTANT ? area?.instantPrice : area?.standardPrice) || 0,
     [deliveryMethodWatch, area?.instantPrice, area?.standardPrice],
   );
+  const { mutate, isPending } = useMutation({
+    mutationFn: (body: PostOrderBody) => postOrder(body),
+  });
 
   const handleShowError = () => toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
 
   const handleOrder = () => {
-    console.log("CALL API ORDER", form.getValues());
+    mutate(
+      {
+        paymentId: form.getValues("paymentMethod"),
+        areaId: String(area?.id || user?.areaId),
+        address:
+          form.getValues("specificAddress") + form.getValues("district") + form.getValues("city") ||
+          String(user?.address),
+        note: form.getValues("note") || "",
+        deliveryMethod: form.getValues("deliveryMethod"),
+        phone: form.getValues("phone"),
+      },
+      {
+        onSuccess: () => {
+          form.reset();
+          if (!user?.phone || !user?.address) queryClient.invalidateQueries({ queryKey: [GET_ME_QUERY_KEY] });
+          navigate(`${configs.routes.order}?success=true`);
+        },
+        onError: (error) => {
+          if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+          else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+      },
+    );
   };
 
   return (
@@ -100,7 +136,7 @@ const OrderAction = memo(() => {
               : handleOrder
           }
         >
-          Đặt hàng
+          {isPending ? <Spinner /> : "Đặt hàng"}
         </Button>
       </div>
     </div>

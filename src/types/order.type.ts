@@ -1,3 +1,5 @@
+import { DeliveryMethodEnum } from "~utils/constants";
+
 import { ExtraSpice } from "./meal-kit.type";
 
 export type OrderItem = {
@@ -9,4 +11,13 @@ export type OrderItem = {
   quantity: number;
   serving: number;
   extraSpice?: ExtraSpice;
+};
+
+export type PostOrderBody = {
+  paymentId: string;
+  areaId: string;
+  address: string;
+  note: string;
+  deliveryMethod: DeliveryMethodEnum;
+  phone: string;
 };
