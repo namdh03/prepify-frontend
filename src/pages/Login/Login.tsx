@@ -32,7 +32,7 @@ const Login = () => {
 
   const { RiveComponent, observeInputText, observeInputPassword, teddySuccess, teddyFail } = useTeddyAnimation();
   const form = useForm<LoginFormType>({
-    mode: "all",
+    mode: "onBlur",
     resolver: zodResolver(loginSchema),
     defaultValues: loginFormDefaultValues,
   });

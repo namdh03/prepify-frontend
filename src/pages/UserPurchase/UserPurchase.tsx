@@ -3,6 +3,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { Separator } from "~components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~components/ui/tabs";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 
 import All from "./components/All";
 import Canceled from "./components/Canceled";
@@ -30,6 +31,8 @@ const tabItems = [
 ];
 
 const UserPurchase = () => {
+  useDocumentTitle("Prepify | Đơn hàng của tôi");
+
   const [params, setParams] = useSearchParams();
   const tabContents = useMemo(
     () => [

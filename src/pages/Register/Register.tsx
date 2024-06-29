@@ -36,7 +36,7 @@ const Register = () => {
     useTeddyAnimation();
 
   const form = useForm<RegisterFormType>({
-    mode: "all",
+    mode: "onBlur",
     resolver: zodResolver(registerSchema),
     defaultValues: registerFormDefaultValues,
   });

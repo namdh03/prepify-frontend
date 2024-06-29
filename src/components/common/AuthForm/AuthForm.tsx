@@ -78,7 +78,7 @@ const AuthForm = ({ children, animation: Animation, title, loading }: AuthFormPr
             const { data } = await userRefetch();
             if (data) {
               const user = data.data.data.user;
-              dispatch(signIn({ isAuthenticated: true, user }));
+              dispatch(signIn({ user }));
             }
           },
           onError: () => {

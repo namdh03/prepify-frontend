@@ -79,7 +79,10 @@ export default function SidebarNav({ className, items, ...props }: SidebarNavPro
         </nav>
 
         <span
-          className={cn(buttonVariants({ variant: "ghost" }), "w-full justify-start mt-auto cursor-pointer")}
+          className={cn(
+            buttonVariants({ variant: "ghost" }),
+            "w-full justify-start cursor-pointer hover:bg-transparent hover:underline",
+          )}
           onClick={handleLogout}
         >
           <span className="mr-2">

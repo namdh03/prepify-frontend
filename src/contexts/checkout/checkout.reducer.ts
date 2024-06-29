@@ -6,6 +6,11 @@ const reducerHandlers: ReducerHandler = {
     ...state,
     area: action.payload.area,
   }),
+
+  [CheckoutActionType.SET_FETCHING]: (state, action) => ({
+    ...state,
+    isFetching: action.payload.isFetching,
+  }),
 };
 
 export function reducer(state: CheckoutState, action: PayloadAction<CheckoutState>) {
@@ -16,5 +21,10 @@ export function reducer(state: CheckoutState, action: PayloadAction<CheckoutStat
 // Actions
 export const setArea = (payload: Partial<CheckoutState>) => ({
   type: CheckoutActionType.SET_AREA,
+  payload,
+});
+
+export const setFetching = (payload: Partial<CheckoutState>) => ({
+  type: CheckoutActionType.SET_FETCHING,
   payload,
 });

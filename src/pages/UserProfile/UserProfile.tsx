@@ -1,9 +1,12 @@
 import { Separator } from "~components/ui/separator";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 
 import Form from "./components/Form";
 import Upload from "./components/Upload";
 
 const UserProfile = () => {
+  useDocumentTitle("Prepify | Hồ sơ của tôi");
+
   return (
     <div className="flex gap-24">
       <div className="max-w-2xl space-y-6">

@@ -1,4 +1,4 @@
-import { removeToken } from "~utils/cookies";
+import { removeAccessToken, removeRefreshToken } from "~utils/cookies";
 
 import { AuthActionType, AuthState, PayloadAction, ReducerHandler } from "./auth.type";
 
@@ -53,7 +53,8 @@ export function signIn(payload: AuthState): PayloadAction<AuthState> {
 }
 
 export function signOut(): PayloadAction<AuthState> {
-  removeToken();
+  removeAccessToken();
+  removeRefreshToken();
 
   return {
     type: AuthActionType.SIGN_OUT,

@@ -35,7 +35,7 @@ export type FeedbackFormType = z.infer<typeof feedbackSchema>;
 
 const Feedback = ({ trigger, orderItems, open, onClose }: FeedbackProps) => {
   const form = useForm<FeedbackFormType>({
-    mode: "all",
+    mode: "onBlur",
     resolver: zodResolver(feedbackSchema),
     defaultValues: {
       feedback: orderItems.map((orderItem) => ({
@@ -66,6 +66,7 @@ const Feedback = ({ trigger, orderItems, open, onClose }: FeedbackProps) => {
 
   const onSubmit = (values: FeedbackFormType) => {
     console.log(values);
+    form.reset();
     onClose && onClose();
   };
 

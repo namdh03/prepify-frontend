@@ -112,7 +112,7 @@ const districts: ComboboxOption[] = [
 
 const Form = () => {
   const form = useForm<UserProfileFormType>({
-    mode: "all",
+    mode: "onBlur",
     resolver: zodResolver(userProfileSchema),
     defaultValues: {
       fullname: "",

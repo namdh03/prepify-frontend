@@ -1,7 +1,12 @@
+import { Link } from "react-router-dom";
+
 import { flexRender, Table } from "@tanstack/react-table";
 
+import images from "~assets/imgs";
+import { Button } from "~components/ui/button";
 import { Collapsible } from "~components/ui/collapsible";
 import { Table as TableShadcn, TableBody, TableCell, TableHead, TableHeader, TableRow } from "~components/ui/table";
+import configs from "~configs";
 import { cn } from "~lib/utils";
 import { CartItem } from "~types/cart.type";
 
@@ -72,7 +77,13 @@ const DataTable = ({ table, length }: DataTableProps<CartItem>) => {
         ) : (
           <TableRow>
             <TableCell colSpan={length} className="h-24 text-center">
-              Không tìm thấy sản phẩm.
+              <div className="flex flex-col items-center gap-4 my-10">
+                <img src={images.cartEmpty} alt="" className="w-28 h-24 object-cover" />
+                <span className="text-[rgba(0,0,0,.4)] font-bold">Giỏ hàng của bạn còn trống</span>
+                <Link to={configs.routes.shop}>
+                  <Button className="uppercase">Mua Ngay</Button>
+                </Link>
+              </div>
             </TableCell>
           </TableRow>
         )}

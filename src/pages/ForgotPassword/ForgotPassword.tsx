@@ -30,11 +30,12 @@ const COUNT_START = 60;
 
 const ForgotPassword = () => {
   useDocumentTitle("Prepify | Quên mật khẩu");
+
   const [count, { startCountdown, resetCountdown }] = useCountdown({ countStart: COUNT_START });
 
   const { RiveComponent, observeInputText, teddySuccess, teddyFail } = useTeddyAnimation();
   const form = useForm<ForgotPasswordFormType>({
-    mode: "all",
+    mode: "onBlur",
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: forgotPasswordFormDefaultValues,
   });

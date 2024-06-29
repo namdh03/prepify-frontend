@@ -1,3 +1,4 @@
+import useDocumentTitle from "~hooks/useDocumentTitle";
 import { LayoutBody } from "~layouts/AdminLayout/components/Layout";
 
 import DataTable from "./components/DataTable";
@@ -5,6 +6,8 @@ import { columns } from "./data/columns";
 import { recipes } from "./data/recipes";
 
 export default function RecipeList() {
+  useDocumentTitle("Prepify | Danh sách công thức");
+
   return (
     <LayoutBody className="flex flex-col" fixedHeight>
       <div className="mb-2 flex items-center justify-between space-y-2">

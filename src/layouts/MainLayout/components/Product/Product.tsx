@@ -36,7 +36,7 @@ const Product = memo((props: RecipeType) => {
 
           <div className="flex items-center gap-[2px]">
             <LuClock2 size={14} className="text-primary" />
-            <span className="text-[11px] text-muted-foreground">{props.time}</span>
+            <span className="text-[11px] text-muted-foreground">{props.time} phút</span>
           </div>
         </div>
 

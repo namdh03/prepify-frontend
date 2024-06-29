@@ -55,10 +55,10 @@ const Spice = memo(({ cartItem, updateCartItem }: SpiceProps) => {
     <CollapsibleContent asChild>
       <TableRow className="text-center [&>*]:px-4 [&>*]:py-5">
         <TableCell colSpan={2} className="text-left">
-          <article className="ml-32">
-            <section className="flex items-center gap-[10px]">
-              <img src={spice?.image} alt="" className="w-12 h-12 rounded-[5px] object-contain" />
-              <h5 className="w-44 text-sm font-normal leading-5 line-clamp-3 break-keep">{spice?.name}</h5>
+          <article className="ml-20">
+            <section className="flex items-center gap-3">
+              <img src={spice?.image} alt="" className="w-14 h-14 rounded-[5px] object-contain" />
+              <h5 className="w-44 text-base font-normal leading-5 line-clamp-3 break-keep">{spice?.name}</h5>
             </section>
           </article>
         </TableCell>

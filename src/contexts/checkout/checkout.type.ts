@@ -11,12 +11,14 @@ export type CheckoutFormType = z.infer<typeof checkoutSchema>;
 
 export enum CheckoutActionType {
   SET_AREA = "SET_AREA",
+  SET_FETCHING = "SET_FETCHING",
 }
 
 export interface CheckoutState {
   form: UseFormReturn<CheckoutFormType>;
   area?: Area | null;
   checkout?: CheckoutData | null;
+  isFetching?: boolean;
 }
 
 export interface PayloadAction<T> {
@@ -30,4 +32,5 @@ export interface CheckoutContextType extends CheckoutState {
 
 export interface ReducerHandler {
   [CheckoutActionType.SET_AREA]: (state: CheckoutState, action: PayloadAction<CheckoutState>) => CheckoutState;
+  [CheckoutActionType.SET_FETCHING]: (state: CheckoutState, action: PayloadAction<CheckoutState>) => CheckoutState;
 }

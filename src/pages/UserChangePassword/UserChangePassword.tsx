@@ -8,14 +8,17 @@ import { Button } from "~components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "~components/ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
 import { Separator } from "~components/ui/separator";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 
 import userChangePasswordSchema from "./data/schema";
 
 type UserChangePasswordFormType = z.infer<typeof userChangePasswordSchema>;
 
 const UserChangePassword = () => {
+  useDocumentTitle("Prepify | Đổi mật khẩu");
+
   const form = useForm<UserChangePasswordFormType>({
-    mode: "all",
+    mode: "onBlur",
     resolver: zodResolver(userChangePasswordSchema),
     defaultValues: {
       currentPassword: "",

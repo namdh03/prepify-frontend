@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -9,18 +9,22 @@ import { deleteManyCart, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
 import { postCheckout } from "~apis/checkout.api";
 import images from "~assets/imgs";
 import AlertDialog from "~components/common/AlertDialog";
+import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
 import { Checkbox } from "~components/ui/checkbox";
+import { Skeleton } from "~components/ui/skeleton";
 import configs from "~configs";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 import useMutateCart from "~hooks/useMutateCart";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 import { DeleteCartBody } from "~types/cart.type";
-import { SYSTEM_MESSAGES } from "~utils/constants";
+import { LIMIT, SYSTEM_MESSAGES } from "~utils/constants";
 
 import DataTable from "./components/DataTable";
 import breadcrumbs from "./data/breadcrumbs";
 import { columns } from "./data/columns";
+import { cartItem } from "./data/dummy";
 
 declare module "@tanstack/react-table" {
   interface TableMeta<TData extends RowData> {
@@ -32,17 +36,32 @@ declare module "@tanstack/react-table" {
 }
 
 const Cart = () => {
+  useDocumentTitle("Prepify | Giỏ hàng");
+
   const navigate = useNavigate();
-  const { data } = useQuery({
+  const { data, isFetching } = useQuery({
     queryKey: [GET_CART_QUERY_KEY],
     queryFn: () => getCart(),
     select: (data) => data.data.data,
+    refetchOnWindowFocus: false,
   });
+  // Show skeleton when loading
+  const tableData = useMemo(() => (isFetching ? Array(LIMIT).fill(cartItem) : data), [isFetching, data]);
+  const tableColumns = useMemo(
+    () =>
+      isFetching
+        ? columns.map((column) => ({
+            ...column,
+            cell: () => <Skeleton className="h-10" />,
+          }))
+        : columns,
+    [isFetching],
+  );
   const { updateCartItem, deleteCartItem, deleteManyCartItems, deleteCart } = useMutateCart();
   const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
   const table = useReactTable({
-    data: data || [],
-    columns,
+    data: tableData || [],
+    columns: tableColumns,
     getCoreRowModel: getCoreRowModel(),
     onRowSelectionChange: setRowSelection,
     state: {
@@ -58,7 +77,7 @@ const Cart = () => {
   const { mutate: deleteCartMutate } = useMutation({
     mutationFn: (body: DeleteCartBody) => deleteManyCart(body),
   });
-  const { mutate: checkoutMutate } = useMutation({
+  const { mutate: checkoutMutate, isPending: isCheckoutPending } = useMutation({
     mutationFn: (cartIds: string[]) => postCheckout({ cartIds }),
   });
   const filteredSelectedRowModel = table.getFilteredSelectedRowModel().rows;
@@ -119,7 +138,9 @@ const Cart = () => {
         <Container>
           <h2 className="text-[#18181B] text-xl font-bold leading-9">
             <span>Giỏ hàng </span>
-            <span className="text-muted-foreground text-lg font-normal">({filteredRowModel.length} sản phẩm)</span>
+            {!isFetching && (
+              <span className="text-muted-foreground text-lg font-normal">({filteredRowModel.length} sản phẩm)</span>
+            )}
           </h2>
 
           <div className="mt-9">
@@ -167,7 +188,7 @@ const Cart = () => {
                     className="ml-[52px] min-w-[180px]"
                     onClick={filteredSelectedRowModel.length ? handleOrder : handleToastError}
                   >
-                    Mua hàng
+                    {isCheckoutPending ? <Spinner /> : <span>Mua hàng</span>}
                   </Button>
                 </div>
               </div>
