@@ -4,14 +4,23 @@ import configs from "~configs";
 import { AuthResponse } from "~types/auth.type";
 
 import { HTTP_STATUS } from "./constants";
-import { getToken, removeToken, setToken } from "./cookies";
+import {
+  getAccessToken,
+  getRefreshToken,
+  removeAccessToken,
+  removeRefreshToken,
+  setAccessToken,
+  setRefreshToken,
+} from "./cookies";
 
 class Http {
   private accessToken: string;
+  private refreshToken: string;
   instance: AxiosInstance;
 
   constructor() {
-    this.accessToken = getToken();
+    this.accessToken = getAccessToken();
+    this.refreshToken = getRefreshToken();
     this.instance = axios.create({
       baseURL: import.meta.env.VITE_BASE_URL,
       timeout: 10000,
@@ -36,18 +45,26 @@ class Http {
         const { url, method } = response.config;
         if (
           method === "post" &&
-          (url === configs.routes.login || url === configs.routes.register || url === configs.routes.loginGoogle)
+          url?.includes(configs.routes.login || configs.routes.register || configs.routes.loginGoogle)
         ) {
           this.accessToken = (response.data as AuthResponse).data.access_token;
-          setToken(this.accessToken);
+          this.refreshToken = (response.data as AuthResponse).data.refresh_token;
+          setAccessToken(this.accessToken);
+          setRefreshToken(this.refreshToken);
         } else if (url === configs.routes.logout) {
           this.accessToken = "";
-          removeToken();
+          this.refreshToken = "";
+          removeAccessToken();
+          removeRefreshToken();
         }
         return response;
       },
       (error: AxiosError) => {
-        if (error.response?.status === HTTP_STATUS.UNAUTHORIZED) removeToken();
+        if (error.response?.status === HTTP_STATUS.UNAUTHORIZED) {
+          removeAccessToken();
+          removeRefreshToken();
+        }
+
         return Promise.reject(error);
       },
     );

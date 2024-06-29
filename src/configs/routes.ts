@@ -21,6 +21,7 @@ const routes = {
   userProfile: "/user/profile",
   userChangePassword: "/user/change-password",
   userPurchase: "/user/purchase",
+  404: "/404",
   error: "*",
 };
 

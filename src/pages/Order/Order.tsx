@@ -5,6 +5,7 @@ import icons from "~assets/icons";
 import images from "~assets/imgs";
 import { Button } from "~components/ui/button";
 import configs from "~configs";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 import NotFound from "~pages/NotFound";
@@ -13,6 +14,14 @@ import breadcrumbs from "./data/breadcrumbs";
 
 const Order = () => {
   const [params] = useSearchParams();
+
+  useDocumentTitle(
+    params.get("success")
+      ? "Prepify | Đặt hàng thành công"
+      : params.get("fail")
+        ? "Prepify | Đặt hàng thất bại"
+        : "Prepify | Đặt hàng",
+  );
 
   if (!params.get("success") && !params.get("fail")) return <NotFound />;
 

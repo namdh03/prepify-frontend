@@ -55,9 +55,9 @@ const IngredientPackage = memo(({ table, row }: CellContext<CartItem, unknown>) 
 
   return (
     <div className="flex items-center">
-      <Link to={`${configs.routes.shop}/${cartItem.recipe.slug}`} className="flex items-center gap-[10px]">
+      <Link to={`${configs.routes.shop}/${cartItem.recipe.slug}`} className="flex items-center gap-3">
         <img src={cartItem.image} alt="" className="w-20 h-20 rounded-[5px] object-contain" />
-        <h4 className="w-44 text-sm font-normal leading-5 line-clamp-3 break-keep">{cartItem.recipe.name}</h4>
+        <h4 className="w-44 text-base font-normal leading-5 line-clamp-3 break-keep">{cartItem.recipe.name}</h4>
       </Link>
 
       <Select value={cartItem.mealKitSelected.id} onValueChange={(value) => handleValueChange(value)}>

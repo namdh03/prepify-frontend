@@ -2,7 +2,9 @@ import authBackground from "./auth-background.png";
 import avatar from "./avatar.png";
 import beef from "./beef.png";
 import cartBanner from "./cart-banner.png";
+import cartEmpty from "./cart-empty.png";
 import homeBanner from "./home-banner.png";
+import lookupFail from "./lookup-fail.png";
 import mission1st from "./mission-01.png";
 import mission2nd from "./mission-02.png";
 import mission3rd from "./mission-03.png";
@@ -25,7 +27,9 @@ const images = {
   avatar,
   beef,
   cartBanner,
+  cartEmpty,
   homeBanner,
+  lookupFail,
   mission1st,
   mission2nd,
   mission3rd,

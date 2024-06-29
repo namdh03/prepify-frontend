@@ -4,6 +4,7 @@ import images from "~assets/imgs";
 import { Label } from "~components/ui/label";
 import { Textarea } from "~components/ui/textarea";
 import useCheckout from "~hooks/useCheckout";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 
@@ -15,6 +16,8 @@ import Transport from "./components/Transport";
 import breadcrumbs from "./data/breadcrumbs";
 
 const Checkout = () => {
+  useDocumentTitle("Prepify | Thanh toán");
+
   const { form, checkout } = useCheckout();
   const noteWatch = form.watch("note");
 
@@ -35,39 +38,43 @@ const Checkout = () => {
         className="[&_img]:w-[1000px] pb-9"
       />
 
-      <Popup />
+      {checkout === null && <Popup />}
 
-      <section className="pt-9 pb-36 bg-[#F5F5F5]">
-        <Container>
-          <h2 className="text-[#18181B] text-xl font-bold leading-9">
-            <span>Tổng đơn hàng </span>
-            <span className="text-muted-foreground text-lg font-normal">({checkout?.items.length || 0} sản phẩm)</span>
-          </h2>
+      {checkout && (
+        <section className="pt-9 pb-36 bg-[#F5F5F5]">
+          <Container>
+            <h2 className="text-[#18181B] text-xl font-bold leading-9">
+              <span>Tổng đơn hàng </span>
+              <span className="text-muted-foreground text-lg font-normal">
+                ({checkout?.items.length || 0} sản phẩm)
+              </span>
+            </h2>
 
-          <ShippingAddress />
+            <ShippingAddress />
 
-          <div className="mt-9">
-            <Table />
-          </div>
-
-          <div className="flex items-center mt-9 bg-white">
-            <div className="grid w-full gap-1.5 max-w-[464px] pl-9 pr-4 py-20 border-[1px] border-solid border-r-[#E4E4E7] border-transparent">
-              <Label htmlFor="notice">Lời nhắn</Label>
-              <Textarea
-                value={noteWatch}
-                onChange={(e) => handleNoteChange(e)}
-                placeholder="Lưu ý cho cửa hàng"
-                id="notice"
-                className="min-h-20 placeholder:text-slate-400"
-              />
+            <div className="mt-9">
+              <Table />
             </div>
 
-            <Transport />
-          </div>
+            <div className="flex items-center mt-9 bg-white">
+              <div className="grid w-full gap-1.5 max-w-[464px] pl-9 pr-4 py-20 border-[1px] border-solid border-r-[#E4E4E7] border-transparent">
+                <Label htmlFor="notice">Lời nhắn</Label>
+                <Textarea
+                  value={noteWatch}
+                  onChange={(e) => handleNoteChange(e)}
+                  placeholder="Lưu ý cho cửa hàng"
+                  id="notice"
+                  className="min-h-20 placeholder:text-slate-400"
+                />
+              </div>
 
-          {!checkout || checkout?.items.length === 0 ? null : <OrderAction />}
-        </Container>
-      </section>
+              <Transport />
+            </div>
+
+            <OrderAction />
+          </Container>
+        </section>
+      )}
     </>
   );
 };

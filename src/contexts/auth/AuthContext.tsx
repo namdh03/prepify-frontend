@@ -1,12 +1,13 @@
 import { createContext, FC, PropsWithChildren, useEffect, useReducer } from "react";
+import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { GET_ME_QUERY_KEY, getMe } from "~apis/users.api";
 import Loading from "~components/common/Loading";
+import configs from "~configs";
 import { SYSTEM_MESSAGES } from "~utils/constants";
-import { getToken } from "~utils/cookies";
 
 import { initialize, reducer } from "./auth.reducer";
 import { AuthContextType, AuthState } from "./auth.type";
@@ -23,6 +24,8 @@ const AuthContext = createContext<AuthContextType>({
 });
 
 const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
+  const [cookies] = useCookies([configs.cookies.accessToken]);
+  const queryClient = useQueryClient();
   const [state, dispatch] = useReducer(reducer, initialState);
   const { refetch: userRefetch } = useQuery({
     queryKey: [GET_ME_QUERY_KEY],
@@ -31,10 +34,19 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
     select: (data) => data.data.data.user,
   });
 
+  // Listen to the cookies to control the authentication state
+  useEffect(() => {
+    if (!cookies[configs.cookies.accessToken]) {
+      queryClient.removeQueries({ queryKey: [GET_ME_QUERY_KEY] });
+      return dispatch(initialize({ isAuthenticated: false, user: null }));
+    }
+  }, [cookies, queryClient]);
+
+  // Get current user info when the app is initialized
   useEffect(() => {
     (async () => {
-      const accessToken = getToken();
-      if (!accessToken) {
+      if (!cookies[configs.cookies.accessToken]) {
+        queryClient.removeQueries({ queryKey: [GET_ME_QUERY_KEY] });
         return dispatch(initialize({ isAuthenticated: false, user: null }));
       }
 
@@ -48,7 +60,8 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
         dispatch(initialize({ isAuthenticated: false, user: null }));
       }
     })();
-  }, [userRefetch]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [queryClient, userRefetch]);
 
   return (
     <AuthContext.Provider value={{ ...state, dispatch }}>

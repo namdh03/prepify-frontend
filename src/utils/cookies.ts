@@ -1,4 +1,4 @@
-import Cookies from "universal-cookie";
+import { Cookies } from "react-cookie";
 
 import configs from "~configs";
 
@@ -16,14 +16,28 @@ export const removeCookie = (name: string) => {
   cookies.remove(name);
 };
 
-export const getToken = () => {
+// Access token
+export const getAccessToken = () => {
   return getCookie(configs.cookies.accessToken);
 };
 
-export const setToken = (token: string) => {
+export const setAccessToken = (token: string) => {
   setCookie(configs.cookies.accessToken, token);
 };
 
-export const removeToken = () => {
+export const removeAccessToken = () => {
   removeCookie(configs.cookies.accessToken);
+};
+
+// Refresh token
+export const getRefreshToken = () => {
+  return getCookie(configs.cookies.refreshToken);
+};
+
+export const setRefreshToken = (token: string) => {
+  setCookie(configs.cookies.refreshToken, token);
+};
+
+export const removeRefreshToken = () => {
+  removeCookie(configs.cookies.refreshToken);
 };

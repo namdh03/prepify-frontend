@@ -1,6 +1,6 @@
 import { createContext, FC, PropsWithChildren, useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
-import { useSearchParams } from "react-router-dom";
+import { Outlet, useSearchParams } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -84,7 +84,7 @@ const ShopProvider: FC<PropsWithChildren> = ({ children }) => {
     [params, setParams],
   );
 
-  return <ShopContext.Provider value={{ form, formRefs, onSubmit }}>{children}</ShopContext.Provider>;
+  return <ShopContext.Provider value={{ form, formRefs, onSubmit }}>{children || <Outlet />}</ShopContext.Provider>;
 };
 
 export { ShopContext, ShopProvider };

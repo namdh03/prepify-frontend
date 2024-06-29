@@ -1,3 +1,5 @@
+import configs from "~configs";
+
 export const SYSTEM_MESSAGES = {
   SOMETHING_WENT_WRONG: "Đã có lỗi xảy ra",
 } as const;
@@ -35,6 +37,10 @@ export const IMAGE_MESSAGES = {
   MAX_3_IMAGES: "Tối đa 3 ảnh",
 };
 
+export const FEEDBACK_MESSAGES = {
+  FEEDBACK_CONTENT_TOO_LONG: "Nội dung đánh giá không được quá 500 ký tự",
+};
+
 export enum Role {
   ADMIN = "ADMIN",
   CUSTOMER = "CUSTOMER",
@@ -68,3 +74,11 @@ export enum LevelEnum {
   MEDIUM = "Trung bình",
   HARD = "Nâng cao",
 }
+
+export const GUEST_URLS = [
+  configs.routes.login,
+  configs.routes.register,
+  configs.routes.forgotPassword,
+  configs.routes.resetPassword,
+  configs.routes.appResetPassword,
+];

@@ -35,7 +35,7 @@ const ResetPassword = ({ token }: ResetPasswordProps) => {
 
   const { RiveComponent, observeInputPassword, teddySuccess, teddyFail } = useTeddyAnimation();
   const form = useForm<ResetPasswordFormType>({
-    mode: "all",
+    mode: "onBlur",
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: ResetPasswordFormDefaultValues,
   });

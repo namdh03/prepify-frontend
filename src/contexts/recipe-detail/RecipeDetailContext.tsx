@@ -1,4 +1,5 @@
 import { createContext, FC, PropsWithChildren, useReducer } from "react";
+import { Outlet } from "react-router-dom";
 
 import images from "~assets/imgs";
 
@@ -64,7 +65,9 @@ const RecipeDetailContext = createContext<RecipeDetailContextType | undefined>({
 // Create provider
 const RecipeDetailProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-  return <RecipeDetailContext.Provider value={{ ...state, dispatch }}>{children}</RecipeDetailContext.Provider>;
+  return (
+    <RecipeDetailContext.Provider value={{ ...state, dispatch }}>{children || <Outlet />}</RecipeDetailContext.Provider>
+  );
 };
 
 export { RecipeDetailContext, RecipeDetailProvider };

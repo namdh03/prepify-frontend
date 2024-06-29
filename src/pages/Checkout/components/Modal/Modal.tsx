@@ -31,7 +31,7 @@ const Modal = () => {
   const { user } = useAuth();
   const { form: checkoutForm, checkout, dispatch } = useCheckout();
   const form = useForm<ModalFormType>({
-    mode: "all",
+    mode: "onBlur",
     resolver: zodResolver(modalSchema),
     defaultValues: {
       city: "Hồ Chí Minh",
