@@ -2,7 +2,7 @@ import { FiTruck } from "react-icons/fi";
 
 import useCheckout from "~hooks/useCheckout";
 import { cn } from "~lib/utils";
-import { DeliveryMethodEnum } from "~utils/constants";
+import { DeliveryMethodEnum } from "~utils/enums";
 
 const Transport = () => {
   const { form, area, checkout } = useCheckout();

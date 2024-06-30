@@ -1,15 +1,22 @@
 import { SuccessResponse } from "./response.type";
 
-export type FoodStyleData = {
+export type ShopFoodStyleData = {
   id: string;
   name: string;
   slug: string;
 };
 
-export type FoodStyleItem = {
+export type ShopFoodStyleItem = {
   type: string;
   title: string;
-  data: FoodStyleData[];
+  data: ShopFoodStyleData[];
 };
 
-export type FoodStyleResponse = SuccessResponse<FoodStyleItem[]>;
+export type ShopFoodStyleResponse = SuccessResponse<ShopFoodStyleItem[]>;
+
+export type TableFoodStyleType = {
+  id: string;
+  type: string;
+  slug: string;
+  title: string;
+};

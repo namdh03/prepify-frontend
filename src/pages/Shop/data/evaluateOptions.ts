@@ -1,6 +1,6 @@
-import { FoodStyleData } from "~types/food-styles.type";
+import { ShopFoodStyleData } from "~types/food-styles.type";
 
-const evaluateOptions: FoodStyleData[] = [
+const evaluateOptions: ShopFoodStyleData[] = [
   {
     id: "1",
     name: "1.0 ⭐",

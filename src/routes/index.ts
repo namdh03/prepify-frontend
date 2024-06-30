@@ -15,6 +15,7 @@ const authGuardLazy = async () => ({
 });
 
 const router = createBrowserRouter([
+  // Guest routes
   {
     lazy: guestGuardLazy,
     children: [
@@ -57,6 +58,8 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  // Public routes
   {
     lazy: mainLayoutLazy,
     children: [
@@ -94,68 +97,8 @@ const router = createBrowserRouter([
       },
     ],
   },
-  {
-    lazy: authGuardLazy,
-    children: [
-      {
-        lazy: mainLayoutLazy,
-        children: [
-          {
-            path: configs.routes.cart,
-            lazy: async () => ({
-              Component: (await import("~pages/Cart")).default,
-            }),
-          },
-          {
-            lazy: async () => ({
-              Component: (await import("~contexts/checkout/CheckoutContext")).CheckoutProvider,
-            }),
-            children: [
-              {
-                path: configs.routes.checkout,
-                lazy: async () => ({
-                  Component: (await import("~pages/Checkout")).default,
-                }),
-              },
-            ],
-          },
-          {
-            path: configs.routes.order,
-            lazy: async () => ({
-              Component: (await import("~pages/Order")).default,
-            }),
-          },
-        ],
-      },
-    ],
-  },
-  {
-    path: configs.routes.moderator,
-    lazy: async () => ({
-      Component: (await import("~layouts/AdminLayout")).default,
-    }),
-    children: [
-      {
-        lazy: async () => ({
-          Component: (await import("~contexts/recipe/RecipeContext")).RecipeProvider,
-        }),
-        children: [
-          {
-            path: configs.routes.createRecipe,
-            lazy: async () => ({
-              Component: (await import("~pages/CreateRecipe")).default,
-            }),
-          },
-        ],
-      },
-      {
-        path: configs.routes.listRecipe,
-        lazy: async () => ({
-          Component: (await import("~pages/RecipeList")).default,
-        }),
-      },
-    ],
-  },
+
+  // Authenticated routes (User routes)
   {
     path: configs.routes.user,
     lazy: authGuardLazy,
@@ -191,12 +134,86 @@ const router = createBrowserRouter([
       },
     ],
   },
+
+  // Authenticated routes (Flow from cart to order)
+  {
+    lazy: authGuardLazy,
+    children: [
+      {
+        lazy: mainLayoutLazy,
+        children: [
+          {
+            path: configs.routes.cart,
+            lazy: async () => ({
+              Component: (await import("~pages/Cart")).default,
+            }),
+          },
+          {
+            lazy: async () => ({
+              Component: (await import("~contexts/checkout/CheckoutContext")).CheckoutProvider,
+            }),
+            children: [
+              {
+                path: configs.routes.checkout,
+                lazy: async () => ({
+                  Component: (await import("~pages/Checkout")).default,
+                }),
+              },
+            ],
+          },
+          {
+            path: configs.routes.order,
+            lazy: async () => ({
+              Component: (await import("~pages/Order")).default,
+            }),
+          },
+        ],
+      },
+    ],
+  },
+
+  // Moderator routes
+  {
+    path: configs.routes.moderator,
+    lazy: async () => ({
+      Component: (await import("~layouts/AdminLayout")).default,
+    }),
+    children: [
+      {
+        index: true,
+        loader: () => redirect(configs.routes.recipeList),
+      },
+      {
+        path: configs.routes.recipeList,
+        lazy: async () => ({
+          Component: (await import("~pages/RecipeList")).default,
+        }),
+      },
+      {
+        lazy: async () => ({
+          Component: (await import("~contexts/recipe/RecipeContext")).RecipeProvider,
+        }),
+        children: [
+          {
+            path: configs.routes.createRecipe,
+            lazy: async () => ({
+              Component: (await import("~pages/CreateRecipe")).default,
+            }),
+          },
+        ],
+      },
+    ],
+  },
+
+  // Not found route
   {
     path: configs.routes[404],
     lazy: async () => ({
       Component: (await import("~pages/NotFound")).default,
     }),
   },
+
+  // Error routes
   {
     path: configs.routes.error,
     lazy: async () => ({

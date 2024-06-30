@@ -1,6 +1,6 @@
 import { DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu";
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
-import { Table } from "@tanstack/react-table";
+import { RowData, Table } from "@tanstack/react-table";
 
 import {
   DropdownMenu,
@@ -10,6 +10,15 @@ import {
   DropdownMenuSeparator,
 } from "~components/ui/dropdown-menu";
 import Button from "~layouts/AdminLayout/components/Button";
+
+import "@tanstack/react-table";
+
+declare module "@tanstack/react-table" {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  interface ColumnMeta<TData extends RowData, TValue> {
+    title?: string;
+  }
+}
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -24,7 +33,7 @@ export default function DataTableViewOptions<TData>({ table }: DataTableViewOpti
           Xem
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[150px]">
+      <DropdownMenuContent align="end" className="w-[170px]">
         <DropdownMenuLabel>Hiển thị cột</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table
@@ -34,11 +43,11 @@ export default function DataTableViewOptions<TData>({ table }: DataTableViewOpti
             return (
               <DropdownMenuCheckboxItem
                 key={column.id}
-                className="capitalize"
+                className="capitalize cursor-pointer"
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >
-                {column.id}
+                {column.columnDef.meta?.title ?? column.id}
               </DropdownMenuCheckboxItem>
             );
           })}

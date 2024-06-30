@@ -8,7 +8,7 @@ import { updateCart } from "~apis/cart.api";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import useDebounce from "~hooks/useDebounce";
 import { CartItem, UpdateCartBody } from "~types/cart.type";
-import { SYSTEM_MESSAGES } from "~utils/constants";
+import { DEFAULT_DEBOUNCE_TIME, SYSTEM_MESSAGES } from "~utils/constants";
 import isAxiosError from "~utils/isAxiosError";
 
 const MIN_VALUE = 1;
@@ -18,7 +18,7 @@ const Quantity = memo(({ table, row }: CellContext<CartItem, unknown>) => {
   const cartItem = row.original;
   const [quantityValue, setQuantityValue] = useState<number>();
   const quantityRef = useRef<number>(cartItem.quantity);
-  const quantityDebounce = useDebounce(quantityValue, 1000);
+  const quantityDebounce = useDebounce(quantityValue, DEFAULT_DEBOUNCE_TIME);
   const { mutate } = useMutation({
     mutationFn: (body: UpdateCartBody) => updateCart(body),
   });

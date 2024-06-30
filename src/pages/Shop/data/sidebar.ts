@@ -1,9 +1,9 @@
-import { FoodStyleItem } from "~types/food-styles.type";
+import { ShopFoodStyleItem } from "~types/food-styles.type";
 
 import evaluateOptions from "./evaluateOptions";
 import priceOptions from "./priceOptions";
 
-const sidebar: FoodStyleItem[] = [
+const sidebar: ShopFoodStyleItem[] = [
   {
     type: "price",
     title: "Giá tiền",

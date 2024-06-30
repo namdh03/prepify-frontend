@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import Ratings from "~components/common/Ratings";
 import configs from "~configs";
-import { RecipeType } from "~types/recipes.type";
+import { ShopRecipeType } from "~types/recipes.type";
 import nFormatter from "~utils/nFormatter";
 
 /**
@@ -14,7 +14,7 @@ import nFormatter from "~utils/nFormatter";
  * `${configs.routes.shop}/${props.slug}`
  */
 
-const Product = memo((props: RecipeType) => {
+const Product = memo((props: ShopRecipeType) => {
   return (
     <Link to={configs.routes.recipeDetail}>
       <article className="relative pt-24 px-9 pb-5 bg-white rounded-[34px] text-center [box-shadow:0px_9px_27px_0px_rgba(0,_0,_0,_0.07)]">

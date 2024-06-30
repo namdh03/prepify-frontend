@@ -41,39 +41,12 @@ export const FEEDBACK_MESSAGES = {
   FEEDBACK_CONTENT_TOO_LONG: "Nội dung đánh giá không được quá 500 ký tự",
 };
 
-export enum Role {
-  ADMIN = "ADMIN",
-  CUSTOMER = "CUSTOMER",
-  SHIPPER = "SHIPPER",
-}
-
-export enum SortEnum {
-  NEWEST = "newest",
-  POPULAR = "popular",
-  PRICE = "price",
-}
-
-export enum OrderByEnum {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
 export const PAGE = 1;
 export const LIMIT = 9;
+export const TABLE_LIMIT = 10;
 
 export const PHONE_REGEX = /^(0|\+?84)(3|5|7|8|9)[0-9]{8}$/;
 export const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
-
-export enum DeliveryMethodEnum {
-  INSTANT = "instant",
-  STANDARD = "standard",
-}
-
-export enum LevelEnum {
-  EASY = "Dễ",
-  MEDIUM = "Trung bình",
-  HARD = "Nâng cao",
-}
 
 export const GUEST_URLS = [
   configs.routes.login,
@@ -82,3 +55,5 @@ export const GUEST_URLS = [
   configs.routes.resetPassword,
   configs.routes.appResetPassword,
 ];
+
+export const DEFAULT_DEBOUNCE_TIME = 1000;

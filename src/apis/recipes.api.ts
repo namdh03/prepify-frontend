@@ -1,16 +1,20 @@
 import { ShopFormType } from "~contexts/shop/shop.type";
-import { ShopRecipeResponse } from "~types/recipes.type";
-import { LIMIT, PAGE, SortEnum } from "~utils/constants";
+import { ShopRecipeResponse, TableRecipeResponse } from "~types/recipes.type";
+import { TableRequestState } from "~types/table.type";
+import { LIMIT, PAGE } from "~utils/constants";
+import { SortEnum } from "~utils/enums";
 import { findSidebarMinMax } from "~utils/getSidebarPrice";
 import http from "~utils/http";
 
 type PreventKeyType = keyof Pick<ShopFormType["sidebar"], "price" | "evaluate">;
 
-export const GET_RECIPES_QUERY_KEY = "GET_RECIPES";
+export const GET_SHOP_RECIPES_QUERY_KEY = "GET_SHOP_RECIPES_QUERY_KEY";
 
-export const GET_RECIPES_STALE_TIME = 30 * 1000; // 30 seconds
+export const GET_SHOP_RECIPES_STALE_TIME = 30 * 1000; // 30 seconds
 
-export const getRecipes = (values: ShopFormType) => {
+export const GET_TABLE_RECIPES_QUERY_KEY = "GET_TABLE_RECIPES_QUERY_KEY";
+
+export const getShopRecipes = (values: ShopFormType) => {
   const params = new URLSearchParams();
   const preventKeys: PreventKeyType[] = ["price", "evaluate"];
 
@@ -42,4 +46,9 @@ export const getRecipes = (values: ShopFormType) => {
   }
 
   return http.get<ShopRecipeResponse>("/recipes", { params });
+};
+
+export const getTableRecipes = ({ sorting, columnFilters, pagination }: TableRequestState) => {
+  console.log("getTableRecipes", { sorting, columnFilters, pagination });
+  return http.get<TableRecipeResponse>("/recipes");
 };

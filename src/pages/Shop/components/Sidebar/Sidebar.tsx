@@ -8,7 +8,7 @@ import { Button } from "~components/ui/button";
 import { shopDefaultValues } from "~contexts/shop/shop.schema";
 import useShop from "~hooks/useShop";
 import sidebar from "~pages/Shop/data/sidebar";
-import { FoodStyleItem } from "~types/food-styles.type";
+import { ShopFoodStyleItem } from "~types/food-styles.type";
 
 import Filter from "../Filter";
 
@@ -22,7 +22,7 @@ const Sidebar = memo(() => {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
-  const [sidebarFilters, setSidebarFilters] = useState<FoodStyleItem[]>(sidebar);
+  const [sidebarFilters, setSidebarFilters] = useState<ShopFoodStyleItem[]>(sidebar);
 
   useEffect(() => {
     if (!data) return;

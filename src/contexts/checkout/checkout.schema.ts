@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { DeliveryMethodEnum } from "~utils/constants";
+import { DeliveryMethodEnum } from "~utils/enums";
 import { citySchema, districtSchema, phoneSchema, specificAddressSchema } from "~utils/schema";
 
 const checkoutSchema = z.object({

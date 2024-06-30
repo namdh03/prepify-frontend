@@ -14,7 +14,8 @@ import {
 } from "~components/ui/select";
 import { ShopFormType } from "~contexts/shop/shop.type";
 import useShop from "~hooks/useShop";
-import { OrderByEnum, PAGE, SortEnum } from "~utils/constants";
+import { PAGE } from "~utils/constants";
+import { OrderByEnum, SortEnum } from "~utils/enums";
 
 const OrderSort = memo(() => {
   const { form, onSubmit } = useShop();

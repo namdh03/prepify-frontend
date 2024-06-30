@@ -1,6 +1,7 @@
 import { z } from "zod";
 
-import { OrderByEnum, PAGE, SortEnum } from "~utils/constants";
+import { PAGE } from "~utils/constants";
+import { OrderByEnum, SortEnum } from "~utils/enums";
 import { getZodDefaults } from "~utils/getZodDefaults";
 
 import { ShopFormType } from "./shop.type";

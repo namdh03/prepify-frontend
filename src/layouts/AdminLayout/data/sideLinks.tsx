@@ -38,7 +38,7 @@ export const sideLinks: SideLink[] = [
       {
         title: "Danh Sách Công Thức",
         label: "",
-        href: configs.routes.listRecipe,
+        href: configs.routes.recipeList,
         icon: <></>,
       },
       {

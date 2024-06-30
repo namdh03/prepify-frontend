@@ -1,4 +1,4 @@
-import { Role } from "~utils/constants";
+import { Role } from "~utils/enums";
 
 import { SuccessResponse } from "./response.type";
 
