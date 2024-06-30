@@ -1,6 +1,6 @@
-import { FoodStyleData } from "~types/food-styles.type";
+import { ShopFoodStyleData } from "~types/food-styles.type";
 
-const priceOptions: FoodStyleData[] = [
+const priceOptions: ShopFoodStyleData[] = [
   {
     id: "below-100000",
     name: "0 - 100.000VNĐ",

@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { GET_CHECKOUT_QUERY_KEY, getCheckout } from "~apis/checkout.api";
 import useAuth from "~hooks/useAuth";
-import { DeliveryMethodEnum } from "~utils/constants";
+import { DeliveryMethodEnum } from "~utils/enums";
 
 import { reducer, setArea, setFetching } from "./checkout.reducer";
 import checkoutSchema from "./checkout.schema";

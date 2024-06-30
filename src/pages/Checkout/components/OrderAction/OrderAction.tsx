@@ -14,7 +14,8 @@ import useAuth from "~hooks/useAuth";
 import useCheckout from "~hooks/useCheckout";
 import { cn } from "~lib/utils";
 import { PostOrderBody } from "~types/order.type";
-import { DeliveryMethodEnum, SYSTEM_MESSAGES } from "~utils/constants";
+import { SYSTEM_MESSAGES } from "~utils/constants";
+import { DeliveryMethodEnum } from "~utils/enums";
 import isAxiosError from "~utils/isAxiosError";
 
 const OrderAction = memo(() => {

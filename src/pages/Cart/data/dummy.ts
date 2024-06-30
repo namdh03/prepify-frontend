@@ -1,5 +1,6 @@
 import { CartItem as CartItemType } from "~types/cart.type";
 
+// Dummy data for cart item
 export const cartItem: CartItemType = {
   id: "string",
   recipe: {

@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { GET_RECIPES_QUERY_KEY, GET_RECIPES_STALE_TIME, getRecipes } from "~apis/recipes.api";
+import { GET_SHOP_RECIPES_QUERY_KEY, GET_SHOP_RECIPES_STALE_TIME, getShopRecipes } from "~apis/recipes.api";
 import images from "~assets/imgs";
 import Pagination from "~components/common/Pagination";
 import { Form } from "~components/ui/form";
@@ -27,11 +27,11 @@ const Shop = () => {
   const currentPage = form.watch("page") || PAGE;
 
   const { data, isFetching } = useQuery({
-    queryKey: [GET_RECIPES_QUERY_KEY, params.toString()],
-    queryFn: () => getRecipes(form.getValues()),
+    queryKey: [GET_SHOP_RECIPES_QUERY_KEY, params.toString()],
+    queryFn: () => getShopRecipes(form.getValues()),
     select: (data) => data.data.data,
     enabled: Boolean(formRefs.current),
-    staleTime: GET_RECIPES_STALE_TIME,
+    staleTime: GET_SHOP_RECIPES_STALE_TIME,
   });
 
   const handlePageChange = (page: number) => {

@@ -2,28 +2,27 @@ import { CiStopwatch } from "react-icons/ci";
 
 import { ColumnDef } from "@tanstack/react-table";
 
+import DataTableColumnHeader from "~components/common/DataTableColumnHeader";
 import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { Badge } from "~components/ui/badge";
-import { LevelEnum } from "~utils/constants";
+import { TableRecipeType } from "~types/recipes.type";
+import { LevelCook } from "~utils/enums";
 
-import DataTableColumnHeader from "../components/DataTableColumnHeader";
 import DataTableRowActions from "../components/DataTableRowActions";
 
-import { Recipe } from "./schema";
-
-export const columns: ColumnDef<Recipe>[] = [
+export const columns: ColumnDef<TableRecipeType>[] = [
   {
-    accessorKey: "id",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="STT" />,
+    id: "index",
+    header: "STT",
     cell: ({ row }) => <span className="text-[#71717A]">{row.index + 1}</span>,
     enableSorting: false,
     enableHiding: false,
   },
   {
-    accessorKey: "title",
+    accessorKey: "name",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Tên công thức" />,
     cell: ({ row }) => {
-      const title = row.original.title;
+      const title = row.original.name;
       const image = row.original.image;
 
       return (
@@ -36,42 +35,38 @@ export const columns: ColumnDef<Recipe>[] = [
         </article>
       );
     },
-    enableSorting: false,
-    enableHiding: false,
+    meta: {
+      title: "Tên công thức",
+    },
   },
   {
-    accessorKey: "Độ khó",
+    accessorKey: "level",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Độ khó" />,
     cell: ({ row }) => {
       const level = row.original.level;
+      const levelStyles = {
+        [LevelCook.EASY]: "px-5 border-secondary bg-[#CFE4D2]",
+        [LevelCook.MEDIUM]: "px-5 border-primary bg-orange-300",
+        [LevelCook.HARD]: "px-5 border-destructive bg-red-300",
+      };
+      const levelText = {
+        [LevelCook.EASY]: "Dễ",
+        [LevelCook.MEDIUM]: "Trung bình",
+        [LevelCook.HARD]: "Khó",
+      };
 
-      switch (level) {
-        case LevelEnum.EASY:
-          return (
-            <Badge variant={"outline"} className="px-5 border-secondary bg-[#CFE4D2]">
-              {LevelEnum.EASY}
-            </Badge>
-          );
-        case LevelEnum.MEDIUM:
-          return (
-            <Badge variant={"outline"} className="px-5 border-primary bg-orange-300">
-              {LevelEnum.MEDIUM}
-            </Badge>
-          );
-        case LevelEnum.HARD:
-          return (
-            <Badge variant={"outline"} className="px-5 border-destructive bg-red-300">
-              {LevelEnum.HARD}
-            </Badge>
-          );
-        default:
-          return null;
-      }
+      return (
+        <Badge variant="outline" className={levelStyles[level]}>
+          {levelText[level]}
+        </Badge>
+      );
     },
-    enableSorting: false,
+    meta: {
+      title: "Độ khó",
+    },
   },
   {
-    accessorKey: "Thời gian nấu",
+    accessorKey: "time",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Thời gian nấu" />,
     cell: ({ row }) => {
       const time = row.original.time;
@@ -83,46 +78,25 @@ export const columns: ColumnDef<Recipe>[] = [
         </article>
       );
     },
-    enableSorting: false,
+    meta: {
+      title: "Thời gian nấu",
+    },
   },
   {
-    accessorKey: "Phân loại",
+    accessorKey: "category",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Phân loại" />,
     cell: ({ row }) => {
-      const category = row.original.category;
+      const category = row.original.category.name;
       return <span className="text-sm font-normal leading-5">{category}</span>;
     },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "Ẩm thực",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Ẩm thực" />,
-    cell: ({ row }) => {
-      const cuisine = row.original.cuisine;
-      return <span className="text-sm font-normal leading-5">{cuisine}</span>;
+    meta: {
+      title: "Phân loại",
     },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "Chế độ ăn",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Chế độ ăn" />,
-    cell: ({ row }) => {
-      const diet = row.original.diet;
-      return <span className="text-sm font-normal leading-5">{diet}</span>;
-    },
-    enableSorting: false,
-  },
-  {
-    accessorKey: "Hoàn cảnh",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Hoàn cảnh" />,
-    cell: ({ row }) => {
-      const occasion = row.original.occasion;
-      return <span className="text-sm font-normal leading-5">{occasion}</span>;
-    },
-    enableSorting: false,
   },
   {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
+    enableSorting: false,
+    enableHiding: false,
   },
 ];

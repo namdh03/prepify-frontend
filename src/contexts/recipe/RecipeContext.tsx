@@ -1,5 +1,6 @@
 import { createContext, FC, PropsWithChildren, useCallback, useState } from "react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
+import { Outlet } from "react-router-dom";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -48,7 +49,11 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
     [setFiles],
   );
 
-  return <RecipeContext.Provider value={{ form, onSubmit, files, onUpload }}>{children}</RecipeContext.Provider>;
+  return (
+    <RecipeContext.Provider value={{ form, onSubmit, files, onUpload }}>
+      {children || <Outlet />}
+    </RecipeContext.Provider>
+  );
 };
 
 export { RecipeContext, RecipeProvider };

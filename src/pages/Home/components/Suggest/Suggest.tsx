@@ -9,10 +9,10 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import configs from "~configs";
 import Container from "~layouts/MainLayout/components/Container";
 import Product from "~layouts/MainLayout/components/Product";
-import { RecipeType } from "~types/recipes.type";
-import { LevelEnum } from "~utils/constants";
+import { ShopRecipeType } from "~types/recipes.type";
+import { LevelCook } from "~utils/enums";
 
-const suggestList: RecipeType[] = [
+const suggestList: ShopRecipeType[] = [
   {
     id: "1",
     name: "Canh bí đỏ",
@@ -20,7 +20,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,
@@ -33,7 +33,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,
@@ -46,7 +46,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,
@@ -59,7 +59,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,
@@ -72,7 +72,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,
@@ -85,7 +85,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,
@@ -98,7 +98,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,
@@ -111,7 +111,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,
@@ -124,7 +124,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,
@@ -137,7 +137,7 @@ const suggestList: RecipeType[] = [
     foodStyle: "Món Ăn Việt",
     mainImage: images.suggest1st,
     subImage: images.suggest2nd,
-    level: LevelEnum.EASY,
+    level: LevelCook.EASY,
     time: 30,
     price: 15000,
     star: 5,

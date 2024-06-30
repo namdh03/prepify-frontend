@@ -1,4 +1,4 @@
-import { DeliveryMethodEnum } from "~utils/constants";
+import { DeliveryMethodEnum } from "~utils/enums";
 
 import { ExtraSpice } from "./meal-kit.type";
 
