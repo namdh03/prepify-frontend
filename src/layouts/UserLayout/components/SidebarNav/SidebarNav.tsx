@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import { useQueryClient } from "@tanstack/react-query";
 
-import { GET_ME_QUERY_KEY } from "~apis/users.api";
+import { GET_ME_QUERY_KEY } from "~apis/user.api";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select";
 import configs from "~configs";
 import { signOut } from "~contexts/auth/auth.reducer";

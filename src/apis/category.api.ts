@@ -1,4 +1,9 @@
-import { GetCategoriesResponse, TableCategoryFilter, TableCategoryResponse } from "~types/category.type";
+import {
+  CreateCategoryBody,
+  GetCategoriesResponse,
+  TableCategoryFilter,
+  TableCategoryResponse,
+} from "~types/category.type";
 import { TableRequestState } from "~types/table.type";
 import columnFilterFn from "~utils/columnFilterFn";
 import { OrderByEnum } from "~utils/enums";
@@ -24,3 +29,5 @@ export const getTableCategories = ({ sorting, columnFilters, pagination }: Table
     },
   });
 };
+
+export const createCategory = (body: CreateCategoryBody) => http.post("/moderator/categories", body);

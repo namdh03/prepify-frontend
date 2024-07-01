@@ -228,7 +228,6 @@ const Form = () => {
                   value={field.value as string}
                   placeholder="Chọn quận, huyện"
                   notFoundText="Không tìm thấy quận, huyện"
-                  width="100%"
                 />
                 <FormMessage />
               </FormItem>
@@ -284,7 +283,6 @@ const Form = () => {
                       value={field.value as string}
                       placeholder="Chọn nguyên liệu"
                       notFoundText="Không tìm thấy nguyên liệu"
-                      width="100%"
                     />
 
                     <Button

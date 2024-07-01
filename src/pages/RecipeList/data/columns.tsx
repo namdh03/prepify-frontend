@@ -6,7 +6,7 @@ import DataTableColumnHeader from "~components/common/DataTableColumnHeader";
 import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { Badge } from "~components/ui/badge";
 import { cn } from "~lib/utils";
-import { TableRecipeType } from "~types/recipes.type";
+import { TableRecipeType } from "~types/recipe.type";
 import { LevelCook } from "~utils/enums";
 
 import DataTableRowActions from "../components/DataTableRowActions";

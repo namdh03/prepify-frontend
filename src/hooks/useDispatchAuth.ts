@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { GET_ME_QUERY_KEY, getMe } from "~apis/users.api";
+import { GET_ME_QUERY_KEY, getMe } from "~apis/user.api";
 import { signIn } from "~contexts/auth/auth.reducer";
 import { GUEST_URLS } from "~utils/constants";
 import { getAccessToken } from "~utils/cookies";

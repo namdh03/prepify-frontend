@@ -1,4 +1,4 @@
-import { ShopFoodStyleData } from "~types/food-styles.type";
+import { ShopFoodStyleData } from "~types/food-style.type";
 
 const priceOptions: ShopFoodStyleData[] = [
   {

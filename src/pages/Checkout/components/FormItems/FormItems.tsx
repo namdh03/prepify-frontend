@@ -66,7 +66,6 @@ const FormItems = memo(({ form, districtLabel }: FormItemsProps) => {
           value={field.value as string}
           placeholder="Chọn quận, huyện"
           notFoundText="Không tìm thấy quận, huyện"
-          width="100%"
         />
       ),
     },

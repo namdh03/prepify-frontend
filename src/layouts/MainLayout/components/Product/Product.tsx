@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 import Ratings from "~components/common/Ratings";
 import configs from "~configs";
-import { ShopRecipeType } from "~types/recipes.type";
+import { ShopRecipeType } from "~types/recipe.type";
 import nFormatter from "~utils/nFormatter";
 
 /**

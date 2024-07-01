@@ -7,7 +7,7 @@ import useDebounce from "~hooks/useDebounce";
 import useDocumentTitle from "~hooks/useDocumentTitle";
 import useGetTableRecipes from "~hooks/useGetTableRecipes";
 import { LayoutBody } from "~layouts/AdminLayout/components/Layout";
-import { TableRecipeType } from "~types/recipes.type";
+import { TableRecipeType } from "~types/recipe.type";
 import { DEFAULT_DEBOUNCE_TIME, PAGE, TABLE_LIMIT } from "~utils/constants";
 
 import DataTableToolbar from "./components/DataTableToolbar";

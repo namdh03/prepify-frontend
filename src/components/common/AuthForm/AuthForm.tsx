@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { GET_GOOGLE_URL_QUERY_KEY, GET_ME_QUERY_KEY, getGoogleAuthUrl, getMe, loginWithGoogle } from "~apis/users.api";
+import { GET_GOOGLE_URL_QUERY_KEY, GET_ME_QUERY_KEY, getGoogleAuthUrl, getMe, loginWithGoogle } from "~apis/user.api";
 import icons from "~assets/icons";
 import { Button } from "~components/ui/button";
 import configs from "~configs";

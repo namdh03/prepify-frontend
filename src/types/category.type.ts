@@ -17,3 +17,7 @@ export type TableCategoryResponse = TableResponseState<TableCategoryType>;
 export type TableCategoryFilter = {
   name: string;
 };
+
+export type CreateCategoryBody = {
+  name: string;
+};

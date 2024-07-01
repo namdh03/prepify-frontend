@@ -17,7 +17,6 @@ type ComboboxProps = {
   value: string;
   placeholder: string;
   notFoundText: string;
-  width?: string;
 };
 
 export default function Combobox({
@@ -27,7 +26,6 @@ export default function Combobox({
   value,
   placeholder,
   notFoundText,
-  width = "200px",
 }: ComboboxProps) {
   const [open, setOpen] = useState(false);
 
@@ -48,14 +46,14 @@ export default function Combobox({
           <Button
             variant="outline"
             role="combobox"
-            className={cn(`w-[${width}] justify-between `, !value && "text-muted-foreground")}
+            className={cn(`w-full justify-between `, !value && "text-muted-foreground")}
           >
             <span className="truncate">{selectedLabel || placeholder}</span>
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </FormControl>
       </PopoverTrigger>
-      <PopoverContent className={`w-[${width}] p-0`}>
+      <PopoverContent className={`w-full p-0`}>
         <Command>
           <CommandInput placeholder={placeholder} className="h-9" />
           <CommandList>

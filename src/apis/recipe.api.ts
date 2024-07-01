@@ -1,6 +1,6 @@
 import { RecipeFormType } from "~contexts/recipe/recipe.type";
 import { ShopFormType } from "~contexts/shop/shop.type";
-import { ShopRecipeResponse, TableRecipeFilter, TableRecipeResponse } from "~types/recipes.type";
+import { ShopRecipeResponse, TableRecipeFilter, TableRecipeResponse } from "~types/recipe.type";
 import { TableRequestState } from "~types/table.type";
 import columnFilterFn from "~utils/columnFilterFn";
 import { LIMIT, PAGE } from "~utils/constants";

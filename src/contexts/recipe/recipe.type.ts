@@ -2,7 +2,7 @@ import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 import { UploadedFile } from "~pages/CreateRecipe/components/Upload/Upload";
-import { UnitType } from "~types/units.type";
+import { UnitType } from "~types/unit.type";
 
 import { recipeSchema } from "./recipe.schema";
 
