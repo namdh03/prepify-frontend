@@ -10,6 +10,7 @@ import {
   DropdownMenuSeparator,
 } from "~components/ui/dropdown-menu";
 import Button from "~layouts/AdminLayout/components/Button";
+import { cn } from "~lib/utils";
 
 import "@tanstack/react-table";
 
@@ -22,9 +23,10 @@ declare module "@tanstack/react-table" {
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
+  className?: string;
 }
 
-export default function DataTableViewOptions<TData>({ table }: DataTableViewOptionsProps<TData>) {
+export default function DataTableViewOptions<TData>({ table, className }: DataTableViewOptionsProps<TData>) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -33,7 +35,7 @@ export default function DataTableViewOptions<TData>({ table }: DataTableViewOpti
           Xem
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[170px]">
+      <DropdownMenuContent align="end" className={cn("w-[150px]", className)}>
         <DropdownMenuLabel>Hiển thị cột</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {table

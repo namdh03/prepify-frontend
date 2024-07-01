@@ -1,7 +1,6 @@
-// import { BsBoxSeam } from "react-icons/bs";
 import { AiOutlineDashboard, AiOutlineProfile } from "react-icons/ai";
+import { BsBoxSeam } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
-import { TbApps, TbMessages, TbSettings } from "react-icons/tb";
 
 import configs from "~configs";
 
@@ -18,31 +17,31 @@ export interface SideLink extends NavLink {
 
 export const sideLinks: SideLink[] = [
   {
-    title: "Tổng Quan",
+    title: "Tổng quan",
     label: "",
     href: configs.routes.overview,
     icon: <AiOutlineDashboard size={18} />,
   },
   {
-    title: "Hồ Sơ",
+    title: "Hồ sơ",
     label: "",
     href: configs.routes.overview,
     icon: <AiOutlineProfile size={18} />,
   },
   {
-    title: "Quản Lí Công Thức",
+    title: "Quản lí công thức",
     label: "",
     href: "",
     icon: <LuClipboardList size={18} />,
     sub: [
       {
-        title: "Danh Sách Công Thức",
+        title: "Danh sách công thức",
         label: "",
         href: configs.routes.recipeList,
         icon: <></>,
       },
       {
-        title: "Tạo Công Thức",
+        title: "Tạo công thức",
         label: "",
         href: configs.routes.createRecipe,
         icon: <></>,
@@ -50,21 +49,23 @@ export const sideLinks: SideLink[] = [
     ],
   },
   {
-    title: "Tạo Gói Nguyên Liệu",
+    title: "Quản lí meal kit, gói gia vị",
     label: "",
-    href: "/apps",
-    icon: <TbApps size={18} />,
-  },
-  {
-    title: "Danh Sách Đơn Hàng",
-    label: "",
-    href: "/chats",
-    icon: <TbMessages size={18} />,
-  },
-  {
-    title: "Cài Đặt",
-    label: "",
-    href: "/settings",
-    icon: <TbSettings size={18} />,
+    href: "",
+    icon: <BsBoxSeam size={18} />,
+    sub: [
+      {
+        title: "Danh sách gói nguyên liệu",
+        label: "",
+        href: configs.routes.mealKitList,
+        icon: <></>,
+      },
+      {
+        title: "Tạo gói nguyên liệu, gia vị",
+        label: "",
+        href: configs.routes.createMealKit,
+        icon: <></>,
+      },
+    ],
   },
 ];

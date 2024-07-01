@@ -45,19 +45,35 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableRecipeType>)
   return (
     <>
       <AlertDialog open={open} onOpenChange={handleOpenDialogChange}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Bạn có chắc chắn không?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Hành động này không thể hoàn tác. Hành động này sẽ xóa vĩnh viễn công thức của bạn và xóa dữ liệu của bạn
-              khỏi máy chủ của chúng tôi.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleDeleteRecipe}>Tiếp tục</AlertDialogCancel>
-            <AlertDialogAction>Hủy</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+        {row.original.totalMealKits > 0 ? (
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Không thể xóa công thức</AlertDialogTitle>
+              <AlertDialogDescription>
+                Công thức này đang được sử dụng trong{" "}
+                <strong className="text-primary">{row.original.totalMealKits} gói nguyên liệu</strong>. Vui lòng xóa các
+                gói nguyên liệu trước khi xóa công thức.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction>Đóng</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        ) : (
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Bạn có chắc chắn không?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Hành động này không thể hoàn tác. Hành động này sẽ xóa vĩnh viễn{" "}
+                <strong className="text-primary">công thức</strong> của bạn và xóa dữ liệu của bạn khỏi máy chủ.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={handleDeleteRecipe}>Tiếp tục</AlertDialogCancel>
+              <AlertDialogAction>Hủy</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        )}
       </AlertDialog>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>

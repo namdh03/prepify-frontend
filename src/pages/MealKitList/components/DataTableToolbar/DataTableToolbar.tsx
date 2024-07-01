@@ -6,8 +6,7 @@ import DataTableFacetedFilter from "~components/common/DataTableFacetedFilter";
 import DataTableViewOptions from "~components/common/DataTableViewOptions";
 import { Input } from "~components/ui/input";
 import Button from "~layouts/AdminLayout/components/Button";
-import categories from "~pages/RecipeList/data/categories";
-import levels from "~pages/RecipeList/data/levels";
+import status from "~pages/MealKitList/data/status";
 
 interface DataTableToolbarProps<TData> {
   table: Table<TData>;
@@ -16,28 +15,20 @@ interface DataTableToolbarProps<TData> {
 export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps<TData>) {
   const isFiltered = table.getState().columnFilters.length > 0;
   const columnName = table.getAllColumns().find((column) => column.id === "name");
-  const columnLevel = table.getAllColumns().find((column) => column.id === "level");
-  const columnCategory = table.getAllColumns().find((column) => column.id === "category");
+  const columnStatus = table.getAllColumns().find((column) => column.id === "status");
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 flex-col-reverse items-start gap-y-2 sm:flex-row sm:items-center sm:space-x-2">
         <Input
-          placeholder="Tìm kiếm công thức..."
+          placeholder="Tìm kiếm gói nguyên liệu..."
           value={(columnName?.getFilterValue() as string) ?? ""}
           onChange={(event) => columnName?.setFilterValue(event.target.value)}
           className="h-8 w-[150px] lg:w-[250px]"
         />
 
         <div className="flex gap-x-2">
-          {columnLevel && <DataTableFacetedFilter column={columnLevel} title="Độ khó" options={levels} />}
-          {columnCategory && (
-            <DataTableFacetedFilter
-              column={columnCategory}
-              title="Phân loại"
-              options={categories.map((category) => ({ label: category.name, value: category.id }))}
-            />
-          )}
+          {columnStatus && <DataTableFacetedFilter column={columnStatus} title="Trạng thái" options={status} />}
         </div>
 
         {isFiltered && (
@@ -51,7 +42,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
           </Button>
         )}
       </div>
-      <DataTableViewOptions table={table} className="w-60" />
+      <DataTableViewOptions table={table} className="w-40" />
     </div>
   );
 }
