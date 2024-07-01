@@ -49,7 +49,7 @@ export type TableRecipeType = {
   };
   slug: string;
   image: string;
-  totalMealKits: number;
+  totalmealkit: number;
 };
 
 export type TableViewRecipeType = TableRecipeType & {

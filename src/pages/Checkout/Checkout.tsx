@@ -18,7 +18,7 @@ import breadcrumbs from "./data/breadcrumbs";
 const Checkout = () => {
   useDocumentTitle("Prepify | Thanh toán");
 
-  const { form, checkout } = useCheckout();
+  const { form, checkout, isFetching } = useCheckout();
   const noteWatch = form.watch("note");
 
   const handleNoteChange = (e: ChangeEvent<HTMLTextAreaElement>) => form.setValue("note", e.target.value);
@@ -38,7 +38,7 @@ const Checkout = () => {
         className="[&_img]:w-[1000px] pb-9"
       />
 
-      {checkout === null && <Popup />}
+      {checkout === null && !isFetching && <Popup />}
 
       {checkout && (
         <section className="pt-9 pb-36 bg-[#F5F5F5]">

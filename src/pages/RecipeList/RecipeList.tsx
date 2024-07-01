@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 
 import { ColumnFiltersState, PaginationState, SortingState, Table } from "@tanstack/react-table";
 
-import images from "~assets/imgs";
 import DataTable from "~components/common/DataTable";
 import useDebounce from "~hooks/useDebounce";
 import useDocumentTitle from "~hooks/useDocumentTitle";
@@ -10,143 +9,9 @@ import useGetTableRecipes from "~hooks/useGetTableRecipes";
 import { LayoutBody } from "~layouts/AdminLayout/components/Layout";
 import { TableRecipeType } from "~types/recipes.type";
 import { DEFAULT_DEBOUNCE_TIME, PAGE, TABLE_LIMIT } from "~utils/constants";
-import { LevelCook } from "~utils/enums";
 
 import DataTableToolbar from "./components/DataTableToolbar";
 import { columns } from "./data/columns";
-
-const recipes: TableRecipeType[] = [
-  {
-    id: "1",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 0,
-  },
-  {
-    id: "2",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.MEDIUM,
-    slug: "bun-rieu",
-    totalMealKits: 10,
-  },
-  {
-    id: "3",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.HARD,
-    slug: "bun-rieu",
-    totalMealKits: 10,
-  },
-  {
-    id: "4",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
-  },
-  {
-    id: "5",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
-  },
-  {
-    id: "6",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
-  },
-  {
-    id: "7",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
-  },
-  {
-    id: "8",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
-  },
-  {
-    id: "9",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
-  },
-  {
-    id: "10",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
-  },
-];
 
 export default function RecipeList() {
   useDocumentTitle("Prepify | Danh sách công thức");
@@ -183,13 +48,7 @@ export default function RecipeList() {
       <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
         <DataTable
           isTableDataLoading={isLoading}
-          paginatedTableData={{
-            data: recipes,
-            itemTotal: data?.itemTotal || 0,
-            pageTotal: data?.pageTotal || 0,
-            pageSize: data?.pageSize || TABLE_LIMIT,
-            pageIndex: data?.pageIndex || PAGE - 1,
-          }}
+          paginatedTableData={data}
           columns={columns}
           pagination={pagination}
           setPagination={setPagination}

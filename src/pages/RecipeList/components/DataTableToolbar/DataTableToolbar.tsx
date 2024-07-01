@@ -1,12 +1,13 @@
 import { RxCross2 } from "react-icons/rx";
 
+import { useQuery } from "@tanstack/react-query";
 import { Table } from "@tanstack/react-table";
 
+import { GET_CATEGORIES_QUERY_KEY, getCategories } from "~apis/category.api";
 import DataTableFacetedFilter from "~components/common/DataTableFacetedFilter";
 import DataTableViewOptions from "~components/common/DataTableViewOptions";
 import { Input } from "~components/ui/input";
 import Button from "~layouts/AdminLayout/components/Button";
-import categories from "~pages/RecipeList/data/categories";
 import levels from "~pages/RecipeList/data/levels";
 
 interface DataTableToolbarProps<TData> {
@@ -18,6 +19,13 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
   const columnName = table.getAllColumns().find((column) => column.id === "name");
   const columnLevel = table.getAllColumns().find((column) => column.id === "level");
   const columnCategory = table.getAllColumns().find((column) => column.id === "category");
+  // Get categories
+  const { data } = useQuery({
+    queryKey: [GET_CATEGORIES_QUERY_KEY],
+    queryFn: () => getCategories(),
+    select: (data) => data.data.data,
+    refetchOnWindowFocus: false,
+  });
 
   return (
     <div className="flex items-center justify-between">
@@ -35,7 +43,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
             <DataTableFacetedFilter
               column={columnCategory}
               title="Phân loại"
-              options={categories.map((category) => ({ label: category.name, value: category.id }))}
+              options={data?.map((category) => ({ label: category.name, value: category.id })) || []}
             />
           )}
         </div>
