@@ -5,6 +5,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import DataTableColumnHeader from "~components/common/DataTableColumnHeader";
 import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { Badge } from "~components/ui/badge";
+import { cn } from "~lib/utils";
 import { TableRecipeType } from "~types/recipes.type";
 import { LevelCook } from "~utils/enums";
 
@@ -38,6 +39,7 @@ export const columns: ColumnDef<TableRecipeType>[] = [
     meta: {
       title: "Tên công thức",
     },
+    enableHiding: false,
   },
   {
     accessorKey: "level",
@@ -56,7 +58,7 @@ export const columns: ColumnDef<TableRecipeType>[] = [
       };
 
       return (
-        <Badge variant="outline" className={levelStyles[level]}>
+        <Badge variant="outline" className={cn("text-sm font-normal leading-5", levelStyles[level])}>
           {levelText[level]}
         </Badge>
       );
@@ -91,6 +93,17 @@ export const columns: ColumnDef<TableRecipeType>[] = [
     },
     meta: {
       title: "Phân loại",
+    },
+  },
+  {
+    accessorKey: "totalMealKits",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Tổng số gói nguyên liệu" />,
+    cell: ({ row }) => {
+      const total = row.original.totalMealKits;
+      return <span className="text-sm font-normal leading-5 block ml-16">{total} gói</span>;
+    },
+    meta: {
+      title: "Tổng số gói nguyên liệu",
     },
   },
   {

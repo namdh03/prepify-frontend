@@ -25,3 +25,8 @@ export enum OrderByEnum {
   ASC = "ASC",
   DESC = "DESC",
 }
+
+export enum MealKitStatus {
+  ACTIVE = "Đang mở bán",
+  INACTIVE = "Tạm ngưng",
+}

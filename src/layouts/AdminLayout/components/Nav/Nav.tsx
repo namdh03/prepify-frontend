@@ -100,7 +100,7 @@ function NavLinkDropdown({ title, icon, label, sub, closeNav }: NavLinkProps) {
           <div className="ml-2 rounded-lg bg-primary px-1 text-[0.625rem] text-primary-foreground">{label}</div>
         )}
         <span className={cn('ml-auto transition-all group-data-[state="open"]:-rotate-180')}>
-          <HiChevronDown size={20} />
+          <HiChevronDown size={16} />
         </span>
       </CollapsibleTrigger>
       <CollapsibleContent className="collapsibleDropdown" asChild>
@@ -162,7 +162,7 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
         </TooltipTrigger>
         <TooltipContent side="right" className="flex items-center gap-4">
           {title} {label && <span className="ml-auto text-white">{label}</span>}
-          <HiChevronDown size={18} className="-rotate-90 text-white" />
+          <HiChevronDown size={14} className="-rotate-90 text-white" />
         </TooltipContent>
       </Tooltip>
       <DropdownMenuContent side="right" align="start" sideOffset={4}>
@@ -172,7 +172,7 @@ function NavLinkIconDropdown({ title, icon, label, sub }: NavLinkProps) {
         <DropdownMenuSeparator />
         {sub!.map(({ title, icon, label, href }) => (
           <DropdownMenuItem key={`${title}-${href}`} asChild>
-            <Link to={href} className={`${checkActiveNav(href) ? "bg-primary" : ""}`}>
+            <Link to={href} className={`cursor-pointer ${checkActiveNav(href) ? "bg-primary text-white" : ""}`}>
               {icon} <span className="ml-2 max-w-52 text-wrap">{title}</span>
               {label && <span className="ml-auto text-xs">{label}</span>}
             </Link>

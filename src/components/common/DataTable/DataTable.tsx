@@ -139,7 +139,8 @@ export default function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+
+      {paginatedTableData && paginatedTableData.pageTotal > 0 && <DataTablePagination table={table} />}
     </div>
   );
 }

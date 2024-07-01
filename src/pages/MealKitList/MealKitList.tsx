@@ -6,149 +6,148 @@ import images from "~assets/imgs";
 import DataTable from "~components/common/DataTable";
 import useDebounce from "~hooks/useDebounce";
 import useDocumentTitle from "~hooks/useDocumentTitle";
-import useGetTableRecipes from "~hooks/useGetTableRecipes";
+import useGetTableMealKits from "~hooks/useGetTableMealKits";
 import { LayoutBody } from "~layouts/AdminLayout/components/Layout";
-import { TableRecipeType } from "~types/recipes.type";
+import { TableMealKitType } from "~types/meal-kit.type";
 import { DEFAULT_DEBOUNCE_TIME, PAGE, TABLE_LIMIT } from "~utils/constants";
-import { LevelCook } from "~utils/enums";
 
 import DataTableToolbar from "./components/DataTableToolbar";
 import { columns } from "./data/columns";
 
-const recipes: TableRecipeType[] = [
+const mealKits: TableMealKitType[] = [
   {
     id: "1",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
+    name: "Gói thực phẩm 1",
+    serving: 2,
+    price: 100000,
+    status: true,
+    extraSpice: null,
     image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 0,
   },
   {
     id: "2",
-    name: "Bún riêu",
-    category: {
-      id: "1",
-      name: "Món chính",
-    },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.MEDIUM,
-    slug: "bun-rieu",
-    totalMealKits: 10,
+    name: "Gói thực phẩm 2",
+    serving: 4,
+    price: 200000,
+    status: false,
+    extraSpice: null,
+    image: images.suggest2nd,
   },
   {
     id: "3",
-    name: "Bún riêu",
-    category: {
+    name: "Gói thực phẩm 3",
+    serving: 4,
+    price: 200000,
+    status: true,
+    extraSpice: {
       id: "1",
-      name: "Món chính",
+      name: "Tiêu",
+      price: 5000,
+      image: images.suggest1st,
     },
-    time: 30,
     image: images.suggest1st,
-    level: LevelCook.HARD,
-    slug: "bun-rieu",
-    totalMealKits: 10,
   },
   {
     id: "4",
-    name: "Bún riêu",
-    category: {
+    name: "Gói thực phẩm 4",
+    serving: 4,
+    price: 200000,
+    status: false,
+    extraSpice: {
       id: "1",
-      name: "Món chính",
+      name: "Tiêu",
+      price: 5000,
+      image: images.suggest2nd,
     },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
+    image: images.suggest2nd,
   },
   {
     id: "5",
-    name: "Bún riêu",
-    category: {
+    name: "Gói thực phẩm 5",
+    serving: 4,
+    price: 200000,
+    status: true,
+    extraSpice: {
       id: "1",
-      name: "Món chính",
+      name: "Tiêu",
+      price: 5000,
+      image: images.suggest1st,
     },
-    time: 30,
     image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
   },
   {
     id: "6",
-    name: "Bún riêu",
-    category: {
+    name: "Gói thực phẩm 6",
+    serving: 4,
+    price: 200000,
+    status: false,
+    extraSpice: {
       id: "1",
-      name: "Món chính",
+      name: "Tiêu",
+      price: 5000,
+      image: images.suggest2nd,
     },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
+    image: images.suggest2nd,
   },
   {
     id: "7",
-    name: "Bún riêu",
-    category: {
+    name: "Gói thực phẩm 7",
+    serving: 4,
+    price: 200000,
+    status: true,
+    extraSpice: {
       id: "1",
-      name: "Món chính",
+      name: "Tiêu",
+      price: 5000,
+      image: images.suggest1st,
     },
-    time: 30,
     image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
   },
   {
     id: "8",
-    name: "Bún riêu",
-    category: {
+    name: "Gói thực phẩm 8",
+    serving: 4,
+    price: 200000,
+    status: false,
+    extraSpice: {
       id: "1",
-      name: "Món chính",
+      name: "Tiêu",
+      price: 5000,
+      image: images.suggest2nd,
     },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
+    image: images.suggest2nd,
   },
   {
     id: "9",
-    name: "Bún riêu",
-    category: {
+    name: "Gói thực phẩm 9",
+    serving: 4,
+    price: 200000,
+    status: true,
+    extraSpice: {
       id: "1",
-      name: "Món chính",
+      name: "Tiêu",
+      price: 5000,
+      image: images.suggest1st,
     },
-    time: 30,
     image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
   },
   {
     id: "10",
-    name: "Bún riêu",
-    category: {
+    name: "Gói thực phẩm 10",
+    serving: 4,
+    price: 200000,
+    status: false,
+    extraSpice: {
       id: "1",
-      name: "Món chính",
+      name: "Tiêu",
+      price: 5000,
+      image: images.suggest2nd,
     },
-    time: 30,
-    image: images.suggest1st,
-    level: LevelCook.EASY,
-    slug: "bun-rieu",
-    totalMealKits: 10,
+    image: images.suggest2nd,
   },
 ];
 
-export default function RecipeList() {
+export default function MealKitList() {
   useDocumentTitle("Prepify | Danh sách công thức");
 
   // sorting state of the table
@@ -164,27 +163,29 @@ export default function RecipeList() {
     pageSize: TABLE_LIMIT, //default page size
   });
 
-  const { data, isLoading } = useGetTableRecipes({
+  const { data, isLoading } = useGetTableMealKits({
     sorting,
     columnFilters: debouncedColumnFilters,
     pagination,
   });
 
-  const handleRenderToolbar = useCallback((table: Table<TableRecipeType>) => <DataTableToolbar table={table} />, []);
+  const handleRenderToolbar = useCallback((table: Table<TableMealKitType>) => <DataTableToolbar table={table} />, []);
 
   return (
     <LayoutBody className="flex flex-col" fixedHeight>
       <div className="mb-2 flex items-center justify-between space-y-2">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Danh sách công thức</h2>
-          <p className="text-muted-foreground">Hiển thị danh sách công thức mà bạn đã tạo</p>
+          <h2 className="text-2xl font-bold tracking-tight">Danh sách gói thực phẩm</h2>
+          <p className="text-muted-foreground">
+            Hiển thị tất cả các gói thực phẩm mà bạn đã tạo. Bạn có thể thêm, sửa hoặc xóa gói thực phẩm tại đây.
+          </p>
         </div>
       </div>
       <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
         <DataTable
           isTableDataLoading={isLoading}
           paginatedTableData={{
-            data: recipes,
+            data: mealKits || [],
             itemTotal: data?.itemTotal || 0,
             pageTotal: data?.pageTotal || 0,
             pageSize: data?.pageSize || TABLE_LIMIT,
