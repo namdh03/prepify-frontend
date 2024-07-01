@@ -3,6 +3,7 @@ import {
   GetCategoriesResponse,
   TableCategoryFilter,
   TableCategoryResponse,
+  UpdateCategoryBody,
 } from "~types/category.type";
 import { TableRequestState } from "~types/table.type";
 import columnFilterFn from "~utils/columnFilterFn";
@@ -31,3 +32,5 @@ export const getTableCategories = ({ sorting, columnFilters, pagination }: Table
 };
 
 export const createCategory = (body: CreateCategoryBody) => http.post("/moderator/categories", body);
+
+export const updateCategory = (id: string, body: UpdateCategoryBody) => http.put(`/moderator/categories/${id}`, body);

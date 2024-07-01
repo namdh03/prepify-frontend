@@ -21,3 +21,5 @@ export type TableCategoryFilter = {
 export type CreateCategoryBody = {
   name: string;
 };
+
+export type UpdateCategoryBody = CreateCategoryBody;
