@@ -2,6 +2,7 @@ import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
 import { UploadedFile } from "~pages/CreateRecipe/components/Upload/Upload";
+import { UnitType } from "~types/units.type";
 
 import { recipeSchema } from "./recipe.schema";
 
@@ -12,4 +13,5 @@ export type RecipeContextType = {
   onSubmit: (values: RecipeFormType) => void;
   files: UploadedFile[];
   onUpload: (files: UploadedFile[], field: ControllerRenderProps<RecipeFormType, "images">) => void;
+  units: UnitType[];
 };

@@ -48,9 +48,9 @@ export default function Combobox({
           <Button
             variant="outline"
             role="combobox"
-            className={cn(`w-[${width}] justify-between`, !value && "text-muted-foreground")}
+            className={cn(`w-[${width}] justify-between `, !value && "text-muted-foreground")}
           >
-            {selectedLabel || placeholder}
+            <span className="truncate">{selectedLabel || placeholder}</span>
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </FormControl>
