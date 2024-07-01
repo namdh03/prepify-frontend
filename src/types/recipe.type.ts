@@ -1,6 +1,6 @@
 import { LevelCook } from "~utils/enums";
 
-import { TableFoodStyleType } from "./food-styles.type";
+import { TableFoodStyleType } from "./food-style.type";
 import { SuccessResponse } from "./response.type";
 import { TableResponseState } from "./table.type";
 

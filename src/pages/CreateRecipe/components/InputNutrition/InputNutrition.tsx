@@ -42,7 +42,6 @@ const InputNutrition = () => {
                         label: item.name,
                       })) || []
                     }
-                    width="w-52"
                     onValueChange={field.onChange}
                     value={field.value.toString()}
                     placeholder="Chọn dinh dưỡng"
@@ -86,7 +85,6 @@ const InputNutrition = () => {
                         label: item.name,
                       })) || []
                     }
-                    width="w-36"
                     onValueChange={field.onChange}
                     value={field.value as string}
                     placeholder="Chọn đơn vị"

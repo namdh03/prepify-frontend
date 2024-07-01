@@ -1,4 +1,4 @@
-import { ShopFoodStyleItem } from "~types/food-styles.type";
+import { ShopFoodStyleItem } from "~types/food-style.type";
 
 import evaluateOptions from "./evaluateOptions";
 import priceOptions from "./priceOptions";

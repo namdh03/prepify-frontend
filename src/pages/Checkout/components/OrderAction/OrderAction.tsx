@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { postOrder } from "~apis/order.api";
-import { GET_ME_QUERY_KEY } from "~apis/users.api";
+import { GET_ME_QUERY_KEY } from "~apis/user.api";
 import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
 import { Separator } from "~components/ui/separator";

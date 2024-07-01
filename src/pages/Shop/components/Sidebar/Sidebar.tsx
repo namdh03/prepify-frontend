@@ -3,12 +3,12 @@ import { useSearchParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { GET_FOOD_STYLES_QUERY_KEY, getFoodStyles } from "~apis/food-styles.api";
+import { GET_FOOD_STYLES_QUERY_KEY, getFoodStyles } from "~apis/food-style.api";
 import { Button } from "~components/ui/button";
 import { shopDefaultValues } from "~contexts/shop/shop.schema";
 import useShop from "~hooks/useShop";
 import sidebar from "~pages/Shop/data/sidebar";
-import { ShopFoodStyleItem } from "~types/food-styles.type";
+import { ShopFoodStyleItem } from "~types/food-style.type";
 
 import Filter from "../Filter";
 

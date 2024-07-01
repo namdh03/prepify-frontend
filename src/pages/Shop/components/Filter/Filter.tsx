@@ -8,7 +8,7 @@ import { Checkbox } from "~components/ui/checkbox";
 import { FormControl, FormField, FormItem, FormLabel } from "~components/ui/form";
 import { ShopFormType } from "~contexts/shop/shop.type";
 import useShop from "~hooks/useShop";
-import { ShopFoodStyleItem } from "~types/food-styles.type";
+import { ShopFoodStyleItem } from "~types/food-style.type";
 import { PAGE } from "~utils/constants";
 
 interface FilterProps {

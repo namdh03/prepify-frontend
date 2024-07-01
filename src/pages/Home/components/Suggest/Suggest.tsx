@@ -9,7 +9,7 @@ import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious
 import configs from "~configs";
 import Container from "~layouts/MainLayout/components/Container";
 import Product from "~layouts/MainLayout/components/Product";
-import { ShopRecipeType } from "~types/recipes.type";
+import { ShopRecipeType } from "~types/recipe.type";
 import { LevelCook } from "~utils/enums";
 
 const suggestList: ShopRecipeType[] = [

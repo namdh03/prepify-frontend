@@ -2,7 +2,7 @@ import { useSearchParams } from "react-router-dom";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { GET_SHOP_RECIPES_QUERY_KEY, GET_SHOP_RECIPES_STALE_TIME, getShopRecipes } from "~apis/recipes.api";
+import { GET_SHOP_RECIPES_QUERY_KEY, GET_SHOP_RECIPES_STALE_TIME, getShopRecipes } from "~apis/recipe.api";
 import images from "~assets/imgs";
 import Pagination from "~components/common/Pagination";
 import { Form } from "~components/ui/form";

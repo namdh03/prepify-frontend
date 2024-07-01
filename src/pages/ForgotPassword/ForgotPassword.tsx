@@ -6,7 +6,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 
-import { forgotPassword } from "~apis/users.api";
+import { forgotPassword } from "~apis/user.api";
 import AuthForm from "~components/common/AuthForm";
 import ButtonActionForm from "~components/common/AuthForm/components/ButtonActionForm";
 import { Form } from "~components/ui/form";

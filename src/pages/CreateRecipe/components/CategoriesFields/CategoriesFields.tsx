@@ -4,7 +4,7 @@ import { ControllerRenderProps } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 
 import { GET_CATEGORIES_QUERY_KEY, getCategories } from "~apis/category.api";
-import { GET_FOOD_STYLES_QUERY_KEY, getFoodStyles } from "~apis/food-styles.api";
+import { GET_FOOD_STYLES_QUERY_KEY, getFoodStyles } from "~apis/food-style.api";
 import Combobox from "~components/common/Combobox";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
@@ -111,7 +111,6 @@ const CategoriesFields = () => {
         const value = (field.value as Record<string, string>) || {};
         return (
           <Combobox
-            width="w-36"
             options={foodStyle.data.map((item) => ({ value: item.id, label: item.name }))}
             onValueChange={(val) => {
               const updatedValue = {

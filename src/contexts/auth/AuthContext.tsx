@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { GET_ME_QUERY_KEY, getMe } from "~apis/users.api";
+import { GET_ME_QUERY_KEY, getMe } from "~apis/user.api";
 import Loading from "~components/common/Loading";
 import configs from "~configs";
 import { SYSTEM_MESSAGES } from "~utils/constants";

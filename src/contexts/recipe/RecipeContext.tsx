@@ -6,8 +6,8 @@ import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { createRecipe } from "~apis/recipes.api";
-import { GET_UNITS_QUERY_KEY, getUnits } from "~apis/units.api";
+import { createRecipe } from "~apis/recipe.api";
+import { GET_UNITS_QUERY_KEY, getUnits } from "~apis/unit.api";
 import { UploadedFile } from "~pages/CreateRecipe/components/Upload/Upload";
 import { RECIPE_MESSAGES } from "~utils/constants";
 import { LevelCook } from "~utils/enums";

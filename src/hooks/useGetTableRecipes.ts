@@ -1,6 +1,6 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-import { GET_TABLE_RECIPES_QUERY_KEY, getTableRecipes } from "~apis/recipes.api";
+import { GET_TABLE_RECIPES_QUERY_KEY, getTableRecipes } from "~apis/recipe.api";
 import { TableRequestState } from "~types/table.type";
 
 const useGetTableRecipes = ({ sorting, columnFilters, pagination }: TableRequestState) => {

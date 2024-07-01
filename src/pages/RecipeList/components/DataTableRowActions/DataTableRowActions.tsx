@@ -25,7 +25,7 @@ import {
   DropdownMenuTrigger,
 } from "~components/ui/dropdown-menu";
 import Button from "~layouts/AdminLayout/components/Button";
-import { TableRecipeType } from "~types/recipes.type";
+import { TableRecipeType } from "~types/recipe.type";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;

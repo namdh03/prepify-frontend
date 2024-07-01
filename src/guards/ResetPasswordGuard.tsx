@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 
 import { useMutation } from "@tanstack/react-query";
 
-import { verifyTokenForgotPassword } from "~apis/users.api";
+import { verifyTokenForgotPassword } from "~apis/user.api";
 import Loading from "~components/common/Loading";
 import NotFound from "~pages/NotFound";
 import { ResetPasswordProps } from "~pages/ResetPassword/ResetPassword";
