@@ -81,8 +81,8 @@ export default function DataTable<TData, TValue>({
     // pagination config
     getPaginationRowModel: getPaginationRowModel(),
     onPaginationChange: setPagination,
-    rowCount: paginatedTableData?.pageTotal || 0,
-    pageCount: Math.ceil((paginatedTableData?.pageTotal || 0) / (paginatedTableData?.pageSize || TABLE_LIMIT)),
+    rowCount: paginatedTableData?.itemTotal || 0,
+    pageCount: paginatedTableData?.pageTotal || 0,
     manualPagination: true,
     state: {
       sorting,

@@ -45,13 +45,13 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableRecipeType>)
   return (
     <>
       <AlertDialog open={open} onOpenChange={handleOpenDialogChange}>
-        {row.original.totalMealKits > 0 ? (
+        {row.original.totalmealkit > 0 ? (
           <AlertDialogContent>
             <AlertDialogHeader>
               <AlertDialogTitle>Không thể xóa công thức</AlertDialogTitle>
               <AlertDialogDescription>
                 Công thức này đang được sử dụng trong{" "}
-                <strong className="text-primary">{row.original.totalMealKits} gói nguyên liệu</strong>. Vui lòng xóa các
+                <strong className="text-primary">{row.original.totalmealkit} gói nguyên liệu</strong>. Vui lòng xóa các
                 gói nguyên liệu trước khi xóa công thức.
               </AlertDialogDescription>
             </AlertDialogHeader>

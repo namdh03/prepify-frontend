@@ -2,7 +2,7 @@ import { ShopFormType } from "~contexts/shop/shop.type";
 import { ShopRecipeResponse, TableRecipeResponse } from "~types/recipes.type";
 import { TableRequestState } from "~types/table.type";
 import { LIMIT, PAGE } from "~utils/constants";
-import { SortEnum } from "~utils/enums";
+import { OrderByEnum, SortEnum } from "~utils/enums";
 import { findSidebarMinMax } from "~utils/getSidebarPrice";
 import http from "~utils/http";
 
@@ -49,6 +49,27 @@ export const getShopRecipes = (values: ShopFormType) => {
 };
 
 export const getTableRecipes = ({ sorting, columnFilters, pagination }: TableRequestState) => {
-  console.log("getTableRecipes", { sorting, columnFilters, pagination });
-  return http.get<TableRecipeResponse>("/recipes");
+  const filters = columnFilters.reduce(
+    (acc, { id, value }) => {
+      if (typeof value === "string" || Array.isArray(value)) {
+        acc[id] = Array.isArray(value) ? value.join(",") : value;
+      }
+      return acc;
+    },
+    {} as Record<string, string>,
+  );
+  const { name: searchRecipe = "", level: cookLevel = "", category = "" } = filters;
+  const { id: sortBy = "", desc: orderByDesc = false } = sorting[0] || {};
+  const orderBy = orderByDesc ? OrderByEnum.DESC : OrderByEnum.ASC;
+
+  const params = {
+    ...(searchRecipe && { searchRecipe }),
+    ...(cookLevel && { cookLevel }),
+    ...(category && { category }),
+    ...(sortBy && { sortBy, orderBy }),
+    pageIndex: pagination.pageIndex + 1,
+    pageSize: pagination.pageSize,
+  };
+
+  return http.get<TableRecipeResponse>("/moderator/recipes", { params });
 };

@@ -59,7 +59,7 @@ export const columns: ColumnDef<TableRecipeType>[] = [
 
       return (
         <Badge variant="outline" className={cn("text-sm font-normal leading-5", levelStyles[level])}>
-          {levelText[level]}
+          {levelText[level] || "Không xác định"}
         </Badge>
       );
     },
@@ -96,15 +96,16 @@ export const columns: ColumnDef<TableRecipeType>[] = [
     },
   },
   {
-    accessorKey: "totalMealKits",
+    accessorKey: "totalmealkit",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Tổng số gói nguyên liệu" />,
     cell: ({ row }) => {
-      const total = row.original.totalMealKits;
-      return <span className="text-sm font-normal leading-5 block ml-16">{total} gói</span>;
+      const total = row.original.totalmealkit;
+      return <span className="text-sm font-normal leading-5 block ml-16">{total || 0} gói</span>;
     },
     meta: {
       title: "Tổng số gói nguyên liệu",
     },
+    enableSorting: false,
   },
   {
     id: "actions",
