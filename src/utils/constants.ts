@@ -44,6 +44,7 @@ export const FEEDBACK_MESSAGES = {
 export const CATEGORY_MESSAGES = {
   CATEGORY_NAME_REQUIRED: "Vui lòng nhập tên phân loại",
   CATEGORY_NAME_TOO_LONG: "Tên phân loại không được quá 50 ký tự",
+  CREATE_CATEGORY_SUCCESS: "Tạo phân loại thành công",
 };
 
 export const PAGE = 1;

@@ -22,7 +22,7 @@ interface ModalProps {
   defaultName?: string;
   title: string;
   description?: string;
-  onSubmit: (values: ModalFormType) => void;
+  onSubmit: (values: ModalFormType) => Promise<void>;
   submitText: string;
 }
 
@@ -45,6 +45,11 @@ export default function Modal({
     },
   });
 
+  const handleSubmit = async (values: ModalFormType) => {
+    await onSubmit(values);
+    form.reset();
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
@@ -53,7 +58,7 @@ export default function Modal({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8" id="category-modal-form">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8" id="category-modal-form">
             <FormField
               control={form.control}
               name="name"

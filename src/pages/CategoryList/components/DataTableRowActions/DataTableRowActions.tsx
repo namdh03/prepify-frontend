@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
-import { GoPlusCircle } from "react-icons/go";
 import { RiDeleteBinLine } from "react-icons/ri";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
@@ -37,30 +36,20 @@ interface DataTableRowActionsProps<TData> {
 function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType>) {
   const [open, setOpen] = useState({
     alert: false,
-    modalCreate: false,
-    modalUpdate: false,
+    modal: false,
   });
 
   const handleOpenAlert = () => setOpen((prev) => ({ ...prev, alert: true }));
 
   const handleOpenAlertChange = (value: boolean) => setOpen((prev) => ({ ...prev, alert: value }));
 
-  const handleOpenModalCreate = () => setOpen((prev) => ({ ...prev, modalCreate: true }));
+  const handleOpenModal = () => setOpen((prev) => ({ ...prev, modal: true }));
 
-  const handleOpenModalCreateChange = (value: boolean) => setOpen((prev) => ({ ...prev, modalCreate: value }));
+  const handleOpenModalChange = (value: boolean) => setOpen((prev) => ({ ...prev, modal: value }));
 
-  const handleOpenModalUpdate = () => setOpen((prev) => ({ ...prev, modalUpdate: true }));
-
-  const handleOpenModalUpdateChange = (value: boolean) => setOpen((prev) => ({ ...prev, modalUpdate: value }));
-
-  const handleCreateCategory = (values: ModalFormType) => {
-    console.log("Create category", values);
-    setOpen((prev) => ({ ...prev, modalCreate: false }));
-  };
-
-  const handleUpdateCategory = (values: ModalFormType) => {
-    console.log("Update category", values);
-    setOpen((prev) => ({ ...prev, modalUpdate: false }));
+  const handleUpdateCategory = async (values: ModalFormType) => {
+    console.log("Update category", row.original.id, values);
+    setOpen((prev) => ({ ...prev, modal: false }));
   };
 
   const handleDeleteCategory = () => {
@@ -70,17 +59,8 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType
   return (
     <>
       <Modal
-        open={open.modalCreate}
-        onOpenChange={handleOpenModalCreateChange}
-        title="Tạo mới phân loại"
-        description="Phân loại giúp bạn phân loại các công thức một cách dễ dàng hơn."
-        onSubmit={handleCreateCategory}
-        submitText="Tạo mới"
-      />
-
-      <Modal
-        open={open.modalUpdate}
-        onOpenChange={handleOpenModalUpdateChange}
+        open={open.modal}
+        onOpenChange={handleOpenModalChange}
         title="Chỉnh sửa phân loại"
         description="Chỉnh sửa thông tin phân loại của bạn."
         onSubmit={handleUpdateCategory}
@@ -128,14 +108,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[200px]">
-          <DropdownMenuItem className="cursor-pointer" onClick={handleOpenModalCreate}>
-            <DropdownMenuShortcut className="ml-0 mr-2">
-              <GoPlusCircle size={16} />
-            </DropdownMenuShortcut>
-            Tạo mới
-          </DropdownMenuItem>
-
-          <DropdownMenuItem className="cursor-pointer" onClick={handleOpenModalUpdate}>
+          <DropdownMenuItem className="cursor-pointer" onClick={handleOpenModal}>
             <DropdownMenuShortcut className="ml-0 mr-2">
               <FiEdit3 size={16} />
             </DropdownMenuShortcut>
