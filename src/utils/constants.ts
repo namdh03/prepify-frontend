@@ -57,3 +57,24 @@ export const GUEST_URLS = [
 ];
 
 export const DEFAULT_DEBOUNCE_TIME = 1000;
+
+export const RECIPE_MESSAGES = {
+  NAME_REQUIRED: "Vui lòng nhập tên công thức",
+  NAME_TOO_LONG: "Tên công thức không được quá 100 ký tự",
+  INGREDIENTS_REQUIRED: "Vui lòng nhập nguyên liệu",
+  STEPS_REQUIRED: "Vui lòng nhập bước thực hiện",
+  TIME_REQUIRED: "Vui lòng nhập thời gian nấu",
+  TIME_INVALID: "Thời gian nấu không hợp lệ",
+  LEVEL_REQUIRED: "Vui lòng chọn mức độ",
+  NUTRITION_REQUIRED: "Vui lòng nhập chất dinh dưỡng",
+  CATEGORY_REQUIRED: "Vui lòng chọn danh mục",
+  IMAGES_REQUIRED: "Vui lòng chọn ảnh",
+  VIDEO_URL_REQUIRED: "Vui lòng nhập link video",
+  VIDEO_URL_INVALID: "Link video không hợp lệ",
+  AMOUNT_REQUIRED: "Vui lòng nhập số lượng",
+  UNIT_REQUIRED: "Vui lòng chọn đơn vị",
+  IMAGE_SIZE: "Kích thước ảnh tối đa là 1MB",
+  FOOD_STYLE_REQUIRED: "Vui lòng chọn phong cách ẩm thực",
+  CREATE_RECIPE_SUCCESS: "Tạo công thành công",
+  CREATE_RECIPE_FAILED: "Tạo công thức thất bại",
+} as const;

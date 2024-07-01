@@ -3,12 +3,15 @@ import { ControllerRenderProps } from "react-hook-form";
 
 import { useQuery } from "@tanstack/react-query";
 
+import { GET_CATEGORIES_QUERY_KEY, getCategories } from "~apis/category.api";
 import { GET_FOOD_STYLES_QUERY_KEY, getFoodStyles } from "~apis/food-styles.api";
 import Combobox from "~components/common/Combobox";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select";
 import { RecipeFormType } from "~contexts/recipe/recipe.type";
 import useRecipe from "~hooks/useRecipe";
+import { LevelCook } from "~utils/enums";
 
 type RecipeObjectType = {
   name?: keyof RecipeFormType;
@@ -26,6 +29,13 @@ const CategoriesFields = () => {
     refetchOnMount: false,
   });
 
+  const categories = useQuery({
+    queryKey: [GET_CATEGORIES_QUERY_KEY],
+    queryFn: () => getCategories(),
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  });
+
   const defaultFields: RecipeObjectType[] = useMemo(
     () => [
       {
@@ -34,9 +44,9 @@ const CategoriesFields = () => {
         component: (field) => (
           <Combobox
             options={[
-              { value: "easy", label: "Easy" },
-              { value: "medium", label: "Medium" },
-              { value: "hard", label: "Hard" },
+              { value: LevelCook.EASY, label: "Dễ" },
+              { value: LevelCook.MEDIUM, label: "Trung bình" },
+              { value: LevelCook.HARD, label: "Nâng cao" },
             ]}
             onValueChange={field.onChange}
             value={field.value as string}
@@ -60,27 +70,35 @@ const CategoriesFields = () => {
           </FormControl>
         ),
       },
-      {
-        type: "category",
-        title: "Phân loại",
-        component: (field) => (
-          <Combobox
-            options={[
-              { value: "nuoc", label: "Món nước" },
-              { value: "kho", label: "Món khô" },
-              { value: "nuong", label: "Món nướng" },
-            ]}
-            onValueChange={field.onChange}
-            value={field.value as string}
-            placeholder="Chọn phân loại"
-            notFoundText="Không tìm thấy phân loại"
-          />
-        ),
-      },
     ],
     [],
   );
   const [dynamicFields, setDynamicFields] = useState<RecipeObjectType[]>(defaultFields);
+
+  useEffect(() => {
+    if (!categories.data?.data) return;
+    const newCategories: RecipeObjectType = {
+      type: "category",
+      title: "Phân loại",
+      component: (field) => (
+        <Select onValueChange={field.onChange} value={String(field.value)}>
+          <FormControl>
+            <SelectTrigger>
+              <SelectValue placeholder="Chọn phân loại" />
+            </SelectTrigger>
+          </FormControl>
+          <SelectContent>
+            {categories.data?.data.data.map((category) => (
+              <SelectItem key={category.id} value={category.id}>
+                {category.name}
+              </SelectItem>
+            )) || []}
+          </SelectContent>
+        </Select>
+      ),
+    };
+    setDynamicFields((prev) => [...prev, newCategories]);
+  }, [categories.data?.data]);
 
   useEffect(() => {
     const foodStyles = data && data.data.data;

@@ -1,3 +1,4 @@
+import { RecipeFormType } from "~contexts/recipe/recipe.type";
 import { ShopFormType } from "~contexts/shop/shop.type";
 import { ShopRecipeResponse, TableRecipeResponse } from "~types/recipes.type";
 import { TableRequestState } from "~types/table.type";
@@ -72,4 +73,25 @@ export const getTableRecipes = ({ sorting, columnFilters, pagination }: TableReq
   };
 
   return http.get<TableRecipeResponse>("/moderator/recipes", { params });
+};
+
+export const createRecipe = (recipe: RecipeFormType) => {
+  const formData = new FormData();
+  formData.append("name", recipe.name);
+  formData.append("ingredients", JSON.stringify(recipe.ingredients));
+  formData.append("category", recipe.category.toString());
+  formData.append("foodStyles", JSON.stringify(Object.values(recipe.foodStyleObj)));
+  formData.append("steps", recipe.steps);
+  formData.append("nutrition", JSON.stringify(recipe.nutrition));
+  recipe.images.map((file) => {
+    formData.append("images", file);
+  });
+  formData.append("time", recipe.time.toString());
+  formData.append("level", recipe.level);
+
+  return http.post("/moderator/recipes", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };

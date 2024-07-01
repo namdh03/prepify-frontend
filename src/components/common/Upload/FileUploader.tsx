@@ -63,7 +63,7 @@ export default function FileUploader(props: FileUploaderProps) {
     files,
     handleUpload,
     accept = { "image/*": [] },
-    maxSize = 1024 * 1024 * 2,
+    maxSize = 1024 * 1024 * 4,
     maxFiles = 1,
     multiple = false,
     disabled = false,
