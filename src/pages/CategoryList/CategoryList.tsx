@@ -13,59 +13,6 @@ import { DEFAULT_DEBOUNCE_TIME, PAGE, TABLE_LIMIT } from "~utils/constants";
 import DataTableToolbar from "./components/DataTableToolbar";
 import { columns } from "./data/columns";
 
-const categories: TableCategoryType[] = [
-  {
-    id: "1",
-    name: "Thịt",
-    totalRecipes: 0,
-  },
-  {
-    id: "2",
-    name: "Rau cải",
-    totalRecipes: 5,
-  },
-  {
-    id: "3",
-    name: "Hải sản",
-    totalRecipes: 7,
-  },
-  {
-    id: "4",
-    name: "Đồ uống",
-    totalRecipes: 3,
-  },
-  {
-    id: "5",
-    name: "Thịt",
-    totalRecipes: 10,
-  },
-  {
-    id: "6",
-    name: "Rau cải",
-    totalRecipes: 5,
-  },
-  {
-    id: "7",
-    name: "Hải sản",
-    totalRecipes: 7,
-  },
-  {
-    id: "8",
-    name: "Đồ uống",
-    totalRecipes: 3,
-  },
-  {
-    id: "9",
-    name: "Thịt",
-    totalRecipes: 10,
-  },
-  {
-    id: "10",
-    name: "Rau cải",
-    totalRecipes: 5,
-  },
-];
-
 export default function CategoryList() {
   useDocumentTitle("Prepify | Danh sách phân loại công thức");
 
@@ -103,13 +50,7 @@ export default function CategoryList() {
       <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
         <DataTable
           isTableDataLoading={isLoading}
-          paginatedTableData={{
-            data: categories || [],
-            itemTotal: data?.itemTotal || 0,
-            pageTotal: data?.pageTotal || 0,
-            pageSize: data?.pageSize || TABLE_LIMIT,
-            pageIndex: data?.pageIndex || PAGE - 1,
-          }}
+          paginatedTableData={data}
           columns={columns}
           pagination={pagination}
           setPagination={setPagination}

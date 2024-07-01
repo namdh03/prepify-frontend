@@ -12,4 +12,8 @@ export type TableCategoryType = CategoryItem & {
   totalRecipes: number;
 };
 
-export type TableCategoryResponse = TableResponseState<TableCategoryType[]>;
+export type TableCategoryResponse = TableResponseState<TableCategoryType>;
+
+export type TableCategoryFilter = {
+  name: string;
+};

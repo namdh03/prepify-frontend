@@ -1,7 +1,8 @@
 import { RecipeFormType } from "~contexts/recipe/recipe.type";
 import { ShopFormType } from "~contexts/shop/shop.type";
-import { ShopRecipeResponse, TableRecipeResponse } from "~types/recipes.type";
+import { ShopRecipeResponse, TableRecipeFilter, TableRecipeResponse } from "~types/recipes.type";
 import { TableRequestState } from "~types/table.type";
+import columnFilterFn from "~utils/columnFilterFn";
 import { LIMIT, PAGE } from "~utils/constants";
 import { OrderByEnum, SortEnum } from "~utils/enums";
 import { findSidebarMinMax } from "~utils/getSidebarPrice";
@@ -50,16 +51,11 @@ export const getShopRecipes = (values: ShopFormType) => {
 };
 
 export const getTableRecipes = ({ sorting, columnFilters, pagination }: TableRequestState) => {
-  const filters = columnFilters.reduce(
-    (acc, { id, value }) => {
-      if (typeof value === "string" || Array.isArray(value)) {
-        acc[id] = Array.isArray(value) ? value.join(",") : value;
-      }
-      return acc;
-    },
-    {} as Record<string, string>,
-  );
-  const { name: searchRecipe = "", level: cookLevel = "", category = "" } = filters;
+  const {
+    name: searchRecipe = "",
+    level: cookLevel = "",
+    category = "",
+  } = columnFilterFn<TableRecipeFilter>({ columnFilters });
   const { id: sortBy = "", desc: orderByDesc = false } = sorting[0] || {};
   const orderBy = orderByDesc ? OrderByEnum.DESC : OrderByEnum.ASC;
 

@@ -62,3 +62,9 @@ export type TableViewRecipeType = TableRecipeType & {
 };
 
 export type TableRecipeResponse = TableResponseState<TableRecipeType>;
+
+export type TableRecipeFilter = {
+  name: string;
+  level: string;
+  category: string;
+};
