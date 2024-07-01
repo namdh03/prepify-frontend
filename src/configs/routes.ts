@@ -8,6 +8,7 @@ const routes = {
   mealKitList: "/moderator/meal-kit-list",
   createIngredient: "/moderator/create-ingredient",
   ingredientList: "/moderator/ingredient-list",
+  categoryList: "/moderator/category-list",
   login: "/login",
   loginGoogle: "/login/google",
   register: "/register",

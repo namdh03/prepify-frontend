@@ -226,6 +226,12 @@ const router = createBrowserRouter([
           Component: (await import("~pages/CreateIngredient")).default,
         }),
       },
+      {
+        path: configs.routes.categoryList,
+        lazy: async () => ({
+          Component: (await import("~pages/CategoryList")).default,
+        }),
+      },
     ],
   },
 

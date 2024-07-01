@@ -41,6 +41,11 @@ export const FEEDBACK_MESSAGES = {
   FEEDBACK_CONTENT_TOO_LONG: "Nội dung đánh giá không được quá 500 ký tự",
 };
 
+export const CATEGORY_MESSAGES = {
+  CATEGORY_NAME_REQUIRED: "Vui lòng nhập tên phân loại",
+  CATEGORY_NAME_TOO_LONG: "Tên phân loại không được quá 50 ký tự",
+};
+
 export const PAGE = 1;
 export const LIMIT = 9;
 export const TABLE_LIMIT = 10;

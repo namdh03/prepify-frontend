@@ -1,4 +1,5 @@
 import { AiOutlineDashboard, AiOutlineProfile } from "react-icons/ai";
+import { BiCategory } from "react-icons/bi";
 import { BsBoxSeam } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
 import { PiFishLight } from "react-icons/pi";
@@ -88,5 +89,11 @@ export const sideLinks: SideLink[] = [
         icon: <></>,
       },
     ],
+  },
+  {
+    title: "Quản lí phân loại công thức",
+    label: "",
+    href: configs.routes.categoryList,
+    icon: <BiCategory size={18} />,
   },
 ];

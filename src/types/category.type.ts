@@ -1,4 +1,5 @@
 import { SuccessResponse } from "./response.type";
+import { TableResponseState } from "./table.type";
 
 export type CategoryItem = {
   id: string;
@@ -6,3 +7,9 @@ export type CategoryItem = {
 };
 
 export type GetCategoriesResponse = SuccessResponse<CategoryItem[]>;
+
+export type TableCategoryType = CategoryItem & {
+  totalRecipes: number;
+};
+
+export type TableCategoryResponse = TableResponseState<TableCategoryType[]>;

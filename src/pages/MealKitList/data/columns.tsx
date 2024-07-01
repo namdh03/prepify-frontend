@@ -21,16 +21,16 @@ export const columns: ColumnDef<TableMealKitType>[] = [
     accessorKey: "name",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Tên gói nguyên liệu" />,
     cell: ({ row }) => {
-      const title = row.original.name;
+      const name = row.original.name;
       const image = row.original.image;
 
       return (
         <article className="flex items-center gap-3">
           <Avatar className="w-8 h-8">
             <AvatarImage src={image} />
-            <AvatarFallback>{title.charAt(0)}</AvatarFallback>
+            <AvatarFallback>{name.charAt(0)}</AvatarFallback>
           </Avatar>
-          <span className="text-sm font-normal leading-5">{title}</span>
+          <span className="text-sm font-normal leading-5">{name}</span>
         </article>
       );
     },
