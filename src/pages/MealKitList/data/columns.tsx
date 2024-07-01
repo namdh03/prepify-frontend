@@ -13,7 +13,11 @@ export const columns: ColumnDef<TableMealKitType>[] = [
   {
     id: "index",
     header: "STT",
-    cell: ({ row }) => <span className="text-[#71717A]">{row.index + 1}</span>,
+    cell: ({ table, row }) => (
+      <span className="text-[#71717A]">
+        {row.index + table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1}
+      </span>
+    ),
     enableSorting: false,
     enableHiding: false,
   },
