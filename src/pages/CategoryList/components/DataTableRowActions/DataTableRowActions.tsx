@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
 
+import { GET_TABLE_CATEGORIES_QUERY_KEY, updateCategory } from "~apis/category.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,7 +27,9 @@ import {
   DropdownMenuTrigger,
 } from "~components/ui/dropdown-menu";
 import Button from "~layouts/AdminLayout/components/Button";
-import { TableCategoryType } from "~types/category.type";
+import { TableCategoryType, UpdateCategoryBody } from "~types/category.type";
+import { CATEGORY_MESSAGES, SYSTEM_MESSAGES } from "~utils/constants";
+import isAxiosError from "~utils/isAxiosError";
 
 import Modal from "../Modal";
 import { ModalFormType } from "../Modal/Modal";
@@ -34,9 +39,13 @@ interface DataTableRowActionsProps<TData> {
 }
 
 function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType>) {
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState({
     alert: false,
     modal: false,
+  });
+  const { mutateAsync: updateCategoryMutateAsync } = useMutation({
+    mutationFn: (body: UpdateCategoryBody) => updateCategory(row.original.id, body),
   });
 
   const handleOpenAlert = () => setOpen((prev) => ({ ...prev, alert: true }));
@@ -48,8 +57,17 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType
   const handleOpenModalChange = (value: boolean) => setOpen((prev) => ({ ...prev, modal: value }));
 
   const handleUpdateCategory = async (values: ModalFormType) => {
-    console.log("Update category", row.original.id, values);
-    setOpen((prev) => ({ ...prev, modal: false }));
+    await updateCategoryMutateAsync(values, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_TABLE_CATEGORIES_QUERY_KEY] });
+        setOpen((prev) => ({ ...prev, modal: false }));
+        toast.success(CATEGORY_MESSAGES.UPDATE_CATEGORY_SUCCESS);
+      },
+      onError: (error) => {
+        if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+        else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+      },
+    });
   };
 
   const handleDeleteCategory = () => {
