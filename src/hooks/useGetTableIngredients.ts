@@ -1,13 +1,13 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
-import { GET_TABLE_RECIPES_QUERY_KEY, getTableRecipes } from "~apis/recipes.api";
+import { GET_TABLE_INGREDIENTS_QUERY_KEY, getTableIngredients } from "~apis/ingredient.api";
 import { TableRequestState } from "~types/table.type";
 
-const useGetTableRecipes = ({ sorting, columnFilters, pagination }: TableRequestState) => {
+const useGetTableIngredients = ({ sorting, columnFilters, pagination }: TableRequestState) => {
   const { data, isLoading } = useQuery({
-    queryKey: [GET_TABLE_RECIPES_QUERY_KEY, sorting, columnFilters, pagination],
+    queryKey: [GET_TABLE_INGREDIENTS_QUERY_KEY, sorting, columnFilters, pagination],
     queryFn: () =>
-      getTableRecipes({
+      getTableIngredients({
         sorting,
         columnFilters,
         pagination,
@@ -20,4 +20,4 @@ const useGetTableRecipes = ({ sorting, columnFilters, pagination }: TableRequest
   return { data, isLoading };
 };
 
-export default useGetTableRecipes;
+export default useGetTableIngredients;

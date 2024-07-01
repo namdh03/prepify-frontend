@@ -1,6 +1,7 @@
 import { AiOutlineDashboard, AiOutlineProfile } from "react-icons/ai";
 import { BsBoxSeam } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
+import { PiFishLight } from "react-icons/pi";
 
 import configs from "~configs";
 
@@ -64,6 +65,26 @@ export const sideLinks: SideLink[] = [
         title: "Tạo gói nguyên liệu, gia vị",
         label: "",
         href: configs.routes.createMealKit,
+        icon: <></>,
+      },
+    ],
+  },
+  {
+    title: "Quản lý nguyên liệu",
+    label: "",
+    href: "",
+    icon: <PiFishLight size={18} />,
+    sub: [
+      {
+        title: "Danh sách nguyên liệu",
+        label: "",
+        href: configs.routes.ingredientList,
+        icon: <></>,
+      },
+      {
+        title: "Thêm nguyên liệu",
+        label: "",
+        href: configs.routes.createIngredient,
         icon: <></>,
       },
     ],

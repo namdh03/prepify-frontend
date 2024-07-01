@@ -6,6 +6,8 @@ const routes = {
   recipeList: "/moderator/recipe-list",
   createMealKit: "/moderator/create-meal-kit",
   mealKitList: "/moderator/meal-kit-list",
+  createIngredient: "/moderator/create-ingredient",
+  ingredientList: "/moderator/ingredient-list",
   login: "/login",
   loginGoogle: "/login/google",
   register: "/register",

@@ -6,149 +6,99 @@ import images from "~assets/imgs";
 import DataTable from "~components/common/DataTable";
 import useDebounce from "~hooks/useDebounce";
 import useDocumentTitle from "~hooks/useDocumentTitle";
-import useGetTableMealKits from "~hooks/useGetTableMealKits";
+import useGetTableIngredients from "~hooks/useGetTableIngredients";
 import { LayoutBody } from "~layouts/AdminLayout/components/Layout";
-import { TableMealKitType } from "~types/meal-kit.type";
+import { TableIngredientType } from "~types/ingredient.type";
 import { DEFAULT_DEBOUNCE_TIME, PAGE, TABLE_LIMIT } from "~utils/constants";
 
 import DataTableToolbar from "./components/DataTableToolbar";
 import { columns } from "./data/columns";
 
-const mealKits: TableMealKitType[] = [
+const ingredients: TableIngredientType[] = [
   {
     id: "1",
     name: "Gói nguyên liệu 1",
-    serving: 2,
+    category: "Thịt",
     price: 100000,
-    status: true,
-    extraSpice: null,
     image: images.suggest1st,
+    unit: "kg",
   },
   {
     id: "2",
     name: "Gói nguyên liệu 2",
-    serving: 4,
+    category: "Rau cải",
     price: 200000,
-    status: false,
-    extraSpice: null,
     image: images.suggest2nd,
+    unit: "kg",
   },
   {
     id: "3",
     name: "Gói nguyên liệu 3",
-    serving: 4,
+    category: "Thịt",
     price: 200000,
-    status: true,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest1st,
-    },
     image: images.suggest1st,
+    unit: "kg",
   },
   {
     id: "4",
     name: "Gói nguyên liệu 4",
-    serving: 4,
+    category: "Thịt",
     price: 200000,
-    status: false,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest2nd,
-    },
     image: images.suggest2nd,
+    unit: "kg",
   },
   {
     id: "5",
     name: "Gói nguyên liệu 5",
-    serving: 4,
+    category: "Thịt",
     price: 200000,
-    status: true,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest1st,
-    },
     image: images.suggest1st,
+    unit: "kg",
   },
   {
     id: "6",
     name: "Gói nguyên liệu 6",
-    serving: 4,
+    category: "Thịt",
     price: 200000,
-    status: false,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest2nd,
-    },
     image: images.suggest2nd,
+    unit: "kg",
   },
   {
     id: "7",
     name: "Gói nguyên liệu 7",
-    serving: 4,
+    category: "Thịt",
     price: 200000,
-    status: true,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest1st,
-    },
     image: images.suggest1st,
+    unit: "kg",
   },
   {
     id: "8",
     name: "Gói nguyên liệu 8",
-    serving: 4,
+    category: "Thịt",
     price: 200000,
-    status: false,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest2nd,
-    },
     image: images.suggest2nd,
+    unit: "kg",
   },
   {
     id: "9",
     name: "Gói nguyên liệu 9",
-    serving: 4,
+    category: "Thịt",
     price: 200000,
-    status: true,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest1st,
-    },
     image: images.suggest1st,
+    unit: "kg",
   },
   {
     id: "10",
     name: "Gói nguyên liệu 10",
-    serving: 4,
+    category: "Thịt",
     price: 200000,
-    status: false,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest2nd,
-    },
     image: images.suggest2nd,
+    unit: "kg",
   },
 ];
 
-export default function MealKitList() {
-  useDocumentTitle("Prepify | Danh sách gói nguyên liệu");
+export default function IngredientList() {
+  useDocumentTitle("Prepify | Danh sách nguyên liệu");
 
   // sorting state of the table
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -163,21 +113,24 @@ export default function MealKitList() {
     pageSize: TABLE_LIMIT, //default page size
   });
 
-  const { data, isLoading } = useGetTableMealKits({
+  const { data, isLoading } = useGetTableIngredients({
     sorting,
     columnFilters: debouncedColumnFilters,
     pagination,
   });
 
-  const handleRenderToolbar = useCallback((table: Table<TableMealKitType>) => <DataTableToolbar table={table} />, []);
+  const handleRenderToolbar = useCallback(
+    (table: Table<TableIngredientType>) => <DataTableToolbar table={table} />,
+    [],
+  );
 
   return (
     <LayoutBody className="flex flex-col" fixedHeight>
       <div className="mb-2 flex items-center justify-between space-y-2">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Danh sách gói nguyên liệu</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Danh sách nguyên liệu</h2>
           <p className="text-muted-foreground">
-            Hiển thị tất cả các gói nguyên liệu mà bạn đã tạo. Bạn có thể thêm, sửa hoặc xóa gói nguyên liệu tại đây.
+            Hiển thị tất cả các nguyên liệu mà bạn đã tạo. Bạn có thể thêm, sửa hoặc xóa nguyên liệu tại đây.
           </p>
         </div>
       </div>
@@ -185,7 +138,7 @@ export default function MealKitList() {
         <DataTable
           isTableDataLoading={isLoading}
           paginatedTableData={{
-            data: mealKits || [],
+            data: ingredients || [],
             itemTotal: data?.itemTotal || 0,
             pageTotal: data?.pageTotal || 0,
             pageSize: data?.pageSize || TABLE_LIMIT,
