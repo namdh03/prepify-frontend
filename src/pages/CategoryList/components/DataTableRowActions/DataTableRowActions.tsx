@@ -7,7 +7,12 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
 
-import { deleteCategory, GET_TABLE_CATEGORIES_QUERY_KEY, updateCategory } from "~apis/category.api";
+import {
+  deleteCategory,
+  GET_CATEGORIES_QUERY_KEY,
+  GET_TABLE_CATEGORIES_QUERY_KEY,
+  updateCategory,
+} from "~apis/category.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -76,6 +81,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType
   const handleDeleteCategory = () => {
     deleteCategoryMutate(undefined, {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_CATEGORIES_QUERY_KEY] });
         queryClient.invalidateQueries({ queryKey: [GET_TABLE_CATEGORIES_QUERY_KEY] });
         setOpen((prev) => ({ ...prev, alert: false }));
         toast.success(CATEGORY_MESSAGES.DELETE_CATEGORY_SUCCESS);

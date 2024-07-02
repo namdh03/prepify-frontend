@@ -91,3 +91,5 @@ export const createRecipe = (recipe: RecipeFormType) => {
     },
   });
 };
+
+export const deleteRecipe = (id: string) => http.delete(`/moderator/recipes/${id}`);

@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
 import { createRecipe } from "~apis/recipe.api";
-import { GET_UNITS_QUERY_KEY, getUnits } from "~apis/unit.api";
+import { GET_TABLE_UNITS_STALE_TIME, GET_UNITS_QUERY_KEY, getUnits } from "~apis/unit.api";
 import { UploadedFile } from "~pages/CreateRecipe/components/Upload/Upload";
 import { RECIPE_MESSAGES } from "~utils/constants";
 import { LevelCook } from "~utils/enums";
@@ -44,8 +44,8 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
     queryKey: [GET_UNITS_QUERY_KEY],
     queryFn: () => getUnits(),
     select: (data) => data.data.data,
+    staleTime: GET_TABLE_UNITS_STALE_TIME,
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
   });
 
   const [files, setFiles] = useState<UploadedFile[]>([]);

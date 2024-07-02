@@ -14,6 +14,8 @@ export const GET_CATEGORIES_QUERY_KEY = "GET_CATEGORIES_QUERY_KEY";
 
 export const GET_TABLE_CATEGORIES_QUERY_KEY = "GET_TABLE_CATEGORIES_QUERY_KEY";
 
+export const GET_TABLE_CATEGORIES_STALE_TIME = 30 * 1000; // 30 seconds
+
 export const getCategories = () => http.get<GetCategoriesResponse>("/categories");
 
 export const getTableCategories = ({ sorting, columnFilters, pagination }: TableRequestState) => {

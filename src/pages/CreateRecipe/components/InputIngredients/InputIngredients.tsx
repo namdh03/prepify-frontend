@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { GET_INGREDIENTS_QUERY_KEY, getIngredients } from "~apis/ingredient.api";
+import { GET_INGREDIENTS_QUERY_KEY, GET_TABLE_INGREDIENTS_STALE_TIME, getIngredients } from "~apis/ingredient.api";
 import Combobox from "~components/common/Combobox";
 import InputFloatNumber from "~components/common/InputFloatNumber";
 import { Button } from "~components/ui/button";
@@ -20,8 +20,8 @@ const InputIngredients = () => {
     queryKey: [GET_INGREDIENTS_QUERY_KEY],
     queryFn: () => getIngredients(),
     select: (data) => data.data.data,
+    staleTime: GET_TABLE_INGREDIENTS_STALE_TIME,
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
   });
 
   return (
