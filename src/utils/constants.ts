@@ -49,6 +49,14 @@ export const CATEGORY_MESSAGES = {
   DELETE_CATEGORY_SUCCESS: "Xóa phân loại thành công",
 };
 
+export const UNIT_MESSAGES = {
+  UNIT_NAME_REQUIRED: "Vui lòng nhập tên đơn vị",
+  UNIT_NAME_TOO_LONG: "Tên đơn vị không được quá 50 ký tự",
+  CREATE_UNIT_SUCCESS: "Tạo đơn vị thành công",
+  UPDATE_UNIT_SUCCESS: "Cập nhật đơn vị thành công",
+  DELETE_UNIT_SUCCESS: "Xóa đơn vị thành công",
+};
+
 export const PAGE = 1;
 export const LIMIT = 9;
 export const TABLE_LIMIT = 10;

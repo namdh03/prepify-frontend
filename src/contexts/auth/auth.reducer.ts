@@ -25,11 +25,13 @@ const reducerHandlers: ReducerHandler = {
     };
   },
 
-  SIGN_OUT: (state: AuthState): AuthState => ({
-    ...state,
-    isAuthenticated: false,
-    user: null,
-  }),
+  SIGN_OUT: (state: AuthState): AuthState => {
+    return {
+      ...state,
+      isAuthenticated: false,
+      user: null,
+    };
+  },
 };
 
 export function reducer(state: AuthState, action: PayloadAction<AuthState>) {
@@ -58,8 +60,6 @@ export function signOut(): PayloadAction<AuthState> {
 
   return {
     type: AuthActionType.SIGN_OUT,
-    payload: {
-      user: null,
-    },
+    payload: {},
   };
 }

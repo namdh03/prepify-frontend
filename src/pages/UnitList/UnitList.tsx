@@ -5,16 +5,16 @@ import { ColumnFiltersState, PaginationState, SortingState, Table } from "@tanst
 import DataTable from "~components/common/DataTable";
 import useDebounce from "~hooks/useDebounce";
 import useDocumentTitle from "~hooks/useDocumentTitle";
-import useGetTableRecipes from "~hooks/useGetTableRecipes";
+import useGetTableUnits from "~hooks/useGetTableUnits";
 import { LayoutBody } from "~layouts/AdminLayout/components/Layout";
-import { TableRecipeType } from "~types/recipe.type";
+import { TableUnitType } from "~types/unit.type";
 import { DEFAULT_DEBOUNCE_TIME, PAGE, TABLE_LIMIT } from "~utils/constants";
 
 import DataTableToolbar from "./components/DataTableToolbar";
 import { columns } from "./data/columns";
 
-export default function RecipeList() {
-  useDocumentTitle("Prepify | Danh sách công thức");
+export default function UnitList() {
+  useDocumentTitle("Prepify | Danh sách đơn vị");
 
   // sorting state of the table
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -29,26 +29,26 @@ export default function RecipeList() {
     pageSize: TABLE_LIMIT, //default page size
   });
 
-  const { data, isLoading } = useGetTableRecipes({
+  const { isLoading } = useGetTableUnits({
     sorting,
     columnFilters: debouncedColumnFilters,
     pagination,
   });
 
-  const handleRenderToolbar = useCallback((table: Table<TableRecipeType>) => <DataTableToolbar table={table} />, []);
+  const handleRenderToolbar = useCallback((table: Table<TableUnitType>) => <DataTableToolbar table={table} />, []);
 
   return (
     <LayoutBody className="flex flex-col" fixedHeight>
       <div className="mb-2 flex items-center justify-between space-y-2">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Danh sách công thức</h2>
-          <p className="text-muted-foreground">Hiển thị danh sách công thức mà bạn đã tạo.</p>
+          <h2 className="text-2xl font-bold tracking-tight">Danh sách đơn vị</h2>
+          <p className="text-muted-foreground">Danh sách tất cả các đơn vị đã được tạo trên hệ thống.</p>
         </div>
       </div>
       <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
         <DataTable
           isTableDataLoading={isLoading}
-          paginatedTableData={data}
+          paginatedTableData={undefined}
           columns={columns}
           pagination={pagination}
           setPagination={setPagination}
