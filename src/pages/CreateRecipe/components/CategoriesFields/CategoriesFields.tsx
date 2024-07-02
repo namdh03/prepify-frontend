@@ -3,8 +3,8 @@ import { ControllerRenderProps } from "react-hook-form";
 
 import { useQuery } from "@tanstack/react-query";
 
-import { GET_CATEGORIES_QUERY_KEY, getCategories } from "~apis/category.api";
-import { GET_FOOD_STYLES_QUERY_KEY, getFoodStyles } from "~apis/food-style.api";
+import { GET_CATEGORIES_QUERY_KEY, GET_TABLE_CATEGORIES_STALE_TIME, getCategories } from "~apis/category.api";
+import { GET_FOOD_STYLES_QUERY_KEY, GET_TABLE_FOOD_STYLES_STALE_TIME, getFoodStyles } from "~apis/food-style.api";
 import Combobox from "~components/common/Combobox";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
@@ -22,18 +22,20 @@ type RecipeObjectType = {
 
 const CategoriesFields = () => {
   const { form } = useRecipe();
-  const { data } = useQuery({
+  const { data: foodStyles } = useQuery({
     queryKey: [GET_FOOD_STYLES_QUERY_KEY],
     queryFn: () => getFoodStyles(),
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    staleTime: GET_TABLE_FOOD_STYLES_STALE_TIME,
+    select: (data) => data.data.data,
   });
 
-  const categories = useQuery({
+  const { data: categories } = useQuery({
     queryKey: [GET_CATEGORIES_QUERY_KEY],
     queryFn: () => getCategories(),
     refetchOnWindowFocus: false,
-    refetchOnMount: false,
+    staleTime: GET_TABLE_CATEGORIES_STALE_TIME,
+    select: (data) => data.data.data,
   });
 
   const defaultFields: RecipeObjectType[] = useMemo(
@@ -76,7 +78,7 @@ const CategoriesFields = () => {
   const [dynamicFields, setDynamicFields] = useState<RecipeObjectType[]>(defaultFields);
 
   useEffect(() => {
-    if (!categories.data?.data) return;
+    if (!categories) return;
     const newCategories: RecipeObjectType = {
       type: "category",
       title: "Phân loại",
@@ -88,7 +90,7 @@ const CategoriesFields = () => {
             </SelectTrigger>
           </FormControl>
           <SelectContent>
-            {categories.data?.data.data.map((category) => (
+            {categories.map((category) => (
               <SelectItem key={category.id} value={category.id}>
                 {category.name}
               </SelectItem>
@@ -97,11 +99,7 @@ const CategoriesFields = () => {
         </Select>
       ),
     };
-    setDynamicFields((prev) => [...prev, newCategories]);
-  }, [categories.data?.data]);
 
-  useEffect(() => {
-    const foodStyles = data && data.data.data;
     if (!foodStyles) return;
     const newFoodStyle: RecipeObjectType[] = foodStyles.map((foodStyle) => ({
       name: "foodStyleObj",
@@ -126,12 +124,12 @@ const CategoriesFields = () => {
         );
       },
     }));
-    setDynamicFields((prev) => [...prev, ...newFoodStyle]);
+    setDynamicFields((prev) => [...prev, newCategories, ...newFoodStyle]);
 
     return () => {
       setDynamicFields(defaultFields);
     };
-  }, [data, defaultFields]);
+  }, [categories, defaultFields, foodStyles]);
 
   return dynamicFields.map(({ name, type, title, component }) => (
     <FormField

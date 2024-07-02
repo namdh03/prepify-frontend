@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Table } from "@tanstack/react-table";
 
-import { createCategory, GET_TABLE_CATEGORIES_QUERY_KEY } from "~apis/category.api";
+import { createCategory, GET_CATEGORIES_QUERY_KEY, GET_TABLE_CATEGORIES_QUERY_KEY } from "~apis/category.api";
 import DataTableViewOptions from "~components/common/DataTableViewOptions";
 import { Input } from "~components/ui/input";
 import Button from "~layouts/AdminLayout/components/Button";
@@ -37,6 +37,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
   const handleCreateCategory = async (values: ModalFormType) => {
     await mutateAsync(values, {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_CATEGORIES_QUERY_KEY] });
         queryClient.invalidateQueries({ queryKey: [GET_TABLE_CATEGORIES_QUERY_KEY] });
         setOpen(false);
         toast.success(CATEGORY_MESSAGES.CREATE_CATEGORY_SUCCESS);

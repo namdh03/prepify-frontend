@@ -7,6 +7,8 @@ export const GET_INGREDIENTS_QUERY_KEY = "GET_INGREDIENTS_QUERY_KEY";
 
 export const GET_TABLE_INGREDIENTS_QUERY_KEY = "GET_TABLE_INGREDIENTS_QUERY_KEY";
 
+export const GET_TABLE_INGREDIENTS_STALE_TIME = 30 * 1000; // 30s
+
 export const getIngredients = () => http.get<IngredientResponse>("/ingredients");
 
 export const getTableIngredients = ({ sorting, columnFilters, pagination }: TableRequestState) => {

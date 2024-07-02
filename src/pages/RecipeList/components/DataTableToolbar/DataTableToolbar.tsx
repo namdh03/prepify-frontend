@@ -3,7 +3,7 @@ import { RxCross2 } from "react-icons/rx";
 import { useQuery } from "@tanstack/react-query";
 import { Table } from "@tanstack/react-table";
 
-import { GET_CATEGORIES_QUERY_KEY, getCategories } from "~apis/category.api";
+import { GET_CATEGORIES_QUERY_KEY, GET_TABLE_CATEGORIES_STALE_TIME, getCategories } from "~apis/category.api";
 import DataTableFacetedFilter from "~components/common/DataTableFacetedFilter";
 import DataTableViewOptions from "~components/common/DataTableViewOptions";
 import { Input } from "~components/ui/input";
@@ -25,6 +25,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
     queryFn: () => getCategories(),
     select: (data) => data.data.data,
     refetchOnWindowFocus: false,
+    staleTime: GET_TABLE_CATEGORIES_STALE_TIME,
   });
 
   return (
