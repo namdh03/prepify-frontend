@@ -16,7 +16,7 @@ export type MealKitItem = {
 
 export type TableMealKitType = {
   id: string;
-  name: string;
+  recipeName: string;
   serving: number;
   price: number;
   status: boolean;
@@ -25,3 +25,17 @@ export type TableMealKitType = {
 };
 
 export type TableMealKitResponse = TableResponseState<TableMealKitType>;
+
+export type TableUnitFilter = {
+  name: string;
+  status: string;
+};
+
+export type TableUnitSorting = {
+  name: string;
+  status: string;
+  serving: string;
+  price: string;
+  extraSpice_name: string;
+  extraSpice_price: string;
+};
