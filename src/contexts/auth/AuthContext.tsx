@@ -8,6 +8,7 @@ import { GET_ME_QUERY_KEY, getMe } from "~apis/user.api";
 import Loading from "~components/common/Loading";
 import configs from "~configs";
 import { SYSTEM_MESSAGES } from "~utils/constants";
+import { getAccessToken } from "~utils/cookies";
 
 import { initialize, reducer } from "./auth.reducer";
 import { AuthContextType, AuthState } from "./auth.type";
@@ -30,9 +31,9 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   const { data, refetch: userRefetch } = useQuery({
     queryKey: [GET_ME_QUERY_KEY],
     queryFn: () => getMe(),
-    enabled: Boolean(cookies[configs.cookies.accessToken]),
-    select: (data) => data.data.data.user,
+    enabled: Boolean(getAccessToken()),
     refetchOnWindowFocus: false,
+    select: (data) => data.data.data.user,
   });
 
   // Listen to the cookies to control the authentication state
@@ -46,10 +47,7 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
   // Get current user info when the app is initialized
   useEffect(() => {
     (async () => {
-      if (!cookies[configs.cookies.accessToken]) {
-        queryClient.removeQueries({ queryKey: [GET_ME_QUERY_KEY] });
-        return dispatch(initialize({ isAuthenticated: false, user: null }));
-      }
+      if (!cookies[configs.cookies.accessToken]) return;
 
       try {
         const { data } = await userRefetch();
@@ -66,7 +64,8 @@ const AuthProvider: FC<PropsWithChildren> = ({ children }) => {
 
   // Update the user info when the user info is fetched
   useEffect(() => {
-    if (data) dispatch(initialize({ isAuthenticated: true, user: data }));
+    if (data && state.user) dispatch(initialize({ isAuthenticated: true, user: data }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data]);
 
   return (

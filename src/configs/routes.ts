@@ -9,6 +9,7 @@ const routes = {
   createIngredient: "/moderator/create-ingredient",
   ingredientList: "/moderator/ingredient-list",
   categoryList: "/moderator/category-list",
+  unitList: "/moderator/unit-list",
   login: "/login",
   loginGoogle: "/login/google",
   register: "/register",

@@ -6,7 +6,6 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { GET_ME_QUERY_KEY } from "~apis/user.api";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select";
-import configs from "~configs";
 import { signOut } from "~contexts/auth/auth.reducer";
 import useAuth from "~hooks/useAuth";
 import { buttonVariants } from "~layouts/AdminLayout/components/Button";
@@ -33,7 +32,6 @@ export default function SidebarNav({ className, items, ...props }: SidebarNavPro
   };
 
   const handleLogout = () => {
-    navigate(configs.routes.login);
     dispatch(signOut());
     queryClient.removeQueries({
       queryKey: [GET_ME_QUERY_KEY],

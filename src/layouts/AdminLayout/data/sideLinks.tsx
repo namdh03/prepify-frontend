@@ -2,7 +2,8 @@ import { AiOutlineDashboard, AiOutlineProfile } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { BsBoxSeam } from "react-icons/bs";
 import { LuClipboardList } from "react-icons/lu";
-import { PiFishLight } from "react-icons/pi";
+import { PiFish } from "react-icons/pi";
+import { TbWeight } from "react-icons/tb";
 
 import configs from "~configs";
 
@@ -74,7 +75,7 @@ export const sideLinks: SideLink[] = [
     title: "Quản lý nguyên liệu",
     label: "",
     href: "",
-    icon: <PiFishLight size={18} />,
+    icon: <PiFish size={18} />,
     sub: [
       {
         title: "Danh sách nguyên liệu",
@@ -95,5 +96,11 @@ export const sideLinks: SideLink[] = [
     label: "",
     href: configs.routes.categoryList,
     icon: <BiCategory size={18} />,
+  },
+  {
+    title: "Quản lí đơn vị",
+    label: "",
+    href: configs.routes.unitList,
+    icon: <TbWeight size={18} />,
   },
 ];
