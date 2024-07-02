@@ -46,6 +46,7 @@ export const CATEGORY_MESSAGES = {
   CATEGORY_NAME_TOO_LONG: "Tên phân loại không được quá 50 ký tự",
   CREATE_CATEGORY_SUCCESS: "Tạo phân loại thành công",
   UPDATE_CATEGORY_SUCCESS: "Cập nhật phân loại thành công",
+  DELETE_CATEGORY_SUCCESS: "Xóa phân loại thành công",
 };
 
 export const PAGE = 1;

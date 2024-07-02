@@ -7,7 +7,7 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
 
-import { GET_TABLE_CATEGORIES_QUERY_KEY, updateCategory } from "~apis/category.api";
+import { deleteCategory, GET_TABLE_CATEGORIES_QUERY_KEY, updateCategory } from "~apis/category.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -47,6 +47,9 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType
   const { mutateAsync: updateCategoryMutateAsync } = useMutation({
     mutationFn: (body: UpdateCategoryBody) => updateCategory(row.original.id, body),
   });
+  const { mutate: deleteCategoryMutate } = useMutation({
+    mutationFn: () => deleteCategory(row.original.id),
+  });
 
   const handleOpenAlert = () => setOpen((prev) => ({ ...prev, alert: true }));
 
@@ -71,7 +74,17 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType
   };
 
   const handleDeleteCategory = () => {
-    console.log("Delete category", row.original.id);
+    deleteCategoryMutate(undefined, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_TABLE_CATEGORIES_QUERY_KEY] });
+        setOpen((prev) => ({ ...prev, alert: false }));
+        toast.success(CATEGORY_MESSAGES.DELETE_CATEGORY_SUCCESS);
+      },
+      onError: (error) => {
+        if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+        else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+      },
+    });
   };
 
   return (

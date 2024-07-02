@@ -34,3 +34,5 @@ export const getTableCategories = ({ sorting, columnFilters, pagination }: Table
 export const createCategory = (body: CreateCategoryBody) => http.post("/moderator/categories", body);
 
 export const updateCategory = (id: string, body: UpdateCategoryBody) => http.put(`/moderator/categories/${id}`, body);
+
+export const deleteCategory = (id: string) => http.delete(`/moderator/categories/${id}`);
