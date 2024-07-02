@@ -2,10 +2,13 @@ import { useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { IoEyeOutline } from "react-icons/io5";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
 
+import { deleteRecipe, GET_TABLE_RECIPES_QUERY_KEY } from "~apis/recipe.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,20 +29,35 @@ import {
 } from "~components/ui/dropdown-menu";
 import Button from "~layouts/AdminLayout/components/Button";
 import { TableRecipeType } from "~types/recipe.type";
+import { RECIPE_MESSAGES, SYSTEM_MESSAGES } from "~utils/constants";
+import isAxiosError from "~utils/isAxiosError";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 function DataTableRowActions({ row }: DataTableRowActionsProps<TableRecipeType>) {
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState(false);
+  const { mutate: deleteRecipeMutate } = useMutation({
+    mutationFn: () => deleteRecipe(row.original.id),
+  });
 
   const handleOpenDialog = () => setOpen(true);
 
   const handleOpenDialogChange = (value: boolean) => setOpen(value);
 
   const handleDeleteRecipe = () => {
-    console.log("Delete recipe", row.original.id);
+    deleteRecipeMutate(undefined, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_TABLE_RECIPES_QUERY_KEY] });
+        toast.success(RECIPE_MESSAGES.DELETE_RECIPE_SUCCESS);
+      },
+      onError: (error) => {
+        if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+        else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+      },
+    });
   };
 
   return (

@@ -26,7 +26,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         </CookiesProvider>
       </AuthProvider>
       <ToastContainer />
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-left" />
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     </QueryClientProvider>
   </React.StrictMode>,
 );
