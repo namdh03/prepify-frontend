@@ -25,7 +25,7 @@ export const columns: ColumnDef<TableMealKitType>[] = [
     accessorKey: "name",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Tên gói nguyên liệu" />,
     cell: ({ row }) => {
-      const name = row.original.name;
+      const name = row.original.recipeName;
       const image = row.original.image;
 
       return (

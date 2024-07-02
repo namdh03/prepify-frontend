@@ -2,7 +2,6 @@ import { useCallback, useState } from "react";
 
 import { ColumnFiltersState, PaginationState, SortingState, Table } from "@tanstack/react-table";
 
-import images from "~assets/imgs";
 import DataTable from "~components/common/DataTable";
 import useDebounce from "~hooks/useDebounce";
 import useDocumentTitle from "~hooks/useDocumentTitle";
@@ -13,139 +12,6 @@ import { DEFAULT_DEBOUNCE_TIME, PAGE, TABLE_LIMIT } from "~utils/constants";
 
 import DataTableToolbar from "./components/DataTableToolbar";
 import { columns } from "./data/columns";
-
-const mealKits: TableMealKitType[] = [
-  {
-    id: "1",
-    name: "Gói nguyên liệu 1",
-    serving: 2,
-    price: 100000,
-    status: true,
-    extraSpice: null,
-    image: images.suggest1st,
-  },
-  {
-    id: "2",
-    name: "Gói nguyên liệu 2",
-    serving: 4,
-    price: 200000,
-    status: false,
-    extraSpice: null,
-    image: images.suggest2nd,
-  },
-  {
-    id: "3",
-    name: "Gói nguyên liệu 3",
-    serving: 4,
-    price: 200000,
-    status: true,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest1st,
-    },
-    image: images.suggest1st,
-  },
-  {
-    id: "4",
-    name: "Gói nguyên liệu 4",
-    serving: 4,
-    price: 200000,
-    status: false,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest2nd,
-    },
-    image: images.suggest2nd,
-  },
-  {
-    id: "5",
-    name: "Gói nguyên liệu 5",
-    serving: 4,
-    price: 200000,
-    status: true,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest1st,
-    },
-    image: images.suggest1st,
-  },
-  {
-    id: "6",
-    name: "Gói nguyên liệu 6",
-    serving: 4,
-    price: 200000,
-    status: false,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest2nd,
-    },
-    image: images.suggest2nd,
-  },
-  {
-    id: "7",
-    name: "Gói nguyên liệu 7",
-    serving: 4,
-    price: 200000,
-    status: true,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest1st,
-    },
-    image: images.suggest1st,
-  },
-  {
-    id: "8",
-    name: "Gói nguyên liệu 8",
-    serving: 4,
-    price: 200000,
-    status: false,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest2nd,
-    },
-    image: images.suggest2nd,
-  },
-  {
-    id: "9",
-    name: "Gói nguyên liệu 9",
-    serving: 4,
-    price: 200000,
-    status: true,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest1st,
-    },
-    image: images.suggest1st,
-  },
-  {
-    id: "10",
-    name: "Gói nguyên liệu 10",
-    serving: 4,
-    price: 200000,
-    status: false,
-    extraSpice: {
-      id: "1",
-      name: "Tiêu",
-      price: 5000,
-      image: images.suggest2nd,
-    },
-    image: images.suggest2nd,
-  },
-];
 
 export default function MealKitList() {
   useDocumentTitle("Prepify | Danh sách gói nguyên liệu");
@@ -184,13 +50,7 @@ export default function MealKitList() {
       <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
         <DataTable
           isTableDataLoading={isLoading}
-          paginatedTableData={{
-            data: mealKits || [],
-            itemTotal: data?.itemTotal || 0,
-            pageTotal: data?.pageTotal || 0,
-            pageSize: data?.pageSize || TABLE_LIMIT,
-            pageIndex: data?.pageIndex || PAGE - 1,
-          }}
+          paginatedTableData={data}
           columns={columns}
           pagination={pagination}
           setPagination={setPagination}
