@@ -30,3 +30,5 @@ export const getTableMealKits = ({ sorting, columnFilters, pagination }: TableRe
 
   return http.get<TableMealKitResponse>("/moderator/mealkits", { params });
 };
+
+export const toggleStatusMealKit = (id: string) => http.put(`/moderator/mealkits/${id}/status/toggle`);

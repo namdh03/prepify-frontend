@@ -95,3 +95,8 @@ export const RECIPE_MESSAGES = {
   CREATE_RECIPE_FAILED: "Tạo công thức thất bại",
   DELETE_RECIPE_SUCCESS: "Xóa công thức thành công",
 } as const;
+
+export const MEAL_KIT_MESSAGES = {
+  TOGGLE_STATUS_MEAL_KIT_SUCCESS_SUSPEND: "Tạm ngừng thành công",
+  TOGGLE_STATUS_MEAL_KIT_SUCCESS_RESUME: "Mở bán thành công",
+};
