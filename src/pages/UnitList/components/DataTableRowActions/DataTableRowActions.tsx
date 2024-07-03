@@ -2,10 +2,13 @@ import { useState } from "react";
 import { UseFormReset } from "react-hook-form";
 import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
 
+import { GET_TABLE_UNITS_QUERY_KEY, updateUnit } from "~apis/unit.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -25,8 +28,10 @@ import {
   DropdownMenuTrigger,
 } from "~components/ui/dropdown-menu";
 import Button from "~layouts/AdminLayout/components/Button";
-import { TableUnitType } from "~types/unit.type";
+import { TableUnitType, UpdateUnitBody } from "~types/unit.type";
+import { SYSTEM_MESSAGES, UNIT_MESSAGES } from "~utils/constants";
 import { UnitEnum, UnitText } from "~utils/enums";
+import isAxiosError from "~utils/isAxiosError";
 
 import Modal from "../Modal";
 import { ModalFormType } from "../Modal/Modal";
@@ -36,6 +41,7 @@ interface DataTableRowActionsProps<TData> {
 }
 
 function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
+  const queryClient = useQueryClient();
   const [open, setOpen] = useState({
     alert: false,
     modal: false,
@@ -43,6 +49,9 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
   const totalIngredient = row.original.totalIngredients;
   const totalRecipeIngredient = row.original.totalRecipeIngredients;
   const totalRecipeNutrition = row.original.totalRecipeNutritions;
+  const { mutateAsync: updateUnitMutateAsync } = useMutation({
+    mutationFn: (body: UpdateUnitBody) => updateUnit(row.original.id, body),
+  });
 
   const handleOpenAlert = () => setOpen((prev) => ({ ...prev, alert: true }));
 
@@ -53,8 +62,24 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
   const handleOpenModalChange = (value: boolean) => setOpen((prev) => ({ ...prev, modal: value }));
 
   const handleUpdateUnit = async (values: ModalFormType, reset: UseFormReset<ModalFormType>) => {
-    console.log("handleUpdateUnit", values);
-    reset();
+    await updateUnitMutateAsync(
+      {
+        name: values.name,
+        type: values.type.map((type) => type.value).join(","),
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [GET_TABLE_UNITS_QUERY_KEY] });
+          reset({ name: values.name, type: values.type });
+          setOpen((prev) => ({ ...prev, modal: false }));
+          toast.success(UNIT_MESSAGES.UPDATE_UNIT_SUCCESS);
+        },
+        onError: (error) => {
+          if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+          else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+      },
+    );
   };
 
   const handleDeleteUnit = () => {

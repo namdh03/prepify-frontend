@@ -44,7 +44,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
       {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: [GET_TABLE_UNITS_QUERY_KEY] });
-          reset({ name: values.name });
+          reset();
           setOpen(false);
           toast.success(UNIT_MESSAGES.CREATE_UNIT_SUCCESS);
         },

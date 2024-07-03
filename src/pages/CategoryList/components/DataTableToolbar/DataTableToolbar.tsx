@@ -40,7 +40,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [GET_CATEGORIES_QUERY_KEY] });
         queryClient.invalidateQueries({ queryKey: [GET_TABLE_CATEGORIES_QUERY_KEY] });
-        reset({ name: values.name });
+        reset();
         setOpen(false);
         toast.success(CATEGORY_MESSAGES.CREATE_CATEGORY_SUCCESS);
       },
