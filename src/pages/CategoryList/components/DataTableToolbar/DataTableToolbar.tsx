@@ -27,7 +27,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
   const [open, setOpen] = useState(false);
   const isFiltered = table.getState().columnFilters.length > 0;
   const columnName = table.getAllColumns().find((column) => column.id === "name");
-  const { mutateAsync } = useMutation({
+  const { mutateAsync, isPending: isCreateCategoryPending } = useMutation({
     mutationFn: (body: CreateCategoryBody) => createCategory(body),
   });
 
@@ -89,6 +89,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
         description="Phân loại giúp bạn phân loại các công thức một cách dễ dàng hơn."
         onSubmit={handleCreateCategory}
         submitText="Tạo mới"
+        loading={isCreateCategoryPending}
       />
     </div>
   );

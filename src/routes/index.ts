@@ -244,6 +244,12 @@ const router = createBrowserRouter([
           Component: (await import("~pages/OrderList")).default,
         }),
       },
+      {
+        path: configs.routes.foodStyleList,
+        lazy: async () => ({
+          Component: (await import("~pages/FoodStyleList")).default,
+        }),
+      },
     ],
   },
 

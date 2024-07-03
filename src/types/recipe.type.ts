@@ -1,6 +1,6 @@
 import { LevelCook } from "~utils/enums";
 
-import { TableFoodStyleType } from "./food-style.type";
+import { FoodStyleType } from "./food-style.type";
 import { SuccessResponse } from "./response.type";
 import { TableResponseState } from "./table.type";
 
@@ -53,7 +53,7 @@ export type TableRecipeType = {
 };
 
 export type TableViewRecipeType = TableRecipeType & {
-  foodStyles: TableFoodStyleType[];
+  foodStyles: FoodStyleType[];
   videoUrl: string;
   images: string[];
   steps: string;

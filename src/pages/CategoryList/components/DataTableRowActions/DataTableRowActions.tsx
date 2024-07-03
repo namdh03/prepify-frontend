@@ -50,7 +50,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType
     alert: false,
     modal: false,
   });
-  const { mutateAsync: updateCategoryMutateAsync } = useMutation({
+  const { mutateAsync: updateCategoryMutateAsync, isPending: isUpdateCategoryPending } = useMutation({
     mutationFn: (body: UpdateCategoryBody) => updateCategory(row.original.id, body),
   });
   const { mutate: deleteCategoryMutate } = useMutation({
@@ -106,6 +106,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType
         onSubmit={handleUpdateCategory}
         submitText="Cập nhật"
         defaultName={row.original.name}
+        loading={isUpdateCategoryPending}
       />
 
       <AlertDialog open={open.alert} onOpenChange={handleOpenAlertChange}>

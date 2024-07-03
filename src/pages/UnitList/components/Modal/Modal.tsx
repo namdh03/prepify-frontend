@@ -5,6 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import MultipleSelector from "~components/common/MultipleSelector";
 import { Option } from "~components/common/MultipleSelector/MultipleSelector";
+import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
 import {
   Dialog,
@@ -36,6 +37,7 @@ interface ModalProps {
   description?: string;
   onSubmit: (values: ModalFormType, reset: UseFormReset<ModalFormType>) => Promise<void>;
   submitText: string;
+  loading?: boolean;
 }
 
 const DEFAULT_TYPE_OPTIONS: Option[] = [
@@ -60,6 +62,7 @@ export default function Modal({
   description,
   onSubmit,
   submitText,
+  loading,
 }: ModalProps) {
   const form = useForm<ModalFormType>({
     mode: "onChange",
@@ -120,8 +123,8 @@ export default function Modal({
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="unit-modal-form">
-            {submitText}
+          <Button type="submit" form="unit-modal-form" className="min-w-24">
+            {loading ? <Spinner /> : submitText}
           </Button>
         </DialogFooter>
       </DialogContent>

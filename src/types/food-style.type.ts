@@ -1,4 +1,5 @@
 import { SuccessResponse } from "./response.type";
+import { TableResponseState } from "./table.type";
 
 export type ShopFoodStyleData = {
   id: string;
@@ -14,9 +15,24 @@ export type ShopFoodStyleItem = {
 
 export type ShopFoodStyleResponse = SuccessResponse<ShopFoodStyleItem[]>;
 
-export type TableFoodStyleType = {
+export type FoodStyleType = {
   id: string;
   type: string;
   slug: string;
   title: string;
+};
+
+export type TableFoodStyleType = {
+  id: string;
+  title: string;
+  name: string;
+  type: string;
+  totalRecipes: number;
+};
+
+export type TableFoodStyleResponse = TableResponseState<TableFoodStyleType>;
+
+export type TableFoodStyleFilter = {
+  name: string;
+  type: string;
 };
