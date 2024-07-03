@@ -4,7 +4,7 @@ import { ControllerRenderProps } from "react-hook-form";
 import { useQuery } from "@tanstack/react-query";
 
 import { GET_CATEGORIES_QUERY_KEY, GET_TABLE_CATEGORIES_STALE_TIME, getCategories } from "~apis/category.api";
-import { GET_FOOD_STYLES_QUERY_KEY, GET_TABLE_FOOD_STYLES_STALE_TIME, getFoodStyles } from "~apis/food-style.api";
+import { GET_FOOD_STYLES_QUERY_KEY, GET_FOOD_STYLES_STALE_TIME, getFoodStyles } from "~apis/food-style.api";
 import Combobox from "~components/common/Combobox";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
@@ -26,7 +26,7 @@ const CategoriesFields = () => {
     queryKey: [GET_FOOD_STYLES_QUERY_KEY],
     queryFn: () => getFoodStyles(),
     refetchOnWindowFocus: false,
-    staleTime: GET_TABLE_FOOD_STYLES_STALE_TIME,
+    staleTime: GET_FOOD_STYLES_STALE_TIME,
     select: (data) => data.data.data,
   });
 

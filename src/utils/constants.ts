@@ -66,6 +66,7 @@ export const TABLE_LIMIT = 10;
 
 export const PHONE_REGEX = /^(0|\+?84)(3|5|7|8|9)[0-9]{8}$/;
 export const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
+export const FOOD_STYLE_TYPE_REGEX = /\s/;
 
 export const GUEST_URLS = [
   configs.routes.login,
@@ -102,6 +103,19 @@ export const RECIPE_MESSAGES = {
 export const MEAL_KIT_MESSAGES = {
   TOGGLE_STATUS_MEAL_KIT_SUCCESS_SUSPEND: "Tạm ngừng thành công",
   TOGGLE_STATUS_MEAL_KIT_SUCCESS_RESUME: "Mở bán thành công",
+};
+
+export const FOOD_STYLE_MESSAGES = {
+  FOOD_STYLE_NAME_REQUIRED: "Vui lòng nhập tên phong cách",
+  FOOD_STYLE_NAME_TOO_LONG: "Tên phong cách không được quá 50 ký tự",
+  FOOD_STYLE_TITLE_REQUIRED: "Vui lòng nhập tiêu đề",
+  FOOD_STYLE_TITLE_TOO_LONG: "Tiêu đề không được quá 50 ký tự",
+  FOOD_STYLE_TYPE_REQUIRED: "Vui lòng nhập loại phong cách",
+  FOOD_STYLE_TYPE_TOO_LONG: "Loại phong cách không được quá 50 ký tự",
+  FOOD_STYLE_TYPE_MUST_NOT_CONTAIN_SPACES: "Loại phong cách không được chứa khoảng trắng",
+  CREATE_FOOD_STYLE_SUCCESS: "Tạo phong cách thành công",
+  UPDATE_FOOD_STYLE_SUCCESS: "Cập nhật phong cách thành công",
+  DELETE_FOOD_STYLE_SUCCESS: "Xóa phong cách thành công",
 };
 
 export const LEVEL_COOK_TEXT_MAP = {

@@ -43,7 +43,7 @@ export default function CategoryList() {
         <div>
           <h2 className="text-2xl font-bold tracking-tight">Danh sách phân loại công thức</h2>
           <p className="text-muted-foreground">
-            Hiển thị danh sách phân loại công thức và số lượng công thức tương ứng
+            Hiển thị danh sách phân loại công thức và số lượng công thức tương ứng.
           </p>
         </div>
       </div>

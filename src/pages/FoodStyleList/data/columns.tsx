@@ -31,7 +31,7 @@ export const columns: ColumnDef<TableFoodStyleType>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "type",
+    accessorKey: "title",
     header: ({ column }) => <DataTableColumnHeader column={column} title="Tiêu đề" />,
     cell: ({ row }) => {
       const title = row.original.title;

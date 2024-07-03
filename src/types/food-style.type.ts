@@ -34,5 +34,12 @@ export type TableFoodStyleResponse = TableResponseState<TableFoodStyleType>;
 
 export type TableFoodStyleFilter = {
   name: string;
-  type: string;
+  title: string;
 };
+
+export type CreateFoodStyleBody = {
+  title: string;
+  name: string;
+};
+
+export type UpdateFoodStyleBody = CreateFoodStyleBody;
