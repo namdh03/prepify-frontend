@@ -38,7 +38,10 @@ function DataTableColumnHeader<TData, TValue>({
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="sm" className="-ml-3 h-8 data-[state=open]:bg-accent">
-            <span className="text-sm">{title}</span>
+            <DataTableTooltip message={tooltipMessage}>
+              <span className="text-sm">{title}</span>
+            </DataTableTooltip>
+
             {column.getIsSorted() === "desc" ? (
               <ArrowDownIcon className="ml-2 h-4 w-4" />
             ) : column.getIsSorted() === "asc" ? (
