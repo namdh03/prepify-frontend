@@ -21,3 +21,18 @@ export type PostOrderBody = {
   deliveryMethod: DeliveryMethodEnum;
   phone: string;
 };
+
+export type TableOrderType = {
+  id: string;
+  orderCode: string;
+  deliveredBy: string;
+  status: string;
+  area: string;
+  totalOrderDetails: number;
+  orderDate: string;
+  totalPrice: number;
+  phone: string;
+  address: string;
+};
+
+// export type TableViewOrderDetailType = {};

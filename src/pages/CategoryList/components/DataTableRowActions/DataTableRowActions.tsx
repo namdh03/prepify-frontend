@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { UseFormReset } from "react-hook-form";
 import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { toast } from "react-toastify";
@@ -64,10 +65,12 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableCategoryType
 
   const handleOpenModalChange = (value: boolean) => setOpen((prev) => ({ ...prev, modal: value }));
 
-  const handleUpdateCategory = async (values: ModalFormType) => {
+  const handleUpdateCategory = async (values: ModalFormType, reset: UseFormReset<ModalFormType>) => {
     await updateCategoryMutateAsync(values, {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_CATEGORIES_QUERY_KEY] });
         queryClient.invalidateQueries({ queryKey: [GET_TABLE_CATEGORIES_QUERY_KEY] });
+        reset({ name: values.name });
         setOpen((prev) => ({ ...prev, modal: false }));
         toast.success(CATEGORY_MESSAGES.UPDATE_CATEGORY_SUCCESS);
       },

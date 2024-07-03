@@ -76,3 +76,9 @@ export const imageSchema = z.instanceof(File).refine(
     message: IMAGE_MESSAGES.IMAGE_MUST_BE_JPEG_OR_PNG_AND_NOT_EXCEED_1MB,
   },
 );
+
+export const optionSchema = z.object({
+  label: z.string(),
+  value: z.string(),
+  disable: z.boolean().optional(),
+});

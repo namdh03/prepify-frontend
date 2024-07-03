@@ -1,8 +1,10 @@
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReset } from "react-hook-form";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import MultipleSelector from "~components/common/MultipleSelector";
+import { Option } from "~components/common/MultipleSelector/MultipleSelector";
 import { Button } from "~components/ui/button";
 import {
   Dialog,
@@ -15,23 +17,45 @@ import {
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
 import { Input } from "~components/ui/input";
 import modalSchema from "~pages/UnitList/data/schema";
+import { UnitEnum, UnitText } from "~utils/enums";
+
+export type ModalFormType = z.infer<typeof modalSchema>;
+
+interface TypeOption {
+  label: UnitText;
+  value: UnitEnum;
+  disable?: boolean;
+}
 
 interface ModalProps {
   open?: boolean;
   onOpenChange?: (value: boolean) => void;
   defaultName?: string;
+  defaultOptionType?: TypeOption[];
   title: string;
   description?: string;
-  onSubmit: (values: ModalFormType) => Promise<void>;
+  onSubmit: (values: ModalFormType, reset: UseFormReset<ModalFormType>) => Promise<void>;
   submitText: string;
 }
 
-export type ModalFormType = z.infer<typeof modalSchema>;
+const DEFAULT_TYPE_OPTIONS: Option[] = [
+  {
+    label: UnitText.INGREDIENT,
+    value: UnitEnum.INGREDIENT,
+    disable: false,
+  },
+  {
+    label: UnitText.NUTRITION,
+    value: UnitEnum.NUTRITION,
+    disable: false,
+  },
+];
 
 export default function Modal({
   open,
   onOpenChange,
   defaultName = "",
+  defaultOptionType,
   title,
   description,
   onSubmit,
@@ -42,13 +66,11 @@ export default function Modal({
     resolver: zodResolver(modalSchema),
     defaultValues: {
       name: defaultName,
+      type: defaultOptionType,
     },
   });
 
-  const handleSubmit = async (values: ModalFormType) => {
-    await onSubmit(values);
-    form.reset();
-  };
+  const handleSubmit = async (values: ModalFormType) => await onSubmit(values, form.reset);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -58,7 +80,30 @@ export default function Modal({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-8" id="unit-modal-form">
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4" id="unit-modal-form">
+            <FormField
+              control={form.control}
+              name="type"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Phân loại</FormLabel>
+                  <FormControl>
+                    <MultipleSelector
+                      {...field}
+                      defaultOptions={DEFAULT_TYPE_OPTIONS}
+                      placeholder="Vui lòng chọn phân loại đơn vị"
+                      emptyIndicator={
+                        <p className="text-center text-base leading-10 text-gray-600 dark:text-gray-400">
+                          Không tìm thấy kết quả nào.
+                        </p>
+                      }
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <FormField
               control={form.control}
               name="name"

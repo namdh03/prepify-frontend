@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { UseFormReset } from "react-hook-form";
 import { FiPlusCircle } from "react-icons/fi";
 import { RxCross2 } from "react-icons/rx";
 import { toast } from "react-toastify";
@@ -34,11 +35,12 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
 
   const handleOpenModalChange = (value: boolean) => setOpen(value);
 
-  const handleCreateCategory = async (values: ModalFormType) => {
+  const handleCreateCategory = async (values: ModalFormType, reset: UseFormReset<ModalFormType>) => {
     await mutateAsync(values, {
       onSuccess: () => {
         queryClient.invalidateQueries({ queryKey: [GET_CATEGORIES_QUERY_KEY] });
         queryClient.invalidateQueries({ queryKey: [GET_TABLE_CATEGORIES_QUERY_KEY] });
+        reset({ name: values.name });
         setOpen(false);
         toast.success(CATEGORY_MESSAGES.CREATE_CATEGORY_SUCCESS);
       },

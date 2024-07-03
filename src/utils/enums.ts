@@ -9,6 +9,12 @@ export enum LevelCook {
   HARD = "hard",
 }
 
+export enum LevelCookText {
+  EASY = "Dễ",
+  MEDIUM = "Trung bình",
+  HARD = "Khó",
+}
+
 export enum Role {
   ADMIN = "ADMIN",
   CUSTOMER = "CUSTOMER",
@@ -29,4 +35,15 @@ export enum OrderByEnum {
 export enum MealKitStatus {
   ACTIVE = "Đang mở bán",
   INACTIVE = "Tạm ngưng",
+}
+
+export enum UnitEnum {
+  INGREDIENT = "ingredient",
+  NUTRITION = "nutrition",
+  ALL = "all",
+}
+
+export enum UnitText {
+  INGREDIENT = "Nguyên liệu",
+  NUTRITION = "Chất dinh dưỡng",
 }

@@ -1,21 +1,21 @@
 import { MdSignalCellular1Bar, MdSignalCellular3Bar, MdSignalCellular4Bar } from "react-icons/md";
 
 import { Option } from "~components/common/DataTableFacetedFilter";
-import { LevelCook } from "~utils/enums";
+import { LevelCook, LevelCookText } from "~utils/enums";
 
 const levels: Option[] = [
   {
-    label: "Dễ",
+    label: LevelCookText.EASY,
     value: LevelCook.EASY,
     icon: MdSignalCellular4Bar,
   },
   {
-    label: "Trung bình",
+    label: LevelCookText.MEDIUM,
     value: LevelCook.MEDIUM,
     icon: MdSignalCellular3Bar,
   },
   {
-    label: "Khó",
+    label: LevelCookText.HARD,
     value: LevelCook.HARD,
     icon: MdSignalCellular1Bar,
   },

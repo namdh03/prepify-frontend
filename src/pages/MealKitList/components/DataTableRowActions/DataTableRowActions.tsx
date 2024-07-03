@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
-import { IoEyeOutline, IoLockClosedOutline, IoLockOpenOutline } from "react-icons/io5";
+import { IoLockClosedOutline, IoLockOpenOutline } from "react-icons/io5";
+import { RiFeedbackLine } from "react-icons/ri";
 import { toast } from "react-toastify";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
@@ -89,12 +90,12 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableMealKitType>
             <span className="sr-only">Open menu</span>
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end" className="w-[200px]">
+        <DropdownMenuContent align="end" className="w-48">
           <DropdownMenuItem className="cursor-pointer">
             <DropdownMenuShortcut className="ml-0 mr-2">
-              <IoEyeOutline size={16} />
+              <RiFeedbackLine size={16} />
             </DropdownMenuShortcut>
-            Xem Chi Tiết
+            Xem Đánh Giá
           </DropdownMenuItem>
 
           <DropdownMenuItem className="cursor-pointer">

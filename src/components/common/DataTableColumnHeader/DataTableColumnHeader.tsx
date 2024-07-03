@@ -11,14 +11,26 @@ import {
 import Button from "~layouts/AdminLayout/components/Button";
 import { cn } from "~lib/utils";
 
+import DataTableTooltip from "../DataTableTooltip";
+
 interface DataTableColumnHeaderProps<TData, TValue> extends React.HTMLAttributes<HTMLDivElement> {
   column: Column<TData, TValue>;
   title: string;
+  tooltipMessage?: string;
 }
 
-function DataTableColumnHeader<TData, TValue>({ column, title, className }: DataTableColumnHeaderProps<TData, TValue>) {
+function DataTableColumnHeader<TData, TValue>({
+  column,
+  title,
+  tooltipMessage = "",
+  className,
+}: DataTableColumnHeaderProps<TData, TValue>) {
   if (!column.getCanSort()) {
-    return <span className={cn("text-sm", className)}>{title}</span>;
+    return (
+      <DataTableTooltip message={tooltipMessage}>
+        <span className={cn("text-sm", className)}>{title}</span>
+      </DataTableTooltip>
+    );
   }
 
   return (

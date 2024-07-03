@@ -238,6 +238,12 @@ const router = createBrowserRouter([
           Component: (await import("~pages/UnitList")).default,
         }),
       },
+      {
+        path: configs.routes.orderList,
+        lazy: async () => ({
+          Component: (await import("~pages/OrderList")).default,
+        }),
+      },
     ],
   },
 
