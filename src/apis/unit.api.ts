@@ -1,5 +1,5 @@
 import { TableRequestState } from "~types/table.type";
-import { CreateUnitBody, TableUnitFilter, TableUnitResponse, UnitResponse } from "~types/unit.type";
+import { CreateUnitBody, TableUnitFilter, TableUnitResponse, UnitResponse, UpdateUnitBody } from "~types/unit.type";
 import columnFilterFn from "~utils/columnFilterFn";
 import { OrderByEnum } from "~utils/enums";
 import http from "~utils/http";
@@ -28,3 +28,5 @@ export const getTableUnits = ({ sorting, columnFilters, pagination }: TableReque
 };
 
 export const createUnit = (body: CreateUnitBody) => http.post("/moderator/units", body);
+
+export const updateUnit = (id: string, body: UpdateUnitBody) => http.put(`/moderator/units/${id}`, body);

@@ -29,3 +29,5 @@ export type CreateUnitBody = {
   name: string;
   type: string;
 };
+
+export type UpdateUnitBody = CreateUnitBody;
