@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Table } from "@tanstack/react-table";
 
-import { createUnit, GET_TABLE_UNITS_QUERY_KEY } from "~apis/unit.api";
+import { createUnit, GET_TABLE_UNITS_QUERY_KEY, GET_UNITS_QUERY_KEY } from "~apis/unit.api";
 import DataTableViewOptions from "~components/common/DataTableViewOptions";
 import { Input } from "~components/ui/input";
 import Button from "~layouts/AdminLayout/components/Button";
@@ -43,6 +43,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
       },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [GET_UNITS_QUERY_KEY] });
           queryClient.invalidateQueries({ queryKey: [GET_TABLE_UNITS_QUERY_KEY] });
           reset();
           setOpen(false);

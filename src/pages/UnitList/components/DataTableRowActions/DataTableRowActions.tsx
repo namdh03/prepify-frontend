@@ -8,7 +8,7 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
 
-import { deleteUnit, GET_TABLE_UNITS_QUERY_KEY, updateUnit } from "~apis/unit.api";
+import { deleteUnit, GET_TABLE_UNITS_QUERY_KEY, GET_UNITS_QUERY_KEY, updateUnit } from "~apis/unit.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -72,6 +72,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
       },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [GET_UNITS_QUERY_KEY] });
           queryClient.invalidateQueries({ queryKey: [GET_TABLE_UNITS_QUERY_KEY] });
           reset({ name: values.name, type: values.type });
           setOpen((prev) => ({ ...prev, modal: false }));
@@ -88,6 +89,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
   const handleDeleteUnit = () =>
     deleteUnitMutate(undefined, {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_UNITS_QUERY_KEY] });
         queryClient.invalidateQueries({ queryKey: [GET_TABLE_UNITS_QUERY_KEY] });
         setOpen((prev) => ({ ...prev, modal: false }));
         toast.success(UNIT_MESSAGES.DELETE_UNIT_SUCCESS);
