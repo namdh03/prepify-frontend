@@ -43,7 +43,7 @@ export default function Modal({
   const form = useForm<ModalFormType>({
     mode: "onChange",
     resolver: zodResolver(modalSchema),
-    defaultValues: {
+    values: {
       name: defaultName,
     },
   });

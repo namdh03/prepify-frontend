@@ -24,12 +24,12 @@ export type PostOrderBody = {
 
 export type TableOrderType = {
   id: string;
-  orderCode: string;
+  trackingNumber: string;
   deliveredBy: string;
   status: string;
   area: string;
   totalOrderDetails: number;
-  orderDate: string;
+  datetime: string;
   totalPrice: number;
   phone: string;
   address: string;

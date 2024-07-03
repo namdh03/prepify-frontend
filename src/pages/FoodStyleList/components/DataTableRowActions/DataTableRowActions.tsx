@@ -1,10 +1,14 @@
 import { useState } from "react";
+import { UseFormReset } from "react-hook-form";
 import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
+import { toast } from "react-toastify";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
 
+import { GET_FOOD_STYLES_QUERY_KEY, GET_TABLE_FOOD_STYLES_QUERY_KEY, updateFoodStyle } from "~apis/food-style.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -24,40 +28,108 @@ import {
   DropdownMenuTrigger,
 } from "~components/ui/dropdown-menu";
 import Button from "~layouts/AdminLayout/components/Button";
-import { TableFoodStyleType } from "~types/food-style.type";
+import { TableFoodStyleType, UpdateFoodStyleBody } from "~types/food-style.type";
+import { FOOD_STYLE_MESSAGES, SYSTEM_MESSAGES } from "~utils/constants";
+import isAxiosError from "~utils/isAxiosError";
+
+import Modal, { ModalFormType } from "../Modal/Modal";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
 function DataTableRowActions({ row }: DataTableRowActionsProps<TableFoodStyleType>) {
-  const [open, setOpen] = useState(false);
+  const queryClient = useQueryClient();
+  const [open, setOpen] = useState({
+    alert: false,
+    modal: false,
+  });
+  const { mutateAsync: updateFoodStyleMutateAsync } = useMutation({
+    mutationFn: (body: UpdateFoodStyleBody) => updateFoodStyle(row.original.id, body),
+  });
 
-  const handleOpenDialog = () => setOpen(true);
+  const handleOpenAlert = () => setOpen((prev) => ({ ...prev, alert: true }));
 
-  const handleOpenDialogChange = (value: boolean) => setOpen(value);
+  const handleOpenAlertChange = (value: boolean) => setOpen((prev) => ({ ...prev, alert: value }));
 
-  console.log(row.original);
+  const handleOpenModal = () => setOpen((prev) => ({ ...prev, modal: true }));
+
+  const handleOpenModalChange = (value: boolean) => setOpen((prev) => ({ ...prev, modal: value }));
+
+  const handleUpdateFoodStyle = async (values: ModalFormType, reset: UseFormReset<ModalFormType>) => {
+    await updateFoodStyleMutateAsync(
+      {
+        title: values.title[0].label,
+        name: values.name,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [GET_FOOD_STYLES_QUERY_KEY] });
+          queryClient.invalidateQueries({ queryKey: [GET_TABLE_FOOD_STYLES_QUERY_KEY] });
+          reset({ name: values.name, title: values.title });
+          setOpen((prev) => ({ ...prev, modal: false }));
+          toast.success(FOOD_STYLE_MESSAGES.UPDATE_FOOD_STYLE_SUCCESS);
+        },
+        onError: (error) => {
+          if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+          else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+      },
+    );
+  };
+
+  const handleDeleteFoodStyle = () => {
+    console.log("Delete Item", row.original.id);
+  };
 
   return (
     <>
-      <AlertDialog open={open} onOpenChange={handleOpenDialogChange}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Bạn có chắc chắn không?</AlertDialogTitle>
-            <AlertDialogDescription>
-              {/* Hành động này sẽ thay đổi <span className="text-secondary">trạng thái kinh doanh</span> của gói nguyên
-              liệu từ
-              <strong className="text-primary"> {row.original.status ? "đang mở bán" : "tạm ngừng"}</strong> sang
-              <strong className="text-primary"> {row.original.status ? "tạm ngừng" : "đang mở bán"}</strong>. */}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Tiếp tục</AlertDialogCancel>
-            <AlertDialogAction>Hủy</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+      <Modal
+        open={open.modal}
+        onOpenChange={handleOpenModalChange}
+        title="Chỉnh sửa phong cách ẩm thực"
+        description="Chỉnh sửa thông tin phong cách ẩm thực của bạn."
+        onSubmit={handleUpdateFoodStyle}
+        submitText="Cập nhật"
+        defaultValues={{
+          title: [{ value: row.original.title, label: row.original.title }],
+          name: row.original.name,
+        }}
+      />
+
+      <AlertDialog open={open.alert} onOpenChange={handleOpenAlertChange}>
+        {row.original.totalRecipes > 0 ? (
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Không thể xóa phong cách ẩm thực</AlertDialogTitle>
+              <AlertDialogDescription>
+                Phong cách ẩm thực này đang được sử dụng trong{" "}
+                <strong className="text-primary">{row.original.totalRecipes} công thức</strong>. Vui lòng xóa các công
+                thức trước khi xóa phong cách ẩm thực.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction>Đóng</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        ) : (
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Bạn có chắc chắn không?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Hành động này không thể hoàn tác. Hành động này sẽ xóa vĩnh viễn{" "}
+                <strong className="text-primary">phong cách ẩm thực</strong> của bạn và xóa dữ liệu của bạn khỏi máy
+                chủ.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={handleDeleteFoodStyle}>Tiếp tục</AlertDialogCancel>
+              <AlertDialogAction>Hủy</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        )}
       </AlertDialog>
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
@@ -66,7 +138,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableFoodStyleTyp
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-60">
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem className="cursor-pointer" onClick={handleOpenModal}>
             <DropdownMenuShortcut className="ml-0 mr-2">
               <FiEdit3 size={16} />
             </DropdownMenuShortcut>
@@ -75,11 +147,11 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableFoodStyleTyp
 
           <DropdownMenuSeparator />
 
-          <DropdownMenuItem className="cursor-pointer" onClick={handleOpenDialog}>
+          <DropdownMenuItem className="cursor-pointer" onClick={handleOpenAlert}>
             <DropdownMenuShortcut className="ml-0 mr-2">
               <RiDeleteBinLine size={16} />
             </DropdownMenuShortcut>
-            Xoá Phong Cách Ẩm Thực
+            Xoá phong cách ẩm thực
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

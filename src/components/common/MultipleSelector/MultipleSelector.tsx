@@ -291,7 +291,7 @@ const MultipleSelector = React.forwardRef<MultipleSelectorRef, MultipleSelectorP
             onChange?.(newOptions);
           }}
         >
-          {`Create "${inputValue}"`}
+          {`Tạo "${inputValue}"`}
         </CommandItem>
       );
 

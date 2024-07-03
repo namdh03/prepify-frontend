@@ -14,7 +14,7 @@ import DataTableToolbar from "./components/DataTableToolbar";
 import { columns } from "./data/columns";
 
 export default function FoodStyleList() {
-  useDocumentTitle("Prepify | Danh sách gói nguyên liệu");
+  useDocumentTitle("Prepify | Danh sách phong cách ẩm thực");
 
   // sorting state of the table
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -41,9 +41,10 @@ export default function FoodStyleList() {
     <LayoutBody className="flex flex-col" fixedHeight>
       <div className="mb-2 flex items-center justify-between space-y-2">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Danh sách gói nguyên liệu</h2>
+          <h2 className="text-2xl font-bold tracking-tight">Danh sách phong cách ẩm thực</h2>
           <p className="text-muted-foreground">
-            Hiển thị tất cả các gói nguyên liệu mà bạn đã tạo. Bạn có thể thêm, sửa hoặc xóa gói nguyên liệu tại đây.
+            Hiển thị tất cả các phong cách ẩm thực mà bạn đã tạo. Bạn có thể thêm, sửa hoặc xóa phong cách ẩm thực tại
+            đây.
           </p>
         </div>
       </div>
