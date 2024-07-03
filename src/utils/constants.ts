@@ -1,5 +1,7 @@
 import configs from "~configs";
 
+import { LevelCook, LevelCookText } from "./enums";
+
 export const SYSTEM_MESSAGES = {
   SOMETHING_WENT_WRONG: "Đã có lỗi xảy ra",
 } as const;
@@ -55,6 +57,7 @@ export const UNIT_MESSAGES = {
   CREATE_UNIT_SUCCESS: "Tạo đơn vị thành công",
   UPDATE_UNIT_SUCCESS: "Cập nhật đơn vị thành công",
   DELETE_UNIT_SUCCESS: "Xóa đơn vị thành công",
+  UNIT_TYPE_REQUIRED: "Vui lòng chọn loại đơn vị",
 };
 
 export const PAGE = 1;
@@ -99,4 +102,10 @@ export const RECIPE_MESSAGES = {
 export const MEAL_KIT_MESSAGES = {
   TOGGLE_STATUS_MEAL_KIT_SUCCESS_SUSPEND: "Tạm ngừng thành công",
   TOGGLE_STATUS_MEAL_KIT_SUCCESS_RESUME: "Mở bán thành công",
+};
+
+export const LEVEL_COOK_TEXT_MAP = {
+  [LevelCook.EASY]: LevelCookText.EASY,
+  [LevelCook.MEDIUM]: LevelCookText.MEDIUM,
+  [LevelCook.HARD]: LevelCookText.HARD,
 };

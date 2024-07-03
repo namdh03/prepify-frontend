@@ -2,13 +2,15 @@ import { memo, useCallback, useEffect, useState } from "react";
 
 import { Card, CardContent } from "~components/ui/card";
 import { Carousel, CarouselApi, CarouselContent, CarouselItem } from "~components/ui/carousel";
-import useRecipeDetail from "~hooks/useRecipeDetail";
 import { cn } from "~lib/utils";
 
 import DotButton from "../DotButton";
 
-const Image = memo(() => {
-  const { recipe } = useRecipeDetail();
+interface ImagesProps {
+  list: string[];
+}
+
+const Images = memo(({ list }: ImagesProps) => {
   const [mainApi, setMainApi] = useState<CarouselApi>();
   const [subApi, setSubApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
@@ -39,7 +41,7 @@ const Image = memo(() => {
       <div className="w-full">
         <Carousel setApi={setMainApi}>
           <CarouselContent>
-            {recipe?.images.map((image, index) => (
+            {list.map((image, index) => (
               <CarouselItem key={index}>
                 <figure className="h-[500px]">
                   <img src={image} alt="" className="w-full h-full rounded-[5px] object-contain" />
@@ -49,7 +51,7 @@ const Image = memo(() => {
           </CarouselContent>
         </Carousel>
         <div className="flex items-center justify-center gap-2 py-2">
-          {recipe?.images.map((_, index) => (
+          {list.map((_, index) => (
             <DotButton
               key={index}
               onClick={() => scrollTo(index)}
@@ -64,7 +66,7 @@ const Image = memo(() => {
 
       <Carousel className="w-full mt-4" setApi={setSubApi}>
         <CarouselContent className="-ml-1">
-          {recipe?.images.map((image, index) => (
+          {list.map((image, index) => (
             <CarouselItem
               key={index}
               className="pl-1 md:basis-1/3 lg:basis-1/4 cursor-pointer"
@@ -89,4 +91,4 @@ const Image = memo(() => {
   );
 });
 
-export default Image;
+export default Images;

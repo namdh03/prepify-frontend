@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { UseFormReset } from "react-hook-form";
 import { FiEdit3 } from "react-icons/fi";
 import { RiDeleteBinLine } from "react-icons/ri";
 
@@ -25,6 +26,7 @@ import {
 } from "~components/ui/dropdown-menu";
 import Button from "~layouts/AdminLayout/components/Button";
 import { TableUnitType } from "~types/unit.type";
+import { UnitEnum, UnitText } from "~utils/enums";
 
 import Modal from "../Modal";
 import { ModalFormType } from "../Modal/Modal";
@@ -38,6 +40,9 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
     alert: false,
     modal: false,
   });
+  const totalIngredient = row.original.totalIngredients;
+  const totalRecipeIngredient = row.original.totalRecipeIngredients;
+  const totalRecipeNutrition = row.original.totalRecipeNutritions;
 
   const handleOpenAlert = () => setOpen((prev) => ({ ...prev, alert: true }));
 
@@ -47,8 +52,9 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
 
   const handleOpenModalChange = (value: boolean) => setOpen((prev) => ({ ...prev, modal: value }));
 
-  const handleUpdateUnit = async (values: ModalFormType) => {
+  const handleUpdateUnit = async (values: ModalFormType, reset: UseFormReset<ModalFormType>) => {
     console.log("handleUpdateUnit", values);
+    reset();
   };
 
   const handleDeleteUnit = () => {
@@ -65,22 +71,73 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
         onSubmit={handleUpdateUnit}
         submitText="Cập nhật"
         defaultName={row.original.name}
+        defaultOptionType={
+          row.original.type === UnitEnum.ALL
+            ? [
+                {
+                  label: UnitText.INGREDIENT,
+                  value: UnitEnum.INGREDIENT,
+                },
+                {
+                  label: UnitText.NUTRITION,
+                  value: UnitEnum.NUTRITION,
+                },
+              ]
+            : [
+                {
+                  label: UnitText[row.original.type.toUpperCase() as keyof typeof UnitText],
+                  value: row.original.type,
+                },
+              ]
+        }
       />
 
       <AlertDialog open={open.alert} onOpenChange={handleOpenAlertChange}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Bạn có chắc chắn không?</AlertDialogTitle>
-            <AlertDialogDescription>
-              Hành động này không thể hoàn tác. Hành động này sẽ xóa vĩnh viễn{" "}
-              <strong className="text-primary">đơn vị</strong> của bạn và xóa dữ liệu của bạn khỏi máy chủ.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel onClick={handleDeleteUnit}>Tiếp tục</AlertDialogCancel>
-            <AlertDialogAction>Hủy</AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
+        {totalIngredient > 0 || totalRecipeIngredient > 0 || totalRecipeNutrition > 0 ? (
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Không thể xóa đơn vị này</AlertDialogTitle>
+              <AlertDialogDescription>
+                Đơn vị này đang được sử dụng trong{" "}
+                {totalIngredient > 0 && (
+                  <>
+                    <strong className="text-primary">{totalIngredient}</strong> nguyên liệu
+                  </>
+                )}
+                {totalIngredient > 0 && totalRecipeIngredient > 0 && ", "}
+                {totalRecipeIngredient > 0 && (
+                  <>
+                    <strong className="text-primary">{totalRecipeIngredient}</strong> nguyên liệu trong công thức
+                  </>
+                )}
+                {(totalIngredient > 0 || totalRecipeIngredient > 0) && totalRecipeNutrition > 0 && ", "}
+                {totalRecipeNutrition > 0 && (
+                  <>
+                    <strong className="text-primary">{totalRecipeNutrition}</strong> chất dinh dưỡng trong công thức
+                  </>
+                )}
+                .
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogAction>Đóng</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        ) : (
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Bạn có chắc chắn không?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Hành động này không thể hoàn tác. Hành động này sẽ xóa vĩnh viễn{" "}
+                <strong className="text-primary">phân loại</strong> của bạn và xóa dữ liệu của bạn khỏi máy chủ.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel onClick={handleDeleteUnit}>Tiếp tục</AlertDialogCancel>
+              <AlertDialogAction>Hủy</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        )}
       </AlertDialog>
 
       <DropdownMenu>

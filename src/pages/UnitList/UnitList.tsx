@@ -29,7 +29,7 @@ export default function UnitList() {
     pageSize: TABLE_LIMIT, //default page size
   });
 
-  const { isLoading } = useGetTableUnits({
+  const { data, isLoading } = useGetTableUnits({
     sorting,
     columnFilters: debouncedColumnFilters,
     pagination,
@@ -48,7 +48,7 @@ export default function UnitList() {
       <div className="-mx-4 flex-1 overflow-auto px-4 py-1 lg:flex-row lg:space-x-12 lg:space-y-0">
         <DataTable
           isTableDataLoading={isLoading}
-          paginatedTableData={undefined}
+          paginatedTableData={data}
           columns={columns}
           pagination={pagination}
           setPagination={setPagination}

@@ -1,4 +1,4 @@
-import { useForm } from "react-hook-form";
+import { useForm, UseFormReset } from "react-hook-form";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,17 +16,17 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "~components/ui/input";
 import modalSchema from "~pages/CategoryList/data/schema";
 
+export type ModalFormType = z.infer<typeof modalSchema>;
+
 interface ModalProps {
   open?: boolean;
   onOpenChange?: (value: boolean) => void;
   defaultName?: string;
   title: string;
   description?: string;
-  onSubmit: (values: ModalFormType) => Promise<void>;
+  onSubmit: (values: ModalFormType, reset: UseFormReset<ModalFormType>) => Promise<void>;
   submitText: string;
 }
-
-export type ModalFormType = z.infer<typeof modalSchema>;
 
 export default function Modal({
   open,
@@ -45,10 +45,7 @@ export default function Modal({
     },
   });
 
-  const handleSubmit = async (values: ModalFormType) => {
-    await onSubmit(values);
-    form.reset();
-  };
+  const handleSubmit = async (values: ModalFormType) => await onSubmit(values, form.reset);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>

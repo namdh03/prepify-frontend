@@ -9,6 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 
 import { addToCart } from "~apis/cart.api";
+import Images from "~components/common/Images";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import Ratings from "~components/common/Ratings";
 import { Button } from "~components/ui/button";
@@ -25,8 +26,6 @@ import { AddToCartBody } from "~types/cart.type";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 import isAxiosError from "~utils/isAxiosError";
 import nFormatter from "~utils/nFormatter";
-
-import Image from "../Image";
 
 const RecipeInfo = () => {
   const { user } = useAuth();
@@ -69,7 +68,7 @@ const RecipeInfo = () => {
   return (
     <section className="pt-16 px-5 pb-32 bg-white rounded-[5px] [box-shadow:0px_4px_16px_0px_rgba(0,_0,_0,_0.07)]">
       <div className="flex gap-20 items-end">
-        <Image />
+        <Images list={recipe?.images || []} />
 
         <section className="flex-1 pr-14">
           <h1 className="text-primary text-4xl font-medium leading-10">{recipe?.name}</h1>

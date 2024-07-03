@@ -7,6 +7,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { Badge } from "~components/ui/badge";
 import { cn } from "~lib/utils";
 import { TableRecipeType } from "~types/recipe.type";
+import { LEVEL_COOK_TEXT_MAP } from "~utils/constants";
 import { LevelCook } from "~utils/enums";
 
 import DataTableRowActions from "../components/DataTableRowActions";
@@ -55,15 +56,10 @@ export const columns: ColumnDef<TableRecipeType>[] = [
         [LevelCook.MEDIUM]: "px-5 border-primary bg-orange-300",
         [LevelCook.HARD]: "px-5 border-destructive bg-red-300",
       };
-      const levelText = {
-        [LevelCook.EASY]: "Dễ",
-        [LevelCook.MEDIUM]: "Trung bình",
-        [LevelCook.HARD]: "Khó",
-      };
 
       return (
         <Badge variant="outline" className={cn("text-sm font-normal leading-5", levelStyles[level])}>
-          {levelText[level] || "Không xác định"}
+          {LEVEL_COOK_TEXT_MAP[level] || "Không xác định"}
         </Badge>
       );
     },

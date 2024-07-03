@@ -22,6 +22,8 @@ export type TableMealKitType = {
   status: boolean;
   extraSpice: ExtraSpice | null;
   image: string;
+  totalFeedback: number;
+  averageRating: number;
 };
 
 export type TableMealKitResponse = TableResponseState<TableMealKitType>;

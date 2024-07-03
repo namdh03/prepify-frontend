@@ -10,6 +10,7 @@ const routes = {
   ingredientList: "/moderator/ingredient-list",
   categoryList: "/moderator/category-list",
   unitList: "/moderator/unit-list",
+  orderList: "/moderator/order-list",
   login: "/login",
   loginGoogle: "/login/google",
   register: "/register",
