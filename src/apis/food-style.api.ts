@@ -39,3 +39,5 @@ export const createFoodStyle = (body: CreateFoodStyleBody) => http.post("/modera
 
 export const updateFoodStyle = (id: string, body: CreateFoodStyleBody) =>
   http.put(`/moderator/food-styles/${id}`, body);
+
+export const deleteFoodStyle = (id: string) => http.delete(`/moderator/food-styles/${id}`);

@@ -8,7 +8,12 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
 
-import { GET_FOOD_STYLES_QUERY_KEY, GET_TABLE_FOOD_STYLES_QUERY_KEY, updateFoodStyle } from "~apis/food-style.api";
+import {
+  deleteFoodStyle,
+  GET_FOOD_STYLES_QUERY_KEY,
+  GET_TABLE_FOOD_STYLES_QUERY_KEY,
+  updateFoodStyle,
+} from "~apis/food-style.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,8 +49,11 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableFoodStyleTyp
     alert: false,
     modal: false,
   });
-  const { mutateAsync: updateFoodStyleMutateAsync } = useMutation({
+  const { mutateAsync: updateFoodStyleMutateAsync, isPending: isUpdateFoodStylePending } = useMutation({
     mutationFn: (body: UpdateFoodStyleBody) => updateFoodStyle(row.original.id, body),
+  });
+  const { mutate: deleteFoodStyleMutate } = useMutation({
+    mutationFn: () => deleteFoodStyle(row.original.id),
   });
 
   const handleOpenAlert = () => setOpen((prev) => ({ ...prev, alert: true }));
@@ -79,7 +87,18 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableFoodStyleTyp
   };
 
   const handleDeleteFoodStyle = () => {
-    console.log("Delete Item", row.original.id);
+    deleteFoodStyleMutate(undefined, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_FOOD_STYLES_QUERY_KEY] });
+        queryClient.invalidateQueries({ queryKey: [GET_TABLE_FOOD_STYLES_QUERY_KEY] });
+        setOpen((prev) => ({ ...prev, modal: false }));
+        toast.success(FOOD_STYLE_MESSAGES.DELETE_FOOD_STYLE_SUCCESS);
+      },
+      onError: (error) => {
+        if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+        else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+      },
+    });
   };
 
   return (
@@ -95,6 +114,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableFoodStyleTyp
           title: [{ value: row.original.title, label: row.original.title }],
           name: row.original.name,
         }}
+        loading={isUpdateFoodStylePending}
       />
 
       <AlertDialog open={open.alert} onOpenChange={handleOpenAlertChange}>
