@@ -21,3 +21,7 @@ export type IngredientType = {
 };
 
 export type IngredientResponse = SuccessResponse<IngredientType[]>;
+
+export type TableIngredientFilter = {
+  name: string;
+};
