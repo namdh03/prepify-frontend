@@ -8,7 +8,7 @@ import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Row } from "@tanstack/react-table";
 
-import { GET_TABLE_UNITS_QUERY_KEY, updateUnit } from "~apis/unit.api";
+import { deleteUnit, GET_TABLE_UNITS_QUERY_KEY, updateUnit } from "~apis/unit.api";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -52,6 +52,9 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
   const { mutateAsync: updateUnitMutateAsync } = useMutation({
     mutationFn: (body: UpdateUnitBody) => updateUnit(row.original.id, body),
   });
+  const { mutate: deleteUnitMutate } = useMutation({
+    mutationFn: () => deleteUnit(row.original.id),
+  });
 
   const handleOpenAlert = () => setOpen((prev) => ({ ...prev, alert: true }));
 
@@ -82,9 +85,18 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
     );
   };
 
-  const handleDeleteUnit = () => {
-    console.log("handleDeleteUnit");
-  };
+  const handleDeleteUnit = () =>
+    deleteUnitMutate(undefined, {
+      onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_TABLE_UNITS_QUERY_KEY] });
+        setOpen((prev) => ({ ...prev, modal: false }));
+        toast.success(UNIT_MESSAGES.DELETE_UNIT_SUCCESS);
+      },
+      onError: (error) => {
+        if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+        else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+      },
+    });
 
   return (
     <>

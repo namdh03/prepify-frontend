@@ -31,7 +31,13 @@ export const columns: ColumnDef<TableCategoryType>[] = [
   },
   {
     accessorKey: "totalRecipes",
-    header: ({ column }) => <DataTableColumnHeader column={column} title="Tổng số công thức" />,
+    header: ({ column }) => (
+      <DataTableColumnHeader
+        column={column}
+        title="Tổng số công thức"
+        tooltipMessage="Tổng số công thức đã sử dụng phân loại này"
+      />
+    ),
     cell: ({ row }) => {
       const total = row.original.totalRecipes;
       return <span className="text-sm font-normal leading-5 block ml-6">{total || 0} công thức</span>;

@@ -30,3 +30,5 @@ export const getTableUnits = ({ sorting, columnFilters, pagination }: TableReque
 export const createUnit = (body: CreateUnitBody) => http.post("/moderator/units", body);
 
 export const updateUnit = (id: string, body: UpdateUnitBody) => http.put(`/moderator/units/${id}`, body);
+
+export const deleteUnit = (id: string) => http.delete(`/moderator/units/${id}`);
