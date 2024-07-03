@@ -27,7 +27,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
   const [open, setOpen] = useState(false);
   const isFiltered = table.getState().columnFilters.length > 0;
   const columnName = table.getAllColumns().find((column) => column.id === "name");
-  const { mutateAsync: createUnitMutateAsync } = useMutation({
+  const { mutateAsync: createUnitMutateAsync, isPending: isCreateUnitPending } = useMutation({
     mutationFn: (body: CreateUnitBody) => createUnit(body),
   });
 
@@ -94,6 +94,7 @@ export default function DataTableToolbar<TData>({ table }: DataTableToolbarProps
         description="Đơn vị sử dụng trong công thức, nguyên liệu, chất dinh dưỡng..."
         onSubmit={handleCreateUnit}
         submitText="Tạo mới"
+        loading={isCreateUnitPending}
       />
     </div>
   );

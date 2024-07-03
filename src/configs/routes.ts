@@ -11,6 +11,7 @@ const routes = {
   categoryList: "/moderator/category-list",
   unitList: "/moderator/unit-list",
   orderList: "/moderator/order-list",
+  foodStyleList: "/moderator/food-style-list",
   login: "/login",
   loginGoogle: "/login/google",
   register: "/register",

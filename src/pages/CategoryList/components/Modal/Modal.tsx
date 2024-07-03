@@ -3,6 +3,7 @@ import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 
+import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
 import {
   Dialog,
@@ -26,6 +27,7 @@ interface ModalProps {
   description?: string;
   onSubmit: (values: ModalFormType, reset: UseFormReset<ModalFormType>) => Promise<void>;
   submitText: string;
+  loading?: boolean;
 }
 
 export default function Modal({
@@ -36,6 +38,7 @@ export default function Modal({
   description,
   onSubmit,
   submitText,
+  loading,
 }: ModalProps) {
   const form = useForm<ModalFormType>({
     mode: "onChange",
@@ -72,8 +75,8 @@ export default function Modal({
           </form>
         </Form>
         <DialogFooter>
-          <Button type="submit" form="category-modal-form">
-            {submitText}
+          <Button type="submit" form="category-modal-form" className="min-w-24">
+            {loading ? <Spinner /> : submitText}
           </Button>
         </DialogFooter>
       </DialogContent>

@@ -49,7 +49,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
   const totalIngredient = row.original.totalIngredients;
   const totalRecipeIngredient = row.original.totalRecipeIngredients;
   const totalRecipeNutrition = row.original.totalRecipeNutritions;
-  const { mutateAsync: updateUnitMutateAsync } = useMutation({
+  const { mutateAsync: updateUnitMutateAsync, isPending: isUpdateUnitPending } = useMutation({
     mutationFn: (body: UpdateUnitBody) => updateUnit(row.original.id, body),
   });
   const { mutate: deleteUnitMutate } = useMutation({
@@ -127,6 +127,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableUnitType>) {
                 },
               ]
         }
+        loading={isUpdateUnitPending}
       />
 
       <AlertDialog open={open.alert} onOpenChange={handleOpenAlertChange}>
