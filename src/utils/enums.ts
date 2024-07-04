@@ -50,10 +50,11 @@ export enum UnitText {
 }
 
 export enum OrderStatus {
+  WAITING = "WAITING",
+  CREATED = "CREATED",
   PICKED_UP = "PICKED_UP",
   DELIVERING = "DELIVERING",
   DELIVERED = "DELIVERED",
-  CREATED = "CREATED",
   CANCELED = "CANCELED",
   DELAYED = "DELAYED",
 }

@@ -20,8 +20,8 @@ const Product = memo((props: ShopRecipeType) => {
       <article className="relative pt-24 px-9 pb-5 bg-white rounded-[34px] text-center [box-shadow:0px_9px_27px_0px_rgba(0,_0,_0,_0.07)]">
         <div className="absolute -top-[90px] left-1/2 -translate-x-1/2 rounded-full overflow-hidden">
           <motion.div className="flex w-[179px] h-[179px]" whileHover={{ x: "-100%" }}>
-            <img src={props.mainImage} alt="" className="w-full h-full object-cover" />
-            <img src={props.subImage} alt="" className="w-full h-full object-cover" />
+            <img src={props.mainImage} alt="" className="w-full h-full object-cover flex-shrink-0" />
+            <img src={props.subImage} alt="" className="w-full h-full object-cover flex-shrink-0" />
           </motion.div>
         </div>
 

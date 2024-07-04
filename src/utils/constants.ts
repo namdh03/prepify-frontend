@@ -125,12 +125,13 @@ export const LEVEL_COOK_TEXT_MAP = {
 };
 
 export const ORDER_STATUS_TEXT_MAP = {
-  [OrderStatus.PICKED_UP]: "Đã lấy hàng",
+  [OrderStatus.WAITING]: "Chờ thanh toán",
+  [OrderStatus.CREATED]: "Đã tạo đơn",
+  [OrderStatus.PICKED_UP]: "Đã nhận đơn",
   [OrderStatus.DELIVERING]: "Đang giao hàng",
   [OrderStatus.DELIVERED]: "Đã giao hàng",
-  [OrderStatus.CREATED]: "Đã tạo",
   [OrderStatus.CANCELED]: "Đã hủy",
-  [OrderStatus.DELAYED]: "Đã trễ",
+  [OrderStatus.DELAYED]: "Đã hoãn giao",
 };
 
 export const ACCOUNT_ROLE_TEXT_MAP = {
