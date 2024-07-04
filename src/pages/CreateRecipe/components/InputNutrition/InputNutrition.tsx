@@ -9,6 +9,7 @@ import InputFloatNumber from "~components/common/InputFloatNumber";
 import { Button } from "~components/ui/button";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
 import useRecipe from "~hooks/useRecipe";
+import { UnitEnum } from "~utils/enums";
 
 const InputNutrition = () => {
   const { form, units } = useRecipe();
@@ -80,10 +81,12 @@ const InputNutrition = () => {
                 <FormControl>
                   <Combobox
                     options={
-                      units.map((item) => ({
-                        value: item.id,
-                        label: item.name,
-                      })) || []
+                      units
+                        .filter((item) => item.type !== UnitEnum.INGREDIENT)
+                        .map((item) => ({
+                          value: item.id,
+                          label: item.name,
+                        })) || []
                     }
                     onValueChange={field.onChange}
                     value={field.value as string}

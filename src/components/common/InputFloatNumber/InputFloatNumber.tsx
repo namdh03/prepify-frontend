@@ -11,6 +11,7 @@ interface InputFloatNumberProps {
   placeholder?: string;
   className?: string;
   onValueChange?: (value: number) => void;
+  disabled?: boolean;
 }
 
 const InputFloatNumber = ({
@@ -20,6 +21,7 @@ const InputFloatNumber = ({
   defaultValue,
   placeholder,
   className,
+  disabled = false,
   onValueChange,
 }: InputFloatNumberProps) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -48,6 +50,7 @@ const InputFloatNumber = ({
       onKeyDown={handleKeyDown}
       onChange={handleChange}
       step="any" // Allows input of floating-point numbers
+      disabled={disabled}
     />
   );
 };

@@ -11,6 +11,7 @@ interface InputPositiveNumberProps {
   placeholder?: string;
   className?: string;
   onValueChange?: (value: number) => void;
+  disabled?: boolean;
 }
 
 const InputPositiveNumber = ({
@@ -21,6 +22,7 @@ const InputPositiveNumber = ({
   placeholder,
   className,
   onValueChange,
+  disabled = false,
 }: InputPositiveNumberProps) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     const _e = inputOnlyPositiveNumber(e, min, max);
@@ -47,6 +49,7 @@ const InputPositiveNumber = ({
       className={className}
       onKeyDown={handleKeyDown}
       onChange={handleChange}
+      disabled={disabled}
     />
   );
 };

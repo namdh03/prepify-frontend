@@ -10,10 +10,10 @@ const InputTextEditor = () => {
       control={form.control}
       name="steps"
       render={({ field }) => (
-        <FormItem>
+        <FormItem className="w-[440px]">
           <FormLabel>Các bước nấu</FormLabel>
           <FormControl>
-            <RichTextEditor {...field} />
+            <RichTextEditor {...field} value={field.value} onChange={field.onChange} />
           </FormControl>
           <FormMessage />
         </FormItem>

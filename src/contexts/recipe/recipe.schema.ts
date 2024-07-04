@@ -23,13 +23,10 @@ export const recipeSchema = z.object({
         .min(1, {
           message: RECIPE_MESSAGES.AMOUNT_REQUIRED,
         }),
-      unit_id: z
-        .string({
-          message: RECIPE_MESSAGES.UNIT_REQUIRED,
-        })
-        .min(1, {
-          message: RECIPE_MESSAGES.UNIT_REQUIRED,
-        }),
+      price: z.number(),
+      unit_id: z.string({
+        message: RECIPE_MESSAGES.UNIT_REQUIRED,
+      }),
     }),
   ),
   steps: z
@@ -76,7 +73,9 @@ export const recipeSchema = z.object({
     .min(1, {
       message: RECIPE_MESSAGES.CATEGORY_REQUIRED,
     }),
-  images: z.array(z.instanceof(File)),
+  images: z.array(z.instanceof(File)).min(1, {
+    message: RECIPE_MESSAGES.IMAGES_REQUIRED,
+  }),
   videoUrl: z
     .string({
       message: RECIPE_MESSAGES.VIDEO_URL_REQUIRED,
@@ -84,13 +83,23 @@ export const recipeSchema = z.object({
     .url({
       message: RECIPE_MESSAGES.VIDEO_URL_INVALID,
     }),
-  foodStyleObj: z
-    .record(
-      z.string().min(1, {
-        message: RECIPE_MESSAGES.FOOD_STYLE_REQUIRED,
-      }),
-    )
-    .refine((obj) => ["occasion", "diet", "cuisine"].every((key) => key in obj), {
+  foodStyleObj: z.record(
+    z.string().min(1, {
       message: RECIPE_MESSAGES.FOOD_STYLE_REQUIRED,
     }),
+  ),
+  mealKits: z.array(
+    z.object({
+      mealKit: z.object({
+        serving: z.number().min(1),
+        price: z.number().min(1),
+      }),
+      extraSpice: z.object({
+        imageName: z.string().min(1),
+        name: z.string().min(1),
+        price: z.number().min(1),
+        image: z.instanceof(File),
+      }),
+    }),
+  ),
 });
