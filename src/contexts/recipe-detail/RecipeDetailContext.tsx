@@ -17,7 +17,7 @@ const recipe = {
   images: [images.suggest1st, images.suggest2nd, images.mission1st, images.mission2nd, images.mission3rd],
   mealKits: [
     {
-      id: "feqfqe2",
+      id: "a8da041b-0698-495d-a0f0-f085ed7a563d",
       price: 10000,
       serving: 1,
       extraSpice: {
