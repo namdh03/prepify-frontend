@@ -1,3 +1,6 @@
+import { useQueryClient } from "@tanstack/react-query";
+
+import { GET_ME_QUERY_KEY } from "~apis/user.api";
 import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import {
   DropdownMenu,
@@ -9,10 +12,22 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "~components/ui/dropdown-menu";
+import { signOut } from "~contexts/auth/auth.reducer";
+import useAuth from "~hooks/useAuth";
 
 import Button from "../Button";
 
 export default function UserNav() {
+  const { dispatch } = useAuth();
+  const queryClient = useQueryClient();
+
+  const handleLogout = () => {
+    dispatch(signOut());
+    queryClient.removeQueries({
+      queryKey: [GET_ME_QUERY_KEY],
+    });
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -47,7 +62,7 @@ export default function UserNav() {
           <DropdownMenuItem>New Team</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem>
+        <DropdownMenuItem onClick={handleLogout}>
           Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>

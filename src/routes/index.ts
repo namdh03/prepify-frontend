@@ -1,6 +1,8 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 
 import configs from "~configs";
+import { withRoleBasedGuard } from "~guards/RoleBasedGuard";
+import { Role } from "~utils/enums";
 
 const mainLayoutLazy = async () => ({
   Component: (await import("~layouts/MainLayout")).default,
@@ -174,81 +176,111 @@ const router = createBrowserRouter([
 
   // Moderator routes
   {
-    path: configs.routes.moderator,
-    lazy: async () => ({
-      Component: (await import("~layouts/AdminLayout")).default,
-    }),
+    lazy: authGuardLazy,
     children: [
       {
-        index: true,
-        loader: () => redirect(configs.routes.recipeList),
-      },
-      {
-        path: configs.routes.recipeList,
+        path: configs.routes.moderator,
         lazy: async () => ({
-          Component: (await import("~pages/RecipeList")).default,
-        }),
-      },
-      {
-        lazy: async () => ({
-          Component: (await import("~contexts/recipe/RecipeContext")).RecipeProvider,
+          Component: withRoleBasedGuard([Role.MODERATOR])((await import("~layouts/AdminLayout")).default),
         }),
         children: [
           {
-            path: configs.routes.createRecipe,
+            index: true,
+            loader: () => redirect(configs.routes.recipeList),
+          },
+          {
+            path: configs.routes.recipeList,
             lazy: async () => ({
-              Component: (await import("~pages/CreateRecipe")).default,
+              Component: (await import("~pages/RecipeList")).default,
+            }),
+          },
+          {
+            lazy: async () => ({
+              Component: (await import("~contexts/recipe/RecipeContext")).RecipeProvider,
+            }),
+            children: [
+              {
+                path: configs.routes.createRecipe,
+                lazy: async () => ({
+                  Component: (await import("~pages/CreateRecipe")).default,
+                }),
+              },
+            ],
+          },
+          {
+            path: configs.routes.mealKitList,
+            lazy: async () => ({
+              Component: (await import("~pages/MealKitList")).default,
+            }),
+          },
+          {
+            path: configs.routes.createMealKit,
+            lazy: async () => ({
+              Component: (await import("~pages/CreateMealKit")).default,
+            }),
+          },
+          {
+            path: configs.routes.ingredientList,
+            lazy: async () => ({
+              Component: (await import("~pages/IngredientList")).default,
+            }),
+          },
+          {
+            path: configs.routes.createIngredient,
+            lazy: async () => ({
+              Component: (await import("~pages/CreateIngredient")).default,
+            }),
+          },
+          {
+            path: configs.routes.categoryList,
+            lazy: async () => ({
+              Component: (await import("~pages/CategoryList")).default,
+            }),
+          },
+          {
+            path: configs.routes.unitList,
+            lazy: async () => ({
+              Component: (await import("~pages/UnitList")).default,
+            }),
+          },
+          {
+            path: configs.routes.orderList,
+            lazy: async () => ({
+              Component: (await import("~pages/OrderList")).default,
+            }),
+          },
+          {
+            path: configs.routes.foodStyleList,
+            lazy: async () => ({
+              Component: (await import("~pages/FoodStyleList")).default,
             }),
           },
         ],
       },
+    ],
+  },
+
+  // Admin routes
+  {
+    lazy: authGuardLazy,
+    children: [
       {
-        path: configs.routes.mealKitList,
+        path: configs.routes.admin,
         lazy: async () => ({
-          Component: (await import("~pages/MealKitList")).default,
+          Component: withRoleBasedGuard([Role.ADMIN])((await import("~layouts/AdminLayout")).default),
         }),
-      },
-      {
-        path: configs.routes.createMealKit,
-        lazy: async () => ({
-          Component: (await import("~pages/CreateMealKit")).default,
-        }),
-      },
-      {
-        path: configs.routes.ingredientList,
-        lazy: async () => ({
-          Component: (await import("~pages/IngredientList")).default,
-        }),
-      },
-      {
-        path: configs.routes.createIngredient,
-        lazy: async () => ({
-          Component: (await import("~pages/CreateIngredient")).default,
-        }),
-      },
-      {
-        path: configs.routes.categoryList,
-        lazy: async () => ({
-          Component: (await import("~pages/CategoryList")).default,
-        }),
-      },
-      {
-        path: configs.routes.unitList,
-        lazy: async () => ({
-          Component: (await import("~pages/UnitList")).default,
-        }),
-      },
-      {
-        path: configs.routes.orderList,
-        lazy: async () => ({
-          Component: (await import("~pages/OrderList")).default,
-        }),
-      },
-      {
-        path: configs.routes.foodStyleList,
-        lazy: async () => ({
-          Component: (await import("~pages/FoodStyleList")).default,
-        }),
+        children: [
+          {
+            index: true,
+            loader: () => redirect(configs.routes.accountList),
+          },
+          {
+            path: configs.routes.accountList,
+            lazy: async () => ({
+              Component: (await import("~pages/AccountList")).default,
+            }),
+          },
+        ],
       },
     ],
   },

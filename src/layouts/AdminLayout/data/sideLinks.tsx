@@ -6,6 +6,7 @@ import { IoFastFoodOutline } from "react-icons/io5";
 import { LuClipboardList } from "react-icons/lu";
 import { PiFish } from "react-icons/pi";
 import { TbWeight } from "react-icons/tb";
+import { VscAccount } from "react-icons/vsc";
 
 import configs from "~configs";
 
@@ -20,7 +21,7 @@ export interface SideLink extends NavLink {
   sub?: NavLink[];
 }
 
-export const sideLinks: SideLink[] = [
+export const moderatorSideLinks: SideLink[] = [
   {
     title: "Tổng quan",
     label: "",
@@ -116,5 +117,40 @@ export const sideLinks: SideLink[] = [
     label: "",
     href: configs.routes.orderList,
     icon: <FiShoppingCart size={18} />,
+  },
+];
+
+export const adminSideLinks: SideLink[] = [
+  {
+    title: "Tổng quan",
+    label: "",
+    href: configs.routes.overview,
+    icon: <AiOutlineDashboard size={18} />,
+  },
+  {
+    title: "Hồ sơ",
+    label: "",
+    href: configs.routes.overview,
+    icon: <AiOutlineProfile size={18} />,
+  },
+  {
+    title: "Quản lí tài khoản",
+    label: "",
+    href: "",
+    icon: <VscAccount size={18} />,
+    sub: [
+      {
+        title: "Danh sách tài khoản",
+        label: "",
+        href: configs.routes.accountList,
+        icon: <></>,
+      },
+      {
+        title: "Tạo tài khoản người vận chuyển",
+        label: "",
+        href: configs.routes.createAccount,
+        icon: <></>,
+      },
+    ],
   },
 ];

@@ -1,5 +1,8 @@
 const routes = {
   home: "/",
+  admin: "/admin",
+  accountList: "/admin/account-list",
+  createAccount: "/admin/create-account",
   moderator: "/moderator",
   overview: "/moderator/overview",
   createRecipe: "/moderator/create-recipe",

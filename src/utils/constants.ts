@@ -1,6 +1,6 @@
 import configs from "~configs";
 
-import { LevelCook, LevelCookText, OrderStatus } from "./enums";
+import { LevelCook, LevelCookText, OrderStatus, Role } from "./enums";
 
 export const SYSTEM_MESSAGES = {
   SOMETHING_WENT_WRONG: "Đã có lỗi xảy ra",
@@ -131,4 +131,11 @@ export const ORDER_STATUS_TEXT_MAP = {
   [OrderStatus.CREATED]: "Đã tạo",
   [OrderStatus.CANCELED]: "Đã hủy",
   [OrderStatus.DELAYED]: "Đã trễ",
+};
+
+export const ACCOUNT_ROLE_TEXT_MAP = {
+  [Role.ADMIN]: "Quản trị viên",
+  [Role.MODERATOR]: "Người quản lý",
+  [Role.CUSTOMER]: "Khách hàng",
+  [Role.SHIPPER]: "Người giao hàng",
 };

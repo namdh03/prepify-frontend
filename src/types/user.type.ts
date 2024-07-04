@@ -1,6 +1,7 @@
 import { Role } from "~utils/enums";
 
 import { SuccessResponse } from "./response.type";
+import { TableResponseState } from "./table.type";
 
 export interface User {
   id: string;
@@ -25,3 +26,22 @@ export type GoogleUrlResponse = SuccessResponse<{
 export type VerifyTokenForgotPasswordResponse = SuccessResponse<{
   success: boolean;
 }>;
+
+export type TableAccountType = {
+  id: string;
+  avatar: string;
+  fullname: string;
+  role: Role;
+  area: string;
+  phone: string;
+  email: string;
+  address: string;
+};
+
+export type TableAccountResponse = TableResponseState<TableAccountType>;
+
+export type TableAccountFilter = {
+  name: string;
+  role: string;
+  area: string;
+};
