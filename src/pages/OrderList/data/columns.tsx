@@ -56,6 +56,7 @@ export const columns: ColumnDef<TableOrderType>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
       const statusStyles = {
+        [OrderStatus.WAITING]: "px-5 border-teal-500 bg-teal-300",
         [OrderStatus.PICKED_UP]: "px-5 border-blue-500 bg-blue-300",
         [OrderStatus.DELIVERING]: "px-5 border-yellow-500 bg-yellow-300",
         [OrderStatus.DELIVERED]: "px-5 border-secondary bg-[#CFE4D2]",
@@ -144,12 +145,11 @@ export const columns: ColumnDef<TableOrderType>[] = [
         column={column}
         title="Gói nguyên liệu"
         tooltipMessage="Tổng số gói nguyên liệu trong đơn hàng"
-        className="block text-center"
       />
     ),
     cell: ({ row }) => {
       const totalOrderDetails = row.original.totalOrderDetails;
-      return <span className="text-sm font-normal leading-5 block text-center">{totalOrderDetails}</span>;
+      return <span className="text-sm font-normal leading-5">{totalOrderDetails}</span>;
     },
     meta: {
       title: "Gói nguyên liệu",

@@ -2,9 +2,10 @@ import { memo, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { postOrder } from "~apis/order.api";
+import { GET_PAYMENT_QUERY_KEY, getPayment } from "~apis/payment.api";
 import { GET_ME_QUERY_KEY } from "~apis/user.api";
 import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
@@ -40,6 +41,12 @@ const OrderAction = memo(() => {
   const { mutate, isPending } = useMutation({
     mutationFn: (body: PostOrderBody) => postOrder(body),
   });
+  const { refetch } = useQuery({
+    queryKey: [GET_PAYMENT_QUERY_KEY],
+    queryFn: () => getPayment(),
+    enabled: false,
+    select: (data) => data.data.data.url,
+  });
 
   const handleShowError = () => toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
 
@@ -56,10 +63,16 @@ const OrderAction = memo(() => {
         phone: form.getValues("phone"),
       },
       {
-        onSuccess: () => {
-          form.reset();
+        onSuccess: async () => {
           if (!user?.phone || !user?.address) queryClient.invalidateQueries({ queryKey: [GET_ME_QUERY_KEY] });
-          navigate(`${configs.routes.order}?success=true`);
+
+          try {
+            const { data } = await refetch();
+            if (data) return (window.location.href = data);
+            else navigate(configs.routes[404]);
+          } catch (error) {
+            toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+          }
         },
         onError: (error) => {
           if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
