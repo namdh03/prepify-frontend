@@ -1,6 +1,6 @@
 import configs from "~configs";
 
-import { LevelCook, LevelCookText } from "./enums";
+import { LevelCook, LevelCookText, OrderStatus } from "./enums";
 
 export const SYSTEM_MESSAGES = {
   SOMETHING_WENT_WRONG: "Đã có lỗi xảy ra",
@@ -122,4 +122,13 @@ export const LEVEL_COOK_TEXT_MAP = {
   [LevelCook.EASY]: LevelCookText.EASY,
   [LevelCook.MEDIUM]: LevelCookText.MEDIUM,
   [LevelCook.HARD]: LevelCookText.HARD,
+};
+
+export const ORDER_STATUS_TEXT_MAP = {
+  [OrderStatus.PICKED_UP]: "Đã lấy hàng",
+  [OrderStatus.DELIVERING]: "Đang giao hàng",
+  [OrderStatus.DELIVERED]: "Đã giao hàng",
+  [OrderStatus.CREATED]: "Đã tạo",
+  [OrderStatus.CANCELED]: "Đã hủy",
+  [OrderStatus.DELAYED]: "Đã trễ",
 };

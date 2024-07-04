@@ -47,3 +47,12 @@ export enum UnitText {
   INGREDIENT = "Nguyên liệu",
   NUTRITION = "Chất dinh dưỡng",
 }
+
+export enum OrderStatus {
+  PICKED_UP = "PICKED_UP",
+  DELIVERING = "DELIVERING",
+  DELIVERED = "DELIVERED",
+  CREATED = "CREATED",
+  CANCELED = "CANCELED",
+  DELAYED = "DELAYED",
+}
