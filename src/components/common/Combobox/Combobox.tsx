@@ -17,6 +17,7 @@ type ComboboxProps = {
   value: string;
   placeholder: string;
   notFoundText: string;
+  disabled?: boolean;
 };
 
 export default function Combobox({
@@ -26,6 +27,7 @@ export default function Combobox({
   value,
   placeholder,
   notFoundText,
+  disabled = false,
 }: ComboboxProps) {
   const [open, setOpen] = useState(false);
 
@@ -44,6 +46,7 @@ export default function Combobox({
       <PopoverTrigger asChild>
         <FormControl>
           <Button
+            disabled={disabled}
             variant="outline"
             role="combobox"
             className={cn(`w-full justify-between `, !value && "text-muted-foreground")}

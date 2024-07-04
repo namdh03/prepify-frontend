@@ -84,6 +84,11 @@ export const createRecipe = (recipe: RecipeFormType) => {
   });
   formData.append("time", recipe.time.toString());
   formData.append("level", recipe.level);
+  formData.append("videoUrl", recipe.videoUrl);
+  recipe.mealKits.map((mealKit) => {
+    formData.append(`imagesExtraSpice`, mealKit.extraSpice.image);
+  });
+  formData.append("mealKits", JSON.stringify(recipe.mealKits));
 
   return http.post("/moderator/recipes", formData, {
     headers: {

@@ -6,6 +6,7 @@ import { TableResponseState } from "./table.type";
 export type UnitType = {
   id: string;
   name: string;
+  type: UnitEnum;
 };
 
 export type UnitResponse = SuccessResponse<UnitType[]>;

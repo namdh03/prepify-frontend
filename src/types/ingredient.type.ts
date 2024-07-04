@@ -1,5 +1,6 @@
 import { SuccessResponse } from "./response.type";
 import { TableResponseState } from "./table.type";
+import { UnitType } from "./unit.type";
 
 export type TableIngredientType = {
   id: string;
@@ -18,6 +19,7 @@ export type IngredientType = {
   category: string;
   price: number;
   description: string;
+  unit: UnitType;
 };
 
 export type IngredientResponse = SuccessResponse<IngredientType[]>;

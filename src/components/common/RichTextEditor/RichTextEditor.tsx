@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import { forwardRef, useEffect } from "react";
 import { Bold, Italic, List, ListOrdered, Strikethrough } from "lucide-react";
 
 import { type Editor, EditorContent, useEditor } from "@tiptap/react";
@@ -35,6 +35,12 @@ const RichTextEditor = forwardRef(
         onChange(editor.getHTML()); // Call the onChange callback with the updated HTML content
       },
     });
+
+    useEffect(() => {
+      if (editor && value !== editor.getHTML()) {
+        editor.commands.setContent(value);
+      }
+    }, [value, editor]);
 
     return (
       <>

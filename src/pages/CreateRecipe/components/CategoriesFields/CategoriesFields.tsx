@@ -8,7 +8,6 @@ import { GET_FOOD_STYLES_QUERY_KEY, GET_FOOD_STYLES_STALE_TIME, getFoodStyles } 
 import Combobox from "~components/common/Combobox";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "~components/ui/select";
 import { RecipeFormType } from "~contexts/recipe/recipe.type";
 import useRecipe from "~hooks/useRecipe";
 import { LevelCook } from "~utils/enums";
@@ -83,20 +82,18 @@ const CategoriesFields = () => {
       type: "category",
       title: "Phân loại",
       component: (field) => (
-        <Select onValueChange={field.onChange} value={String(field.value)}>
-          <FormControl>
-            <SelectTrigger>
-              <SelectValue placeholder="Chọn phân loại" />
-            </SelectTrigger>
-          </FormControl>
-          <SelectContent>
-            {categories.map((category) => (
-              <SelectItem key={category.id} value={category.id}>
-                {category.name}
-              </SelectItem>
-            )) || []}
-          </SelectContent>
-        </Select>
+        <Combobox
+          options={
+            categories.map((item) => ({
+              value: item.id,
+              label: item.name,
+            })) || []
+          }
+          onValueChange={field.onChange}
+          value={field.value as string}
+          placeholder="Chọn phân loại"
+          notFoundText="Không tìm thấy phân loại"
+        />
       ),
     };
 

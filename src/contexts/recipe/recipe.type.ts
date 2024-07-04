@@ -14,4 +14,7 @@ export type RecipeContextType = {
   files: UploadedFile[];
   onUpload: (files: UploadedFile[], field: ControllerRenderProps<RecipeFormType, "images">) => void;
   units: UnitType[];
+  handleCalculateTotal: () => void;
+  total: number;
+  isLoading: boolean;
 };

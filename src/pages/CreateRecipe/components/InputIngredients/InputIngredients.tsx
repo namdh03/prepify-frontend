@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { RxCross2 } from "react-icons/rx";
 
@@ -11,8 +12,8 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "~compo
 import useRecipe from "~hooks/useRecipe";
 
 const InputIngredients = () => {
-  const { form, units } = useRecipe();
-  const { fields, append, remove } = useFieldArray({
+  const { form, handleCalculateTotal } = useRecipe();
+  const { fields, append, remove, update } = useFieldArray({
     control: form.control,
     name: "ingredients",
   });
@@ -23,6 +24,33 @@ const InputIngredients = () => {
     staleTime: GET_TABLE_INGREDIENTS_STALE_TIME,
     refetchOnWindowFocus: false,
   });
+
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([]);
+
+  useEffect(() => {
+    if (!fields.length || fields.length === 1 || !fields[0].ingredient_id) return;
+    handleCalculateTotal();
+  }, [fields, handleCalculateTotal]);
+
+  const handleIngredientChange = (index: number, value: string) => {
+    const selectedIngredient = data?.find((item) => item.id === value);
+    if (selectedIngredient) {
+      update(index, {
+        ...fields[index],
+        ingredient_id: value,
+        price: selectedIngredient.price,
+        unit_id: selectedIngredient.unit.id,
+      });
+    }
+  };
+
+  const handleAmountChange = (index: number, value: number) => {
+    update(index, {
+      ...fields[index],
+      amount: value,
+    });
+    handleCalculateTotal();
+  };
 
   return (
     <div className="flex flex-col justify-center">
@@ -42,8 +70,12 @@ const InputIngredients = () => {
                         label: item.name,
                       })) || []
                     }
-                    onValueChange={field.onChange}
+                    onValueChange={(value) => {
+                      handleIngredientChange(index, value);
+                      setSelectedIngredients((prev) => [...prev.filter((item) => item !== field.value), value]);
+                    }}
                     value={field.value.toString()}
+                    selectedOption={selectedIngredients}
                     placeholder="Chọn nguyên liệu"
                     notFoundText="Không tìm thấy nguyên liệu"
                   />
@@ -63,7 +95,7 @@ const InputIngredients = () => {
                     value={field.value as number}
                     placeholder={"Nhập số lượng"}
                     onValueChange={(value) => {
-                      field.onChange(value);
+                      handleAmountChange(index, value);
                     }}
                   />
                 </FormControl>
@@ -80,15 +112,16 @@ const InputIngredients = () => {
                 <FormControl>
                   <Combobox
                     options={
-                      units.map((item) => ({
-                        value: item.id,
-                        label: item.name,
+                      data?.map((item) => ({
+                        value: item.unit.id,
+                        label: item.unit.name,
                       })) || []
                     }
                     onValueChange={field.onChange}
-                    value={field.value as string}
+                    value={field.value}
                     placeholder="Chọn đơn vị"
                     notFoundText="Không tìm thấy đơn vị"
+                    disabled={true}
                   />
                 </FormControl>
                 <FormMessage />
@@ -113,7 +146,7 @@ const InputIngredients = () => {
         className="mt-5"
         type="button"
         onClick={() => {
-          append({ ingredient_id: "", amount: 0, unit_id: "" });
+          append({ ingredient_id: "", amount: 0, price: 0, unit_id: "" });
         }}
       >
         + Thêm nguyên liệu

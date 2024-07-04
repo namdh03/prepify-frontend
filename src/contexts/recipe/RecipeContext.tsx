@@ -18,7 +18,7 @@ import { RecipeContextType, RecipeFormType } from "./recipe.type";
 
 const recipeFormDefaultValues: RecipeFormType = {
   name: "",
-  ingredients: [{ ingredient_id: "", amount: 0, unit_id: "" }],
+  ingredients: [{ ingredient_id: "", amount: 0, price: 0, unit_id: "" }],
   steps: "",
   time: 0,
   level: LevelCook.EASY,
@@ -27,6 +27,20 @@ const recipeFormDefaultValues: RecipeFormType = {
   images: [],
   videoUrl: "",
   foodStyleObj: {},
+  mealKits: [
+    {
+      mealKit: {
+        serving: 1,
+        price: 0,
+      },
+      extraSpice: {
+        imageName: "",
+        name: "",
+        price: 0,
+        image: new File([""], "filename", { type: "image/png" }),
+      },
+    },
+  ],
 };
 
 const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
@@ -47,16 +61,27 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
     staleTime: GET_TABLE_UNITS_STALE_TIME,
     refetchOnWindowFocus: false,
   });
+  const [total, setTotal] = useState(0);
 
   const [files, setFiles] = useState<UploadedFile[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const handleCalculateTotal = useCallback(() => {
+    if (!form.getValues("ingredients").length || !form.getValues("ingredients")[0].ingredient_id) return;
+    const totalPrice = form.getValues("ingredients").reduce((acc, row) => acc + row.price * row.amount, 0);
+    setTotal(totalPrice);
+  }, [form]);
 
   const onSubmit = useCallback(
     (values: RecipeFormType) => {
+      setIsLoading(true);
+
       createMutate(values, {
         onSuccess: () => {
           setFiles([]);
           form.reset();
+          setTotal(0);
           toast.success(RECIPE_MESSAGES.CREATE_RECIPE_SUCCESS);
+          setIsLoading(false);
         },
         onError: (error) => {
           if (isAxiosError<Error>(error)) {
@@ -64,6 +89,7 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
           } else {
             toast.error(RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
           }
+          setIsLoading(false);
         },
       });
     },
@@ -79,7 +105,9 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <RecipeContext.Provider value={{ form, onSubmit, files, onUpload, units: data ? data : [] }}>
+    <RecipeContext.Provider
+      value={{ form, onSubmit, files, onUpload, units: data ? data : [], handleCalculateTotal, total, isLoading }}
+    >
       {children || <Outlet />}
     </RecipeContext.Provider>
   );
