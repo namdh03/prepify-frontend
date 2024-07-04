@@ -106,15 +106,15 @@ export const sideLinks: SideLink[] = [
     icon: <TbWeight size={18} />,
   },
   {
-    title: "Quản lí đơn hàng",
-    label: "",
-    href: configs.routes.orderList,
-    icon: <FiShoppingCart size={18} />,
-  },
-  {
     title: "Quản lí phong cách ẩm thực",
     label: "",
     href: configs.routes.foodStyleList,
     icon: <IoFastFoodOutline size={18} />,
+  },
+  {
+    title: "Quản lí đơn hàng",
+    label: "",
+    href: configs.routes.orderList,
+    icon: <FiShoppingCart size={18} />,
   },
 ];

@@ -1,6 +1,7 @@
-import { DeliveryMethodEnum } from "~utils/enums";
+import { DeliveryMethodEnum, OrderStatus } from "~utils/enums";
 
 import { ExtraSpice } from "./meal-kit.type";
+import { TableResponseState } from "./table.type";
 
 export type OrderItem = {
   id: string;
@@ -25,14 +26,23 @@ export type PostOrderBody = {
 export type TableOrderType = {
   id: string;
   trackingNumber: string;
-  deliveredBy: string;
-  status: string;
   area: string;
-  totalOrderDetails: number;
+  status: OrderStatus;
   datetime: string;
-  totalPrice: number;
+  customer: string;
   phone: string;
   address: string;
+  note: string;
+  totalOrderDetails: number;
+  totalPrice: number;
 };
 
 // export type TableViewOrderDetailType = {};
+
+export type TableOrderResponse = TableResponseState<TableOrderType>;
+
+export type TableOrderFilter = {
+  trackingNumber: string;
+  area: string;
+  status: OrderStatus;
+};

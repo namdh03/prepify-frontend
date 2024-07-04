@@ -11,6 +11,7 @@ import {
   SortingState,
   Table as TableType,
   useReactTable,
+  VisibilityState,
 } from "@tanstack/react-table";
 
 import { Skeleton } from "~components/ui/skeleton";
@@ -30,6 +31,8 @@ export interface TableProps<TData, TValue> {
   setSorting?: Dispatch<SetStateAction<SortingState>>;
   columnFilters?: ColumnFiltersState;
   setColumnFilters?: Dispatch<SetStateAction<ColumnFiltersState>>;
+  columnVisibility?: VisibilityState;
+  setColumnVisibility?: Dispatch<SetStateAction<VisibilityState>>;
   toolbar?: (table: TableType<TData>) => JSX.Element;
 }
 
@@ -46,6 +49,8 @@ export default function DataTable<TData, TValue>({
   setPagination,
   columnFilters = [],
   setColumnFilters,
+  columnVisibility,
+  setColumnVisibility,
   toolbar,
 }: TableProps<TData, TValue>) {
   const tableData = useMemo(
@@ -84,10 +89,15 @@ export default function DataTable<TData, TValue>({
     rowCount: paginatedTableData?.itemTotal || 0,
     pageCount: paginatedTableData?.pageTotal || 0,
     manualPagination: true,
+
+    // visibility config
+    onColumnVisibilityChange: setColumnVisibility,
+
     state: {
       sorting,
       pagination,
       columnFilters,
+      columnVisibility,
     },
   });
 
