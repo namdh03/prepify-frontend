@@ -1,6 +1,12 @@
 import { RecipeFormType } from "~contexts/recipe/recipe.type";
 import { ShopFormType } from "~contexts/shop/shop.type";
-import { RecipeDetailResponse, ShopRecipeResponse, TableRecipeFilter, TableRecipeResponse } from "~types/recipe.type";
+import {
+  CusRecipeDetailResponse,
+  ModRecipeDetailResponse,
+  ShopRecipeResponse,
+  TableRecipeFilter,
+  TableRecipeResponse,
+} from "~types/recipe.type";
 import { TableRequestState } from "~types/table.type";
 import columnFilterFn from "~utils/columnFilterFn";
 import { LIMIT, PAGE } from "~utils/constants";
@@ -99,8 +105,8 @@ export const createRecipe = (recipe: RecipeFormType) => {
   });
 };
 
-export const getRecipe = (id: string) => http.get<RecipeDetailResponse>(`/moderator/recipes/${id}`);
+export const getRecipe = (id: string) => http.get<ModRecipeDetailResponse>(`/moderator/recipes/${id}`);
 
-export const getCustomerRecipe = (id: string) => http.get<RecipeDetailResponse>(`/recipes/${id}`);
+export const getCustomerRecipe = (id: string) => http.get<CusRecipeDetailResponse>(`/recipes/${id}`);
 
 export const deleteRecipe = (id: string) => http.delete(`/moderator/recipes/${id}`);

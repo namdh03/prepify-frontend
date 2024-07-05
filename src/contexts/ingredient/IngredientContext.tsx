@@ -33,7 +33,7 @@ const IngredientContext = createContext<IngredientContextType | undefined>(undef
 const IngredientProvider: FC<PropsWithChildren> = ({ children }) => {
   const { ingredientId } = useParams();
   const queryClient = useQueryClient();
-  const navigation = useNavigate();
+  const navigate = useNavigate();
   const form = useForm<IngredientFormType>({
     resolver: zodResolver(ingredientSchema),
     defaultValues: ingredientFormDefaultValues,
@@ -92,7 +92,7 @@ const IngredientProvider: FC<PropsWithChildren> = ({ children }) => {
           onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: [GET_INGREDIENT_DETAIL_QUERY_KEY] });
             queryClient.invalidateQueries({ queryKey: [GET_TABLE_INGREDIENTS_QUERY_KEY] });
-            navigation(configs.routes.ingredientList);
+            navigate(configs.routes.ingredientList);
             toast.success(INGREDIENT_MESSAGES.UPDATE_INGREDIENT_SUCCESS);
           },
           onError: (error) => {
@@ -102,7 +102,7 @@ const IngredientProvider: FC<PropsWithChildren> = ({ children }) => {
         });
       }
     },
-    [isSuccess, createMutate, form, updateMute, queryClient],
+    [isSuccess, createMutate, form, updateMute, queryClient, navigate],
   );
 
   return (
