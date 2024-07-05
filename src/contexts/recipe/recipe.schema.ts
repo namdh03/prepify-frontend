@@ -20,7 +20,7 @@ export const recipeSchema = z.object({
         .number({
           message: RECIPE_MESSAGES.AMOUNT_REQUIRED,
         })
-        .min(1, {
+        .min(0, {
           message: RECIPE_MESSAGES.AMOUNT_REQUIRED,
         }),
       price: z.number(),
@@ -54,7 +54,7 @@ export const recipeSchema = z.object({
         .number({
           message: RECIPE_MESSAGES.AMOUNT_REQUIRED,
         })
-        .min(1, {
+        .min(0, {
           message: RECIPE_MESSAGES.AMOUNT_REQUIRED,
         }),
       unit_id: z
