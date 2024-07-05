@@ -1,15 +1,17 @@
-import { createContext, FC, PropsWithChildren, useCallback, useState } from "react";
+import { createContext, FC, PropsWithChildren, useCallback, useEffect, useState } from "react";
 import { ControllerRenderProps, useForm } from "react-hook-form";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { createRecipe } from "~apis/recipe.api";
+import { createRecipe, GET_RECIPE_DETAIL_QUERY_KEY, getRecipe } from "~apis/recipe.api";
 import { GET_TABLE_UNITS_STALE_TIME, GET_UNITS_QUERY_KEY, getUnits } from "~apis/unit.api";
 import { UploadedFile } from "~pages/CreateRecipe/components/Upload/Upload";
+import { TableViewRecipeType } from "~types/recipe.type";
 import { RECIPE_MESSAGES } from "~utils/constants";
+import { convertUrlsToFiles } from "~utils/convertURLtoFile";
 import { LevelCook } from "~utils/enums";
 import isAxiosError from "~utils/isAxiosError";
 
@@ -46,12 +48,14 @@ const recipeFormDefaultValues: RecipeFormType = {
 const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
 
 const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
-  const form = useForm<RecipeFormType>({
-    resolver: zodResolver(recipeSchema),
-    defaultValues: recipeFormDefaultValues,
-  });
-  const { mutate: createMutate } = useMutation({
-    mutationFn: (body: RecipeFormType) => createRecipe(body),
+  const { recipeId } = useParams();
+  const [total, setTotal] = useState(0);
+
+  const { data: recipeDetail } = useQuery({
+    queryKey: [GET_RECIPE_DETAIL_QUERY_KEY],
+    queryFn: () => getRecipe(recipeId as string),
+    select: (data) => data.data.data,
+    refetchOnWindowFocus: false,
   });
 
   const { data } = useQuery({
@@ -61,10 +65,59 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
     staleTime: GET_TABLE_UNITS_STALE_TIME,
     refetchOnWindowFocus: false,
   });
-  const [total, setTotal] = useState(0);
 
+  const initializeFormDefaults = (recipeData: TableViewRecipeType) => {
+    return {
+      name: recipeData.name || "",
+      ingredients: recipeData.ingredients || [],
+      category: recipeData.category || "",
+      foodStyleObj: recipeData.foodStyles || {},
+      steps: recipeData.steps || "",
+      nutrition: recipeData.nutrition || [],
+      mealKits:
+        recipeData.mealKits.map((mealKit) => ({
+          mealKit: {
+            serving: mealKit.serving || 1,
+            price: mealKit.price,
+          },
+          extraSpice: {
+            imageName: mealKit.extraSpice?.name || "",
+            name: mealKit.extraSpice?.name || "",
+            price: mealKit.extraSpice?.price || 0,
+            image: new File([], "image", { type: "image/jpeg" }),
+          },
+        })) || [],
+      videoUrl: recipeData.videoUrl || "",
+      images: [],
+      time: recipeData.time || 0,
+    };
+  };
+  const [images, setImages] = useState<string[]>([]);
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const form = useForm<RecipeFormType>({
+    resolver: zodResolver(recipeSchema),
+    defaultValues: recipeFormDefaultValues,
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      if (recipeId && recipeDetail) {
+        form.reset(initializeFormDefaults(recipeDetail));
+        setTotal(recipeDetail.mealKits[0].price);
+        const files = await convertUrlsToFiles(recipeDetail.images);
+        setFiles(files);
+        setImages(recipeDetail.mealKits.map((mealKit) => mealKit.extraSpice.image));
+      }
+    };
+
+    fetchData();
+  }, [recipeId, recipeDetail, form]);
+
+  const { mutate: createMutate } = useMutation({
+    mutationFn: (body: RecipeFormType) => createRecipe(body),
+  });
+
   const handleCalculateTotal = useCallback(() => {
     if (!form.getValues("ingredients").length || !form.getValues("ingredients")[0].ingredient_id) return;
     const totalPrice = form.getValues("ingredients").reduce((acc, row) => acc + row.price * row.amount, 0);
@@ -106,7 +159,17 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
 
   return (
     <RecipeContext.Provider
-      value={{ form, onSubmit, files, onUpload, units: data ? data : [], handleCalculateTotal, total, isLoading }}
+      value={{
+        form,
+        onSubmit,
+        files,
+        onUpload,
+        units: data ? data : [],
+        handleCalculateTotal,
+        total,
+        isLoading,
+        images,
+      }}
     >
       {children || <Outlet />}
     </RecipeContext.Provider>

@@ -35,7 +35,6 @@ const IngredientProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const onSubmit = useCallback(
     (values: IngredientFormType) => {
-      console.log(values);
       createMutate(values, {
         onSuccess: () => {
           form.reset();

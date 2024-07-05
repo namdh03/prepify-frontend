@@ -14,7 +14,14 @@ const InputVideoURL = () => {
         <FormItem className="flex flex-col w-full my-8">
           <FormLabel>Video hướng dẫn</FormLabel>
           <FormControl>
-            <Input type="text" placeholder="Đường dẫn video" className="h-10 bg-white" {...field} />
+            <Input
+              type="text"
+              placeholder="Đường dẫn video"
+              className="h-10 bg-white"
+              {...field}
+              value={field.value}
+              onChange={field.onChange}
+            />
           </FormControl>
           <FormMessage />
         </FormItem>

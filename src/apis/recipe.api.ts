@@ -1,6 +1,6 @@
 import { RecipeFormType } from "~contexts/recipe/recipe.type";
 import { ShopFormType } from "~contexts/shop/shop.type";
-import { ShopRecipeResponse, TableRecipeFilter, TableRecipeResponse } from "~types/recipe.type";
+import { RecipeDetailResponse, ShopRecipeResponse, TableRecipeFilter, TableRecipeResponse } from "~types/recipe.type";
 import { TableRequestState } from "~types/table.type";
 import columnFilterFn from "~utils/columnFilterFn";
 import { LIMIT, PAGE } from "~utils/constants";
@@ -15,6 +15,8 @@ export const GET_SHOP_RECIPES_QUERY_KEY = "GET_SHOP_RECIPES_QUERY_KEY";
 export const GET_SHOP_RECIPES_STALE_TIME = 30 * 1000; // 30 seconds
 
 export const GET_TABLE_RECIPES_QUERY_KEY = "GET_TABLE_RECIPES_QUERY_KEY";
+
+export const GET_RECIPE_DETAIL_QUERY_KEY = "GET_RECIPE_DETAIL_QUERY_KEY";
 
 export const getShopRecipes = (values: ShopFormType) => {
   const params = new URLSearchParams();
@@ -96,5 +98,7 @@ export const createRecipe = (recipe: RecipeFormType) => {
     },
   });
 };
+
+export const getRecipe = (id: string) => http.get<RecipeDetailResponse>(`/moderator/recipes/${id}`);
 
 export const deleteRecipe = (id: string) => http.delete(`/moderator/recipes/${id}`);

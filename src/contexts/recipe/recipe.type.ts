@@ -17,4 +17,5 @@ export type RecipeContextType = {
   handleCalculateTotal: () => void;
   total: number;
   isLoading: boolean;
+  images: string[];
 };
