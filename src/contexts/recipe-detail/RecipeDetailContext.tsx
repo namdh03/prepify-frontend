@@ -1,70 +1,36 @@
-import { createContext, FC, PropsWithChildren, useReducer } from "react";
-import { Outlet } from "react-router-dom";
+import { createContext, FC, PropsWithChildren, useEffect, useReducer } from "react";
+import { Outlet, useParams } from "react-router-dom";
 
-import images from "~assets/imgs";
+import { useQuery } from "@tanstack/react-query";
 
-import { reducer } from "./recipe-detail.reducer";
+import { GET_RECIPE_DETAIL_QUERY_KEY, getCustomerRecipe } from "~apis/recipe.api";
+
+import { reducer, setRecipe } from "./recipe-detail.reducer";
 import { RecipeDetailContextType, RecipeDetailState } from "./recipe-detail.type";
 
-// Dummy data
-const recipe = {
-  id: "string",
-  slug: "string",
-  name: "Trứng chiên",
-  star: 5,
-  sold: 1300,
-  totalFeedback: 400,
-  images: [images.suggest1st, images.suggest2nd, images.mission1st, images.mission2nd, images.mission3rd],
-  mealKits: [
-    {
-      id: "25d9d94a-aaf8-4125-9f20-9efb65fd904a",
-      price: 10000,
-      serving: 1,
-      extraSpice: {
-        id: "string",
-        name: "Gói gia vị hoàn chỉnh 1",
-        image: images.suggest1st,
-        price: 9999,
-      },
-    },
-    {
-      id: "84f99c90-60a1-4efe-91b9-19225f43b0b3",
-      price: 20000,
-      serving: 2,
-      extraSpice: {
-        id: "string",
-        name: "Gói gia vị hoàn chỉnh 2",
-        image: images.suggest2nd,
-        price: 9999,
-      },
-    },
-    {
-      id: "string-extra-spice-3rd",
-      price: 30000,
-      serving: 3,
-      extraSpice: {
-        id: "string",
-        name: "Gói gia vị hoàn chỉnh 3",
-        image: images.mission1st,
-        price: 9999,
-      },
-    },
-  ],
-};
-
-const initialState: RecipeDetailState = {
-  recipe,
-};
+const initialState: RecipeDetailState = {};
 
 // Create context
 const RecipeDetailContext = createContext<RecipeDetailContextType | undefined>({
-  ...initialState,
   dispatch: () => null,
 });
 
 // Create provider
 const RecipeDetailProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { slug } = useParams();
+  const { data } = useQuery({
+    queryKey: [GET_RECIPE_DETAIL_QUERY_KEY],
+    queryFn: () => getCustomerRecipe(slug as string),
+    select: (data) => data.data.data,
+    refetchOnWindowFocus: false,
+  });
+
+  useEffect(() => {
+    if (data) {
+      dispatch(setRecipe({ recipe: data }));
+    }
+  }, [data]);
   return (
     <RecipeDetailContext.Provider value={{ ...state, dispatch }}>{children || <Outlet />}</RecipeDetailContext.Provider>
   );

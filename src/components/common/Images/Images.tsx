@@ -44,7 +44,7 @@ const Images = memo(({ list }: ImagesProps) => {
             {list.map((image, index) => (
               <CarouselItem key={index}>
                 <figure className="h-[500px]">
-                  <img src={image} alt="" className="w-full h-full rounded-[5px] object-contain" />
+                  <img src={image} alt="" className="w-full h-full rounded-[5px] object-cover" />
                 </figure>
               </CarouselItem>
             ))}
@@ -79,7 +79,7 @@ const Images = memo(({ list }: ImagesProps) => {
                   })}
                 >
                   <CardContent className="flex aspect-square items-center justify-center p-2">
-                    <img src={image} alt="" className="rounded-[5px] object-contain" />
+                    <img src={image} alt="" className="rounded-[5px] object-cover" />
                   </CardContent>
                 </Card>
               </div>
