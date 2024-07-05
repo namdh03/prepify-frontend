@@ -1,4 +1,4 @@
-import { TableIngredientFilter, TableIngredientResponse } from "~types/ingredient.type";
+import { IngredientTypeBody, TableIngredientFilter, TableIngredientResponse } from "~types/ingredient.type";
 import { IngredientResponse } from "~types/ingredient.type";
 import { TableRequestState } from "~types/table.type";
 import columnFilterFn from "~utils/columnFilterFn";
@@ -27,3 +27,5 @@ export const getTableIngredients = ({ sorting, columnFilters, pagination }: Tabl
     },
   });
 };
+
+export const createIngredient = (body: IngredientTypeBody) => http.post("/moderator/ingredients", body);

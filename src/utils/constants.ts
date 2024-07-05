@@ -140,3 +140,14 @@ export const ACCOUNT_ROLE_TEXT_MAP = {
   [Role.CUSTOMER]: "Khách hàng",
   [Role.SHIPPER]: "Người giao hàng",
 };
+
+export const INGREDIENT_MESSAGES = {
+  NAME_REQUIRED: "Vui lòng nhập tên nguyên liệu",
+  NAME_TOO_LONG: "Tên nguyên liệu không được quá 100 ký tự",
+  CATEGORY_REQUIRED: "Vui lòng chọn danh mục",
+  CATEGORY_TOO_LONG: "Danh mục không được quá 50 ký tự",
+  CREATE_INGREDIENT_SUCCESS: "Tạo nguyên liệu thành công",
+  CREATE_INGREDIENT_FAILED: "Tạo nguyên liệu thất bại",
+  UPDATE_INGREDIENT_SUCCESS: "Cập nhật nguyên liệu thành công",
+  DELETE_INGREDIENT_SUCCESS: "Xóa nguyên liệu thành công",
+} as const;

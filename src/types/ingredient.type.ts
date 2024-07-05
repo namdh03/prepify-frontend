@@ -22,6 +22,14 @@ export type IngredientType = {
   unit: UnitType;
 };
 
+export type IngredientTypeBody = {
+  name: string;
+  category: string;
+  price: number;
+  unit: string;
+  imageURL: string;
+};
+
 export type IngredientResponse = SuccessResponse<IngredientType[]>;
 
 export type TableIngredientFilter = {
