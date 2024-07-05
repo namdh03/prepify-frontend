@@ -44,11 +44,7 @@ const InputIngredients = () => {
     }
   };
 
-  const handleAmountChange = (index: number, value: number) => {
-    update(index, {
-      ...fields[index],
-      amount: value,
-    });
+  const handleAmountChange = () => {
     handleCalculateTotal();
   };
 
@@ -95,7 +91,8 @@ const InputIngredients = () => {
                     value={field.value as number}
                     placeholder={"Nhập số lượng"}
                     onValueChange={(value) => {
-                      handleAmountChange(index, value);
+                      field.onChange(value);
+                      handleAmountChange();
                     }}
                   />
                 </FormControl>

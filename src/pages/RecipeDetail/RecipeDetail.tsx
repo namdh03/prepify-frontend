@@ -14,6 +14,7 @@ import {
   DialogTitle,
 } from "~components/ui/dialog";
 import useDocumentTitle from "~hooks/useDocumentTitle";
+import useRecipeDetail from "~hooks/useRecipeDetail";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
 
@@ -26,6 +27,7 @@ const RecipeDetail = () => {
   useDocumentTitle("Prepify | Chi tiết sản phẩm");
 
   const [params] = useSearchParams();
+  const { recipe } = useRecipeDetail();
 
   return (
     <>
@@ -67,7 +69,7 @@ const RecipeDetail = () => {
           ...breadcrumbs,
           {
             to: "#!",
-            title: "Trứng chiên",
+            title: recipe?.name || "Chi tiết sản phẩm",
           },
         ]}
         className="[&_img]:w-[868px]"
