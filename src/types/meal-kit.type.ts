@@ -14,6 +14,13 @@ export type MealKitItem = {
   extraSpice: ExtraSpice | null;
 };
 
+export type MealKit = {
+  id: string;
+  price: number;
+  serving: number;
+  extraSpice: ExtraSpice;
+};
+
 export type TableMealKitType = {
   id: string;
   recipeName: string;

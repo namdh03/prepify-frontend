@@ -1,7 +1,6 @@
 import { LevelCook } from "~utils/enums";
 
-import { FoodStyleType } from "./food-style.type";
-import { MealKitItem } from "./meal-kit.type";
+import { MealKit } from "./meal-kit.type";
 import { SuccessResponse } from "./response.type";
 import { TableResponseState } from "./table.type";
 
@@ -54,16 +53,21 @@ export type TableRecipeType = {
 };
 
 export type TableViewRecipeType = {
-  foodStyles: FoodStyleType[];
+  name: string;
+  foodStyles: Record<string, string>;
   videoUrl: string;
   images: string[];
+  time: number;
   steps: string;
+  category: string;
   ingredients: RecipeIngredientType[];
   nutrition: RecipeNutritionType[];
-  mealKits: MealKitItem[];
+  mealKits: MealKit[];
 };
 
 export type TableRecipeResponse = TableResponseState<TableRecipeType>;
+
+export type RecipeDetailResponse = SuccessResponse<TableViewRecipeType>;
 
 export type TableRecipeFilter = {
   name: string;

@@ -6,6 +6,7 @@ const routes = {
   moderator: "/moderator",
   overview: "/moderator/overview",
   createRecipe: "/moderator/create-recipe",
+  updateRecipe: "/moderator/update-recipe/:recipeId",
   recipeList: "/moderator/recipe-list",
   createMealKit: "/moderator/create-meal-kit",
   mealKitList: "/moderator/meal-kit-list",

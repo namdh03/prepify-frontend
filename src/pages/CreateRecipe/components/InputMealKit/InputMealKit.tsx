@@ -16,15 +16,17 @@ import useRecipe from "~hooks/useRecipe";
 import getImageData from "~utils/getImageData";
 
 const InputMealKit = () => {
-  const { form, total } = useRecipe();
+  const { form, total, images } = useRecipe();
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "mealKits",
   });
   const [preview, setPreview] = useState<string[]>([]);
+
   useEffect(() => {
+    setPreview(images);
     return form.setValue(`mealKits.${0}.mealKit.price`, total);
-  }, [total, form]);
+  }, [total, form, images]);
 
   useEffect(() => {
     return form.setValue(`mealKits.${fields.length - 1}.mealKit.price`, total * fields.length);

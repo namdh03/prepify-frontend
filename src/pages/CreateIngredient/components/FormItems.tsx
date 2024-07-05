@@ -142,7 +142,6 @@ const FormItems = () => {
                 {...field}
                 value={field.value}
                 onChange={(event) => {
-                  console.log(event.target.value);
                   field.onChange(event.target.value); // Update form state
                   setPreview(event.target.value); // Update preview state
                 }}
