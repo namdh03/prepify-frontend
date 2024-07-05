@@ -101,4 +101,6 @@ export const createRecipe = (recipe: RecipeFormType) => {
 
 export const getRecipe = (id: string) => http.get<RecipeDetailResponse>(`/moderator/recipes/${id}`);
 
+export const getCustomerRecipe = (id: string) => http.get<RecipeDetailResponse>(`/recipes/${id}`);
+
 export const deleteRecipe = (id: string) => http.delete(`/moderator/recipes/${id}`);

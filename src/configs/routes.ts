@@ -11,6 +11,7 @@ const routes = {
   createMealKit: "/moderator/create-meal-kit",
   mealKitList: "/moderator/meal-kit-list",
   createIngredient: "/moderator/create-ingredient",
+  updateIngredient: "/moderator/update-ingredient/:ingredientId",
   ingredientList: "/moderator/ingredient-list",
   categoryList: "/moderator/category-list",
   unitList: "/moderator/unit-list",

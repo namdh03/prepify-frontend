@@ -1,4 +1,5 @@
 import { FiEdit3 } from "react-icons/fi";
+import { useNavigate } from "react-router-dom";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Row } from "@tanstack/react-table";
@@ -10,6 +11,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "~components/ui/dropdown-menu";
+import configs from "~configs";
 import Button from "~layouts/AdminLayout/components/Button";
 import { TableIngredientType } from "~types/ingredient.type";
 
@@ -18,8 +20,9 @@ interface DataTableRowActionsProps<TData> {
 }
 
 function DataTableRowActions({ row }: DataTableRowActionsProps<TableIngredientType>) {
+  const navigate = useNavigate();
   const handleNavigateToDetail = () => {
-    console.log("Navigate to detail", row.original.id);
+    navigate(configs.routes.updateIngredient.replace(":ingredientId", row.original.id));
   };
 
   return (

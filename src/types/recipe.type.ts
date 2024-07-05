@@ -65,6 +65,19 @@ export type TableViewRecipeType = {
   mealKits: MealKit[];
 };
 
+export type ShopRecipeDetail = {
+  id: string;
+  name: string;
+  slug: string;
+  images: string[];
+  price: number;
+  star: number;
+  sold: number;
+  totalFeedback: number;
+};
+
+export type ShopRecipeDetailResponse = SuccessResponse<TableViewRecipeType>;
+
 export type TableRecipeResponse = TableResponseState<TableRecipeType>;
 
 export type RecipeDetailResponse = SuccessResponse<TableViewRecipeType>;

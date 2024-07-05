@@ -20,6 +20,7 @@ export type IngredientType = {
   price: number;
   description: string;
   unit: UnitType;
+  imageURL: string;
 };
 
 export type IngredientTypeBody = {
@@ -30,6 +31,7 @@ export type IngredientTypeBody = {
   imageURL: string;
 };
 
+export type IngredientDetailResponse = SuccessResponse<IngredientType>;
 export type IngredientResponse = SuccessResponse<IngredientType[]>;
 
 export type TableIngredientFilter = {
