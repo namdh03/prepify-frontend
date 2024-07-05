@@ -1,4 +1,10 @@
-import { IngredientTypeBody, TableIngredientFilter, TableIngredientResponse } from "~types/ingredient.type";
+import { IngredientFormType } from "~contexts/ingredient/ingredient.type";
+import {
+  IngredientDetailResponse,
+  IngredientTypeBody,
+  TableIngredientFilter,
+  TableIngredientResponse,
+} from "~types/ingredient.type";
 import { IngredientResponse } from "~types/ingredient.type";
 import { TableRequestState } from "~types/table.type";
 import columnFilterFn from "~utils/columnFilterFn";
@@ -10,6 +16,8 @@ export const GET_INGREDIENTS_QUERY_KEY = "GET_INGREDIENTS_QUERY_KEY";
 export const GET_TABLE_INGREDIENTS_QUERY_KEY = "GET_TABLE_INGREDIENTS_QUERY_KEY";
 
 export const GET_TABLE_INGREDIENTS_STALE_TIME = 30 * 1000; // 30s
+
+export const GET_INGREDIENT_DETAIL_QUERY_KEY = "GET_INGREDIENT_DETAIL_QUERY_KEY";
 
 export const getIngredients = () => http.get<IngredientResponse>("/ingredients");
 
@@ -29,3 +37,8 @@ export const getTableIngredients = ({ sorting, columnFilters, pagination }: Tabl
 };
 
 export const createIngredient = (body: IngredientTypeBody) => http.post("/moderator/ingredients", body);
+
+export const getIngredient = (id: string) => http.get<IngredientDetailResponse>(`/moderator/ingredients/${id}`);
+
+export const updateIngredient = (id: string, body: IngredientFormType) =>
+  http.put(`/moderator/ingredients/${id}`, body);
