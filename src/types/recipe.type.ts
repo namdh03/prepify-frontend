@@ -1,7 +1,7 @@
 import { RecipeDetailType } from "~contexts/recipe-detail/recipe-detail.type";
 import { LevelCook } from "~utils/enums";
 
-import { MealKit } from "./meal-kit.type";
+import { MealKitItem } from "./meal-kit.type";
 import { SuccessResponse } from "./response.type";
 import { TableResponseState } from "./table.type";
 
@@ -63,7 +63,7 @@ export type TableViewRecipeType = {
   category: string;
   ingredients: RecipeIngredientType[];
   nutrition: RecipeNutritionType[];
-  mealKits: MealKit[];
+  mealKits: MealKitItem[];
 };
 
 export type ShopRecipeDetail = {

@@ -1,5 +1,4 @@
 import { FC, ReactNode } from "react";
-import { Outlet } from "react-router-dom";
 
 import useAuth from "~hooks/useAuth";
 import NotFound from "~pages/NotFound";
@@ -14,12 +13,12 @@ interface RoleBasedGuardProps {
 // RoleBasedGuard is a component that will be used to protect routes
 // that should only be accessed by users with specific roles.
 // eslint-disable-next-line react-refresh/only-export-components
-const RoleBasedGuard: FC<RoleBasedGuardProps> = ({ accessibleRoles }) => {
+const RoleBasedGuard: FC<RoleBasedGuardProps> = ({ children, accessibleRoles }) => {
   const { user } = useAuth();
 
   if (!accessibleRoles.includes(user!.role)) return <NotFound />;
 
-  return <Outlet />;
+  return children;
 };
 
 // HOC to inject props
