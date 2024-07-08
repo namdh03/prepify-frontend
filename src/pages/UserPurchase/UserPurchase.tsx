@@ -4,30 +4,27 @@ import { useSearchParams } from "react-router-dom";
 import { Separator } from "~components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~components/ui/tabs";
 import useDocumentTitle from "~hooks/useDocumentTitle";
+import { ORDER_STATUS_TEXT_MAP } from "~utils/constants";
+import { OrderStatus } from "~utils/enums";
 
 import All from "./components/All";
 import Canceled from "./components/Canceled";
-import Completed from "./components/Completed";
-import Transporting from "./components/Transporting";
-import WaitingForDelivery from "./components/WaitingForDelivery";
-import WaitingForPay from "./components/WaitingForPay";
-
-enum TabKey {
-  All = "all",
-  WaitingForPay = "waiting-for-pay",
-  Transporting = "transporting",
-  WaitingForDelivery = "waiting-for-delivery",
-  Completed = "completed",
-  Canceled = "canceled",
-}
+import Created from "./components/Created";
+import Delayed from "./components/Delayed";
+import Delivered from "./components/Delivered";
+import Delivering from "./components/Delivering";
+import PickUp from "./components/PickUp";
+import Waiting from "./components/Waiting";
 
 const tabItems = [
-  { value: TabKey.All, label: "Tất cả" },
-  { value: TabKey.WaitingForPay, label: "Chờ thanh toán" },
-  { value: TabKey.Transporting, label: "Vận chuyển" },
-  { value: TabKey.WaitingForDelivery, label: "Chờ giao hàng" },
-  { value: TabKey.Completed, label: "Hoàn thành" },
-  { value: TabKey.Canceled, label: "Đã huỷ" },
+  { value: "ALL", label: "Tất cả" },
+  { value: OrderStatus.WAITING, label: ORDER_STATUS_TEXT_MAP[OrderStatus.WAITING] },
+  { value: OrderStatus.CREATED, label: ORDER_STATUS_TEXT_MAP[OrderStatus.CREATED] },
+  { value: OrderStatus.PICKED_UP, label: ORDER_STATUS_TEXT_MAP[OrderStatus.PICKED_UP] },
+  { value: OrderStatus.DELIVERING, label: ORDER_STATUS_TEXT_MAP[OrderStatus.DELIVERING] },
+  { value: OrderStatus.DELIVERED, label: ORDER_STATUS_TEXT_MAP[OrderStatus.DELIVERED] },
+  { value: OrderStatus.CANCELED, label: ORDER_STATUS_TEXT_MAP[OrderStatus.CANCELED] },
+  { value: OrderStatus.DELAYED, label: ORDER_STATUS_TEXT_MAP[OrderStatus.DELAYED] },
 ];
 
 const UserPurchase = () => {
@@ -37,28 +34,36 @@ const UserPurchase = () => {
   const tabContents = useMemo(
     () => [
       {
-        value: TabKey.All,
+        value: "ALL",
         component: <All />,
       },
       {
-        value: TabKey.WaitingForPay,
-        component: <WaitingForPay />,
+        value: OrderStatus.WAITING,
+        component: <Waiting />,
       },
       {
-        value: TabKey.Transporting,
-        component: <Transporting />,
+        value: OrderStatus.CREATED,
+        component: <Created />,
       },
       {
-        value: TabKey.WaitingForDelivery,
-        component: <WaitingForDelivery />,
+        value: OrderStatus.PICKED_UP,
+        component: <PickUp />,
       },
       {
-        value: TabKey.Completed,
-        component: <Completed />,
+        value: OrderStatus.DELIVERING,
+        component: <Delivering />,
       },
       {
-        value: TabKey.Canceled,
+        value: OrderStatus.DELIVERED,
+        component: <Delivered />,
+      },
+      {
+        value: OrderStatus.CANCELED,
         component: <Canceled />,
+      },
+      {
+        value: OrderStatus.DELAYED,
+        component: <Delayed />,
       },
     ],
     [],
@@ -66,13 +71,13 @@ const UserPurchase = () => {
 
   useEffect(() => {
     if (!params.has("tab")) {
-      setParams({ tab: TabKey.All });
+      setParams({ tab: "ALL" });
     }
   }, [params, setParams]);
 
   const getDefaultValue = useCallback(() => {
     const tab = tabItems.find((item) => item.value === params.get("tab"));
-    return tab ? tab.value : TabKey.All;
+    return tab ? tab.value : "ALL";
   }, [params]);
 
   const handleTabChange = useCallback(
@@ -84,7 +89,7 @@ const UserPurchase = () => {
 
   return (
     <Tabs defaultValue={getDefaultValue()}>
-      <TabsList className="grid w-full grid-cols-6 h-fit bg-white">
+      <TabsList className="grid grid-cols-8 w-full h-fit bg-white p-0">
         {tabItems.map((item) => (
           <TabsTrigger
             key={item.value}
