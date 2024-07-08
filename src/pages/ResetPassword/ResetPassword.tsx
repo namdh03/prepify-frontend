@@ -1,4 +1,5 @@
 import { useForm } from "react-hook-form";
+import { useOutletContext } from "react-router-dom";
 import { toast } from "react-toastify";
 import { z } from "zod";
 
@@ -30,9 +31,10 @@ const ResetPasswordFormDefaultValues: ResetPasswordFormType = {
   confirmPassword: "",
 };
 
-const ResetPassword = ({ token }: ResetPasswordProps) => {
+const ResetPassword = () => {
   useDocumentTitle("Prepify | Đặt lại mật khẩu");
 
+  const { token } = useOutletContext<ResetPasswordProps>();
   const { RiveComponent, observeInputPassword, teddySuccess, teddyFail } = useTeddyAnimation();
   const form = useForm<ResetPasswordFormType>({
     mode: "onBlur",

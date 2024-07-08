@@ -1,4 +1,4 @@
-import { cloneElement, FC, isValidElement, PropsWithChildren, ReactElement, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Outlet, useSearchParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -7,11 +7,10 @@ import { useMutation } from "@tanstack/react-query";
 import { verifyTokenForgotPassword } from "~apis/user.api";
 import Loading from "~components/common/Loading";
 import NotFound from "~pages/NotFound";
-import { ResetPasswordProps } from "~pages/ResetPassword/ResetPassword";
 
 // ResetPasswordGuard is a component that will be used to protect routes /reset-password
 // that should only be accessed with valid token from email.
-const ResetPasswordGuard: FC<PropsWithChildren> = ({ children }) => {
+const ResetPasswordGuard = () => {
   // Get token from query params
   const [params, setParams] = useSearchParams();
   const token = useRef(params.get("token"));
@@ -54,11 +53,7 @@ const ResetPasswordGuard: FC<PropsWithChildren> = ({ children }) => {
   if (isVerifyForgotPasswordError) return <NotFound />;
   if (isVerifyForgotPasswordIdle || isVerifyForgotPasswordPending) return <Loading />;
 
-  return (
-    isVerifyForgotPasswordSuccess &&
-    ((isValidElement(children) &&
-      cloneElement(children as ReactElement<ResetPasswordProps>, { token: token.current })) || <Outlet />)
-  );
+  return isVerifyForgotPasswordSuccess && <Outlet context={{ token: token.current }} />;
 };
 
 export default ResetPasswordGuard;
