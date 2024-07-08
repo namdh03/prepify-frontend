@@ -12,6 +12,7 @@ export interface User {
   address: string | null;
   role: Role;
   avatar: string | null;
+  identityCard: string | null;
   areaId: string | null;
 }
 

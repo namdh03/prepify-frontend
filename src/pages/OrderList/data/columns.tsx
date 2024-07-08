@@ -9,6 +9,16 @@ import { OrderStatus } from "~utils/enums";
 
 import DataTableRowActions from "../components/DataTableRowActions";
 
+export const ORDER_STATUS_STYLES = {
+  [OrderStatus.WAITING]: "px-5 border-teal-500 bg-teal-300",
+  [OrderStatus.PICKED_UP]: "px-5 border-blue-500 bg-blue-300",
+  [OrderStatus.DELIVERING]: "px-5 border-yellow-500 bg-yellow-300",
+  [OrderStatus.DELIVERED]: "px-5 border-secondary bg-[#CFE4D2]",
+  [OrderStatus.CREATED]: "px-5 border-gray-500 bg-gray-300",
+  [OrderStatus.CANCELED]: "px-5 border-destructive bg-red-300",
+  [OrderStatus.DELAYED]: "px-5 border-primary bg-orange-300",
+};
+
 export const columns: ColumnDef<TableOrderType>[] = [
   {
     id: "index",
@@ -55,18 +65,9 @@ export const columns: ColumnDef<TableOrderType>[] = [
     header: ({ column }) => <DataTableColumnHeader column={column} title="Trạng thái" />,
     cell: ({ row }) => {
       const status = row.original.status;
-      const statusStyles = {
-        [OrderStatus.WAITING]: "px-5 border-teal-500 bg-teal-300",
-        [OrderStatus.PICKED_UP]: "px-5 border-blue-500 bg-blue-300",
-        [OrderStatus.DELIVERING]: "px-5 border-yellow-500 bg-yellow-300",
-        [OrderStatus.DELIVERED]: "px-5 border-secondary bg-[#CFE4D2]",
-        [OrderStatus.CREATED]: "px-5 border-gray-500 bg-gray-300",
-        [OrderStatus.CANCELED]: "px-5 border-destructive bg-red-300",
-        [OrderStatus.DELAYED]: "px-5 border-primary bg-orange-300",
-      };
 
       return (
-        <Badge variant="outline" className={cn("text-sm font-normal leading-5", statusStyles[status])}>
+        <Badge variant="outline" className={cn("text-sm font-normal leading-5", ORDER_STATUS_STYLES[status])}>
           {ORDER_STATUS_TEXT_MAP[status] || "Không xác định"}
         </Badge>
       );
