@@ -1,7 +1,10 @@
 import { DeliveryMethodEnum, OrderStatus } from "~utils/enums";
 
+import { Area } from "./area.type";
 import { ExtraSpice } from "./meal-kit.type";
+import { SuccessResponse } from "./response.type";
 import { TableResponseState } from "./table.type";
+import { User } from "./user.type";
 
 export type OrderItem = {
   id: string;
@@ -37,7 +40,55 @@ export type TableOrderType = {
   totalPrice: number;
 };
 
-// export type TableViewOrderDetailType = {};
+export type OrderRecipeType = {
+  id: string;
+  name: string;
+  steps: string;
+  slug: string;
+  createdAt: string;
+  videoUrl: string | null;
+  time: number;
+  level: string;
+  images: string[];
+};
+
+export type OrderMealKitItemType = {
+  id: string;
+  serving: number;
+  price: number;
+  status: boolean;
+  rating: number;
+  recipe: OrderRecipeType;
+  extraSpice?: Omit<ExtraSpice, "image">;
+};
+
+export type TableOrderDetailType = {
+  id: string;
+  quantity: number;
+  isCart: boolean;
+  price: number;
+  has_extra_spice: boolean;
+  mealKit: OrderMealKitItemType;
+};
+
+export type CustomerOrderInfo = {
+  id: string;
+  user: User;
+};
+
+export type TableViewOrderDetailType = {
+  id: string;
+  address: string;
+  datetime: string;
+  totalPrice: number;
+  phone: string;
+  note: string;
+  status: OrderStatus;
+  trackingNumber: string;
+  customer: CustomerOrderInfo;
+  orderDetails: TableOrderDetailType[];
+  area: Area;
+};
 
 export type TableOrderResponse = TableResponseState<TableOrderType>;
 
@@ -46,3 +97,5 @@ export type TableOrderFilter = {
   area: string;
   status: OrderStatus;
 };
+
+export type ModOrderDetailResponse = SuccessResponse<TableViewOrderDetailType>;

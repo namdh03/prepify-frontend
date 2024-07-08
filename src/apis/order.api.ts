@@ -1,10 +1,12 @@
-import { PostOrderBody, TableOrderFilter, TableOrderResponse } from "~types/order.type";
+import { ModOrderDetailResponse, PostOrderBody, TableOrderFilter, TableOrderResponse } from "~types/order.type";
 import { TableRequestState } from "~types/table.type";
 import columnFilterFn from "~utils/columnFilterFn";
 import { OrderByEnum } from "~utils/enums";
 import http from "~utils/http";
 
 export const GET_TABLE_ORDER_QUERY_KEY = "GET_TABLE_ORDER_QUERY_KEY";
+
+export const GET_TABLE_VIEW_ORDER_DETAIL_QUERY_KEY = "GET_TABLE_VIEW_ORDER_DETAIL_QUERY_KEY";
 
 export const postOrder = (body: PostOrderBody) => http.post("/order", body);
 
@@ -24,3 +26,5 @@ export const getTableOrders = ({ sorting, columnFilters, pagination }: TableRequ
 
   return http.get<TableOrderResponse>("moderator/orders", { params });
 };
+
+export const getModOrderDetails = (id: string) => http.get<ModOrderDetailResponse>(`/moderator/orders/${id}`);

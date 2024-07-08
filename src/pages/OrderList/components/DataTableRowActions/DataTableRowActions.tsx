@@ -4,15 +4,6 @@ import { IoEyeOutline } from "react-icons/io5";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { Row } from "@tanstack/react-table";
 
-import { Badge } from "~components/ui/badge";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "~components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,7 +14,9 @@ import {
 import Button from "~layouts/AdminLayout/components/Button";
 import { TableOrderType } from "~types/order.type";
 
-interface DataTableRowActionsProps<TData> {
+import Modal from "../Modal";
+
+export interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
 
@@ -38,20 +31,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableOrderType>) 
 
   return (
     <>
-      <Dialog open={open} onOpenChange={handleOpenDialogChange}>
-        <DialogContent className="sm:max-w-[425px]">
-          <DialogHeader>
-            <DialogTitle>Thông tin chi tiết đơn hàng</DialogTitle>
-            <DialogDescription>
-              <Badge variant={"outline"}>{row.original.trackingNumber}</Badge>
-            </DialogDescription>
-          </DialogHeader>
-          {/* Render Data API Here */}
-          <DialogFooter>
-            <Button onClick={handleCloseDialog}>Đóng</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <Modal row={row} open={open} onOpen={handleOpenDialogChange} onClose={handleCloseDialog} />
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
