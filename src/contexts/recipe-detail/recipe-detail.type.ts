@@ -1,7 +1,12 @@
 import { Dispatch } from "react";
 import { z } from "zod";
 
+import { CategoryItem } from "~types/category.type";
+import { FoodStyleType } from "~types/food-style.type";
+import { IngredientType } from "~types/ingredient.type";
 import { MealKitItem } from "~types/meal-kit.type";
+import { NutritionType } from "~types/nutrition.type";
+import { LevelCook } from "~utils/enums";
 
 import { recipeDetailSchema } from "./recipe-detail.schema";
 
@@ -17,11 +22,19 @@ export type RecipeDetailType = {
   sold: number;
   totalFeedback: number;
   images: string[];
+  level: LevelCook;
+  time: number;
+  steps: string;
+  videoUrl: string;
+  category: CategoryItem;
   mealKits: MealKitItem[]; // similar mealKits at cart api
 };
 
 export type RecipeDetailState = {
   recipe?: RecipeDetailType;
+  foodStyles?: FoodStyleType[];
+  ingredients?: IngredientType[];
+  nutritions?: NutritionType[];
 };
 
 export interface PayloadAction<T> {

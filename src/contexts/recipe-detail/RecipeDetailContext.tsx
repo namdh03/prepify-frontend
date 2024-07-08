@@ -2,7 +2,7 @@ import { createContext, FC, PropsWithChildren, useReducer } from "react";
 import { Outlet, useOutletContext } from "react-router-dom";
 
 import { reducer } from "./recipe-detail.reducer";
-import { RecipeDetailContextType, RecipeDetailState, RecipeDetailType } from "./recipe-detail.type";
+import { RecipeDetailContextType, RecipeDetailState } from "./recipe-detail.type";
 
 const initialState: RecipeDetailState = {};
 
@@ -13,10 +13,13 @@ const RecipeDetailContext = createContext<RecipeDetailContextType | undefined>({
 
 // Create provider
 const RecipeDetailProvider: FC<PropsWithChildren> = ({ children }) => {
-  const { recipe } = useOutletContext<{ recipe: RecipeDetailType }>();
+  const { recipe, foodStyles, ingredients, nutritions } = useOutletContext<RecipeDetailState>();
   const [state, dispatch] = useReducer(reducer, {
     ...initialState,
     recipe,
+    foodStyles,
+    ingredients,
+    nutritions,
   });
 
   return (

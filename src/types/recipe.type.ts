@@ -1,4 +1,4 @@
-import { RecipeDetailType } from "~contexts/recipe-detail/recipe-detail.type";
+import { RecipeDetailState } from "~contexts/recipe-detail/recipe-detail.type";
 import { LevelCook } from "~utils/enums";
 
 import { MealKitItem } from "./meal-kit.type";
@@ -83,7 +83,7 @@ export type TableRecipeResponse = TableResponseState<TableRecipeType>;
 
 export type ModRecipeDetailResponse = SuccessResponse<TableViewRecipeType>;
 
-export type CusRecipeDetailResponse = SuccessResponse<RecipeDetailType>;
+export type CusRecipeDetailResponse = SuccessResponse<RecipeDetailState>;
 
 export type TableRecipeFilter = {
   name: string;
