@@ -1,12 +1,8 @@
-import { createContext, FC, PropsWithChildren, useEffect, useReducer } from "react";
-import { Outlet, useParams } from "react-router-dom";
+import { createContext, FC, PropsWithChildren, useReducer } from "react";
+import { Outlet, useOutletContext } from "react-router-dom";
 
-import { useQuery } from "@tanstack/react-query";
-
-import { GET_RECIPE_DETAIL_QUERY_KEY, getCustomerRecipe } from "~apis/recipe.api";
-
-import { reducer, setRecipe } from "./recipe-detail.reducer";
-import { RecipeDetailContextType, RecipeDetailState } from "./recipe-detail.type";
+import { reducer } from "./recipe-detail.reducer";
+import { RecipeDetailContextType, RecipeDetailState, RecipeDetailType } from "./recipe-detail.type";
 
 const initialState: RecipeDetailState = {};
 
@@ -17,20 +13,12 @@ const RecipeDetailContext = createContext<RecipeDetailContextType | undefined>({
 
 // Create provider
 const RecipeDetailProvider: FC<PropsWithChildren> = ({ children }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const { slug } = useParams();
-  const { data } = useQuery({
-    queryKey: [GET_RECIPE_DETAIL_QUERY_KEY],
-    queryFn: () => getCustomerRecipe(slug as string),
-    select: (data) => data.data.data,
-    refetchOnWindowFocus: false,
+  const { recipe } = useOutletContext<{ recipe: RecipeDetailType }>();
+  const [state, dispatch] = useReducer(reducer, {
+    ...initialState,
+    recipe,
   });
 
-  useEffect(() => {
-    if (data) {
-      dispatch(setRecipe({ recipe: data }));
-    }
-  }, [data]);
   return (
     <RecipeDetailContext.Provider value={{ ...state, dispatch }}>{children || <Outlet />}</RecipeDetailContext.Provider>
   );

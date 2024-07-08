@@ -86,14 +86,21 @@ const router = createBrowserRouter([
       },
       {
         lazy: async () => ({
-          Component: (await import("~contexts/recipe-detail/RecipeDetailContext")).RecipeDetailProvider,
+          Component: (await import("~guards/RecipeDetailGuard")).default,
         }),
         children: [
           {
-            path: configs.routes.recipeDetail,
             lazy: async () => ({
-              Component: (await import("~pages/RecipeDetail")).default,
+              Component: (await import("~contexts/recipe-detail/RecipeDetailContext")).RecipeDetailProvider,
             }),
+            children: [
+              {
+                path: configs.routes.recipeDetail,
+                lazy: async () => ({
+                  Component: (await import("~pages/RecipeDetail")).default,
+                }),
+              },
+            ],
           },
         ],
       },
@@ -164,10 +171,17 @@ const router = createBrowserRouter([
             ],
           },
           {
-            path: configs.routes.order,
             lazy: async () => ({
-              Component: (await import("~pages/Order")).default,
+              Component: (await import("~guards/OrderGuard")).default,
             }),
+            children: [
+              {
+                path: configs.routes.order,
+                lazy: async () => ({
+                  Component: (await import("~pages/Order")).default,
+                }),
+              },
+            ],
           },
         ],
       },
