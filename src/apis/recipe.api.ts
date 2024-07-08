@@ -24,6 +24,8 @@ export const GET_TABLE_RECIPES_QUERY_KEY = "GET_TABLE_RECIPES_QUERY_KEY";
 
 export const GET_RECIPE_DETAIL_QUERY_KEY = "GET_RECIPE_DETAIL_QUERY_KEY";
 
+export const GET_RECIPE_DETAIL_STALE_TIME = 30 * 1000; // 30 seconds
+
 export const getShopRecipes = (values: ShopFormType) => {
   const params = new URLSearchParams();
   const preventKeys: PreventKeyType[] = ["price", "evaluate"];
