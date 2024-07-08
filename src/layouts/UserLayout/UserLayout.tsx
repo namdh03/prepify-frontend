@@ -20,11 +20,11 @@ const UserLayout = () => {
             <p className="text-muted-foreground">Quản lý cài đặt tài khoản và thiết lập ưu tiên e-mail.</p>
           </div>
           <Separator className="my-6" />
-          <div className="flex flex-1 flex-col space-y-8 overflow-auto lg:flex-row lg:space-x-12 lg:space-y-0">
+          <div className="flex flex-1 flex-col space-y-6 overflow-auto lg:flex-row lg:space-x-8 lg:space-y-0">
             <aside className="sticky top-0 lg:w-1/5">
               <SidebarNav items={sidebarNavItems} />
             </aside>
-            <div className="w-full p-1 pr-4">
+            <div className="w-full p-1">
               <div className="pb-16">
                 <Outlet />
               </div>
