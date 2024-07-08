@@ -151,3 +151,5 @@ export const INGREDIENT_MESSAGES = {
   UPDATE_INGREDIENT_SUCCESS: "Cập nhật nguyên liệu thành công",
   DELETE_INGREDIENT_SUCCESS: "Xóa nguyên liệu thành công",
 } as const;
+
+export const SPICES_SIGNATURE = "Spices (Gia vị)";

@@ -19,12 +19,12 @@ const RecipeDetailGuard = () => {
     refetchOnWindowFocus: false,
     retry: false,
   });
-  useDocumentTitle(`Prepify | ${data?.name}`);
+  useDocumentTitle(`Prepify | ${data?.recipe?.name}`);
 
   if (isError) return <NotFound />;
   if (isPending) return <Loading />;
 
-  return isSuccess && <Outlet context={{ recipe: data }} />;
+  return isSuccess && <Outlet context={data} />;
 };
 
 export default RecipeDetailGuard;
