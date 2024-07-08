@@ -14,12 +14,12 @@ interface RoleBasedGuardProps {
 // RoleBasedGuard is a component that will be used to protect routes
 // that should only be accessed by users with specific roles.
 // eslint-disable-next-line react-refresh/only-export-components
-const RoleBasedGuard: FC<RoleBasedGuardProps> = ({ children, accessibleRoles }) => {
+const RoleBasedGuard: FC<RoleBasedGuardProps> = ({ accessibleRoles }) => {
   const { user } = useAuth();
 
   if (!accessibleRoles.includes(user!.role)) return <NotFound />;
 
-  return children || <Outlet />;
+  return <Outlet />;
 };
 
 // HOC to inject props

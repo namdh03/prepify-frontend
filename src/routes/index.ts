@@ -41,7 +41,7 @@ const router = createBrowserRouter([
       },
       {
         lazy: async () => ({
-          Component: (await import("~pages/ResetPassword")).default,
+          Component: (await import("~guards/ResetPasswordGuard")).default,
         }),
         children: [
           {
