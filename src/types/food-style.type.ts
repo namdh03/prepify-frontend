@@ -20,6 +20,7 @@ export type FoodStyleType = {
   type: string;
   slug: string;
   title: string;
+  name: string;
 };
 
 export type TableFoodStyleType = {
