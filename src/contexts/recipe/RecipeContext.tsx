@@ -107,7 +107,7 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
         setTotal(recipeDetail.mealKits[0].price);
         const files = await convertUrlsToFiles(recipeDetail.images);
         setFiles(files);
-        setImages(recipeDetail.mealKits.map((mealKit) => mealKit.extraSpice.image));
+        setImages(recipeDetail.mealKits.map((mealKit) => mealKit.extraSpice?.image || ""));
       }
     };
 
