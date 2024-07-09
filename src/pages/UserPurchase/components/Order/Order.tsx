@@ -47,7 +47,9 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
         {status === OrderStatus.WAITING && <span className="text-primary">CHỜ XÁC NHẬN</span>}
         {status === OrderStatus.CREATED && <span className="text-primary">ĐÃ XÁC NHẬN</span>}
         {status === OrderStatus.PICKED_UP && <span className="text-primary">ĐÃ NHẬN ĐƠN</span>}
-        {status === OrderStatus.DELIVERING && <span className="text-primary">ĐANG GIAO HÀNG</span>}
+        {(status === OrderStatus.DELIVERING || status === OrderStatus.DELAYED) && (
+          <span className="text-primary">ĐANG GIAO HÀNG</span>
+        )}
         {status === OrderStatus.DELIVERED && (
           <div className="flex items-center gap-3 h-6">
             <BsTruck color="#26aa99" />
@@ -57,7 +59,6 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
           </div>
         )}
         {status === OrderStatus.CANCELED && <span className="text-destructive">ĐÃ HỦY</span>}
-        {status === OrderStatus.DELAYED && <span className="text-destructive">ĐÃ HOÃN GIAO</span>}
       </div>
 
       <Separator className="my-3" />
@@ -104,9 +105,11 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
         </div>
 
         <div className="flex items-center gap-[10px]">
-          <Button size={"lg"} className="min-w-[150px]">
-            Mua lại
-          </Button>
+          {(status === OrderStatus.DELIVERED || status === OrderStatus.CANCELED) && (
+            <Button size={"lg"} className="min-w-[150px]">
+              Mua lại
+            </Button>
+          )}
 
           {status === OrderStatus.DELIVERED && (
             <Feedback
@@ -121,12 +124,17 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
             />
           )}
 
-          {status === OrderStatus.WAITING ||
-            (status === OrderStatus.CREATED && (
-              <Button variant={"outline"} size={"lg"} className="min-w-[150px]">
-                Hủy đơn hàng
-              </Button>
-            ))}
+          {status === OrderStatus.WAITING && (
+            <Button variant={"default"} size={"lg"} className="min-w-[150px]">
+              Thanh toán
+            </Button>
+          )}
+
+          {(status === OrderStatus.WAITING || status === OrderStatus.CREATED) && (
+            <Button variant={"outline"} size={"lg"} className="min-w-[150px]">
+              Hủy đơn hàng
+            </Button>
+          )}
         </div>
       </div>
     </article>

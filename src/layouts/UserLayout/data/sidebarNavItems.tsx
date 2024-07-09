@@ -4,7 +4,7 @@ import { TbPasswordMobilePhone } from "react-icons/tb";
 
 import configs from "~configs";
 
-const sidebarNavItems = [
+export const systemSidebarNavItems = [
   {
     title: "Hồ sơ của tôi",
     icon: <FaRegUser size={18} />,
@@ -22,4 +22,15 @@ const sidebarNavItems = [
   },
 ];
 
-export default sidebarNavItems;
+export const googleSidebarNavItems = [
+  {
+    title: "Hồ sơ của tôi",
+    icon: <FaRegUser size={18} />,
+    href: configs.routes.userProfile,
+  },
+  {
+    title: "Đơn mua",
+    icon: <LuClipboardList size={18} />,
+    href: configs.routes.userPurchase,
+  },
+];

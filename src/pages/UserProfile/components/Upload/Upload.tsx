@@ -33,7 +33,7 @@ export default function Upload() {
         onSubmit={form.handleSubmit(handleUploadAvatar)}
       >
         <Avatar className="w-40 h-40">
-          <AvatarImage src={preview || (user?.avatar ?? "")} className="object-cover" />
+          <AvatarImage src={preview || (user?.image ?? "")} className="object-cover" />
           <AvatarFallback className="text-2xl">{user?.fullname.charAt(0) || "N/A"}</AvatarFallback>
         </Avatar>
         <FormField

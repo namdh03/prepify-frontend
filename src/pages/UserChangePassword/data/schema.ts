@@ -5,7 +5,7 @@ import { passwordSchema } from "~utils/schema";
 
 const userChangePasswordSchema = z
   .object({
-    currentPassword: passwordSchema(USER_MESSAGES.PASSWORD_MESSAGE),
+    oldPassword: passwordSchema(USER_MESSAGES.PASSWORD_MESSAGE),
     newPassword: passwordSchema(USER_MESSAGES.PASSWORD_MESSAGE),
     newConfirmPassword: passwordSchema(USER_MESSAGES.PASSWORD_MESSAGE),
   })

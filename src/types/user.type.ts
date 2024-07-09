@@ -11,9 +11,10 @@ export interface User {
   fullname: string;
   address: string | null;
   role: Role;
-  avatar: string | null;
+  image: string | null;
   identityCard: string | null;
   areaId: string | null;
+  hasPassword: boolean;
 }
 
 export type UserResponse = SuccessResponse<{
@@ -45,4 +46,9 @@ export type TableAccountFilter = {
   name: string;
   role: string;
   area: string;
+};
+
+export type ChangePasswordBody = {
+  oldPassword: string;
+  newPassword: string;
 };
