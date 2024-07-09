@@ -30,6 +30,7 @@ export const USER_MESSAGES = {
   ADDRESS_MESSAGE: "Hệ thống chỉ hỗ trợ nhập địa chỉ tại TP. Hồ Chí Minh",
   DISTRICT_MESSAGE: "Vui lòng chọn quận/huyện",
   SPECIFIC_ADDRESS_MESSAGE: "Vui lòng nhập địa chỉ cụ thể",
+  CHANGE_PASSWORD_SUCCESS: "Đổi mật khẩu thành công",
 } as const;
 
 export const IMAGE_MESSAGES = {

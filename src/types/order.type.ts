@@ -110,6 +110,7 @@ export type CusOrderListData = {
   status: OrderStatus;
   orderDate: string;
   totalPrice: number;
+  trackingNumber: string;
 };
 
 export type CusOrderListResponse = SuccessResponse<CusOrderListData[]>;

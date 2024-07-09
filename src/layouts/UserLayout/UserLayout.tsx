@@ -1,14 +1,17 @@
 import { Outlet } from "react-router-dom";
 
 import { Separator } from "~components/ui/separator";
+import useAuth from "~hooks/useAuth";
 import Container from "~layouts/MainLayout/components/Container";
 import Footer from "~layouts/MainLayout/components/Footer";
 import Header from "~layouts/MainLayout/components/Header";
 
 import SidebarNav from "./components/SidebarNav";
-import sidebarNavItems from "./data/sidebarNavItems";
+import { googleSidebarNavItems, systemSidebarNavItems } from "./data/sidebarNavItems";
 
 const UserLayout = () => {
+  const { user } = useAuth();
+
   return (
     <>
       <Header />
@@ -22,7 +25,11 @@ const UserLayout = () => {
           <Separator className="my-6" />
           <div className="flex flex-1 flex-col space-y-6 overflow-auto lg:flex-row lg:space-x-8 lg:space-y-0">
             <aside className="sticky top-0 lg:w-1/5">
-              <SidebarNav items={sidebarNavItems} />
+              {user?.hasPassword ? (
+                <SidebarNav items={systemSidebarNavItems} />
+              ) : (
+                <SidebarNav items={googleSidebarNavItems} />
+              )}
             </aside>
             <div className="w-full p-1">
               <div className="pb-16">

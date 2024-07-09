@@ -51,10 +51,10 @@ export enum UnitText {
 
 export enum OrderStatus {
   WAITING = "WAITING",
-  CREATED = "CREATED",
-  PICKED_UP = "PICKED_UP",
-  DELIVERING = "DELIVERING",
-  DELIVERED = "DELIVERED",
+  CREATED = "CREATED", // Đơn hàng đã thanh toán
+  PICKED_UP = "PICKED_UP", // Đã giao cho NVC
+  DELIVERING = "DELIVERING", // Chờ giao hàng
+  DELIVERED = "DELIVERED", // Đánh giá
   CANCELED = "CANCELED",
   DELAYED = "DELAYED",
 }

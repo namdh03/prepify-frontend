@@ -47,7 +47,7 @@ const Header = () => {
 
               <Link to={configs.routes.user}>
                 <Avatar>
-                  <AvatarImage src={user.avatar || ""} alt={user.fullname} />
+                  <AvatarImage src={user.image || ""} alt={user.fullname} />
                   <AvatarFallback>{user.fullname.charAt(0)}</AvatarFallback>
                 </Avatar>
               </Link>

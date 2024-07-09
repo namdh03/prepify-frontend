@@ -18,7 +18,6 @@ import { OrderStatus } from "~utils/enums";
 import All from "./components/All";
 import Canceled from "./components/Canceled";
 import Created from "./components/Created";
-import Delayed from "./components/Delayed";
 import Delivered from "./components/Delivered";
 import Delivering from "./components/Delivering";
 import PickUp from "./components/PickUp";
@@ -36,7 +35,6 @@ const tabItems = [
   { value: OrderStatus.DELIVERING, label: ORDER_STATUS_TEXT_MAP[OrderStatus.DELIVERING] },
   { value: OrderStatus.DELIVERED, label: ORDER_STATUS_TEXT_MAP[OrderStatus.DELIVERED] },
   { value: OrderStatus.CANCELED, label: ORDER_STATUS_TEXT_MAP[OrderStatus.CANCELED] },
-  { value: OrderStatus.DELAYED, label: ORDER_STATUS_TEXT_MAP[OrderStatus.DELAYED] },
 ];
 
 const UserPurchase = () => {
@@ -82,18 +80,12 @@ const UserPurchase = () => {
         value: OrderStatus.CANCELED,
         component: <Canceled orders={data} />,
       },
-      {
-        value: OrderStatus.DELAYED,
-        component: <Delayed orders={data} />,
-      },
     ],
     [data],
   );
 
   useEffect(() => {
-    if (!params.has("tab")) {
-      setParams({ tab: "ALL" });
-    }
+    if (!params.has("tab")) setParams({ tab: "ALL" });
   }, [params, setParams]);
 
   const getDefaultValue = useCallback(() => {
@@ -110,7 +102,7 @@ const UserPurchase = () => {
 
   return (
     <Tabs defaultValue={getDefaultValue()}>
-      <TabsList className="grid grid-cols-8 w-full h-fit bg-white p-0">
+      <TabsList className="grid grid-cols-7 w-full h-fit bg-white p-0">
         {tabItems.map((item) => (
           <TabsTrigger
             key={item.value}

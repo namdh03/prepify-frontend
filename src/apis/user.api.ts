@@ -1,7 +1,7 @@
 import { LoginFormType } from "~pages/Login/Login";
 import { RegisterFormType } from "~pages/Register/Register";
 import { AuthResponse } from "~types/auth.type";
-import { GoogleUrlResponse, UserResponse } from "~types/user.type";
+import { ChangePasswordBody, GoogleUrlResponse, UserResponse } from "~types/user.type";
 import http from "~utils/http";
 
 export const GET_ME_QUERY_KEY = "GET_ME_QUERY_KEY";
@@ -25,3 +25,5 @@ export const verifyTokenForgotPassword = (token: string | null, signal?: AbortSi
   http.post("/verify-token-forgot-password", { token }, { signal });
 
 export const resetPassword = (token: string, password: string) => http.post("/reset-password", { token, password });
+
+export const changePassword = (body: ChangePasswordBody) => http.put("/change-password", body);
