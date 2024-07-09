@@ -34,6 +34,8 @@ import { TableRecipeType } from "~types/recipe.type";
 import { RECIPE_MESSAGES, SYSTEM_MESSAGES } from "~utils/constants";
 import isAxiosError from "~utils/isAxiosError";
 
+import Modal from "../Modal";
+
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
 }
@@ -41,14 +43,23 @@ interface DataTableRowActionsProps<TData> {
 function DataTableRowActions({ row }: DataTableRowActionsProps<TableRecipeType>) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState({
+    alert: false,
+    modal: false,
+  });
   const { mutate: deleteRecipeMutate } = useMutation({
     mutationFn: () => deleteRecipe(row.original.id),
   });
 
-  const handleOpenDialog = () => setOpen(true);
+  const handleOpenDialog = () => setOpen((prev) => ({ ...prev, alert: true }));
 
-  const handleOpenDialogChange = (value: boolean) => setOpen(value);
+  const handleOpenModal = () => setOpen((prev) => ({ ...prev, modal: true }));
+
+  const handleOpenDialogChange = (value: boolean) => setOpen((prev) => ({ ...prev, alert: value }));
+
+  const handleOpenModalChange = (value: boolean) => setOpen((prev) => ({ ...prev, modal: value }));
+
+  const handleCloseModal = () => setOpen((prev) => ({ ...prev, modal: false }));
 
   const handleDeleteRecipe = () => {
     deleteRecipeMutate(undefined, {
@@ -65,7 +76,9 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableRecipeType>)
 
   return (
     <>
-      <AlertDialog open={open} onOpenChange={handleOpenDialogChange}>
+      <Modal row={row} open={open.modal} onOpen={handleOpenModalChange} onClose={handleCloseModal} />
+
+      <AlertDialog open={open.alert} onOpenChange={handleOpenDialogChange}>
         {row.original.totalmealkit > 0 ? (
           <AlertDialogContent>
             <AlertDialogHeader>
@@ -96,6 +109,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableRecipeType>)
           </AlertDialogContent>
         )}
       </AlertDialog>
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="flex h-8 w-8 p-0 data-[state=open]:bg-muted">
@@ -104,7 +118,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableRecipeType>)
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[160px]">
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem className="cursor-pointer" onClick={handleOpenModal}>
             <DropdownMenuShortcut className="ml-0 mr-2">
               <IoEyeOutline size={16} />
             </DropdownMenuShortcut>
