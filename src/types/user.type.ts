@@ -1,7 +1,13 @@
 import { Role } from "~utils/enums";
 
+import { RestrictIngredientType } from "./ingredient.type";
 import { SuccessResponse } from "./response.type";
 import { TableResponseState } from "./table.type";
+
+export interface UserCustomer {
+  id: string;
+  restrictIngredients: RestrictIngredientType[];
+}
 
 export interface User {
   id: string;
@@ -15,6 +21,7 @@ export interface User {
   identityCard: string | null;
   areaId: string | null;
   hasPassword: boolean;
+  customer: UserCustomer;
 }
 
 export type UserResponse = SuccessResponse<{
@@ -51,4 +58,14 @@ export type TableAccountFilter = {
 export type ChangePasswordBody = {
   oldPassword: string;
   newPassword: string;
+};
+
+export type UpdateMeBody = {
+  fullname: string;
+  email: string;
+  phone: string;
+  areaId: string;
+  address: string;
+  createIngredientIds: string[];
+  removeIngredientIds: string[];
 };
