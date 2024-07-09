@@ -72,7 +72,7 @@ const RecipeInfo = () => {
 
         <section className="flex-1 pr-14">
           <h1 className="text-primary text-4xl font-medium leading-10">{recipe?.name}</h1>
-          <div className="flex items-center gap-4 mt-3 h-6 text-sm font-normal ">
+          <div className="flex items-center gap-4 mt-3 h-6 text-sm font-normal">
             <div className="flex items-center gap-4 text-[rgba(0,_0,_0,_0.85)]">
               <Ratings rating={recipe?.star || 0} variant="yellow" size={16} />
               <span>{recipe?.star.toFixed(1)}</span>
