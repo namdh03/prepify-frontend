@@ -16,6 +16,7 @@ import {
 import { Button } from "~components/ui/button";
 import { Separator } from "~components/ui/separator";
 import { OrderItem as OrderItemType } from "~types/order.type";
+import { OrderStatus } from "~utils/enums";
 
 import Feedback from "../Feedback";
 import OrderItem from "../OrderItem";
@@ -43,7 +44,11 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
         <p>
           <span className="font-medium">Đơn đặt hàng:</span> {dayjs(orderDate).format("DD/MM/YYYY")}
         </p>
-        {status === "Completed" && (
+        {status === OrderStatus.WAITING && <span className="text-primary">CHỜ XÁC NHẬN</span>}
+        {status === OrderStatus.CREATED && <span className="text-primary">ĐÃ XÁC NHẬN</span>}
+        {status === OrderStatus.PICKED_UP && <span className="text-primary">ĐÃ NHẬN ĐƠN</span>}
+        {status === OrderStatus.DELIVERING && <span className="text-primary">ĐANG GIAO HÀNG</span>}
+        {status === OrderStatus.DELIVERED && (
           <div className="flex items-center gap-3 h-6">
             <BsTruck color="#26aa99" />
             <span className="text-[#26aa99]">Giao hàng thành công</span>
@@ -51,7 +56,8 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
             <span className="text-primary">HOÀN THÀNH</span>
           </div>
         )}
-        {status === "Canceled" && <span className="text-destructive">ĐÃ HỦY</span>}
+        {status === OrderStatus.CANCELED && <span className="text-destructive">ĐÃ HỦY</span>}
+        {status === OrderStatus.DELAYED && <span className="text-destructive">ĐÃ HOÃN GIAO</span>}
       </div>
 
       <Separator className="my-3" />
@@ -102,7 +108,7 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
             Mua lại
           </Button>
 
-          {status === "Completed" && (
+          {status === OrderStatus.DELIVERED && (
             <Feedback
               trigger={
                 <Button variant={"outline"} size={"lg"} className="min-w-[150px]" onClick={handleOpenFeedbackModal}>
@@ -114,6 +120,13 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
               onClose={handleCloseFeedbackModal}
             />
           )}
+
+          {status === OrderStatus.WAITING ||
+            (status === OrderStatus.CREATED && (
+              <Button variant={"outline"} size={"lg"} className="min-w-[150px]">
+                Hủy đơn hàng
+              </Button>
+            ))}
         </div>
       </div>
     </article>
