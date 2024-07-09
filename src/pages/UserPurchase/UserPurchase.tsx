@@ -1,9 +1,17 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 
+import { useQuery } from "@tanstack/react-query";
+
+import {
+  GET_LIST_ORDER_BY_STATUS_QUERY_KEY,
+  GET_LIST_ORDER_BY_STATUS_STALE_TIME,
+  getListOrderByStatus,
+} from "~apis/order.api";
 import { Separator } from "~components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~components/ui/tabs";
 import useDocumentTitle from "~hooks/useDocumentTitle";
+import { CusOrderListData, OrderQueries } from "~types/order.type";
 import { ORDER_STATUS_TEXT_MAP } from "~utils/constants";
 import { OrderStatus } from "~utils/enums";
 
@@ -15,6 +23,10 @@ import Delivered from "./components/Delivered";
 import Delivering from "./components/Delivering";
 import PickUp from "./components/PickUp";
 import Waiting from "./components/Waiting";
+
+export interface OrderProps {
+  orders?: CusOrderListData[];
+}
 
 const tabItems = [
   { value: "ALL", label: "Tất cả" },
@@ -31,42 +43,51 @@ const UserPurchase = () => {
   useDocumentTitle("Prepify | Đơn hàng của tôi");
 
   const [params, setParams] = useSearchParams();
+  const queries: OrderQueries = useMemo(() => Object.fromEntries(params.entries()), [params]);
+  const { data } = useQuery({
+    queryKey: [GET_LIST_ORDER_BY_STATUS_QUERY_KEY, queries],
+    queryFn: getListOrderByStatus,
+    select: (data) => data.data.data,
+    staleTime: GET_LIST_ORDER_BY_STATUS_STALE_TIME,
+    refetchOnWindowFocus: false,
+  });
+
   const tabContents = useMemo(
     () => [
       {
         value: "ALL",
-        component: <All />,
+        component: <All orders={data} />,
       },
       {
         value: OrderStatus.WAITING,
-        component: <Waiting />,
+        component: <Waiting orders={data} />,
       },
       {
         value: OrderStatus.CREATED,
-        component: <Created />,
+        component: <Created orders={data} />,
       },
       {
         value: OrderStatus.PICKED_UP,
-        component: <PickUp />,
+        component: <PickUp orders={data} />,
       },
       {
         value: OrderStatus.DELIVERING,
-        component: <Delivering />,
+        component: <Delivering orders={data} />,
       },
       {
         value: OrderStatus.DELIVERED,
-        component: <Delivered />,
+        component: <Delivered orders={data} />,
       },
       {
         value: OrderStatus.CANCELED,
-        component: <Canceled />,
+        component: <Canceled orders={data} />,
       },
       {
         value: OrderStatus.DELAYED,
-        component: <Delayed />,
+        component: <Delayed orders={data} />,
       },
     ],
-    [],
+    [data],
   );
 
   useEffect(() => {

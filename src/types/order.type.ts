@@ -99,3 +99,17 @@ export type TableOrderFilter = {
 };
 
 export type ModOrderDetailResponse = SuccessResponse<TableViewOrderDetailType>;
+
+export type OrderQueries = {
+  tab?: string;
+};
+
+export type CusOrderListData = {
+  id: string;
+  orderItems: OrderItem[];
+  status: OrderStatus;
+  orderDate: string;
+  totalPrice: number;
+};
+
+export type CusOrderListResponse = SuccessResponse<CusOrderListData[]>;
