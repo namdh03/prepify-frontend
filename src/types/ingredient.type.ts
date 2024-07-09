@@ -37,3 +37,8 @@ export type IngredientResponse = SuccessResponse<IngredientType[]>;
 export type TableIngredientFilter = {
   name: string;
 };
+
+export type RestrictIngredientType = {
+  id: string;
+  ingredient: Omit<IngredientType, "unit">;
+};

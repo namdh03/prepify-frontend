@@ -12,11 +12,11 @@ import {
 
 export const userProfileSchema = z.object({
   fullname: fullnameSchema,
-  email: emailSchema,
+  email: emailSchema.optional(),
   phone: phoneSchema,
   city: citySchema,
-  district: districtSchema,
-  specificAddress: specificAddressSchema,
+  areaId: districtSchema,
+  address: specificAddressSchema,
   restrictIngredients: z
     .array(
       z.object({

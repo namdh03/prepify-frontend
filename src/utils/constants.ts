@@ -31,6 +31,7 @@ export const USER_MESSAGES = {
   DISTRICT_MESSAGE: "Vui lòng chọn quận/huyện",
   SPECIFIC_ADDRESS_MESSAGE: "Vui lòng nhập địa chỉ cụ thể",
   CHANGE_PASSWORD_SUCCESS: "Đổi mật khẩu thành công",
+  UPDATE_PROFILE_SUCCESS: "Cập nhật thông tin thành công",
 } as const;
 
 export const IMAGE_MESSAGES = {

@@ -1,12 +1,18 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { FaPlus } from "react-icons/fa6";
 import { RxCross2 } from "react-icons/rx";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import Combobox, { ComboboxOption } from "~components/common/Combobox/Combobox";
+import { GET_AREAS_QUERY_KEY, GET_AREAS_STALE_TIME, getAreas } from "~apis/area.api";
+import { GET_INGREDIENTS_QUERY_KEY, GET_TABLE_INGREDIENTS_STALE_TIME, getIngredients } from "~apis/ingredient.api";
+import { GET_ME_QUERY_KEY, updateMe } from "~apis/user.api";
+import Combobox from "~components/common/Combobox/Combobox";
+import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
 import {
   Form as FormShadcn,
@@ -19,132 +25,107 @@ import {
 } from "~components/ui/form";
 import { Input } from "~components/ui/input";
 import { Textarea } from "~components/ui/textarea";
+import useAuth from "~hooks/useAuth";
 import { userProfileSchema } from "~pages/UserProfile/data/schema";
+import { UpdateMeBody } from "~types/user.type";
+import { SYSTEM_MESSAGES, USER_MESSAGES } from "~utils/constants";
+import isAxiosError from "~utils/isAxiosError";
 
 type UserProfileFormType = z.infer<typeof userProfileSchema>;
 
-const districts: ComboboxOption[] = [
-  {
-    value: "quan-1",
-    label: "Quận 1",
-  },
-  {
-    value: "quan-3",
-    label: "Quận 3",
-  },
-  {
-    value: "quan-4",
-    label: "Quận 4",
-  },
-  {
-    value: "quan-5",
-    label: "Quận 5",
-  },
-  {
-    value: "quan-6",
-    label: "Quận 6",
-  },
-  {
-    value: "quan-7",
-    label: "Quận 7",
-  },
-  {
-    value: "quan-8",
-    label: "Quận 8",
-  },
-  {
-    value: "quan-10",
-    label: "Quận 10",
-  },
-  {
-    value: "quan-11",
-    label: "Quận 11",
-  },
-  {
-    value: "quan-12",
-    label: "Quận 12",
-  },
-  {
-    value: "quan-tan-binh",
-    label: "Quận Tân Bình",
-  },
-  {
-    value: "quan-binh-tan",
-    label: "Quận Bình Tân",
-  },
-  {
-    value: "quan-binh-thanh",
-    label: "Quận Bình Thạnh",
-  },
-  {
-    value: "quan-tan-phu",
-    label: "Quận Tân Phú",
-  },
-  {
-    value: "quan-go-vap",
-    label: "Quận Gò Vấp",
-  },
-  {
-    value: "quan-phu-nhuan",
-    label: "Quận Phú Nhuận",
-  },
-  {
-    value: "huyen-binh-chanh",
-    label: "Huyện Bình Chánh",
-  },
-  {
-    value: "huyen-hoc-mon",
-    label: "Huyện Hóc Môn",
-  },
-  {
-    value: "huyen-can-gio",
-    label: "Huyện Cần Giờ",
-  },
-  {
-    value: "huyen-cu-chi",
-    label: "Huyện Củ Chi",
-  },
-  {
-    value: "huyen-nha-be",
-    label: "Huyện Nhà Bè",
-  },
-];
-
 const Form = () => {
+  const queryClient = useQueryClient();
+  const { user } = useAuth();
+  const restrictIngredients = useMemo(() => user?.customer.restrictIngredients, [user]);
   const form = useForm<UserProfileFormType>({
     mode: "onBlur",
     resolver: zodResolver(userProfileSchema),
     defaultValues: {
-      fullname: "",
-      email: "",
-      phone: "",
+      fullname: user?.fullname || "",
+      email: user?.email || "",
+      phone: user?.phone || "",
       city: "Hồ Chí Minh",
-      district: "",
-      specificAddress: "",
-      restrictIngredients: [],
+      areaId: user?.areaId || "",
+      address: user?.address || "",
+      restrictIngredients: restrictIngredients?.map((item) => ({ id: item.ingredient.id })) || [],
     },
   });
   const { fields, append, remove } = useFieldArray({
     name: "restrictIngredients",
     control: form.control,
   });
+  const [restrictIngredientIds, setRestrictIngredientIds] = useState<string[]>([]);
   const [selectedRestrictIngredients, setSelectedRestrictIngredients] = useState<string[]>([]);
+  const [createRestrictIngredientIds, setCreateRestrictIngredientIds] = useState<string[]>([]);
+  const [removeRestrictIngredientIds, setRemoveRestrictIngredientIds] = useState<string[]>([]);
+  const { data: areas } = useQuery({
+    queryKey: [GET_AREAS_QUERY_KEY],
+    queryFn: () => getAreas(),
+    select: (data) => data.data.data,
+    refetchOnWindowFocus: false,
+    staleTime: GET_AREAS_STALE_TIME,
+  });
+  const { data: ingredients } = useQuery({
+    queryKey: [GET_INGREDIENTS_QUERY_KEY],
+    queryFn: () => getIngredients(),
+    select: (data) => data.data.data,
+    staleTime: GET_TABLE_INGREDIENTS_STALE_TIME,
+    refetchOnWindowFocus: false,
+  });
+  const { mutate: updateMeMutate, isPending: isUpdatePending } = useMutation({
+    mutationFn: (body: UpdateMeBody) => updateMe(body),
+  });
 
   // Set default selected value for restrictIngredients
   useEffect(() => {
-    const valueFormAPI = [
-      {
-        id: "quan-5",
-        value: "Quận 5",
-      },
-    ];
+    setSelectedRestrictIngredients(restrictIngredients?.map((item) => item.ingredient.id) || []);
+    setRestrictIngredientIds((prev) => [...prev, ...(restrictIngredients?.map((item) => item.ingredient.id) || [])]);
+    form.setValue("restrictIngredients", restrictIngredients?.map((item) => ({ id: item.ingredient.id })) || []);
+  }, [form, restrictIngredients]);
 
-    setSelectedRestrictIngredients((prev) => [...prev, ...valueFormAPI.map((item) => item.id)]);
-    form.setValue("restrictIngredients", valueFormAPI);
-  }, [form]);
+  useEffect(() => {
+    if (selectedRestrictIngredients.length === 0) {
+      setCreateRestrictIngredientIds([]);
+      setRemoveRestrictIngredientIds(restrictIngredients?.map((item) => item.ingredient.id) || []);
+    } else {
+      setCreateRestrictIngredientIds(
+        selectedRestrictIngredients.filter(
+          (item) => !restrictIngredients?.map((item) => item.ingredient.id).includes(item),
+        ),
+      );
+      setRemoveRestrictIngredientIds(
+        (restrictIngredients || [])
+          ?.map((item) => item.ingredient.id)
+          .filter((item) => !selectedRestrictIngredients.includes(item)),
+      );
+    }
+  }, [restrictIngredients, selectedRestrictIngredients]);
 
   const onSubmit = (values: UserProfileFormType) => {
-    console.log(values);
+    if (!user) return;
+    updateMeMutate(
+      {
+        address: values.address,
+        areaId: values.areaId,
+        email: values.email || user.email,
+        fullname: values.fullname,
+        phone: values.phone,
+        createIngredientIds: createRestrictIngredientIds,
+        removeIngredientIds: removeRestrictIngredientIds,
+      },
+      {
+        onSuccess: () => {
+          setCreateRestrictIngredientIds([]);
+          setRemoveRestrictIngredientIds([]);
+          queryClient.invalidateQueries({ queryKey: [GET_ME_QUERY_KEY] });
+          toast.success(USER_MESSAGES.UPDATE_PROFILE_SUCCESS);
+        },
+        onError: (error) => {
+          if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+          else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+      },
+    );
   };
 
   return (
@@ -167,22 +148,25 @@ const Form = () => {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="example@gmail.com" {...field} />
-              </FormControl>
-              <FormDescription>
-                Bạn có thể quản lý các địa chỉ email đã xác minh trong cài đặt email của mình
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {user?.hasPassword && (
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input placeholder="example@gmail.com" {...field} disabled />
+                </FormControl>
+                <FormDescription>
+                  Bạn có thể quản lý các địa chỉ email đã xác minh trong cài đặt email của mình
+                </FormDescription>
+                <FormDescription className="text-primary">Lưu ý: Hiện tại không hỗ trợ thay đổi email</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        )}
 
         <FormField
           control={form.control}
@@ -218,12 +202,12 @@ const Form = () => {
 
           <FormField
             control={form.control}
-            name="district"
+            name="areaId"
             render={({ field }) => (
               <FormItem className="flex flex-col">
                 <FormLabel>Quận, Huyện</FormLabel>
                 <Combobox
-                  options={districts}
+                  options={areas?.map((area) => ({ value: area.id, label: area.name })) ?? []}
                   onValueChange={(value) => field.onChange(value)}
                   value={field.value as string}
                   placeholder="Chọn quận, huyện"
@@ -236,7 +220,7 @@ const Form = () => {
 
           <FormField
             control={form.control}
-            name="specificAddress"
+            name="address"
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Địa chỉ cụ thể</FormLabel>
@@ -270,15 +254,20 @@ const Form = () => {
                   <FormLabel>Nguyên liệu</FormLabel>
                   <div className="flex items-center gap-4">
                     <Combobox
-                      options={districts}
-                      selectedOption={selectedRestrictIngredients}
+                      options={
+                        ingredients?.map((ingredient) => ({ value: ingredient.id, label: ingredient.name })) ?? []
+                      }
+                      selectedOption={restrictIngredientIds}
                       onValueChange={(value) => {
                         field.onChange(value);
-                        // Swap value in selectedRestrictIngredients and remove previous value
+
                         setSelectedRestrictIngredients((prev) => [
                           ...prev.filter((item) => item !== field.value),
                           value,
                         ]);
+
+                        // Swap value in selectedRestrictIngredients and remove previous value
+                        setRestrictIngredientIds((prev) => [...prev.filter((item) => item !== field.value), value]);
                       }}
                       value={field.value as string}
                       placeholder="Chọn nguyên liệu"
@@ -293,6 +282,8 @@ const Form = () => {
                         setSelectedRestrictIngredients(
                           selectedRestrictIngredients.filter((item) => item !== field.value),
                         );
+                        setRestrictIngredientIds(restrictIngredientIds.filter((item) => item !== field.value));
+                        setRemoveRestrictIngredientIds((prev) => [...prev, field.value as string]);
                       }}
                     >
                       <RxCross2 size={18} className="text-muted-foreground" />
@@ -304,7 +295,7 @@ const Form = () => {
             />
           ))}
 
-          {fields.length === districts.length ? null : (
+          {fields.length === ingredients?.length ? null : (
             <Button type="button" variant="outline" className="flex gap-2 mt-2" onClick={() => append({ id: "" })}>
               <FaPlus />
               <span>Thêm nguyên liệu</span>
@@ -312,7 +303,9 @@ const Form = () => {
           )}
         </div>
 
-        <Button type="submit">Cập nhật hồ sơ</Button>
+        <Button type="submit" className="min-w-36">
+          {isUpdatePending ? <Spinner /> : "Cập nhật hồ sơ"}
+        </Button>
       </form>
     </FormShadcn>
   );
