@@ -2,6 +2,7 @@ import { DeliveryMethodEnum, OrderStatus } from "~utils/enums";
 
 import { Area } from "./area.type";
 import { ExtraSpice } from "./meal-kit.type";
+import { Payment } from "./payment.type";
 import { SuccessResponse } from "./response.type";
 import { TableResponseState } from "./table.type";
 import { User } from "./user.type";
@@ -114,3 +115,11 @@ export type CusOrderListData = {
 };
 
 export type CusOrderListResponse = SuccessResponse<CusOrderListData[]>;
+
+export type OrderDetailType = CusOrderListData & {
+  deliveryPrice: number;
+  totalPrice: number;
+  payment: Payment;
+};
+
+export type OrderDetailResponse = SuccessResponse<OrderDetailType>;

@@ -8,3 +8,9 @@ export type VerifyPaymentResponse = SuccessResponse<{
   success: boolean;
   error: boolean;
 }>;
+
+export type Payment = {
+  id: string;
+  name: string;
+  icon: string;
+};

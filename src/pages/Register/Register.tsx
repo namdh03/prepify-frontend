@@ -29,7 +29,7 @@ const registerFormDefaultValues: RegisterFormType = {
 };
 
 const Register = () => {
-  useDocumentTitle("Prepify | Đăng Ký");
+  useDocumentTitle("Prepify | Đăng ký");
   useDispatchAuth();
 
   const { RiveComponent, observeInputText, observeInputPassword, observeInputEmail, teddySuccess, teddyFail } =

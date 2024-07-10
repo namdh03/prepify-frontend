@@ -27,7 +27,7 @@ const loginFormDefaultValues: LoginFormType = {
 };
 
 const Login = () => {
-  useDocumentTitle("Prepify | Đăng Nhập");
+  useDocumentTitle("Prepify | Đăng nhập");
   useDispatchAuth();
 
   const { RiveComponent, observeInputText, observeInputPassword, teddySuccess, teddyFail } = useTeddyAnimation();

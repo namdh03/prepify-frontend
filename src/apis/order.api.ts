@@ -3,6 +3,7 @@ import { QueryFunctionContext } from "@tanstack/react-query";
 import {
   CusOrderListResponse,
   ModOrderDetailResponse,
+  OrderDetailResponse,
   OrderQueries,
   PostOrderBody,
   TableOrderFilter,
@@ -20,6 +21,10 @@ export const GET_TABLE_VIEW_ORDER_DETAIL_QUERY_KEY = "GET_TABLE_VIEW_ORDER_DETAI
 export const GET_LIST_ORDER_BY_STATUS_QUERY_KEY = "GET_LIST_ORDER_BY_STATUS_QUERY_KEY";
 
 export const GET_LIST_ORDER_BY_STATUS_STALE_TIME = 1000 * 30; // 30s
+
+export const GET_ORDER_DETAIL_QUERY_KEY = "GET_ORDER_DETAIL_QUERY_KEY";
+
+export const GET_ORDER_DETAIL_STALE_TIME = 1000 * 30; // 30s
 
 export const postOrder = (body: PostOrderBody) => http.post("/order", body);
 
@@ -49,3 +54,5 @@ export const getListOrderByStatus = ({ queryKey }: QueryFunctionContext<[string,
     params: queries.tab === "ALL" ? {} : { tab: queries.tab },
   });
 };
+
+export const getOrderDetailByOrderId = (id: string) => http.get<OrderDetailResponse>(`/orders/${id}`);
