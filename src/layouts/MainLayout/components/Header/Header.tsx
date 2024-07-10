@@ -4,7 +4,6 @@ import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link, NavLink } from "react-router-dom";
 
 import Logo from "~components/common/Logo";
-import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { Button } from "~components/ui/button";
 import configs from "~configs";
 import useAuth from "~hooks/useAuth";
@@ -12,6 +11,7 @@ import navLinks from "~layouts/MainLayout/data/navLinks";
 import { cn } from "~lib/utils";
 
 import Container from "../Container";
+import UserNav from "../UserNav";
 
 const Header = () => {
   const { user } = useAuth();
@@ -45,12 +45,7 @@ const Header = () => {
                 <AiOutlineShoppingCart size={32} />
               </Link>
 
-              <Link to={configs.routes.user}>
-                <Avatar>
-                  <AvatarImage src={user.image || ""} alt={user.fullname} />
-                  <AvatarFallback>{user.fullname.charAt(0)}</AvatarFallback>
-                </Avatar>
-              </Link>
+              <UserNav />
             </div>
           ) : (
             <Link to={configs.routes.login}>
