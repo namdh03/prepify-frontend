@@ -32,7 +32,7 @@ export const USER_MESSAGES = {
   SPECIFIC_ADDRESS_MESSAGE: "Vui lòng nhập địa chỉ cụ thể",
   CHANGE_PASSWORD_SUCCESS: "Đổi mật khẩu thành công",
   UPDATE_PROFILE_SUCCESS: "Cập nhật thông tin thành công",
-  UPLOAD_AVATAR_SUCCESS: "Cập nhật ảnh đại diện thành công",
+  UPLOAD_AVATAR_SUCCESS: "Cập nhật ảnh thành công",
 } as const;
 
 export const IMAGE_MESSAGES = {

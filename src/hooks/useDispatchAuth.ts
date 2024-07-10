@@ -29,6 +29,7 @@ const useDispatchAuth = () => {
     if (data) {
       idTimeOutRef.current = setTimeout(() => {
         dispatch(signIn({ user: data }));
+        // TODO: Not working as expected
         if (!GUEST_URLS.includes(document.referrer)) navigate(-1);
       }, WAIT_TEDDY_TIME);
     }

@@ -34,8 +34,6 @@ export const updateMe = (body: UpdateMeBody) => http.put("/me", body);
 export const uploadAvatar = (id: string, file: File) => {
   const formData = new FormData();
 
-  console.log(file);
-
   formData.append("entityId", id);
   formData.append("type", ImageType.USER);
   formData.append("images", file);

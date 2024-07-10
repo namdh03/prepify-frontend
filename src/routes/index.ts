@@ -8,6 +8,10 @@ const mainLayoutLazy = async () => ({
   Component: (await import("~layouts/MainLayout")).default,
 });
 
+const customerGuardLazy = async () => ({
+  Component: (await import("~guards/CustomerGuard")).default,
+});
+
 const guestGuardLazy = async () => ({
   Component: (await import("~guards/GuestGuard")).default,
 });
@@ -63,42 +67,47 @@ const router = createBrowserRouter([
 
   // Public routes
   {
-    lazy: mainLayoutLazy,
+    lazy: customerGuardLazy,
     children: [
       {
-        path: configs.routes.home,
-        lazy: async () => ({
-          Component: (await import("~pages/Home")).default,
-        }),
-      },
-      {
-        lazy: async () => ({
-          Component: (await import("~contexts/shop/ShopContext")).ShopProvider,
-        }),
+        lazy: mainLayoutLazy,
         children: [
           {
-            path: configs.routes.shop,
+            path: configs.routes.home,
             lazy: async () => ({
-              Component: (await import("~pages/Shop")).default,
+              Component: (await import("~pages/Home")).default,
             }),
           },
-        ],
-      },
-      {
-        lazy: async () => ({
-          Component: (await import("~guards/RecipeDetailGuard")).default,
-        }),
-        children: [
           {
             lazy: async () => ({
-              Component: (await import("~contexts/recipe-detail/RecipeDetailContext")).RecipeDetailProvider,
+              Component: (await import("~contexts/shop/ShopContext")).ShopProvider,
             }),
             children: [
               {
-                path: configs.routes.recipeDetail,
+                path: configs.routes.shop,
                 lazy: async () => ({
-                  Component: (await import("~pages/RecipeDetail")).default,
+                  Component: (await import("~pages/Shop")).default,
                 }),
+              },
+            ],
+          },
+          {
+            lazy: async () => ({
+              Component: (await import("~guards/RecipeDetailGuard")).default,
+            }),
+            children: [
+              {
+                lazy: async () => ({
+                  Component: (await import("~contexts/recipe-detail/RecipeDetailContext")).RecipeDetailProvider,
+                }),
+                children: [
+                  {
+                    path: configs.routes.recipeDetail,
+                    lazy: async () => ({
+                      Component: (await import("~pages/RecipeDetail")).default,
+                    }),
+                  },
+                ],
               },
             ],
           },
