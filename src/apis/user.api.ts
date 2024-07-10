@@ -2,6 +2,7 @@ import { LoginFormType } from "~pages/Login/Login";
 import { RegisterFormType } from "~pages/Register/Register";
 import { AuthResponse } from "~types/auth.type";
 import { ChangePasswordBody, GoogleUrlResponse, UpdateMeBody, UserResponse } from "~types/user.type";
+import { ImageType } from "~utils/enums";
 import http from "~utils/http";
 
 export const GET_ME_QUERY_KEY = "GET_ME_QUERY_KEY";
@@ -29,3 +30,23 @@ export const resetPassword = (token: string, password: string) => http.post("/re
 export const changePassword = (body: ChangePasswordBody) => http.put("/change-password", body);
 
 export const updateMe = (body: UpdateMeBody) => http.put("/me", body);
+
+export const uploadAvatar = (id: string, file: File) => {
+  const formData = new FormData();
+
+  console.log(file);
+
+  formData.append("entityId", id);
+  formData.append("type", ImageType.USER);
+  formData.append("images", file);
+
+  return http.post("/upload/create", formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const deleteAvatar = (id: string) => {
+  return http.post("/upload/delete", [{ entityId: id, type: ImageType.USER }]);
+};

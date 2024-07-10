@@ -58,3 +58,10 @@ export enum OrderStatus {
   CANCELED = "CANCELED",
   DELAYED = "DELAYED",
 }
+
+export enum ImageType {
+  RECIPE = "recipe",
+  USER = "user",
+  EXTRASPICE = "extraspice",
+  INGREDIENT = "ingredient",
+}
