@@ -13,6 +13,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "~components/ui/dialog";
+import useCheckAllergies from "~hooks/useCheckAllergies";
 import useRecipeDetail from "~hooks/useRecipeDetail";
 import Banner from "~layouts/MainLayout/components/Banner";
 import Container from "~layouts/MainLayout/components/Container";
@@ -24,35 +25,41 @@ import breadcrumbs from "./data/breadcrumbs";
 
 const RecipeDetail = () => {
   const [params] = useSearchParams();
-  const { recipe } = useRecipeDetail();
+  const { recipe, ingredients } = useRecipeDetail();
+  const listRestrictedIngredients = useCheckAllergies(ingredients || []);
 
   return (
     <>
-      <Dialog defaultOpen>
-        <DialogContent className="max-w-[600px] px-20 pb-7 gap-[34px]">
-          <div className="flex justify-center">
-            <PiWarningCircle size={100} color="#EAB308" />
-          </div>
-          <DialogHeader className="gap-3">
-            <DialogTitle className="text-[#18181B] text-2xl font-semibold leading-9 text-center">
-              Cảnh bảo công thức có thể gây dị ứng!
-            </DialogTitle>
-            <DialogDescription className="text-[#71717A] text-base font-normal leading-7">
-              Lưu ý: Công thức này có chứa
-              <span className="text-destructive"> đậu nành, lúa mì, thịt bò </span>
-              có thể gây dị ứng cho bạn.
-            </DialogDescription>
-          </DialogHeader>
+      {listRestrictedIngredients.length > 0 && (
+        <Dialog defaultOpen>
+          <DialogContent className="max-w-[600px] px-20 pb-7 gap-[34px]">
+            <div className="flex justify-center">
+              <PiWarningCircle size={100} color="#EAB308" />
+            </div>
+            <DialogHeader className="gap-3">
+              <DialogTitle className="text-[#18181B] text-2xl font-semibold leading-9 text-center">
+                Cảnh bảo công thức có thể gây dị ứng!
+              </DialogTitle>
+              <DialogDescription className="text-[#71717A] text-base font-normal leading-7">
+                Lưu ý: Công thức này có chứa
+                <span className="text-destructive font-medium">
+                  {" "}
+                  {listRestrictedIngredients.map((ingredient) => ingredient.name).join(", ")}{" "}
+                </span>
+                có thể gây dị ứng cho bạn.
+              </DialogDescription>
+            </DialogHeader>
 
-          <DialogFooter className="sm:justify-center">
-            <DialogClose asChild>
-              <Button type="button" className="min-w-[262px]">
-                Tiếp tục
-              </Button>
-            </DialogClose>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+            <DialogFooter className="sm:justify-center">
+              <DialogClose asChild>
+                <Button type="button" className="min-w-[262px]">
+                  Tiếp tục
+                </Button>
+              </DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
 
       <Banner
         text={
