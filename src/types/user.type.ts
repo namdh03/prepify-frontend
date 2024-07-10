@@ -28,6 +28,10 @@ export type UserResponse = SuccessResponse<{
   user: User;
 }>;
 
+export type CreateAccountResponse = SuccessResponse<{
+  id: string;
+}>;
+
 export type GoogleUrlResponse = SuccessResponse<{
   url: string;
 }>;

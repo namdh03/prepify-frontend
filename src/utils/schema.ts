@@ -1,6 +1,13 @@
 import { z } from "zod";
 
-import { IMAGE_MESSAGES, PASSWORD_REGEX, PHONE_REGEX, USER_MESSAGES } from "./constants";
+import {
+  ACCOUNT_MESSAGES,
+  IDENTITY_REGEX,
+  IMAGE_MESSAGES,
+  PASSWORD_REGEX,
+  PHONE_REGEX,
+  USER_MESSAGES,
+} from "./constants";
 
 // GLOBAL SCHEMA
 export const emailSchema = z
@@ -82,3 +89,12 @@ export const optionSchema = z.object({
   value: z.string(),
   disable: z.boolean().optional(),
 });
+
+export const identityCardSchema = z
+  .string()
+  .min(1, {
+    message: ACCOUNT_MESSAGES.IDENTITY_CARD_REQUIRED,
+  })
+  .refine((value) => IDENTITY_REGEX.test(value), {
+    message: ACCOUNT_MESSAGES.IDENTITY_CARD_INVALID,
+  });

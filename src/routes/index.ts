@@ -304,12 +304,6 @@ const router = createBrowserRouter([
               Component: (await import("~pages/OrderList")).default,
             }),
           },
-          {
-            path: configs.routes.foodStyleList,
-            lazy: async () => ({
-              Component: (await import("~pages/FoodStyleList")).default,
-            }),
-          },
         ],
       },
     ],
@@ -334,6 +328,19 @@ const router = createBrowserRouter([
             lazy: async () => ({
               Component: (await import("~pages/AccountList")).default,
             }),
+          },
+          {
+            lazy: async () => ({
+              Component: (await import("~contexts/account/AccountContext")).AccountProvider,
+            }),
+            children: [
+              {
+                path: configs.routes.createAccount,
+                lazy: async () => ({
+                  Component: (await import("~pages/CreateAccount")).default,
+                }),
+              },
+            ],
           },
         ],
       },
