@@ -1,29 +1,62 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { deleteAvatar, GET_ME_QUERY_KEY, uploadAvatar } from "~apis/user.api";
 import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { Button } from "~components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
 import { Input } from "~components/ui/input";
 import useAuth from "~hooks/useAuth";
 import { uploadAvatarSchema } from "~pages/UserProfile/data/schema";
+import { SYSTEM_MESSAGES, USER_MESSAGES } from "~utils/constants";
 import getImageData from "~utils/getImageData";
+import isAxiosError from "~utils/isAxiosError";
 
 type UploadAvatarFormType = z.infer<typeof uploadAvatarSchema>;
 
 export default function Upload() {
+  const queryClient = useQueryClient();
   const { user } = useAuth();
   const [preview, setPreview] = useState("");
   const form = useForm<UploadAvatarFormType>({
     mode: "onSubmit",
     resolver: zodResolver(uploadAvatarSchema),
   });
+  const { mutateAsync: uploadAvatarMutateAsync } = useMutation({
+    mutationFn: ({ id, file }: { id: string; file: File }) => uploadAvatar(id, file),
+  });
+  const { mutateAsync: deleteAvatarMutateAsync } = useMutation({
+    mutationFn: () => deleteAvatar(user?.id ?? ""),
+  });
 
-  function handleUploadAvatar(values: UploadAvatarFormType) {
-    console.log(values);
+  async function handleUploadAvatar(values: UploadAvatarFormType) {
+    if (!user) return;
+    await deleteAvatarMutateAsync();
+    await uploadAvatarMutateAsync(
+      {
+        id: user.id,
+        file: values.image,
+      },
+      {
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [GET_ME_QUERY_KEY] });
+          toast.success(USER_MESSAGES.UPLOAD_AVATAR_SUCCESS);
+        },
+        onError: (error) => {
+          if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+          else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+        onSettled: () => {
+          form.reset();
+          setPreview("");
+        },
+      },
+    );
   }
 
   return (
