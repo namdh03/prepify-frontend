@@ -70,6 +70,7 @@ export const TABLE_LIMIT = 10;
 export const PHONE_REGEX = /^(0|\+?84)(3|5|7|8|9)[0-9]{8}$/;
 export const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;
 export const FOOD_STYLE_TYPE_REGEX = /\s/;
+export const IDENTITY_REGEX = /^[0-9]{12}$/;
 
 export const GUEST_URLS = [
   configs.routes.login,
@@ -156,3 +157,12 @@ export const INGREDIENT_MESSAGES = {
 } as const;
 
 export const SPICES_SIGNATURE = "Spices (Gia vị)";
+
+export const ACCOUNT_MESSAGES = {
+  CREATE_ACCOUNT_SUCCESS: "Tạo tài khoản thành công",
+  CREATE_ACCOUNT_FAILED: "Tạo tài khoản thất bại",
+  IDENTITY_CARD_REQUIRED: "Vui lòng nhập căn cứ nhân dân",
+  IDENTITY_CARD_INVALID: "Căn cứ nhân dân không hợp lệ",
+  AREA_IS_REQUIRED: "Vui lòng chọn quận, huyện",
+  ADDRESS_IS_REQUIRED: "Vui lòng nhập địa chỉ",
+} as const;

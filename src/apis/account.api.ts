@@ -1,5 +1,6 @@
+import { AccountFormType } from "~contexts/account/account.type";
 import { TableRequestState } from "~types/table.type";
-import { TableAccountFilter, TableAccountResponse } from "~types/user.type";
+import { CreateAccountResponse, TableAccountFilter, TableAccountResponse } from "~types/user.type";
 import columnFilterFn from "~utils/columnFilterFn";
 import { OrderByEnum } from "~utils/enums";
 import http from "~utils/http";
@@ -22,3 +23,5 @@ export const getTableAccounts = ({ sorting, columnFilters, pagination }: TableRe
 
   return http.get<TableAccountResponse>("/admin/accounts", { params });
 };
+
+export const createAccount = (body: AccountFormType) => http.post<CreateAccountResponse>("/admin/accounts", body);

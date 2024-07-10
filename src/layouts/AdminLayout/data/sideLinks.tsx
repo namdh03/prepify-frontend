@@ -122,18 +122,6 @@ export const moderatorSideLinks: SideLink[] = [
 
 export const adminSideLinks: SideLink[] = [
   {
-    title: "Tổng quan",
-    label: "",
-    href: configs.routes.overview,
-    icon: <AiOutlineDashboard size={18} />,
-  },
-  {
-    title: "Hồ sơ",
-    label: "",
-    href: configs.routes.overview,
-    icon: <AiOutlineProfile size={18} />,
-  },
-  {
     title: "Quản lí tài khoản",
     label: "",
     href: "",
@@ -146,7 +134,7 @@ export const adminSideLinks: SideLink[] = [
         icon: <></>,
       },
       {
-        title: "Tạo tài khoản người vận chuyển",
+        title: "Tạo tài khoản",
         label: "",
         href: configs.routes.createAccount,
         icon: <></>,
