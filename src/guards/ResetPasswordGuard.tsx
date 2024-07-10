@@ -37,7 +37,7 @@ const ResetPasswordGuard = () => {
           onSuccess: () => {
             if (token) {
               params.delete("token");
-              setParams(params);
+              setParams(params, { replace: true });
               toast.info("Vui lòng không tải lại trang!");
             }
           },

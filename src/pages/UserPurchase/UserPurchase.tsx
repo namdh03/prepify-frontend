@@ -85,7 +85,7 @@ const UserPurchase = () => {
   );
 
   useEffect(() => {
-    if (!params.has("tab")) setParams({ tab: "ALL" });
+    if (!params.has("tab")) setParams({ tab: "ALL" }, { replace: true });
   }, [params, setParams]);
 
   const getDefaultValue = useCallback(() => {

@@ -59,7 +59,7 @@ const Sidebar = memo(() => {
         ),
       },
     });
-    setParams(params);
+    setParams(params, { replace: true });
   };
 
   return (

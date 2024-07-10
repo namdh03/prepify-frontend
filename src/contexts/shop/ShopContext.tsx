@@ -76,7 +76,7 @@ const ShopProvider: FC<PropsWithChildren> = ({ children }) => {
         value ? params.set(key, value) : params.delete(key);
       });
 
-      setParams(params);
+      setParams(params, { replace: true });
 
       // Update the last submitted values
       formRefs.current = values;
