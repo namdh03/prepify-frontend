@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { deleteAvatar, GET_ME_QUERY_KEY, uploadAvatar } from "~apis/user.api";
+import Spinner from "~components/common/Spinner";
 import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { Button } from "~components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "~components/ui/form";
@@ -27,7 +28,7 @@ export default function Upload() {
     mode: "onSubmit",
     resolver: zodResolver(uploadAvatarSchema),
   });
-  const { mutateAsync: uploadAvatarMutateAsync } = useMutation({
+  const { mutateAsync: uploadAvatarMutateAsync, isPending: isUploadAvatarPending } = useMutation({
     mutationFn: ({ id, file }: { id: string; file: File }) => uploadAvatar(id, file),
   });
   const { mutateAsync: deleteAvatarMutateAsync } = useMutation({
@@ -75,10 +76,14 @@ export default function Upload() {
           render={({ field }) => (
             <FormItem className="w-full">
               <FormMessage />
-              <Button type="button" className="w-full p-0">
-                <FormLabel className="flex items-center justify-center px-6 w-full text-white">
-                  Cập nhật ảnh đại diện
-                </FormLabel>
+              <Button type="button" className="w-full min-w-52 p-0">
+                {isUploadAvatarPending ? (
+                  <Spinner />
+                ) : (
+                  <FormLabel className="flex items-center justify-center px-6 w-full text-white">
+                    Cập nhật ảnh đại diện
+                  </FormLabel>
+                )}
               </Button>
               <FormControl>
                 <Input

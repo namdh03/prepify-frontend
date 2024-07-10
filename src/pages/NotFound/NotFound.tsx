@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "~components/ui/button";
+import useAuth from "~hooks/useAuth";
 import useDocumentTitle from "~hooks/useDocumentTitle";
+import getDefaultHomePath from "~utils/getDefaultHomePath";
 
 const NotFound = () => {
   useDocumentTitle("Prepify | Không tìm thấy trang");
-
+  const { user } = useAuth();
   const navigate = useNavigate();
 
   return (
@@ -21,7 +23,7 @@ const NotFound = () => {
           <Button variant="outline" onClick={() => navigate(-1)}>
             Quay lại
           </Button>
-          <Button onClick={() => navigate("/")}>Về trang chủ</Button>
+          <Button onClick={() => navigate(getDefaultHomePath(user?.role))}>Về trang chủ</Button>
         </div>
       </div>
     </div>
