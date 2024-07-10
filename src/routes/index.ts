@@ -139,6 +139,12 @@ const router = createBrowserRouter([
               Component: (await import("~pages/UserPurchase")).default,
             }),
           },
+          {
+            path: configs.routes.userPurchaseDetail,
+            lazy: async () => ({
+              Component: (await import("~pages/UserPurchaseDetail")).default,
+            }),
+          },
         ],
       },
     ],

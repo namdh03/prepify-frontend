@@ -35,6 +35,7 @@ const routes = {
   userProfile: "/user/profile",
   userChangePassword: "/user/change-password",
   userPurchase: "/user/purchase",
+  userPurchaseDetail: "/user/purchase/:orderId",
   404: "/404",
   error: "*",
 };

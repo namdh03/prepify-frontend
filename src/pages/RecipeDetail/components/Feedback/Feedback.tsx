@@ -122,14 +122,14 @@ const Feedback = memo(() => {
     params.set("rating", rating.toString());
     form.setValue("rating", rating);
     form.handleSubmit(onSubmit)();
-    setParams(params);
+    setParams(params, { replace: true });
   };
 
   const handlePageChange = (page: number) => {
     params.set("page", page.toString());
     form.setValue("page", page);
     form.handleSubmit(onSubmit)();
-    setParams(params);
+    setParams(params, { replace: true });
   };
 
   return (

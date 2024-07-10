@@ -16,6 +16,7 @@ const Created = ({ orders = [] }: OrderProps) => {
       {orders.map((order) => (
         <Order
           key={order.id}
+          id={order.id}
           orderItems={order.orderItems}
           status={order.status}
           orderDate={order.orderDate}

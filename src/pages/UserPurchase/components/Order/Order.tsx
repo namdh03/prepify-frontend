@@ -2,6 +2,7 @@ import { useState } from "react";
 import dayjs from "dayjs";
 import { BsTruck } from "react-icons/bs";
 import { SiAdguard } from "react-icons/si";
+import { Link } from "react-router-dom";
 
 import {
   AlertDialog,
@@ -15,6 +16,7 @@ import {
 } from "~components/ui/alert-dialog";
 import { Button } from "~components/ui/button";
 import { Separator } from "~components/ui/separator";
+import configs from "~configs";
 import { OrderItem as OrderItemType } from "~types/order.type";
 import { OrderStatus } from "~utils/enums";
 
@@ -26,13 +28,14 @@ import "dayjs/locale/vi";
 dayjs.locale("vi");
 
 interface OrderProps {
+  id: string;
   orderItems: OrderItemType[];
   status: string;
   orderDate: string;
   totalPrice: number;
 }
 
-const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
+const Order = ({ id, orderItems, status, orderDate, totalPrice }: OrderProps) => {
   const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
 
   const handleOpenFeedbackModal = () => setOpenFeedbackModal(true);
@@ -65,7 +68,9 @@ const Order = ({ orderItems, status, orderDate, totalPrice }: OrderProps) => {
 
       <div className="pb-[2px]">
         {orderItems.map((orderItem) => (
-          <OrderItem key={orderItem.id} {...orderItem} />
+          <Link key={orderItem.id} to={`${configs.routes.userPurchase}/${id}`}>
+            <OrderItem {...orderItem} />
+          </Link>
         ))}
       </div>
 
