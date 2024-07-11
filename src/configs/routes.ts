@@ -32,7 +32,6 @@ const routes = {
   checkout: "/checkout",
   order: "/order",
   recipeDetail: "/shop/:slug",
-  purchase: "/purchase",
   user: "/user",
   userProfile: "/user/profile",
   userChangePassword: "/user/change-password",

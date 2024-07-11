@@ -1,4 +1,4 @@
-import { AiOutlineDashboard, AiOutlineProfile } from "react-icons/ai";
+// import { AiOutlineDashboard, AiOutlineProfile } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { BsBoxSeam } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
@@ -22,18 +22,18 @@ export interface SideLink extends NavLink {
 }
 
 export const moderatorSideLinks: SideLink[] = [
-  {
-    title: "Tổng quan",
-    label: "",
-    href: configs.routes.overview,
-    icon: <AiOutlineDashboard size={18} />,
-  },
-  {
-    title: "Hồ sơ",
-    label: "",
-    href: configs.routes.overview,
-    icon: <AiOutlineProfile size={18} />,
-  },
+  // {
+  //   title: "Tổng quan",
+  //   label: "",
+  //   href: configs.routes.overview,
+  //   icon: <AiOutlineDashboard size={18} />,
+  // },
+  // {
+  //   title: "Hồ sơ",
+  //   label: "",
+  //   href: configs.routes.overview,
+  //   icon: <AiOutlineProfile size={18} />,
+  // },
   {
     title: "Quản lí công thức",
     label: "",

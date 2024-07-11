@@ -1,6 +1,4 @@
-import { CgProfile } from "react-icons/cg";
 import { IoMdLogOut } from "react-icons/io";
-import { Link } from "react-router-dom";
 
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -9,14 +7,12 @@ import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "~components/ui/dropdown-menu";
-import configs from "~configs";
 import { signOut } from "~contexts/auth/auth.reducer";
 import useAuth from "~hooks/useAuth";
 
@@ -51,7 +47,7 @@ export default function UserNav() {
           </div>
         </DropdownMenuLabel>
 
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuSeparator />
 
         <DropdownMenuGroup>
           <Link to={configs.routes.adminProfile}>
@@ -62,7 +58,7 @@ export default function UserNav() {
               </DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-        </DropdownMenuGroup>
+        </DropdownMenuGroup> */}
 
         <DropdownMenuSeparator />
 

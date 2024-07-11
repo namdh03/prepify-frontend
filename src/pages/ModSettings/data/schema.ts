@@ -3,7 +3,7 @@ import { z } from "zod";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 
 const modalSchema = z.object({
-  value: z
+  value: z.coerce
     .number({
       message: SYSTEM_MESSAGES.INVALID_NUMBER,
     })

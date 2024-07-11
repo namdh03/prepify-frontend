@@ -5,6 +5,7 @@ import { ConfigEnum, LevelCook, LevelCookText, OrderStatus, Role } from "./enums
 export const SYSTEM_MESSAGES = {
   SOMETHING_WENT_WRONG: "Đã có lỗi xảy ra",
   INVALID_NUMBER: "Vui lòng nhập số nguyên dương",
+  UPDATE_SUCCESS: "Cập nhật thành công",
 } as const;
 
 export const HTTP_STATUS = {

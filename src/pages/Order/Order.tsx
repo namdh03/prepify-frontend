@@ -48,12 +48,12 @@ const Order = () => {
                 <h2 className="text-[#18181B] text-3xl font-semibold leading-9">Cảm ơn bạn đã mua hàng!</h2>
                 <p className="text-[#71717A] text-xl font-normal leading-7">
                   Hãy theo dõi đơn hàng qua trang{" "}
-                  <Link to={configs.routes.purchase} className="text-primary">
+                  <Link to={configs.routes.userPurchase} className="text-primary">
                     Đơn hàng của tôi
                   </Link>
                 </p>
                 <div className="flex gap-6">
-                  <Link to={configs.routes.purchase}>
+                  <Link to={configs.routes.userPurchase}>
                     <Button variant={"outline"} className="min-w-48">
                       Xem đơn hàng
                     </Button>

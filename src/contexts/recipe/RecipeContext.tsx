@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
-import { GET_CONFIGS_QUERY_KEY, GET_CONFIGS_STALE_TIME, getConfigs } from "~apis/config.api";
 import {
   createRecipe,
   GET_RECIPE_DETAIL_QUERY_KEY,
@@ -16,6 +15,7 @@ import {
   updateRecipeMealKit,
   updateRecipeNutrition,
 } from "~apis/recipe.api";
+import { GET_TABLE_SETTINGS_QUERY_KEY, GET_TABLE_SETTINGS_STALE_TIME, getTableSettings } from "~apis/setting.api";
 import { GET_TABLE_UNITS_STALE_TIME, GET_UNITS_QUERY_KEY, getUnits } from "~apis/unit.api";
 import { deleteImages, uploadImages } from "~apis/upload.api";
 import { DeleteImagesBody } from "~types/image.type";
@@ -28,7 +28,7 @@ import {
 } from "~types/recipe.type";
 import { RECIPE_MESSAGES } from "~utils/constants";
 import { convertUrlsToFiles } from "~utils/convertURLtoFile";
-import { Config, ImageType, LevelCook } from "~utils/enums";
+import { ConfigEnum, ImageType, LevelCook } from "~utils/enums";
 import isAxiosError from "~utils/isAxiosError";
 
 import { recipeSchema } from "./recipe.schema";
@@ -91,13 +91,13 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
   });
 
   const { data: configs } = useQuery({
-    queryKey: [GET_CONFIGS_QUERY_KEY],
-    queryFn: () => getConfigs(),
+    queryKey: [GET_TABLE_SETTINGS_QUERY_KEY],
+    queryFn: () => getTableSettings(),
+    staleTime: GET_TABLE_SETTINGS_STALE_TIME,
     select: (data) => data.data.data,
-    staleTime: GET_CONFIGS_STALE_TIME,
     refetchOnWindowFocus: false,
   });
-  const serviceFee = configs?.find((config) => config.type === Config.SERVICE_FEE)?.value || 0;
+  const serviceFee = configs?.find((config) => config.type === ConfigEnum.ServiceFee)?.value || 0;
 
   const initializeFormDefaults = (recipeData: TableViewRecipeType) => {
     return {
