@@ -73,9 +73,3 @@ export enum ConfigEnum {
   MaxShippingHour = "maxShippingHour",
   ServiceFee = "serviceFee",
 }
-
-export enum Config {
-  "WORK_END_HOUR" = "workEndHour",
-  "MAX_SHIPPING_HOUR" = "maxShippingHour",
-  "SERVICE_FEE" = "serviceFee",
-}

@@ -13,6 +13,7 @@ export const cartItem: CartItemType = {
     price: 0,
     serving: 0,
     extraSpice: null,
+    status: true,
   },
   quantity: 0,
   image: "string",

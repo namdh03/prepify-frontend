@@ -11,7 +11,7 @@ const navLinks = [
   },
   {
     title: "Đơn hàng của tôi",
-    to: configs.routes.purchase,
+    to: configs.routes.userPurchase,
   },
 ];
 
