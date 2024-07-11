@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useFieldArray } from "react-hook-form";
 import { RxCross2 } from "react-icons/rx";
 
@@ -17,6 +17,7 @@ const InputIngredients = () => {
     control: form.control,
     name: "ingredients",
   });
+
   const { data } = useQuery({
     queryKey: [GET_INGREDIENTS_QUERY_KEY],
     queryFn: () => getIngredients(),
@@ -32,6 +33,21 @@ const InputIngredients = () => {
     handleCalculateTotal();
   }, [fields, handleCalculateTotal]);
 
+  useEffect(() => {
+    form.getValues("deletedIngredients");
+  }, [form]);
+  const handleRemoveIngredient = useCallback(
+    (index: number) => {
+      const ingredientId = fields[index].oldId;
+      remove(index);
+      console.log("ingredientId", ingredientId);
+
+      // Update the form state with the new deletedIngredients array
+      if (ingredientId) form.setValue("deletedIngredients", [...form.getValues("deletedIngredients"), ingredientId]);
+    },
+    [fields, remove, form],
+  );
+
   const handleIngredientChange = (index: number, value: string) => {
     const selectedIngredient = data?.find((item) => item.id === value);
     if (selectedIngredient) {
@@ -42,10 +58,6 @@ const InputIngredients = () => {
         unit_id: selectedIngredient.unit.id,
       });
     }
-  };
-
-  const handleAmountChange = () => {
-    handleCalculateTotal();
   };
 
   return (
@@ -92,7 +104,7 @@ const InputIngredients = () => {
                     placeholder={"Nhập số lượng"}
                     onValueChange={(value) => {
                       field.onChange(value);
-                      handleAmountChange();
+                      handleCalculateTotal();
                     }}
                   />
                 </FormControl>
@@ -126,14 +138,7 @@ const InputIngredients = () => {
             )}
           />
           {index > 0 && (
-            <Button
-              variant={"ghost"}
-              size={"icon"}
-              onClick={() => {
-                remove(index);
-              }}
-              className="my-auto"
-            >
+            <Button variant={"ghost"} size={"icon"} onClick={() => handleRemoveIngredient(index)} className="my-auto">
               <RxCross2 color="black" size={24} />
             </Button>
           )}

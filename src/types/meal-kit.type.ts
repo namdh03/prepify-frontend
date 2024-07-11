@@ -1,9 +1,15 @@
 import { TableResponseState } from "./table.type";
 
 export type ExtraSpice = {
-  id: string;
+  id?: string;
   name: string;
   image: string;
+  price: number;
+};
+
+export type ExtraSpiceType = {
+  id?: string;
+  name: string;
   price: number;
 };
 
@@ -12,6 +18,17 @@ export type MealKitItem = {
   price: number;
   serving: number;
   extraSpice: ExtraSpice | null;
+};
+
+export type MealKitType = {
+  id?: string;
+  price: number;
+  serving: number;
+};
+
+export type MealKitBody = {
+  mealKit: MealKitType;
+  extraSpice: ExtraSpiceType;
 };
 
 export type TableMealKitType = {

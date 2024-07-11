@@ -27,12 +27,12 @@ const InputFloatNumber = ({
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     inputOnlyFloatNumber(e, min, max);
   };
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.startsWith("0") && !e.target.value.startsWith("0.")) {
       e.target.value = e.target.value.replace(/^0+/, "");
     }
     const _value = parseFloat(e.target.value);
+
     if (!isNaN(_value) && _value !== value && onValueChange) {
       onValueChange(_value);
     }
