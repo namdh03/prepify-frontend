@@ -33,9 +33,10 @@ interface OrderProps {
   status: string;
   orderDate: string;
   totalPrice: number;
+  hasFeedback: boolean;
 }
 
-const Order = ({ id, orderItems, status, orderDate, totalPrice }: OrderProps) => {
+const Order = ({ id, orderItems, status, orderDate, totalPrice, hasFeedback }: OrderProps) => {
   const [openFeedbackModal, setOpenFeedbackModal] = useState(false);
 
   const handleOpenFeedbackModal = () => setOpenFeedbackModal(true);
@@ -116,7 +117,7 @@ const Order = ({ id, orderItems, status, orderDate, totalPrice }: OrderProps) =>
             </Button>
           )}
 
-          {status === OrderStatus.DELIVERED && (
+          {status === OrderStatus.DELIVERED && !hasFeedback && (
             <Feedback
               trigger={
                 <Button variant={"outline"} size={"lg"} className="min-w-[150px]" onClick={handleOpenFeedbackModal}>

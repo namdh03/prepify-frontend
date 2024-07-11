@@ -11,6 +11,7 @@ const Canceled = ({ orders = [] }: OrderProps) => {
       status={order.status}
       orderDate={order.orderDate}
       totalPrice={order.totalPrice}
+      hasFeedback={order.hasFeedback}
     />
   ));
 };
