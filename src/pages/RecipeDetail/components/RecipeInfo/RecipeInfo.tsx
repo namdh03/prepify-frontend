@@ -6,9 +6,9 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { addToCart } from "~apis/cart.api";
+import { addToCart, GET_CART_LENGTH_QUERY_KEY } from "~apis/cart.api";
 import Images from "~components/common/Images";
 import InputPositiveNumber from "~components/common/InputPositiveNumber";
 import Ratings from "~components/common/Ratings";
@@ -28,6 +28,7 @@ import isAxiosError from "~utils/isAxiosError";
 import nFormatter from "~utils/nFormatter";
 
 const RecipeInfo = () => {
+  const queryClient = useQueryClient();
   const { user } = useAuth();
   const navigate = useNavigate();
   const form = useForm<RecipeDetailFormType>({
@@ -43,7 +44,10 @@ const RecipeInfo = () => {
   );
   const { mutate } = useMutation({
     mutationFn: (body: AddToCartBody) => addToCart(body),
-    onSuccess: () => toast.success("Thêm vào giỏ hàng thành công"),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [GET_CART_LENGTH_QUERY_KEY] });
+      toast.success("Thêm vào giỏ hàng thành công");
+    },
     onError: (error) => {
       if (isAxiosError<Error>(error)) {
         toast.error(error.response?.data.message);

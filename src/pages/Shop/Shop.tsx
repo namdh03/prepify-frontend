@@ -71,7 +71,7 @@ const Shop = () => {
                       : data?.recipes.map((product) => <Product key={product.id} {...product} />)}
                   </div>
 
-                  {data?.recipes.length === 0 && (
+                  {(!data || data?.recipes.length === 0) && (
                     <div className="flex flex-col gap-2 items-center">
                       <img src={images.lookupFail} alt="" className="w-32 h-32" />
                       <span className="text-lg text-[rgba(0,0,0,.87)]">Không tìm thấy kết quả nào</span>

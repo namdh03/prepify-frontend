@@ -3,7 +3,11 @@ import { useMotionValueEvent, useScroll } from "framer-motion";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { Link, NavLink } from "react-router-dom";
 
+import { useQuery } from "@tanstack/react-query";
+
+import { GET_CART_LENGTH_QUERY_KEY, GET_CART_LENGTH_STALE_TIME, getCartLength } from "~apis/cart.api";
 import Logo from "~components/common/Logo";
+import { Badge } from "~components/ui/badge";
 import { Button } from "~components/ui/button";
 import configs from "~configs";
 import useAuth from "~hooks/useAuth";
@@ -17,8 +21,14 @@ const Header = () => {
   const { user } = useAuth();
   const { scrollY } = useScroll();
   const [scrollYValue, setScrollYValue] = useState(0);
-
   useMotionValueEvent(scrollY, "change", (latest) => setScrollYValue(latest));
+  const { data } = useQuery({
+    queryKey: [GET_CART_LENGTH_QUERY_KEY],
+    queryFn: () => getCartLength(),
+    select: (data) => data.data.data.length,
+    staleTime: GET_CART_LENGTH_STALE_TIME,
+    refetchOnWindowFocus: false,
+  });
 
   return (
     <header className={cn("sticky top-0 z-40 w-full transition-all", { "bg-white shadow": scrollYValue > 0 })}>
@@ -41,8 +51,14 @@ const Header = () => {
 
           {user ? (
             <div className="flex items-center gap-[30px]">
-              <Link to={configs.routes.cart}>
-                <AiOutlineShoppingCart size={32} />
+              <Link to={configs.routes.cart} className="w-fit">
+                <div className="relative">
+                  <AiOutlineShoppingCart size={32} />
+
+                  <Badge className="absolute -top-1 -right-2 p-0 w-5 h-5 flex items-center justify-center rounded-full">
+                    {data || 0}
+                  </Badge>
+                </div>
               </Link>
 
               <UserNav />

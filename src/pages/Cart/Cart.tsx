@@ -2,10 +2,10 @@ import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getCoreRowModel, RowData, RowSelectionState, useReactTable } from "@tanstack/react-table";
 
-import { deleteManyCart, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
+import { deleteManyCart, GET_CART_LENGTH_QUERY_KEY, GET_CART_QUERY_KEY, getCart } from "~apis/cart.api";
 import { postCheckout } from "~apis/checkout.api";
 import images from "~assets/imgs";
 import AlertDialog from "~components/common/AlertDialog";
@@ -38,6 +38,7 @@ declare module "@tanstack/react-table" {
 const Cart = () => {
   useDocumentTitle("Prepify | Giỏ hàng");
 
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const { data, isFetching } = useQuery({
     queryKey: [GET_CART_QUERY_KEY],
@@ -99,6 +100,7 @@ const Cart = () => {
       { cartIds },
       {
         onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: [GET_CART_LENGTH_QUERY_KEY] });
           table.options.meta?.deleteManyCartItems(cartIds);
           table.toggleAllPageRowsSelected(false);
           toast.success(`Đã xoá ${cartIds.length} sản phẩm khỏi giỏ hàng`);

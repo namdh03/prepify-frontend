@@ -38,3 +38,7 @@ export type AddToCartBody = {
 export type CheckoutBody = {
   cartIds: string[];
 };
+
+export type GetCartLengthResponse = SuccessResponse<{
+  length: number;
+}>;
