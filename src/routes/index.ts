@@ -247,6 +247,12 @@ const router = createBrowserRouter([
                   Component: (await import("~pages/UpdateRecipe")).default,
                 }),
               },
+              {
+                path: configs.routes.updateMealKit,
+                lazy: async () => ({
+                  Component: (await import("~pages/UpdateRecipe")).default,
+                }),
+              },
             ],
           },
           {

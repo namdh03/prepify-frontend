@@ -97,6 +97,7 @@ export const recipeSchema = z.object({
       mealKit: z.object({
         oldId: z.string().optional(),
         serving: z.number().min(1),
+        status: z.boolean().default(true),
         price: z.number().min(1),
       }),
       extraSpice: z.object({

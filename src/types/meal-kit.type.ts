@@ -15,6 +15,7 @@ export type ExtraSpiceType = {
 
 export type MealKitItem = {
   id: string;
+  status: boolean;
   price: number;
   serving: number;
   extraSpice: ExtraSpice | null;
@@ -34,6 +35,7 @@ export type MealKitBody = {
 export type TableMealKitType = {
   id: string;
   recipeName: string;
+  recipeId: string;
   serving: number;
   price: number;
   status: boolean;
