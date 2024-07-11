@@ -9,6 +9,7 @@ export type TableIngredientType = {
   price: number;
   image: string;
   unit: string;
+  updatedAt: string;
 };
 
 export type TableIngredientResponse = TableResponseState<TableIngredientType>;

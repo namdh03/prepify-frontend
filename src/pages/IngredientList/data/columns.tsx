@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 import { ColumnDef } from "@tanstack/react-table";
 
 import DataTableColumnHeader from "~components/common/DataTableColumnHeader";
@@ -5,6 +7,10 @@ import { Avatar, AvatarFallback, AvatarImage } from "~components/ui/avatar";
 import { TableIngredientType } from "~types/ingredient.type";
 
 import DataTableRowActions from "../components/DataTableRowActions";
+
+import "dayjs/locale/vi";
+
+dayjs.locale("vi");
 
 export const columns: ColumnDef<TableIngredientType>[] = [
   {
@@ -76,6 +82,21 @@ export const columns: ColumnDef<TableIngredientType>[] = [
     },
     meta: {
       title: "Đơn vị",
+    },
+  },
+  {
+    accessorKey: "updatedAt",
+    header: ({ column }) => <DataTableColumnHeader column={column} title="Cập nhật gần đây" />,
+    cell: ({ row }) => {
+      const date = row.original.updatedAt;
+      return (
+        <span className="text-sm font-normal leading-5">
+          {date ? dayjs(date).format("HH:mm:ss, DD-MM-YYYY") : <i className="text-muted-foreground">Chưa cập nhật</i>}
+        </span>
+      );
+    },
+    meta: {
+      title: "Cập nhật gần đây",
     },
   },
   {
