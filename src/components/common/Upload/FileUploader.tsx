@@ -7,12 +7,12 @@ import { Cross2Icon, UploadIcon } from "@radix-ui/react-icons";
 import { Button } from "~components/ui/button";
 import { Progress } from "~components/ui/progress";
 import { ScrollArea } from "~components/ui/scroll-area";
+import { UploadedFile } from "~contexts/recipe/recipe.type";
 import { cn } from "~lib/utils";
-import { UploadedFile } from "~pages/CreateRecipe/components/Upload/Upload";
 import { formatBytes } from "~utils/file";
 
 interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
-  files?: File[];
+  files?: UploadedFile[];
   handleUpload: (files: UploadedFile[]) => void;
   /**
    * Accepted file types for the uploader.
@@ -56,6 +56,8 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
    * @example disabled
    */
   disabled?: boolean;
+
+  handleRemoveImages?: (images: string) => void;
 }
 
 export default function FileUploader(props: FileUploaderProps) {
@@ -68,6 +70,7 @@ export default function FileUploader(props: FileUploaderProps) {
     multiple = false,
     disabled = false,
     className,
+    handleRemoveImages,
     ...dropzoneProps
   } = props;
 
@@ -83,13 +86,13 @@ export default function FileUploader(props: FileUploaderProps) {
         return;
       }
 
-      const newFiles = acceptedFiles.map((file) =>
-        Object.assign(file, {
-          preview: URL.createObjectURL(file),
-        }),
-      );
-
-      const updatedFiles = files ? ([...files, ...newFiles] as UploadedFile[]) : newFiles;
+      const newFiles = acceptedFiles.map((file) => {
+        return new UploadedFile([file], file.name, URL.createObjectURL(file), {
+          type: file.type,
+          lastModified: file.lastModified,
+        });
+      });
+      const updatedFiles = files ? [...files, ...newFiles] : newFiles;
 
       handleUpload(updatedFiles);
       if (rejectedFiles.length > 0) {
@@ -105,6 +108,10 @@ export default function FileUploader(props: FileUploaderProps) {
   function onRemove(index: number) {
     if (!files) return;
     const newFiles = files.filter((_, i) => i !== index) as UploadedFile[];
+
+    if (handleRemoveImages) {
+      handleRemoveImages(files[index].preview);
+    }
     handleUpload(newFiles);
   }
 

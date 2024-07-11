@@ -1,3 +1,4 @@
+import { DeleteImagesBody } from "~types/image.type";
 import { ImageType } from "~utils/enums";
 import http from "~utils/http";
 
@@ -16,4 +17,8 @@ export const uploadImages = (entityId: string, type: ImageType, files: FileList 
       "Content-Type": "multipart/form-data",
     },
   });
+};
+
+export const deleteImages = (body: DeleteImagesBody[]) => {
+  return http.post("/upload/delete", body);
 };

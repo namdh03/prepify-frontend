@@ -45,13 +45,7 @@ const UpdateRecipe = () => {
               </div>
             </div>
           </div>
-          <Button
-            type="submit"
-            className="mt-4"
-            onClick={() => {
-              console.log(form.formState.errors);
-            }}
-          >
+          <Button type="submit" className="mt-4">
             {isLoading ? <Spinner /> : "Update công thức"}
           </Button>
         </form>
