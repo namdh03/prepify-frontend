@@ -2,16 +2,17 @@ import { memo } from "react";
 import { LuTrash } from "react-icons/lu";
 import { toast } from "react-toastify";
 
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { CellContext } from "@tanstack/react-table";
 
-import { deleteOneCart } from "~apis/cart.api";
+import { deleteOneCart, GET_CART_LENGTH_QUERY_KEY } from "~apis/cart.api";
 import AlertDialog from "~components/common/AlertDialog";
 import { Button } from "~components/ui/button";
 import { CartItem } from "~types/cart.type";
 import { SYSTEM_MESSAGES } from "~utils/constants";
 
 const Bin = memo(({ table, row }: CellContext<CartItem, unknown>) => {
+  const queryClient = useQueryClient();
   const { mutate } = useMutation({
     mutationFn: (cartId: string) => deleteOneCart(cartId),
   });
@@ -19,6 +20,7 @@ const Bin = memo(({ table, row }: CellContext<CartItem, unknown>) => {
   const handleDelete = () => {
     mutate(row.original.id, {
       onSuccess: () => {
+        queryClient.invalidateQueries({ queryKey: [GET_CART_LENGTH_QUERY_KEY] });
         row.toggleSelected(false);
         table.options.meta?.deleteCartItem(row.original.id);
       },

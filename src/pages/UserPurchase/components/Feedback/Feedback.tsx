@@ -83,6 +83,7 @@ const Feedback = ({ trigger, orderItems, open, onClose }: FeedbackProps) => {
   };
 
   const onSubmit = (values: FeedbackFormType) => {
+    setIsUploading(true);
     createFeedbackMutate(
       values.feedback.map(({ id, content, rating }) => ({
         orderDetailId: id,
@@ -91,7 +92,6 @@ const Feedback = ({ trigger, orderItems, open, onClose }: FeedbackProps) => {
       })),
       {
         onSuccess: async ({ data }) => {
-          setIsUploading(true);
           const uploadPromises = data.data
             .map((feedback) => {
               const images = values.feedback[feedback.index - 1].images;
@@ -106,15 +106,15 @@ const Feedback = ({ trigger, orderItems, open, onClose }: FeedbackProps) => {
 
           queryClient.invalidateQueries({ queryKey: [GET_LIST_ORDER_BY_STATUS_QUERY_KEY] });
           toast.success(FEEDBACK_MESSAGES.CREATE_FEEDBACK_SUCCESS);
+
+          // Reset form and close dialog
+          form.reset();
+          onClose && onClose();
+          setIsUploading(false);
         },
         onError: (error) => {
           if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
           else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
-        },
-        onSettled: () => {
-          form.reset();
-          onClose && onClose();
-          setIsUploading(false);
         },
       },
     );
