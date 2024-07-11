@@ -112,6 +112,7 @@ export type CusOrderListData = {
   orderDate: string;
   totalPrice: number;
   trackingNumber: string;
+  hasFeedback: boolean;
 };
 
 export type CusOrderListResponse = SuccessResponse<CusOrderListData[]>;

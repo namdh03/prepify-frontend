@@ -44,6 +44,7 @@ export const IMAGE_MESSAGES = {
 
 export const FEEDBACK_MESSAGES = {
   FEEDBACK_CONTENT_TOO_LONG: "Nội dung đánh giá không được quá 500 ký tự",
+  CREATE_FEEDBACK_SUCCESS: "Đánh giá sản phẩm thành công",
 };
 
 export const CATEGORY_MESSAGES = {

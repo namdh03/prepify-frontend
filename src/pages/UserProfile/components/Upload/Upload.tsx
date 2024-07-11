@@ -80,7 +80,7 @@ export default function Upload() {
                 {isUploadAvatarPending ? (
                   <Spinner />
                 ) : (
-                  <FormLabel className="flex items-center justify-center px-6 w-full text-white">
+                  <FormLabel className="flex items-center justify-center px-6 w-full h-full text-white cursor-pointer">
                     Cập nhật ảnh đại diện
                   </FormLabel>
                 )}

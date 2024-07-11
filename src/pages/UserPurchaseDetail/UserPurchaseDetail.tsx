@@ -18,7 +18,7 @@ import { OrderDetailType } from "~types/order.type";
 import { OrderStatus } from "~utils/enums";
 
 export default function UserPurchaseDetail() {
-  const { totalPrice, orderDate, status, trackingNumber, orderItems, deliveryPrice, payment } =
+  const { totalPrice, orderDate, status, trackingNumber, orderItems, deliveryPrice, payment, hasFeedback } =
     useOutletContext<OrderDetailType>();
   const totalGoods = useMemo(
     () =>
@@ -52,11 +52,11 @@ export default function UserPurchaseDetail() {
       case OrderStatus.DELIVERING:
         return 3;
       case OrderStatus.DELIVERED:
-        return 4;
+        return hasFeedback ? 4 : 3;
       default:
         return 0;
     }
-  }, [status]);
+  }, [hasFeedback, status]);
 
   return (
     <section>

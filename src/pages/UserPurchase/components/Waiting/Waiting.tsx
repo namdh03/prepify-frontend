@@ -21,6 +21,7 @@ const Waiting = ({ orders = [] }: OrderProps) => {
           status={order.status}
           orderDate={order.orderDate}
           totalPrice={order.totalPrice}
+          hasFeedback={order.hasFeedback}
         />
       ))}
     </section>

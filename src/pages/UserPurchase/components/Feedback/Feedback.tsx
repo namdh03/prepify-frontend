@@ -1,10 +1,16 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import { z } from "zod";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
+import { createFeedback } from "~apis/feedback.api";
+import { GET_LIST_ORDER_BY_STATUS_QUERY_KEY } from "~apis/order.api";
+import { uploadImages } from "~apis/upload.api";
 import CommentRatings from "~components/common/CommentRatings";
+import Spinner from "~components/common/Spinner";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -19,7 +25,11 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Separator } from "~components/ui/separator";
 import { Textarea } from "~components/ui/textarea";
 import feedbackSchema from "~pages/UserPurchase/data/schema";
+import { CreateFeedbackBody } from "~types/feedback.type";
 import { OrderItem as OrderItemType } from "~types/order.type";
+import { FEEDBACK_MESSAGES, SYSTEM_MESSAGES } from "~utils/constants";
+import { ImageType } from "~utils/enums";
+import isAxiosError from "~utils/isAxiosError";
 
 import Images from "../Images";
 import OrderItem from "../OrderItem";
@@ -34,6 +44,7 @@ interface FeedbackProps {
 export type FeedbackFormType = z.infer<typeof feedbackSchema>;
 
 const Feedback = ({ trigger, orderItems, open, onClose }: FeedbackProps) => {
+  const queryClient = useQueryClient();
   const form = useForm<FeedbackFormType>({
     mode: "all",
     resolver: zodResolver(feedbackSchema),
@@ -45,6 +56,13 @@ const Feedback = ({ trigger, orderItems, open, onClose }: FeedbackProps) => {
         images: [],
       })),
     },
+  });
+  const [isUploading, setIsUploading] = useState(false);
+  const { mutate: createFeedbackMutate } = useMutation({
+    mutationFn: (body: CreateFeedbackBody) => createFeedback(body),
+  });
+  const { mutateAsync: uploadImagesMutateAsync } = useMutation({
+    mutationFn: ({ id, files }: { id: string; files: File[] }) => uploadImages(id, ImageType.FEEDBACK, files),
   });
 
   const getRatingText = (rating: number) => {
@@ -65,9 +83,41 @@ const Feedback = ({ trigger, orderItems, open, onClose }: FeedbackProps) => {
   };
 
   const onSubmit = (values: FeedbackFormType) => {
-    console.log(values);
-    form.reset();
-    onClose && onClose();
+    createFeedbackMutate(
+      values.feedback.map(({ id, content, rating }) => ({
+        orderDetailId: id,
+        content,
+        rating,
+      })),
+      {
+        onSuccess: async ({ data }) => {
+          setIsUploading(true);
+          const uploadPromises = data.data
+            .map((feedback) => {
+              const images = values.feedback[feedback.index - 1].images;
+              if (images.length) {
+                return uploadImagesMutateAsync({ id: feedback.id, files: images });
+              }
+            })
+            .filter(Boolean); // Filter out undefined promises if there are no images
+
+          // Wait for all upload promises to resolve
+          await Promise.all(uploadPromises);
+
+          queryClient.invalidateQueries({ queryKey: [GET_LIST_ORDER_BY_STATUS_QUERY_KEY] });
+          toast.success(FEEDBACK_MESSAGES.CREATE_FEEDBACK_SUCCESS);
+        },
+        onError: (error) => {
+          if (isAxiosError<Error>(error)) toast.error(error.response?.data.message);
+          else toast.error(SYSTEM_MESSAGES.SOMETHING_WENT_WRONG);
+        },
+        onSettled: () => {
+          form.reset();
+          onClose && onClose();
+          setIsUploading(false);
+        },
+      },
+    );
   };
 
   return (
@@ -143,7 +193,9 @@ const Feedback = ({ trigger, orderItems, open, onClose }: FeedbackProps) => {
           <Button variant={"outline"} type="button" onClick={onClose}>
             TRỞ LẠI
           </Button>
-          <Button form="feedback-form">Hoàn Thành</Button>
+          <Button form="feedback-form" className="min-w-32">
+            {isUploading ? <Spinner /> : "Hoàn Thành"}
+          </Button>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
