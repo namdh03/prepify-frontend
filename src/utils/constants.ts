@@ -67,6 +67,7 @@ export const UNIT_MESSAGES = {
 export const PAGE = 1;
 export const LIMIT = 9;
 export const TABLE_LIMIT = 10;
+export const DEFAULT_RATING = 5;
 
 export const PHONE_REGEX = /^(0|\+?84)(3|5|7|8|9)[0-9]{8}$/;
 export const PASSWORD_REGEX = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,16}$/;

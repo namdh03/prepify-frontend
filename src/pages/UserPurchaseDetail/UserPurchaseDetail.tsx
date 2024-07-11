@@ -17,6 +17,10 @@ import Spice from "~pages/Checkout/components/Spice";
 import { OrderDetailType } from "~types/order.type";
 import { OrderStatus } from "~utils/enums";
 
+import "dayjs/locale/vi";
+
+dayjs.locale("vi");
+
 export default function UserPurchaseDetail() {
   const { totalPrice, orderDate, status, trackingNumber, orderItems, deliveryPrice, payment, hasFeedback } =
     useOutletContext<OrderDetailType>();

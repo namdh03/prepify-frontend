@@ -13,6 +13,7 @@ import configs from "~configs";
 import useAuth from "~hooks/useAuth";
 import navLinks from "~layouts/MainLayout/data/navLinks";
 import { cn } from "~lib/utils";
+import { Role } from "~utils/enums";
 
 import Container from "../Container";
 import UserNav from "../UserNav";
@@ -27,6 +28,7 @@ const Header = () => {
     queryFn: () => getCartLength(),
     select: (data) => data.data.data.length,
     staleTime: GET_CART_LENGTH_STALE_TIME,
+    enabled: Boolean(user && user.role === Role.CUSTOMER),
     refetchOnWindowFocus: false,
   });
 
