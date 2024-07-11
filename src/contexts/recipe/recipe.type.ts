@@ -1,10 +1,19 @@
 import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { z } from "zod";
 
-import { UploadedFile } from "~pages/CreateRecipe/components/Upload/Upload";
 import { UnitType } from "~types/unit.type";
 
 import { recipeSchema } from "./recipe.schema";
+export class UploadedFile extends File {
+  preview: string;
+
+  constructor(fileBits: BlobPart[], fileName: string, preview: string, options?: FilePropertyBag) {
+    super(fileBits, fileName, options);
+    this.preview = preview;
+  }
+}
+
+export const UploadedFileSchema = z.instanceof(UploadedFile);
 
 export type RecipeFormType = z.infer<typeof recipeSchema>;
 
@@ -19,4 +28,5 @@ export type RecipeContextType = {
   isLoading: boolean;
   images: string[];
   isEditMode: boolean;
+  handleRemoveImages: (images: string) => void;
 };

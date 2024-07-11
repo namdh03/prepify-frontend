@@ -40,7 +40,6 @@ const InputIngredients = () => {
     (index: number) => {
       const ingredientId = fields[index].oldId;
       remove(index);
-      console.log("ingredientId", ingredientId);
 
       // Update the form state with the new deletedIngredients array
       if (ingredientId) form.setValue("deletedIngredients", [...form.getValues("deletedIngredients"), ingredientId]);

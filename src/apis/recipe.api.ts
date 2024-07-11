@@ -142,20 +142,3 @@ export const updateRecipeImages = (id: string, images: File[]) => {
     },
   });
 };
-
-export const updateExtraSpiceImage = (id: string, image: File) => {
-  const formData = new FormData();
-  formData.append("entityId", id);
-  formData.append("type", ImageType.EXTRASPICE);
-  formData.append("images", image);
-
-  return http.post(`/moderator/upload/create`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-};
-
-export const deleteImages = (id: string) => {
-  return http.post("/moderator/upload/delete", [{ entityId: id, type: ImageType.RECIPE }]);
-};

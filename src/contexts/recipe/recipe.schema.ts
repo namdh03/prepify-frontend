@@ -3,6 +3,8 @@ import { z } from "zod";
 import { RECIPE_MESSAGES } from "~utils/constants";
 import { LevelCook } from "~utils/enums";
 
+import { UploadedFileSchema } from "./recipe.type";
+
 export const recipeSchema = z.object({
   name: z
     .string({
@@ -77,7 +79,7 @@ export const recipeSchema = z.object({
     .min(1, {
       message: RECIPE_MESSAGES.CATEGORY_REQUIRED,
     }),
-  images: z.array(z.instanceof(File)).optional(),
+  images: z.array(UploadedFileSchema).optional(),
   videoUrl: z
     .string({
       message: RECIPE_MESSAGES.VIDEO_URL_REQUIRED,

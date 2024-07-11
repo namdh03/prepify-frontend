@@ -4,7 +4,7 @@ import { Outlet, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 import {
   createRecipe,
@@ -16,7 +16,8 @@ import {
   updateRecipeNutrition,
 } from "~apis/recipe.api";
 import { GET_TABLE_UNITS_STALE_TIME, GET_UNITS_QUERY_KEY, getUnits } from "~apis/unit.api";
-import { UploadedFile } from "~pages/CreateRecipe/components/Upload/Upload";
+import { deleteImages, uploadImages } from "~apis/upload.api";
+import { DeleteImagesBody } from "~types/image.type";
 import {
   TableViewRecipeType,
   UpdateIngredientBody,
@@ -26,11 +27,11 @@ import {
 } from "~types/recipe.type";
 import { RECIPE_MESSAGES } from "~utils/constants";
 import { convertUrlsToFiles } from "~utils/convertURLtoFile";
-import { LevelCook } from "~utils/enums";
+import { ImageType, LevelCook } from "~utils/enums";
 import isAxiosError from "~utils/isAxiosError";
 
 import { recipeSchema } from "./recipe.schema";
-import { RecipeContextType, RecipeFormType } from "./recipe.type";
+import { RecipeContextType, RecipeFormType, UploadedFile } from "./recipe.type";
 
 const recipeFormDefaultValues: RecipeFormType = {
   name: "",
@@ -65,6 +66,7 @@ const recipeFormDefaultValues: RecipeFormType = {
 const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
 
 const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
+  const queryClient = useQueryClient();
   const { recipeId } = useParams();
   const [total, setTotal] = useState(0);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -132,10 +134,19 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
   const [images, setImages] = useState<string[]>([]);
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [deletedImages, setDeletedImages] = useState<string[]>([]);
+  const [imagesUrl, setImagesUrl] = useState<string[]>([]);
   const form = useForm<RecipeFormType>({
     resolver: zodResolver(recipeSchema),
     defaultValues: recipeFormDefaultValues,
   });
+
+  const handleRemoveImages = useCallback(
+    (image: string) => {
+      setDeletedImages([...deletedImages, image]);
+    },
+    [deletedImages],
+  );
 
   const handleCalculateTotal = useCallback(() => {
     const ingredients = form.getValues("ingredients");
@@ -151,6 +162,7 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
         form.reset(defaultValues);
 
         setTotal(defaultValues.mealKits[0]?.mealKit.price || 0);
+        setImagesUrl(recipeDetail.images || []);
         const files = await convertUrlsToFiles(recipeDetail.images);
         setIsEditMode(true);
         setFiles(files);
@@ -178,6 +190,17 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
 
   const { mutateAsync: updateRecipeMutate } = useMutation({
     mutationFn: ({ id, body }: { id: string; body: UpdateRecipeBody }) => updateRecipe(id, body),
+  });
+
+  const { mutateAsync: uploadImagesMutateAsync } = useMutation({
+    mutationFn: ({ id, file }: { id: string; file: File[] }) => uploadImages(id, ImageType.RECIPE, file),
+  });
+
+  const { mutateAsync: uploadExtraSpiceMutateAsync } = useMutation({
+    mutationFn: ({ id, file }: { id: string; file: File[] }) => uploadImages(id, ImageType.EXTRASPICE, file),
+  });
+  const { mutateAsync: deleteImagesMutateAsync } = useMutation({
+    mutationFn: (body: DeleteImagesBody[]) => deleteImages(body),
   });
 
   const handleCreateRecipe = useCallback(
@@ -208,115 +231,131 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
   const handleUpdateRecipe = useCallback(
     async (values: RecipeFormType) => {
       // Update recipe
-      await updateRecipeMutate(
-        {
-          id: recipeId as string,
-          body: {
-            name: values.name,
-            category: values.category,
-            foodStyles: Object.values(values.foodStyleObj),
-            steps: values.steps,
-            time: values.time,
-            level: values.level,
-            videoUrl: values.videoUrl,
-          },
-        },
-        {
-          onError: (error) => {
-            if (isAxiosError<Error>(error)) {
-              toast.error(error.response?.data.message || RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
-            } else {
-              toast.error(RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
-            }
-            setIsLoading(false);
-          },
-        },
-      );
-
-      await updateIngredientsMutate(
-        {
-          id: recipeId as string,
-          body: {
-            ingredients: values.ingredients.map((ingredient) => ({
-              ...ingredient,
-              id: ingredient.oldId,
-            })),
-            removeIds: values.deletedIngredients,
-          },
-        },
-        {
-          onError: (error) => {
-            if (isAxiosError<Error>(error)) {
-              toast.error(error.response?.data.message || RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
-            } else {
-              toast.error(RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
-            }
-            setIsLoading(false);
-          },
-        },
-      );
-
-      await updateNutritionMutate(
-        {
-          id: recipeId as string,
-          body: {
-            nutrition: values.nutrition.map((nutrition) => ({
-              ...nutrition,
-              id: nutrition.oldId,
-            })),
-            removeIds: values.deletedNutrition,
-          },
-        },
-        {
-          onError: (error) => {
-            if (isAxiosError<Error>(error)) {
-              toast.error(error.response?.data.message || RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
-            } else {
-              toast.error(RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
-            }
-            setIsLoading(false);
-          },
-        },
-      );
-
-      await updateMealKitMutate(
-        {
-          id: recipeId as string,
-          body: {
-            mealKits: values.mealKits.map((mealKit) => ({
-              mealKit: {
-                ...mealKit.mealKit,
-                id: mealKit.mealKit.oldId,
+      setIsLoading(true);
+      try {
+        const updatePromises = [
+          updateRecipeMutate(
+            {
+              id: recipeId as string,
+              body: {
+                name: values.name,
+                category: values.category,
+                foodStyles: Object.values(values.foodStyleObj),
+                steps: values.steps,
+                time: values.time,
+                level: values.level,
+                videoUrl: values.videoUrl,
               },
-              extraSpice: {
-                name: mealKit.extraSpice.name,
-                price: mealKit.extraSpice.price,
-                id: mealKit.extraSpice.oldId,
+            },
+            {
+              onSuccess: async () => {
+                const newFiles = values.images?.filter((file) => !imagesUrl.includes(file.preview));
+                if (newFiles && newFiles.length > 0) {
+                  await uploadImagesMutateAsync({ id: recipeId as string, file: newFiles });
+                }
+
+                if (deletedImages.length > 0) {
+                  const deleteImagesBody = deletedImages.map((image) => ({
+                    url: image,
+                    entityId: recipeId as string,
+                    type: ImageType.RECIPE,
+                  }));
+                  await deleteImagesMutateAsync(deleteImagesBody);
+                }
               },
-            })),
-            removeIds: values.deletedNutrition,
-          },
-        },
-        {
-          onSuccess: () => {
-            // setFiles([]);
-            // form.reset();
-            // setTotal(0);
-            toast.success(RECIPE_MESSAGES.UPDATE_RECIPE_SUCCESS);
-            setIsLoading(false);
-          },
-          onError: (error) => {
-            if (isAxiosError<Error>(error)) {
-              toast.error(error.response?.data.message || RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
-            } else {
-              toast.error(RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
+            },
+          ),
+
+          updateIngredientsMutate({
+            id: recipeId as string,
+            body: {
+              ingredients: values.ingredients.map((ingredient) => ({
+                ...ingredient,
+                id: ingredient.oldId,
+              })),
+              removeIds: values.deletedIngredients,
+            },
+          }),
+
+          updateNutritionMutate({
+            id: recipeId as string,
+            body: {
+              nutrition: values.nutrition.map((nutrition) => ({
+                ...nutrition,
+                id: nutrition.oldId,
+              })),
+              removeIds: values.deletedNutrition,
+            },
+          }),
+
+          updateMealKitMutate({
+            id: recipeId as string,
+            body: {
+              mealKits: values.mealKits.map((mealKit) => ({
+                mealKit: {
+                  ...mealKit.mealKit,
+                  id: mealKit.mealKit.oldId,
+                },
+                extraSpice: {
+                  name: mealKit.extraSpice.name,
+                  price: mealKit.extraSpice.price,
+                  id: mealKit.extraSpice.oldId,
+                },
+              })),
+              removeIds: values.deletedNutrition,
+            },
+          }),
+        ];
+
+        await Promise.all(updatePromises);
+        const newExtraSpiceImages = values.mealKits
+          .map((mealKit) => ({ id: mealKit.extraSpice.oldId, image: mealKit.extraSpice.image }))
+          .filter(({ image }) => image.size > 0);
+
+        // Create an array to hold all delete promises
+        const deletePromises = newExtraSpiceImages.map(async (mealKit) => {
+          if (mealKit.image && mealKit.id) {
+            await deleteImagesMutateAsync([{ entityId: mealKit.id, type: ImageType.EXTRASPICE }]);
+          }
+        });
+
+        // Await all delete promises to complete
+        await Promise.all(deletePromises);
+
+        const uploadPromises = newExtraSpiceImages
+          .map(async (mealKit) => {
+            if (mealKit.image && mealKit.id) {
+              return uploadExtraSpiceMutateAsync({
+                id: mealKit.id || "",
+                file: [mealKit.image],
+              });
             }
-            setIsLoading(false);
-          },
-        },
-      );
+          })
+          .filter(Boolean); // Filter out undefined promises if there are no images
+
+        // Wait for all upload promises to resolve
+        await Promise.all(uploadPromises);
+        toast.success(RECIPE_MESSAGES.UPDATE_RECIPE_SUCCESS);
+      } catch (error) {
+        toast.error(RECIPE_MESSAGES.CREATE_RECIPE_FAILED);
+      } finally {
+        queryClient.invalidateQueries({ queryKey: [GET_RECIPE_DETAIL_QUERY_KEY] });
+        setIsLoading(false);
+      }
     },
-    [recipeId, updateIngredientsMutate, updateNutritionMutate, updateMealKitMutate, updateRecipeMutate],
+    [
+      updateRecipeMutate,
+      recipeId,
+      updateIngredientsMutate,
+      updateNutritionMutate,
+      updateMealKitMutate,
+      deletedImages,
+      imagesUrl,
+      uploadImagesMutateAsync,
+      deleteImagesMutateAsync,
+      uploadExtraSpiceMutateAsync,
+      queryClient,
+    ],
   );
 
   const onSubmit = useCallback(
@@ -353,6 +392,7 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
         isLoading,
         images,
         isEditMode,
+        handleRemoveImages,
       }}
     >
       {children || <Outlet />}
