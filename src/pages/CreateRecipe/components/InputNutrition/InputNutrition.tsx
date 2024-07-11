@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useFieldArray } from "react-hook-form";
 import { RxCross2 } from "react-icons/rx";
 
@@ -24,6 +25,16 @@ const InputNutrition = () => {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
   });
+
+  const handleRemoveNutrition = useCallback(
+    (index: number) => {
+      const nutritionId = fields[index].oldId;
+      remove(index);
+      // Update the form state with the new deletedNutrition array
+      if (nutritionId) form.setValue("deletedNutrition", [...form.getValues("deletedNutrition"), nutritionId]);
+    },
+    [fields, remove, form],
+  );
 
   return (
     <div className="flex flex-col justify-center">
@@ -103,7 +114,7 @@ const InputNutrition = () => {
               variant={"ghost"}
               size={"icon"}
               onClick={() => {
-                remove(index);
+                handleRemoveNutrition(index);
               }}
               className="mt-8"
             >

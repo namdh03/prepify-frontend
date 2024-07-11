@@ -18,4 +18,5 @@ export type RecipeContextType = {
   total: number;
   isLoading: boolean;
   images: string[];
+  isEditMode: boolean;
 };

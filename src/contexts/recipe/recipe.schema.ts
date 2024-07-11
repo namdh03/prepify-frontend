@@ -13,6 +13,7 @@ export const recipeSchema = z.object({
     }),
   ingredients: z.array(
     z.object({
+      oldId: z.string().optional(),
       ingredient_id: z.string().min(1, {
         message: RECIPE_MESSAGES.INGREDIENTS_REQUIRED,
       }),
@@ -29,6 +30,7 @@ export const recipeSchema = z.object({
       }),
     }),
   ),
+  deletedIngredients: z.array(z.string()),
   steps: z
     .string({
       message: RECIPE_MESSAGES.STEPS_REQUIRED,
@@ -47,6 +49,7 @@ export const recipeSchema = z.object({
   level: z.string().default(LevelCook.EASY),
   nutrition: z.array(
     z.object({
+      oldId: z.string().optional(),
       nutrition_id: z.string().min(1, {
         message: RECIPE_MESSAGES.NUTRITION_REQUIRED,
       }),
@@ -66,6 +69,7 @@ export const recipeSchema = z.object({
         }),
     }),
   ),
+  deletedNutrition: z.array(z.string()),
   category: z
     .string({
       message: RECIPE_MESSAGES.CATEGORY_REQUIRED,
@@ -73,9 +77,7 @@ export const recipeSchema = z.object({
     .min(1, {
       message: RECIPE_MESSAGES.CATEGORY_REQUIRED,
     }),
-  images: z.array(z.instanceof(File)).min(1, {
-    message: RECIPE_MESSAGES.IMAGES_REQUIRED,
-  }),
+  images: z.array(z.instanceof(File)).optional(),
   videoUrl: z
     .string({
       message: RECIPE_MESSAGES.VIDEO_URL_REQUIRED,
@@ -91,10 +93,12 @@ export const recipeSchema = z.object({
   mealKits: z.array(
     z.object({
       mealKit: z.object({
+        oldId: z.string().optional(),
         serving: z.number().min(1),
         price: z.number().min(1),
       }),
       extraSpice: z.object({
+        oldId: z.string().optional(),
         imageName: z.string().min(1),
         name: z.string().min(1),
         price: z.number().min(1),
@@ -102,4 +106,5 @@ export const recipeSchema = z.object({
       }),
     }),
   ),
+  deletedMealKits: z.array(z.string()),
 });

@@ -16,7 +16,7 @@ import useRecipe from "~hooks/useRecipe";
 import getImageData from "~utils/getImageData";
 
 const InputMealKit = () => {
-  const { form, total, images } = useRecipe();
+  const { form, total, images, isEditMode } = useRecipe();
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: "mealKits",
@@ -68,7 +68,7 @@ const InputMealKit = () => {
             <CardHeader>
               <div className="flex justify-between items-center">
                 <CardTitle>Gói nguyên liệu {index + 1}</CardTitle>
-                {index > 0 && (
+                {(!isEditMode || index > fields.length) && index > 0 && (
                   <Button
                     variant={"ghost"}
                     size={"icon"}
@@ -115,7 +115,7 @@ const InputMealKit = () => {
                           <InputFloatNumber
                             disabled={true}
                             value={field.value as number}
-                            placeholder={"Nhập giá tiền"}
+                            placeholder={JSON.stringify(field)}
                             onValueChange={(value) => {
                               field.onChange(value);
                             }}
@@ -203,26 +203,28 @@ const InputMealKit = () => {
             </CardContent>
           </Card>
         ))}
-        <Button
-          className="mt-5 gap-1"
-          type="button"
-          onClick={() =>
-            append({
-              mealKit: {
-                serving: 1,
-                price: 1,
-              },
-              extraSpice: {
-                imageName: "",
-                name: "",
-                price: 0,
-                image: new File([""], "filename", { type: "image/png" }),
-              },
-            })
-          }
-        >
-          <AiOutlinePlus /> Thêm gói nguyên liệu
-        </Button>
+        {!isEditMode && (
+          <Button
+            className="mt-5 gap-1"
+            type="button"
+            onClick={() =>
+              append({
+                mealKit: {
+                  serving: 1,
+                  price: 1,
+                },
+                extraSpice: {
+                  imageName: "",
+                  name: "",
+                  price: 0,
+                  image: new File([""], "filename", { type: "image/png" }),
+                },
+              })
+            }
+          >
+            <AiOutlinePlus /> Thêm gói nguyên liệu
+          </Button>
+        )}
       </div>
     </>
   );
