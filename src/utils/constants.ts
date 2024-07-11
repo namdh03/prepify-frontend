@@ -101,6 +101,7 @@ export const RECIPE_MESSAGES = {
   FOOD_STYLE_REQUIRED: "Vui lòng chọn phong cách ẩm thực",
   CREATE_RECIPE_SUCCESS: "Tạo công thành công",
   CREATE_RECIPE_FAILED: "Tạo công thức thất bại",
+  UPDATE_RECIPE_SUCCESS: "Cập nhật công thức thành công",
   DELETE_RECIPE_SUCCESS: "Xóa công thức thành công",
 } as const;
 

@@ -6,11 +6,15 @@ import {
   ShopRecipeResponse,
   TableRecipeFilter,
   TableRecipeResponse,
+  UpdateIngredientBody,
+  UpdateMealKitBody,
+  UpdateNutritionBody,
+  UpdateRecipeBody,
 } from "~types/recipe.type";
 import { TableRequestState } from "~types/table.type";
 import columnFilterFn from "~utils/columnFilterFn";
 import { LIMIT, PAGE } from "~utils/constants";
-import { OrderByEnum, SortEnum } from "~utils/enums";
+import { ImageType, OrderByEnum, SortEnum } from "~utils/enums";
 import { findSidebarMinMax } from "~utils/getSidebarPrice";
 import http from "~utils/http";
 
@@ -89,7 +93,7 @@ export const createRecipe = (recipe: RecipeFormType) => {
   formData.append("foodStyles", JSON.stringify(Object.values(recipe.foodStyleObj)));
   formData.append("steps", recipe.steps);
   formData.append("nutrition", JSON.stringify(recipe.nutrition));
-  recipe.images.map((file) => {
+  recipe.images?.map((file) => {
     formData.append("images", file);
   });
   formData.append("time", recipe.time.toString());
@@ -112,3 +116,46 @@ export const getRecipe = (id: string) => http.get<ModRecipeDetailResponse>(`/mod
 export const getCustomerRecipe = (id: string) => http.get<CusRecipeDetailResponse>(`/recipes/${id}`);
 
 export const deleteRecipe = (id: string) => http.delete(`/moderator/recipes/${id}`);
+
+export const updateRecipeIngredients = (id: string, body: UpdateIngredientBody) =>
+  http.put(`/moderator/recipes/${id}/ingredients`, body);
+
+export const updateRecipeNutrition = (id: string, body: UpdateNutritionBody) =>
+  http.put(`/moderator/recipes/${id}/nutritions`, body);
+
+export const updateRecipeMealKit = (id: string, body: UpdateMealKitBody) =>
+  http.put(`/moderator/recipes/${id}/mealKits`, body);
+
+export const updateRecipe = (id: string, body: UpdateRecipeBody) => http.put(`/moderator/recipes/${id}`, body);
+
+export const updateRecipeImages = (id: string, images: File[]) => {
+  const formData = new FormData();
+  formData.append("entityId", id);
+  formData.append("type", ImageType.RECIPE);
+  images.map((file) => {
+    formData.append("images", file);
+  });
+
+  return http.post(`/moderator/upload/create`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const updateExtraSpiceImage = (id: string, image: File) => {
+  const formData = new FormData();
+  formData.append("entityId", id);
+  formData.append("type", ImageType.EXTRASPICE);
+  formData.append("images", image);
+
+  return http.post(`/moderator/upload/create`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+};
+
+export const deleteImages = (id: string) => {
+  return http.post("/moderator/upload/delete", [{ entityId: id, type: ImageType.RECIPE }]);
+};
