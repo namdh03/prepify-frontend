@@ -256,12 +256,6 @@ const router = createBrowserRouter([
             }),
           },
           {
-            path: configs.routes.createMealKit,
-            lazy: async () => ({
-              Component: (await import("~pages/CreateMealKit")).default,
-            }),
-          },
-          {
             path: configs.routes.ingredientList,
             lazy: async () => ({
               Component: (await import("~pages/IngredientList")).default,
@@ -299,9 +293,21 @@ const router = createBrowserRouter([
             }),
           },
           {
+            path: configs.routes.foodStyleList,
+            lazy: async () => ({
+              Component: (await import("~pages/FoodStyleList")).default,
+            }),
+          },
+          {
             path: configs.routes.orderList,
             lazy: async () => ({
               Component: (await import("~pages/OrderList")).default,
+            }),
+          },
+          {
+            path: configs.routes.moderatorSettings,
+            lazy: async () => ({
+              Component: (await import("~pages/ModSettings")).default,
             }),
           },
         ],

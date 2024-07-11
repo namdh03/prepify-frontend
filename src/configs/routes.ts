@@ -18,6 +18,7 @@ const routes = {
   unitList: "/moderator/unit-list",
   orderList: "/moderator/order-list",
   foodStyleList: "/moderator/food-style-list",
+  moderatorSettings: "/moderator/settings",
   login: "/login",
   loginGoogle: "/login/google",
   register: "/register",

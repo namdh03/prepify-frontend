@@ -1,6 +1,7 @@
 import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
 import { Form } from "~components/ui/form";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 import useRecipe from "~hooks/useRecipe";
 import { LayoutBody } from "~layouts/AdminLayout/components/Layout";
 
@@ -13,6 +14,7 @@ import InputTextEditor from "./components/InputTextEditor";
 import InputVideoURL from "./components/InputVideoURL";
 import Upload from "./components/Upload";
 const CreateRecipe = () => {
+  useDocumentTitle("Prepify | Tạo công thức");
   const { form, onSubmit, isLoading } = useRecipe();
   return (
     <LayoutBody>
