@@ -69,6 +69,7 @@ export type TableViewRecipeType = {
   mealKits: MealKitItem[];
   level: LevelCook;
   price: number;
+  status: boolean;
 };
 
 export type ShopRecipeDetail = {

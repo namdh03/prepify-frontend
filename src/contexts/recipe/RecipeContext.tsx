@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
+import { GET_CONFIGS_QUERY_KEY, GET_CONFIGS_STALE_TIME, getConfigs } from "~apis/config.api";
 import {
   createRecipe,
   GET_RECIPE_DETAIL_QUERY_KEY,
@@ -27,7 +28,7 @@ import {
 } from "~types/recipe.type";
 import { RECIPE_MESSAGES } from "~utils/constants";
 import { convertUrlsToFiles } from "~utils/convertURLtoFile";
-import { ImageType, LevelCook } from "~utils/enums";
+import { Config, ImageType, LevelCook } from "~utils/enums";
 import isAxiosError from "~utils/isAxiosError";
 
 import { recipeSchema } from "./recipe.schema";
@@ -50,6 +51,7 @@ const recipeFormDefaultValues: RecipeFormType = {
     {
       mealKit: {
         serving: 1,
+        status: true,
         price: 0,
       },
       extraSpice: {
@@ -68,6 +70,7 @@ const RecipeContext = createContext<RecipeContextType | undefined>(undefined);
 const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
   const queryClient = useQueryClient();
   const { recipeId } = useParams();
+
   const [total, setTotal] = useState(0);
   const [isEditMode, setIsEditMode] = useState(false);
 
@@ -86,6 +89,15 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
     staleTime: GET_TABLE_UNITS_STALE_TIME,
     refetchOnWindowFocus: false,
   });
+
+  const { data: configs } = useQuery({
+    queryKey: [GET_CONFIGS_QUERY_KEY],
+    queryFn: () => getConfigs(),
+    select: (data) => data.data.data,
+    staleTime: GET_CONFIGS_STALE_TIME,
+    refetchOnWindowFocus: false,
+  });
+  const serviceFee = configs?.find((config) => config.type === Config.SERVICE_FEE)?.value || 0;
 
   const initializeFormDefaults = (recipeData: TableViewRecipeType) => {
     return {
@@ -115,6 +127,7 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
             oldId: mealKit.id || "",
             serving: mealKit.serving || 1,
             price: mealKit.price || 1,
+            status: mealKit.status,
           },
           extraSpice: {
             oldId: mealKit.extraSpice?.id || "",
@@ -151,15 +164,19 @@ const RecipeProvider: FC<PropsWithChildren> = ({ children }) => {
   const handleCalculateTotal = useCallback(() => {
     const ingredients = form.getValues("ingredients");
     if (!ingredients.length || !ingredients[0].ingredient_id) return;
-    const totalPrice = ingredients.reduce((acc, row) => acc + (row.price || 0) * (row.amount || 0), 0);
-    setTotal(totalPrice);
-  }, [form]);
+    if (serviceFee > 0) {
+      const totalPrice = ingredients.reduce((acc, row) => acc + (row.price || 0) * (row.amount || 0), 0);
+      setTotal(totalPrice + totalPrice * (serviceFee / 100));
+    }
+  }, [form, serviceFee]);
 
   useEffect(() => {
     const fetchData = async () => {
       if (recipeId && recipeDetail) {
         const defaultValues = initializeFormDefaults(recipeDetail);
         form.reset(defaultValues);
+        console.log(recipeDetail);
+        console.log(defaultValues);
 
         setTotal(defaultValues.mealKits[0]?.mealKit.price || 0);
         setImagesUrl(recipeDetail.images || []);

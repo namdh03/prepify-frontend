@@ -66,3 +66,9 @@ export enum ImageType {
   INGREDIENT = "ingredient",
   FEEDBACK = "feedback",
 }
+
+export enum Config {
+  "WORK_END_HOUR" = "workEndHour",
+  "MAX_SHIPPING_HOUR" = "maxShippingHour",
+  "SERVICE_FEE" = "serviceFee",
+}

@@ -25,6 +25,8 @@ const InputMealKit = () => {
 
   useEffect(() => {
     setPreview(images);
+    console.log(total, "total");
+
     return form.setValue(`mealKits.${0}.mealKit.price`, total);
   }, [total, form, images]);
 
@@ -63,168 +65,171 @@ const InputMealKit = () => {
   return (
     <>
       <div className="flex flex-col justify-center mt-4">
-        {fields.map((field, index) => (
-          <Card className="mt-4 w-[500px]" key={field.id}>
-            <CardHeader>
-              <div className="flex justify-between items-center">
-                <CardTitle>Gói nguyên liệu {index + 1}</CardTitle>
-                {(!isEditMode || index > fields.length) && index > 0 && (
-                  <Button
-                    variant={"ghost"}
-                    size={"icon"}
-                    onClick={() => {
-                      remove(index);
-                    }}
-                  >
-                    <RxCross2 color="black" size={24} />
-                  </Button>
-                )}
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-row flex-wrap gap-3 items-start ">
-                <div className="flex flex-row gap-6">
-                  <FormField
-                    control={form.control}
-                    name={`mealKits.${index}.mealKit.serving`}
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col w-60">
-                        <FormLabel>Khẩu phần</FormLabel>
-                        <FormControl>
-                          <InputPositiveNumber
-                            disabled={index == 0}
-                            value={(field.value as number) > index ? (field.value as number) : index + 1}
-                            onValueChange={(value) => {
-                              field.onChange(value);
-                              handleServingChange(index, value as number);
-                            }}
-                            placeholder="Nhập số lượng"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
+        {fields.map(
+          (field, index) =>
+            field.mealKit.status && (
+              <Card className="mt-4 w-[500px]" key={field.id}>
+                <CardHeader>
+                  <div className="flex justify-between items-center">
+                    <CardTitle>Gói nguyên liệu {index + 1}</CardTitle>
+                    {(!isEditMode || index > fields.length) && index > 0 && (
+                      <Button
+                        variant={"ghost"}
+                        size={"icon"}
+                        onClick={() => {
+                          remove(index);
+                        }}
+                      >
+                        <RxCross2 color="black" size={24} />
+                      </Button>
                     )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name={`mealKits.${index}.mealKit.price`}
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col w-40 ">
-                        <FormLabel>Giá</FormLabel>
-                        <FormControl>
-                          <InputFloatNumber
-                            disabled={true}
-                            value={field.value as number}
-                            placeholder={JSON.stringify(field)}
-                            onValueChange={(value) => {
-                              field.onChange(value);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <CardTitle className="my-4">Gói gia vị</CardTitle>
-                <div className="flex flex-row gap-6">
-                  <FormField
-                    control={form.control}
-                    name={`mealKits.${index}.extraSpice.name`}
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col w-60">
-                        <FormLabel>Tên gia vị</FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            value={field.value as string}
-                            onChange={field.onChange}
-                            placeholder="Nhập tên gia vị"
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <FormField
-                    control={form.control}
-                    name={`mealKits.${index}.extraSpice.price`}
-                    render={({ field }) => (
-                      <FormItem className="flex flex-col w-40">
-                        <FormLabel>Giá gói gia vị</FormLabel>
-                        <FormControl>
-                          <InputFloatNumber
-                            value={field.value as number}
-                            placeholder={"Nhập giá tiền"}
-                            onValueChange={(value) => {
-                              field.onChange(value);
-                            }}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-                <div>
-                  <FormField
-                    control={form.control}
-                    name={`mealKits.${index}.extraSpice.image`}
-                    render={({ field }) => (
-                      <FormItem className="w-full mt-3">
-                        <FormMessage />
-                        <Button type="button" variant="outline" className="w-full p-4 gap-2 ">
-                          <MdOutlineFileUpload size={20} className="text-muted-foreground " />
-                          <FormLabel className="flex items-center justify-center text-muted-foreground">
-                            Đăng tải ảnh gia vị
-                          </FormLabel>
-                        </Button>
-                        <FormControl>
-                          <Input
-                            type="file"
-                            {...field}
-                            value={undefined}
-                            onChange={(event) => {
-                              handleFileChange(event, index, field);
-                            }}
-                            className="hidden"
-                          />
-                        </FormControl>
-                      </FormItem>
-                    )}
-                  />
-                  {preview.length > 0 && (
-                    <Avatar className="w-14 h-14 mt-4">
-                      <AvatarImage src={preview[index]} className="object-cover" />
-                    </Avatar>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-        {!isEditMode && (
-          <Button
-            className="mt-5 gap-1"
-            type="button"
-            onClick={() =>
-              append({
-                mealKit: {
-                  serving: 1,
-                  price: 1,
-                },
-                extraSpice: {
-                  imageName: "",
-                  name: "",
-                  price: 0,
-                  image: new File([""], "filename", { type: "image/png" }),
-                },
-              })
-            }
-          >
-            <AiOutlinePlus /> Thêm gói nguyên liệu
-          </Button>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-row flex-wrap gap-3 items-start ">
+                    <div className="flex flex-row gap-6">
+                      <FormField
+                        control={form.control}
+                        name={`mealKits.${index}.mealKit.serving`}
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col w-60">
+                            <FormLabel>Khẩu phần</FormLabel>
+                            <FormControl>
+                              <InputPositiveNumber
+                                disabled={index == 0}
+                                value={(field.value as number) > index ? (field.value as number) : index + 1}
+                                onValueChange={(value) => {
+                                  field.onChange(value);
+                                  handleServingChange(index, value as number);
+                                }}
+                                placeholder="Nhập số lượng"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`mealKits.${index}.mealKit.price`}
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col w-40 ">
+                            <FormLabel>Giá</FormLabel>
+                            <FormControl>
+                              <InputFloatNumber
+                                disabled={true}
+                                value={field.value as number}
+                                placeholder={JSON.stringify(field)}
+                                onValueChange={(value) => {
+                                  field.onChange(value);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <CardTitle className="my-4">Gói gia vị</CardTitle>
+                    <div className="flex flex-row gap-6">
+                      <FormField
+                        control={form.control}
+                        name={`mealKits.${index}.extraSpice.name`}
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col w-60">
+                            <FormLabel>Tên gia vị</FormLabel>
+                            <FormControl>
+                              <Input
+                                type="text"
+                                value={field.value as string}
+                                onChange={field.onChange}
+                                placeholder="Nhập tên gia vị"
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name={`mealKits.${index}.extraSpice.price`}
+                        render={({ field }) => (
+                          <FormItem className="flex flex-col w-40">
+                            <FormLabel>Giá gói gia vị</FormLabel>
+                            <FormControl>
+                              <InputFloatNumber
+                                value={field.value as number}
+                                placeholder={"Nhập giá tiền"}
+                                onValueChange={(value) => {
+                                  field.onChange(value);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name={`mealKits.${index}.extraSpice.image`}
+                        render={({ field }) => (
+                          <FormItem className="w-full mt-3">
+                            <FormMessage />
+                            <Button type="button" variant="outline" className="w-full p-4 gap-2 ">
+                              <MdOutlineFileUpload size={20} className="text-muted-foreground " />
+                              <FormLabel className="flex items-center justify-center text-muted-foreground">
+                                Đăng tải ảnh gia vị
+                              </FormLabel>
+                            </Button>
+                            <FormControl>
+                              <Input
+                                type="file"
+                                {...field}
+                                value={undefined}
+                                onChange={(event) => {
+                                  handleFileChange(event, index, field);
+                                }}
+                                className="hidden"
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      {preview.length > 0 && (
+                        <Avatar className="w-14 h-14 mt-4">
+                          <AvatarImage src={preview[index]} className="object-cover" />
+                        </Avatar>
+                      )}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            ),
         )}
+
+        <Button
+          className="mt-5 gap-1"
+          type="button"
+          onClick={() =>
+            append({
+              mealKit: {
+                serving: 1,
+                status: true,
+                price: 1,
+              },
+              extraSpice: {
+                imageName: "",
+                name: "",
+                price: 0,
+                image: new File([""], "filename", { type: "image/png" }),
+              },
+            })
+          }
+        >
+          <AiOutlinePlus /> Thêm gói nguyên liệu
+        </Button>
       </div>
     </>
   );

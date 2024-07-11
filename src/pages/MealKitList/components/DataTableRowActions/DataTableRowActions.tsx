@@ -2,6 +2,7 @@ import { useState } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { IoLockClosedOutline, IoLockOpenOutline } from "react-icons/io5";
 import { RiFeedbackLine } from "react-icons/ri";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
@@ -27,6 +28,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "~components/ui/dropdown-menu";
+import configs from "~configs";
 import Button from "~layouts/AdminLayout/components/Button";
 import { TableMealKitType } from "~types/meal-kit.type";
 import { MEAL_KIT_MESSAGES, SYSTEM_MESSAGES } from "~utils/constants";
@@ -42,6 +44,12 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableMealKitType>
   const { mutate } = useMutation({
     mutationFn: () => toggleStatusMealKit(row.original.id),
   });
+
+  const navigate = useNavigate();
+
+  const handleNavigateToDetail = () => {
+    navigate(configs.routes.updateMealKit.replace(":recipeId", row.original.recipeId));
+  };
 
   const handleOpenDialog = () => setOpen(true);
 
@@ -98,7 +106,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<TableMealKitType>
             Xem Đánh Giá
           </DropdownMenuItem>
 
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem className="cursor-pointer" onClick={handleNavigateToDetail}>
             <DropdownMenuShortcut className="ml-0 mr-2">
               <FiEdit3 size={16} />
             </DropdownMenuShortcut>
