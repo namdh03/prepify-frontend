@@ -65,4 +65,5 @@ export enum ImageType {
   EXTRASPICE = "extraspice",
   INGREDIENT = "ingredient",
   FEEDBACK = "feedback",
+  REPORT = "report",
 }

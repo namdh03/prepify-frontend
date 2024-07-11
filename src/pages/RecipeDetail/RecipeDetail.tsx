@@ -105,7 +105,7 @@ const RecipeDetail = () => {
               <IngredientInfo />
             </TabsContent>
             <TabsContent value="feedback">
-              <Feedback />
+              <Feedback averageRating={recipe?.star} totalFeedback={recipe?.totalFeedback} />
             </TabsContent>
           </Tabs>
         </Container>
