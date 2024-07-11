@@ -67,3 +67,9 @@ export enum ImageType {
   FEEDBACK = "feedback",
   REPORT = "report",
 }
+
+export enum ConfigEnum {
+  WorkEndHour = "workEndHour",
+  MaxShippingHour = "maxShippingHour",
+  ServiceFee = "serviceFee",
+}

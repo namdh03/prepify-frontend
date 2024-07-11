@@ -1,9 +1,10 @@
 import configs from "~configs";
 
-import { LevelCook, LevelCookText, OrderStatus, Role } from "./enums";
+import { ConfigEnum, LevelCook, LevelCookText, OrderStatus, Role } from "./enums";
 
 export const SYSTEM_MESSAGES = {
   SOMETHING_WENT_WRONG: "Đã có lỗi xảy ra",
+  INVALID_NUMBER: "Vui lòng nhập số nguyên dương",
 } as const;
 
 export const HTTP_STATUS = {
@@ -146,6 +147,18 @@ export const ACCOUNT_ROLE_TEXT_MAP = {
   [Role.MODERATOR]: "Người quản lý",
   [Role.CUSTOMER]: "Khách hàng",
   [Role.SHIPPER]: "Người giao hàng",
+};
+
+export const SETTING_TEXT_MAP = {
+  [ConfigEnum.WorkEndHour]: "Giờ kết thúc làm việc",
+  [ConfigEnum.ServiceFee]: "Phí dịch vụ",
+  [ConfigEnum.MaxShippingHour]: "Thời gian giao hàng tối đa",
+};
+
+export const SETTING_VALUE_TEXT_MAP = {
+  [ConfigEnum.WorkEndHour]: "Giờ",
+  [ConfigEnum.ServiceFee]: "%",
+  [ConfigEnum.MaxShippingHour]: "Tiếng",
 };
 
 export const INGREDIENT_MESSAGES = {

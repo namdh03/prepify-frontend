@@ -2,7 +2,7 @@ import { AiOutlineDashboard, AiOutlineProfile } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { BsBoxSeam } from "react-icons/bs";
 import { FiShoppingCart } from "react-icons/fi";
-import { IoFastFoodOutline } from "react-icons/io5";
+import { IoFastFoodOutline, IoSettingsOutline } from "react-icons/io5";
 import { LuClipboardList } from "react-icons/lu";
 import { PiFish } from "react-icons/pi";
 import { TbWeight } from "react-icons/tb";
@@ -57,22 +57,8 @@ export const moderatorSideLinks: SideLink[] = [
   {
     title: "Quản lí meal kit, gói gia vị",
     label: "",
-    href: "",
+    href: configs.routes.mealKitList,
     icon: <BsBoxSeam size={18} />,
-    sub: [
-      {
-        title: "Danh sách gói nguyên liệu",
-        label: "",
-        href: configs.routes.mealKitList,
-        icon: <></>,
-      },
-      {
-        title: "Tạo gói nguyên liệu, gia vị",
-        label: "",
-        href: configs.routes.createMealKit,
-        icon: <></>,
-      },
-    ],
   },
   {
     title: "Quản lý nguyên liệu",
@@ -117,6 +103,12 @@ export const moderatorSideLinks: SideLink[] = [
     label: "",
     href: configs.routes.orderList,
     icon: <FiShoppingCart size={18} />,
+  },
+  {
+    title: "Cài đặt",
+    label: "",
+    href: configs.routes.moderatorSettings,
+    icon: <IoSettingsOutline size={18} />,
   },
 ];
 

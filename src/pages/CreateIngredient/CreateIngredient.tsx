@@ -1,12 +1,14 @@
 import Spinner from "~components/common/Spinner";
 import { Button } from "~components/ui/button";
 import { Form } from "~components/ui/form";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 import useIngredient from "~hooks/useIngredient";
 import { LayoutBody } from "~layouts/AdminLayout/components/Layout";
 
 import FormItems from "./components/FormItems";
 
 const CreateIngredient = () => {
+  useDocumentTitle("Prepify | Tạo nguyên liệu");
   const { form, onSubmit, isLoading } = useIngredient();
 
   return (
