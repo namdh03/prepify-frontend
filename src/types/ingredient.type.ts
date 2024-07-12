@@ -22,6 +22,7 @@ export type IngredientType = {
   description: string;
   unit: UnitType;
   imageURL: string;
+  amount: number;
 };
 
 export type IngredientTypeBody = {

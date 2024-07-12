@@ -5,6 +5,7 @@ export type NutritionType = {
   id: string;
   name: string;
   units: UnitType;
+  amount: number;
 };
 
 export type NutritionResponse = SuccessResponse<NutritionType[]>;
