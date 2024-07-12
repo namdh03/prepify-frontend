@@ -238,7 +238,7 @@ const Form = () => {
         <FormItem>
           <FormLabel>Các nguyên liệu, thành phần gây dị ứng</FormLabel>
           <FormDescription>
-            Danh sách các nguyên liệu bạn có thể bị dị ứng. Bạn sẽ được cảnh bảo khi chọn các công thức có chứa các
+            Danh sách các nguyên liệu bạn có thể bị dị ứng. Bạn sẽ được cảnh báo khi chọn các công thức có chứa các
             nguyên liệu trong danh sách này
           </FormDescription>
         </FormItem>
