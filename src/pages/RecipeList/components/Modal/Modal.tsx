@@ -186,7 +186,10 @@ const Modal = ({ row, open, onOpen, onClose }: ModalProps) => {
 
                       <div className="flex flex-col gap-[3px]">
                         <span className="text-base font-normal leading-6">{ingredient.name}</span>
-                        <span className="text-[#71717A] text-sm font-medium leading-6">{ingredient.unit.name}</span>
+                        <span className="text-[#71717A] text-sm font-medium leading-6">
+                          {ingredient.amount}
+                          {ingredient.unit.name}
+                        </span>
                       </div>
                     </article>
                   ))}
@@ -206,7 +209,10 @@ const Modal = ({ row, open, onOpen, onClose }: ModalProps) => {
                 <Fragment key={nutritionalValue.id}>
                   <article className="flex justify-between">
                     <span className="text-sm font-semibold leading-6">{nutritionalValue.name}</span>
-                    <span className="text-base font-normal leading-6">{nutritionalValue.units.name}</span>
+                    <span className="text-base font-normal leading-6">
+                      {nutritionalValue.amount}
+                      {nutritionalValue.units.name}
+                    </span>
                   </article>
                   <Separator className="my-[6px]" />
                 </Fragment>

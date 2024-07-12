@@ -5,7 +5,6 @@ import { useQuery } from "@tanstack/react-query";
 
 import { GET_ME_QUERY_KEY, getMe } from "~apis/user.api";
 import { signIn } from "~contexts/auth/auth.reducer";
-import { GUEST_URLS } from "~utils/constants";
 import { getAccessToken } from "~utils/cookies";
 
 import useAuth from "./useAuth";
@@ -30,7 +29,7 @@ const useDispatchAuth = () => {
       idTimeOutRef.current = setTimeout(() => {
         dispatch(signIn({ user: data }));
         // TODO: Not working as expected
-        if (!GUEST_URLS.includes(document.referrer)) navigate(-1);
+        // if (!GUEST_URLS.includes(document.referrer)) navigate(-1);
       }, WAIT_TEDDY_TIME);
     }
 
