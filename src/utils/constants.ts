@@ -154,12 +154,18 @@ export const SETTING_TEXT_MAP = {
   [ConfigEnum.WorkEndHour]: "Giờ kết thúc làm việc",
   [ConfigEnum.ServiceFee]: "Phí dịch vụ",
   [ConfigEnum.MaxShippingHour]: "Thời gian giao hàng tối đa",
+  [ConfigEnum.WorkStartHour]: "Giờ bắt đầu làm việc",
+  [ConfigEnum.TimeframeInstant]: "Thời gian giao hàng hoả tốc",
+  [ConfigEnum.TimeframeStandard]: "Thời gian giao hàng nhanh",
 };
 
 export const SETTING_VALUE_TEXT_MAP = {
   [ConfigEnum.WorkEndHour]: "Giờ",
   [ConfigEnum.ServiceFee]: "%",
   [ConfigEnum.MaxShippingHour]: "Tiếng",
+  [ConfigEnum.WorkStartHour]: "Giờ",
+  [ConfigEnum.TimeframeInstant]: "Phút",
+  [ConfigEnum.TimeframeStandard]: "Phút",
 };
 
 export const INGREDIENT_MESSAGES = {

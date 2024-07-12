@@ -38,7 +38,7 @@ const RecipeDetail = () => {
             </div>
             <DialogHeader className="gap-3">
               <DialogTitle className="text-[#18181B] text-2xl font-semibold leading-9 text-center">
-                Cảnh bảo công thức có thể gây dị ứng!
+                Cảnh báo công thức có thể gây dị ứng!
               </DialogTitle>
               <DialogDescription className="text-[#71717A] text-base font-normal leading-7">
                 Lưu ý: Công thức này có chứa

@@ -60,7 +60,7 @@ function DataTableRowActions({ row }: DataTableRowActionsProps<SettingType>) {
         open={open}
         onOpenChange={handleOpenModalChange}
         title="Chỉnh sử cài đặt"
-        description={`Bạn có thể chỉnh sửa ${SETTING_TEXT_MAP[row.original.type].toLowerCase()} ở đây`}
+        description={`Bạn có thể chỉnh sửa ${SETTING_TEXT_MAP[row.original.type]?.toLowerCase()} ở đây`}
         onSubmit={handleUpdateConfig}
         submitText="Cập nhật"
         defaultValue={row.original.value}

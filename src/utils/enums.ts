@@ -72,4 +72,7 @@ export enum ConfigEnum {
   WorkEndHour = "workEndHour",
   MaxShippingHour = "maxShippingHour",
   ServiceFee = "serviceFee",
+  TimeframeInstant = "timeframeInstant",
+  TimeframeStandard = "timeframeStandard",
+  WorkStartHour = "workStartHour",
 }
