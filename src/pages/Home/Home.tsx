@@ -1,30 +1,21 @@
-import { useQuery } from "@tanstack/react-query";
+import useDocumentTitle from "~hooks/useDocumentTitle";
 
-import { getFoods } from "~/apis/food.api";
-import Loading from "~/components/common/Loading";
-import { Button } from "~/components/ui/button";
-import useDocumentTitle from "~/hooks/useDocumentTitle";
-
+import Action from "./components/Action";
 import Banner from "./components/Banner";
+import Feedback from "./components/Feedback";
+import Mission from "./components/Mission";
+import Suggest from "./components/Suggest";
 
 const Home = () => {
   useDocumentTitle("Prepify");
 
-  const { data: foods, isLoading } = useQuery({
-    queryKey: ["food"],
-    queryFn: () => getFoods(),
-  });
-
   return (
     <>
-      <Loading />
       <Banner />
-
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-      <Button>MeNU</Button>
-
-      <p>Loading: {String(isLoading)}</p>
-      <ul>{foods?.data.map((food) => <li key={food.id}>{food.title}</li>)}</ul>
+      <Mission />
+      <Suggest />
+      <Feedback />
+      <Action />
     </>
   );
 };

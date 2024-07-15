@@ -4,8 +4,8 @@ import { Controller, ControllerProps, FieldPath, FieldValues, FormProvider, useF
 import * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 
-import { Label } from "~/components/ui/label";
-import { cn } from "~/lib/utils";
+import { Label } from "~components/ui/label";
+import { cn } from "~lib/utils";
 
 const Form = FormProvider;
 
@@ -134,4 +134,5 @@ const FormMessage = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<
 );
 FormMessage.displayName = "FormMessage";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage, useFormField };
