@@ -22,8 +22,19 @@ import "dayjs/locale/vi";
 dayjs.locale("vi");
 
 export default function UserPurchaseDetail() {
-  const { totalPrice, orderDate, status, trackingNumber, orderItems, deliveryPrice, payment, hasFeedback } =
-    useOutletContext<OrderDetailType>();
+  const {
+    totalPrice,
+    orderDate,
+    status,
+    trackingNumber,
+    orderItems,
+    deliveryPrice,
+    payment,
+    hasFeedback,
+    fullname,
+    phone,
+    address,
+  } = useOutletContext<OrderDetailType>();
   const totalGoods = useMemo(
     () =>
       orderItems.reduce(
@@ -176,13 +187,11 @@ export default function UserPurchaseDetail() {
 
         <div className="flex items-center gap-20 justify-between mt-3">
           <div className="flex flex-col">
-            <span className="text-base font-semibold leading-9">Dương Hoàng Nam</span>
-            <span className="text-base font-semibold leading-9">0916207758</span>
+            <span className="text-base font-semibold leading-9">{fullname}</span>
+            <span className="text-base font-semibold leading-9">{phone}</span>
           </div>
 
-          <p className="text-base font-normal leading-9">
-            123 Phan Văn Trị, Phường 10, Quận Gò Vấp, Thành phố Hồ Chí Minh
-          </p>
+          <p className="text-base font-normal leading-9">{address}</p>
         </div>
       </div>
 
