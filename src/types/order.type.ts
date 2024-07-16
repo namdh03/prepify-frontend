@@ -121,6 +121,9 @@ export type OrderDetailType = CusOrderListData & {
   deliveryPrice: number;
   totalPrice: number;
   payment: Payment;
+  address: string;
+  phone: string;
+  fullname: string;
 };
 
 export type OrderDetailResponse = SuccessResponse<OrderDetailType>;
