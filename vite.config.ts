@@ -9,7 +9,7 @@ export default defineConfig({
     port: 3000,
   },
   preview: {
-    port: 3188,
+    port: 4386,
   },
   css: {
     devSourcemap: true,
