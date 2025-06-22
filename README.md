@@ -2,7 +2,7 @@
 
 <div align="center">
     <img src="./public/favicon/android-chrome-512x512.png" alt="Prepify" width="100" height="100" />
-    <p><a href="https://prepify.thanhf.dev">Prepify</a> is a web application that offers convenient pre-prepared meal kits for busy individuals.</p>
+    <p><a href="https://prepify.namdh03.site">Prepify</a> is a web application that offers convenient pre-prepared meal kits for busy individuals.</p>
 </div>
 
 ## 1. Introduction
@@ -65,7 +65,7 @@ cp .env
 ## 4. Environment Variables
 
 ```bash
-VITE_API_URL=https://prepifyb.thanhf.dev
+VITE_API_URL=https://prepify-api.namdh03.site
 ```
 
 ## 5. Use Case Diagram
@@ -161,7 +161,7 @@ VITE_API_URL=https://prepifyb.thanhf.dev
 - **Front-end Repository:** [Prepify Frontend](https://github.com/namdh03/prepify-frontend)
 - **Back-end Repository:** [Prepify Backend](https://github.com/ttthanhf/prepify-backend)
 - **Mobile Repository:** [Prepify Mobile](https://github.com/vphoa342/prepify-mobile)
-- **Front-end Deployment:** [Prepify Frontend Deployment](https://prepify.thanhf.dev/)
+- **Front-end Deployment:** [Prepify Frontend Deployment](https://prepify.namdh03.site/)
 - **Swagger UI (Backend API):** [Prepify Swagger UI](https://prepifyb.thanhf.dev/docs/static/index.html)
 
 ## 11. Mobile Screen List
